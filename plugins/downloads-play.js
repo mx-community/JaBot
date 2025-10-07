@@ -35,7 +35,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (['play', 'playaudio'].includes(command)) {
       const audio = await getAud(url)
       if (!audio?.url) throw '⚠ No se pudo obtener el audio.'
-
+/*
       await conn.sendMessage(
         m.chat,
         { 
@@ -45,7 +45,23 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           caption: `> 🎧 *${title}*\n> Servidor: \`${audio.api}\``
         },
         { quoted: fkontak || m }
-      )
+      )*/
+      await conn.sendMessage(m.chat, {
+          audio: { url: audio.url },
+          mimetype: 'audio/mpeg',
+          fileName: `${title}.mp3`,
+          contextInfo: {
+            externalAdReply: {
+              title: "🎋 Descarga Completa:",
+              body: `Servidor: \`${audio.api}\``,
+              mediaType: 1,
+              thumbnail: thumb,
+              mediaUrl: 'https://chat.whatsapp.com/F3cdTBAcFQtEeEWEFXoMdq?mode=ems_copy_t',
+              sourceUrl: 'https://chat.whatsapp.com/F3cdTBAcFQtEeEWEFXoMdq?mode=ems_copy_t',
+              renderLargerThumbnail: true
+            }
+          }
+        }, { quoted: fkontak })
 
       await m.react('✔️')
     }
@@ -83,8 +99,6 @@ handler.group = true
 
 export default handler
 
-
-// ================= FUNCIONES AUXILIARES =================
 
 async function getAud(url) {
   const apis = [
