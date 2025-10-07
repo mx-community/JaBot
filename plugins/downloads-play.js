@@ -104,7 +104,7 @@ async function getVid(url) {
     { api: 'Vreden', endpoint: `${global.APIs.vreden.url}api/v1/download/youtube/video?url=${encodeURIComponent(url)}&quality=380`, extractor: res => res.result?.download?.url },
     { api: 'Xyro', endpoint: `${global.APIs.xyro.url}/download/youtubemp4?url=${encodeURIComponent(url)}&quality=360`, extractor: res => res.result?.dl },
     { api: 'Yupra', endpoint: `${global.APIs.yupra.url}/api/downloader/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.resultado?.formatos?.[0]?.url },
-   // { api: 'Delirius', endpoint: `${global.APIs.delirius.url}/download/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.data?.download?.url },
+    { api: 'EliasarYT', endpoint: `https://api-nv.eliasaryt.pro/api/dl/yt-direct?url=${encodeURIComponent(url)}&type=video&key=hYSK8YrJpKRc9jSE`, extractor: res => res.data?.download?.url },
     { api: 'ZenzzXD', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
     { api: 'ZenzzXD v2', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp4v2?url=${encodeURIComponent(url)}`, extractor: res => res.download_url }
   ]
