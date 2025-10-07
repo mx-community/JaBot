@@ -26,7 +26,7 @@ global.vs = "^1.8.2|Latest"
 global.nameqr = "KanekiBot-V3"
 global.sessions = "Sessions/Principal"
 global.jadi = "Sessions/SubBot"
-global.yukiJadibts = true
+global.kanekiJadibts = true
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
