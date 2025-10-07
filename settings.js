@@ -12,30 +12,29 @@ global.botNumber = "" //Ejemplo: 573218138672
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.owner = [
-"573196588149",
-"5492916450307",
-"5216671548329"
+"51919199620",
+"59892681750"
 ]
 
-global.suittag = ["573196588149"] 
+global.suittag = ["51919199620"] 
 global.prems = []
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.libreria = "Baileys Multi Device"
 global.vs = "^1.8.2|Latest"
-global.nameqr = "YukiBot-MD"
+global.nameqr = "KanekiBot-V3"
 global.sessions = "Sessions/Principal"
 global.jadi = "Sessions/SubBot"
 global.yukiJadibts = true
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.botname = "ᥡᥙkі sᥙ᥆ᥙ"
-global.textbot = "ᥡᥙkі, mᥲძᥱ ᥕі𝗍һ ᑲᥡ ⁱᵃᵐ|𝔇ĕ𝐬†𝓻⊙γ"
-global.dev = "© ⍴᥆ᥕᥱrᥱძ ᑲᥡ ⁱᵃᵐ|𝔇ĕ𝐬†𝓻⊙γ𒆜"
-global.author = "© mᥲძᥱ ᥕі𝗍һ ᑲᥡ ⁱᵃᵐ|𝔇ĕ𝐬†𝓻⊙γ𒆜"
-global.etiqueta = "ⁱᵃᵐ|𝔇ĕ𝐬†𝓻⊙γ𒆜"
+global.botname = "🍏 𝙆𝙖𝙣𝙚𝙠𝙞𝘽𝙤𝙩-𝙑𝟯 🕸️"
+global.textbot = "кαиєкι вσт ν3 • мα∂є ву ѕнα∂σω-χуz"
+global.dev = "© ⍴᥆ᥕᥱrᥱძ ᑲᥡ 𝚂𝙷𝙰𝙳𝙾𝚆`°𝙲𝚘𝚛𝚎"
+global.author = "© mᥲძᥱ ᥕі𝗍һ ᑲᥡ ѕнα∂σω`¢σяє"
+global.etiqueta = "✫.ƚԋҽ ʂԋαԃσɯ ƈσɾҽ  ⊹꙰ "
 global.currency = "¥enes"
 global.banner = "https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1742678744381.jpeg"
 global.icono = "https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1742678797993.jpeg"
@@ -49,7 +48,7 @@ global.channel = "https://whatsapp.com/channel/0029Vb64nWqLo4hb8cuxe23n"
 global.github = "https://github.com/The-King-Destroy/YukiBot-MD"
 global.gmail = "thekingdestroy507@gmail.com"
 global.ch = {
-ch1: "120363401404146384@newsletter"
+ch1: "120363404182502020@newsletter"
 }
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*

@@ -1,5 +1,5 @@
 {
-"name": "YukiBot-MD",
+"name": "KanekiBot-V3",
 "version": "1.8.2",
 "description": "WhatsApp Bot Multi Device",
 "main": "index.js",
@@ -13,14 +13,14 @@
 },
 "repository": {
 "type": "git",
-"url": "git+https://github.com/The-King-Destroy/YukiBot-MD.git"
+"url": "git+https://github.com/Shadow-nex/KanekiBot-V3.git"
 },  
 "author": "The-King-Destroy",
 "license": "MIT-License",
 "bugs": {
-"url": "https://github.com/The-King-Destroy/YukiBot-MD/issues"
+"url": "https://github.com/Shadow-nex/KanekiBot-V3/issues"
 },
-"homepage": "https://github.com/The-King-Destroy/YukiBot-MD#readme",
+"homepage": "https://github.com/Shadow-nex/KanekiBot-V3#readme",
 "dependencies": {
 "@hapi/boom": "^10.0.1",
 "@vitalets/google-translate-api": "^8.0.0",
