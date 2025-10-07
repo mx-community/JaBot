@@ -2,7 +2,7 @@ import os from 'os'
 import util from 'util'
 import moment from 'moment-timezone'
 import baileys from '@whiskeysockets/baileys'
-const { generateWAMessageFromContent, proto } = baileys
+const { proto } = baileys
 
 let handler = async (m, { conn }) => {
   try {
@@ -12,12 +12,10 @@ let handler = async (m, { conn }) => {
     const totalUsers = Object.keys(global.db.data.users).length
     const registeredUsers = Object.values(global.db.data.users).filter(u => u.registered).length
     const totalCommands = Object.keys(global.plugins).length
-    //const totalStats = Object.values(global.db.data.stats).length || 0
     const latensi = (new Date() - m.messageTimestamp * 1000).toFixed(4)
     const format = size => (size / 1024 / 1024).toFixed(2) + ' MB'
     const totalmem = () => os.totalmem()
     const freemem = () => os.freemem()
-    const toNum = n => n.toLocaleString('es-PE')
     const fecha = moment.tz('America/Lima').format('DD/MM/YY')
     const hora = moment.tz('America/Lima').format('HH:mm:ss')
     const dia = moment.tz('America/Lima').format('dddd')
@@ -28,7 +26,7 @@ let handler = async (m, { conn }) => {
       return '🌙 𝐁𝐮𝐞𝐧𝐚𝐬 𝐧𝐨𝐜𝐡𝐞𝐬'
     }
 
-    const text = `
+    const menu = `
 \`\`\`  ݊ ּ͜⏜݆ׄ͜⌒໊݂݁͜⏜݄͜ ͝⃞֟☁️⃛͜͝ ⃞໊݄⏜݆ׄ͜͜⌒ ּ͜⏜݆ׄ݊͜ ּ͜ \`\`\`
 \`\`\`  ໍ۪۫꒰̥᷑ໍ᮫۪۫𝆬⭐ ࣮࣮᷑᷑𝐊֘𝐀۫𝐍〪࣮࣫𝐄۪۫࣫𝐊𝐈᮫࣮𝆬᷑•۫֘ ᮫𝆬ᤲ࣫𝐕֘ ᮫𝆬ᤲ࣫3֘ ᮫𝆬ᤲ࣫ 🌿᩠̥ໍ۪۫꒱̥ໍ۪۫ \`\`\`
 \`\`\` ︶ִֶָ⏝︶ִֶָ⏝˖ ࣪ ୨✧୧ ࣪ ˖⏝ִֶָ︶⏝ִֶָ︶ \`\`\`
@@ -46,7 +44,6 @@ let handler = async (m, { conn }) => {
   🪴 *ʀᴇɢɪsᴛʀᴀᴅᴏs:* ${totalUsers} (${registeredUsers})
   🫟 *ɴᴏ ʀᴇɢɪsᴛʀᴀᴅᴏs:* ${totalUsers - registeredUsers}
   
-
   🫛 *ʟᴀᴛᴇɴᴄɪᴀ:* ${latensi} ms
   🍓 *ʀᴀᴍ ᴜsᴀᴅᴀ:* ${format(totalmem() - freemem())}
   🌲 *ʀᴀᴍ ᴛᴏᴛᴀʟ:* ${format(totalmem())}
@@ -55,41 +52,38 @@ let handler = async (m, { conn }) => {
   🪵
 `
 
-    const imageUrl = 'https://files.catbox.moe/ge2vz7.jpg'
+    const botname = '☁️ Kaneki Bot'
+    const textbot = 'Sistema activo y estable.'
+    const redes = 'https://whatsapp.com/channel/0029VbBPa8EFsn0aLfyZl23j'
+    const randomIcono = 'https://files.catbox.moe/ge2vz7.jpg'
+    const channelRD = { id: '120363300125616014@newsletter', name: 'Kaneki Updates' }
 
-    const button = {
-      name: 'cta_url',
-      buttonParamsJson: JSON.stringify({
-        display_text: '🌸 𝗠𝗲𝗻𝘂 𝗚𝗲𝗻𝗲𝗿𝗮𝗹 🌸',
-        url: 'https://whatsapp.com/channel/0029VbBPa8EFsn0aLfyZl23j'
-      })
-    }
-
-    const msg = generateWAMessageFromContent(m.chat, {
-      viewOnceMessage: {
-        message: {
-          messageContextInfo: { mentionedJid: [mentionedJid] },
-          interactiveMessage: proto.Message.InteractiveMessage.create({
-            body: proto.Message.InteractiveMessage.Body.create({ text }),
-            footer: proto.Message.InteractiveMessage.Footer.create({ text: '☁️ Kaneki Bot • System' }),
-            header: proto.Message.InteractiveMessage.Header.create({
-              title: '',
-              subtitle: '',
-              hasMediaAttachment: true,
-              imageMessage: await conn.prepareMessageMedia({ image: { url: imageUrl } }, { upload: conn.waUploadToServer })
-            }),
-            nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-              buttons: [button]
-            })
-          })
+    await conn.sendMessage(m.chat, { 
+      text: menu,
+      contextInfo: {
+        mentionedJid: [mentionedJid],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: '',
+          newsletterName: channelRD.name
+        },
+        externalAdReply: {
+          title: botname,
+          body: textbot,
+          mediaType: 1,
+          mediaUrl: redes,
+          sourceUrl: redes,
+          thumbnailUrl: randomIcono,
+          showAdAttribution: false,
+          renderLargerThumbnail: true
         }
       }
     }, { quoted: m })
 
-    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
   } catch (e) {
     console.error(e)
-    m.reply('⚠️ Error al enviar el menu.')
+    m.reply('⚠️ Error al enviar el menú.')
   }
 }
 
