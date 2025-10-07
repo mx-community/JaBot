@@ -3,7 +3,7 @@ import yts from "yt-search"
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-    if (!text?.trim())
+    if (!text?.trim()) 
       return conn.reply(m.chat, `*🎐 Por favor, ingresa el nombre de la música a descargar.*`, m, rcanal)
 
     await m.react('🕒')
@@ -12,18 +12,21 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const query = videoMatch ? 'https://youtu.be/' + videoMatch[1] : text
     const search = await yts(query)
     const result = videoMatch ? search.videos.find(v => v.videoId === videoMatch[1]) || search.all[0] : search.all[0]
+
     if (!result) throw 'ꕥ No se encontraron resultados.'
 
     const { title, thumbnail, timestamp, views, ago, url, author, seconds } = result
     if (seconds > 1800) throw '⚠ El video supera el límite de duración (10 minutos).'
 
     const vistas = formatViews(views)
+
     const info = `「✦」Descargando *<${title}>*\n
 > ❑ Canal » *${author.name}*
 > ♡ Vistas » *${vistas}*
 > ✧︎ Duración » *${timestamp}*
 > ☁︎ Publicado » *${ago}*
-> ➪ Link » ${url}`
+> ➪ Link » ${url}
+`
 
     const thumb = (await conn.getFile(thumbnail)).data
     await conn.sendMessage(m.chat, { image: thumb, caption: info, ...rcanal }, { quoted: fkontak })
@@ -32,23 +35,33 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (['play', 'playaudio'].includes(command)) {
       const audio = await getAud(url)
       if (!audio?.url) throw '⚠ No se pudo obtener el audio.'
-
+/*
+      await conn.sendMessage(
+        m.chat,
+        { 
+          audio: { url: audio.url },
+          fileName: `${title}.mp3`,
+          mimetype: 'audio/mpeg',
+          caption: `> 🎧 *${title}*\n> Servidor: \`${audio.api}\``
+        },
+        { quoted: fkontak || m }
+      )*/
       await conn.sendMessage(m.chat, {
-        audio: { url: audio.url },
-        mimetype: 'audio/mpeg',
-        fileName: `${title}.mp3`,
-        contextInfo: {
-          externalAdReply: {
-            title: `🎋 Descarga Completa: Servidor: \`${audio.api}\``,
-            body: `Servidor usado: ${audio.api}`,
-            mediaType: 1,
-            thumbnail: thumb,
-            mediaUrl: 'https://chat.whatsapp.com/F3cdTBAcFQtEeEWEFXoMdq?mode=ems_copy_t',
-            sourceUrl: 'https://chat.whatsapp.com/F3cdTBAcFQtEeEWEFXoMdq?mode=ems_copy_t',
-            renderLargerThumbnail: true
+          audio: { url: audio.url },
+          mimetype: 'audio/mpeg',
+          fileName: `${title}.mp3`,
+          contextInfo: {
+            externalAdReply: {
+              title: `🎋 Descarga Completa: Servidor: \`${audio.api}\``,
+              body: `Servidor: \`${audio.api}\``,
+              mediaType: 1,
+              thumbnail: thumb,
+              mediaUrl: 'https://chat.whatsapp.com/F3cdTBAcFQtEeEWEFXoMdq?mode=ems_copy_t',
+              sourceUrl: 'https://chat.whatsapp.com/F3cdTBAcFQtEeEWEFXoMdq?mode=ems_copy_t',
+              renderLargerThumbnail: true
+            }
           }
-        }
-      }, { quoted: fkontak })
+        }, { quoted: fkontak })
 
       await m.react('✔️')
     }
@@ -83,9 +96,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.command = handler.help = ['play', 'play2', 'playaudio', 'mp4']
 handler.tags = ['descargas']
 handler.group = true
+
 export default handler
 
-// === FUNCIONES ===
 
 async function getAud(url) {
   const apis = [
@@ -96,7 +109,7 @@ async function getAud(url) {
     { api: 'ZenzzXD', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
     { api: 'ZenzzXD v2', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp3v2?url=${encodeURIComponent(url)}`, extractor: res => res.download_url }
   ]
-  return await fetchRandomApi(apis)
+  return await fetchFromApis(apis)
 }
 
 async function getVid(url) {
@@ -108,13 +121,11 @@ async function getVid(url) {
     { api: 'ZenzzXD', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
     { api: 'ZenzzXD v2', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp4v2?url=${encodeURIComponent(url)}`, extractor: res => res.download_url }
   ]
-  return await fetchRandomApi(apis)
+  return await fetchFromApis(apis)
 }
 
-// === NUEVO SISTEMA ALEATORIO ===
-async function fetchRandomApi(apis) {
-  const shuffled = apis.sort(() => Math.random() - 0.5) // mezcla aleatoria
-  for (const { api, endpoint, extractor } of shuffled) {
+async function fetchFromApis(apis) {
+  for (const { api, endpoint, extractor } of apis) {
     try {
       const controller = new AbortController()
       const timeout = setTimeout(() => controller.abort(), 10000)
@@ -122,14 +133,12 @@ async function fetchRandomApi(apis) {
       clearTimeout(timeout)
       const link = extractor(res)
       if (link) return { url: link, api }
-    } catch (err) {
-      // sigue a la siguiente API
-    }
+    } catch {}
+    await new Promise(resolve => setTimeout(resolve, 500))
   }
   return null
 }
 
-// === FORMATO DE VISTAS ===
 function formatViews(views) {
   if (views === undefined) return "No disponible"
   if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
