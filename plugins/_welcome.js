@@ -1,6 +1,5 @@
- import fs from 'fs'
+import fs from 'fs'
 import fetch from 'node-fetch'
-import FormData from 'form-data'
 import { WAMessageStubType } from '@whiskeysockets/baileys'
 
 // === FUNCIÓN AUXILIAR: DETECTAR PAÍS POR NÚMERO ===
@@ -56,7 +55,7 @@ async function generarBienvenida({ conn, userId, groupMetadata, chat }) {
   return { image: imageUrl, caption, mentions: [userId] }
 }
 
-// === FUNCIÓN: DESPEDIDA ===
+// === FUNCIÓN: DESPEDIDA (MEJORADA Y CON RESPALDO) ===
 async function generarDespedida({ conn, userId, groupMetadata, chat }) {
   const username = `@${userId.split('@')[0]}`
   const pais = detectarPaisPorNumero(userId)
@@ -75,29 +74,37 @@ async function generarDespedida({ conn, userId, groupMetadata, chat }) {
     .replace(/{grupo}/g, groupMetadata.subject)
     .replace(/{desc}/g, desc)
 
-  // === IMAGEN CON API DE DESPEDIDA (Siputzx) ===
-  const form = new FormData()
-  form.append('username', username)
-  form.append('guildName', groupMetadata.subject)
-  form.append('memberCount', groupSize.toString())
-  form.append('avatar', pp)
-  form.append('background', 'https://i.ibb.co/4YBNyvP/images-76.jpg')
-  form.append('quality', '90')
+  let imageBuffer
 
-  const res = await fetch('https://api.siputzx.my.id/api/canvas/goodbyev5', {
-    method: 'POST',
-    body: form
-  })
+  // === PRIMERA OPCIÓN: API DE Siputzx ===
+  try {
+    const apiUrl = `https://api.siputzx.my.id/api/canvas/goodbyev5?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(groupMetadata.subject)}&memberCount=${groupSize}&avatar=${encodeURIComponent(pp)}&background=${encodeURIComponent('https://i.ibb.co/4YBNyvP/images-76.jpg')}&quality=90`
+    const res = await fetch(apiUrl)
+    if (!res.ok) throw new Error(`Error ${res.status}`)
 
-  if (!res.ok) {
-    console.error('Error al generar imagen de despedida:', res.statusText)
-    throw new Error('No se pudo generar la imagen de despedida')
+    const arrayBuffer = await res.arrayBuffer()
+    imageBuffer = Buffer.from(arrayBuffer)
+
+  } catch (err) {
+    console.warn('⚠️ Falló la API de Siputzx, usando respaldo Eliasaryt:', err.message)
+
+    // === SEGUNDA OPCIÓN: API de Eliasaryt (Respaldo) ===
+    try {
+      const fallbackUrl = `https://api-nv.eliasaryt.pro/api/generate/goodbye2?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(groupMetadata.subject)}&memberCount=${groupSize}&avatar=${encodeURIComponent(pp)}&background=https://i.ibb.co/4YBNyvP/images-76.jpg&key=hYSK8YrJpKRc9jSE`
+      const res2 = await fetch(fallbackUrl)
+      if (!res2.ok) throw new Error(`Error ${res2.status}`)
+
+      const arrayBuffer2 = await res2.arrayBuffer()
+      imageBuffer = Buffer.from(arrayBuffer2)
+
+    } catch (err2) {
+      console.error('🚫 Ambas APIs fallaron, usando imagen por defecto:', err2.message)
+      const fallback = 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg'
+      const fallbackRes = await fetch(fallback)
+      const buf = await fallbackRes.arrayBuffer()
+      imageBuffer = Buffer.from(buf)
+    }
   }
-
-  const arrayBuffer = await res.arrayBuffer()
-  const buffer = Buffer.from(arrayBuffer)
-  const pathImg = `./tmp/goodbye_${Date.now()}.jpg`
-  fs.writeFileSync(pathImg, buffer)
 
   const caption = `
 ❀ Adiós de *"_${groupMetadata.subject}_"*
@@ -110,7 +117,7 @@ async function generarDespedida({ conn, userId, groupMetadata, chat }) {
 > *➮ Usa _#help_ para ver la lista de comandos.*
 `.trim()
 
-  return { image: pathImg, caption, mentions: [userId] }
+  return { image: imageBuffer, caption, mentions: [userId] }
 }
 
 // === HANDLER PRINCIPAL ===
@@ -139,8 +146,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
 
     const { image, caption, mentions } = await generarDespedida({ conn, userId, groupMetadata, chat })
     rcanal.contextInfo.mentionedJid = mentions
-    await conn.sendMessage(m.chat, { image: fs.readFileSync(image), caption, ...rcanal }, { quoted: fkontak })
-    try { fs.unlinkSync(image) } catch { }
+    await conn.sendMessage(m.chat, { image, caption, ...rcanal }, { quoted: fkontak })
   }
 }
 
