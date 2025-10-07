@@ -62,7 +62,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         m.chat,
         video.url,
         `${title}.mp4`,
-        `>  ❑ *${title}*\n> Servidor: \`${video.api}\``,
+        `> ❑ *${title}*\n> Servidor: \`${video.api}\``,
         fkontak || m
       )
       await m.react('✔️')
@@ -89,32 +89,34 @@ export default handler
 
 async function getAud(url) {
   const apis = [
+    { api: 'Vreden', endpoint: `${global.APIs.vreden.url}/api/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.result?.download?.url },
     { api: 'Xyro', endpoint: `${global.APIs.xyro.url}/download/youtubemp3?url=${encodeURIComponent(url)}`, extractor: res => res.result?.dl },
     { api: 'Yupra', endpoint: `${global.APIs.yupra.url}/api/downloader/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.resultado?.enlace },
-    { api: 'Vreden', endpoint: `${global.APIs.vreden.url}/api/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.result?.download?.url },
     { api: 'Delirius', endpoint: `${global.APIs.delirius.url}/download/ymp3?url=${encodeURIComponent(url)}`, extractor: res => res.data?.download?.url },
     { api: 'ZenzzXD', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
     { api: 'ZenzzXD v2', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp3v2?url=${encodeURIComponent(url)}`, extractor: res => res.download_url }
   ]
-  return await fetchRandomApi(apis)
+  return await fetchPrioritizedApi(apis)
 }
 
 async function getVid(url) {
   const apis = [
+    { api: 'Vreden', endpoint: `${global.APIs.vreden.url}/api/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.result?.download?.url },
     { api: 'Xyro', endpoint: `${global.APIs.xyro.url}/download/youtubemp4?url=${encodeURIComponent(url)}&quality=360`, extractor: res => res.result?.dl },
     { api: 'Yupra', endpoint: `${global.APIs.yupra.url}/api/downloader/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.resultado?.formatos?.[0]?.url },
-    { api: 'Vreden', endpoint: `${global.APIs.vreden.url}/api/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.result?.download?.url },
     { api: 'Delirius', endpoint: `${global.APIs.delirius.url}/download/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.data?.download?.url },
     { api: 'ZenzzXD', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
     { api: 'ZenzzXD v2', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp4v2?url=${encodeURIComponent(url)}`, extractor: res => res.download_url }
   ]
-  return await fetchRandomApi(apis)
+  return await fetchPrioritizedApi(apis)
 }
 
-// === NUEVO SISTEMA ALEATORIO ===
-async function fetchRandomApi(apis) {
-  const shuffled = apis.sort(() => Math.random() - 0.5) // mezcla aleatoria
-  for (const { api, endpoint, extractor } of shuffled) {
+async function fetchPrioritizedApi(apis) {
+  const prioritized = apis.filter(a => a.api === 'Vreden')
+  const others = apis.filter(a => a.api !== 'Vreden').sort(() => Math.random() - 0.5)
+  const finalList = [...prioritized, ...others]
+
+  for (const { api, endpoint, extractor } of finalList) {
     try {
       const controller = new AbortController()
       const timeout = setTimeout(() => controller.abort(), 10000)
@@ -123,13 +125,11 @@ async function fetchRandomApi(apis) {
       const link = extractor(res)
       if (link) return { url: link, api }
     } catch (err) {
-      // sigue a la siguiente API
     }
   }
   return null
 }
 
-// === FORMATO DE VISTAS ===
 function formatViews(views) {
   if (views === undefined) return "No disponible"
   if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
