@@ -52,11 +52,11 @@ let handler = async (m, { conn }) => {
   🪵
 `
 
-    const botname = '☁️ Kaneki Bot'
-    const textbot = 'Sistema activo y estable.'
+    const botname = '🏔️ 𝙆𝙖𝙣𝙚𝙠𝙞𝘽𝙤𝙩-𝙑𝟯 🎋'
+    const textbot = '⚙️ 𝙳𝙴𝚂𝙰𝚁𝚁𝙾𝙻𝙻𝙰𝙳𝙾 𝙿𝙾𝚁: 𝚂𝙷𝙰𝙳𝙾𝚆 𝙲𝙾𝚁𝙴'
     const redes = 'https://whatsapp.com/channel/0029VbBPa8EFsn0aLfyZl23j'
     const randomIcono = 'https://files.catbox.moe/ge2vz7.jpg'
-    const channelRD = { id: '120363300125616014@newsletter', name: 'Kaneki Updates' }
+    const channelRD = { id: '120363404182502020@newsletter', name: '┊▬ 𝘒𝘈𝘕𝘌𝘒𝘐 𝘒𝘌𝘕 ▬ ❜┊' }
 
     await conn.sendMessage(m.chat, { 
       text: menu,
