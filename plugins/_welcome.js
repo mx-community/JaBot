@@ -39,7 +39,7 @@ async function generarBienvenida({ conn, userId, groupMetadata, chat }) {
     .replace(/{desc}/g, desc)
 
   // Imagen desde la API Eliasaryt
-  const imageUrl = `https://api-nv.eliasaryt.pro/api/generate/welcome2?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(groupMetadata.subject)}&memberCount=${groupSize}&avatar=${encodeURIComponent(pp)}&background=https://i.ibb.co/4YBNyvP/images-76.jpg&key=hYSK8YrJpKRc9jSE`
+  const imageUrl = `https://api-nv.eliasaryt.pro/api/generate/welcome2?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(groupMetadata.subject)}&memberCount=${groupSize}&avatar=${encodeURIComponent(pp)}&background=https://files.catbox.moe/7cckvp.jpg&key=hYSK8YrJpKRc9jSE`
 
   const caption = `
 ❀ Bienvenido a *"_${groupMetadata.subject}_"*
@@ -78,7 +78,7 @@ async function generarDespedida({ conn, userId, groupMetadata, chat }) {
 
   // === PRIMERA OPCIÓN: API DE Siputzx ===
   try {
-    const apiUrl = `https://api.siputzx.my.id/api/canvas/goodbyev5?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(groupMetadata.subject)}&memberCount=${groupSize}&avatar=${encodeURIComponent(pp)}&background=${encodeURIComponent('https://i.ibb.co/4YBNyvP/images-76.jpg')}&quality=90`
+    const apiUrl = `https://api.siputzx.my.id/api/canvas/goodbyev5?username=${encodeURIComponent(username)}&guildName=${encodeURIComponent(groupMetadata.subject)}&memberCount=${groupSize}&avatar=${encodeURIComponent(pp)}&background=${encodeURIComponent('https://files.catbox.moe/7cckvp.jpg')}&quality=90`
     const res = await fetch(apiUrl)
     if (!res.ok) throw new Error(`Error ${res.status}`)
 
