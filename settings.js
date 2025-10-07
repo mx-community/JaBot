@@ -36,17 +36,17 @@ global.dev = "© ⍴᥆ᥕᥱrᥱძ ᑲᥡ 𝚂𝙷𝙰𝙳𝙾𝚆`°𝙲𝚘�
 global.author = "© mᥲძᥱ ᥕі𝗍һ ᑲᥡ ѕнα∂σω`¢σяє"
 global.etiqueta = "✫.ƚԋҽ ʂԋαԃσɯ ƈσɾҽ  ⊹꙰ "
 global.currency = "¥enes"
-global.banner = "https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1742678744381.jpeg"
-global.icono = "https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1742678797993.jpeg"
+global.banner = "https://i.pinimg.com/originals/90/c8/58/90c858c65f0b3b2fca9a226fa369aa2b.png"
+global.icono = "https://i.pinimg.com/originals/b3/67/d5/b367d513d861de468305c32c6cd22756.jpg"
 global.catalogo = fs.readFileSync('./lib/catalogo.jpg')
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.group = "https://chat.whatsapp.com/HaKf6ezcwdbGzmH782eBal"
-global.community = "https://chat.whatsapp.com/G0kXqsteJFU74yrLtg79o6"
-global.channel = "https://whatsapp.com/channel/0029Vb64nWqLo4hb8cuxe23n"
-global.github = "https://github.com/The-King-Destroy/YukiBot-MD"
-global.gmail = "thekingdestroy507@gmail.com"
+global.group = "https://whatsapp.com/channel/0029VbBPa8EFsn0aLfyZl23j"
+global.community = "https://whatsapp.com/channel/0029VbBPa8EFsn0aLfyZl23j"
+global.channel = "https://whatsapp.com/channel/0029VbBPa8EFsn0aLfyZl23j"
+global.github = "https://github.com/Shadow-nex/KanekiBot-V3"
+global.gmail = "blackoficial2025@gmail.com"
 global.ch = {
 ch1: "120363404182502020@newsletter"
 }
