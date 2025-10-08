@@ -96,7 +96,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             video: videoBuffer,
             mimetype: "video/mp4",
             fileName: dl.filename,
-            caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n> Calidad: ${dl.quality}`,
+            caption: `> 🎋 *${meta.title}*\n> 🍧 Tamaño: ${fileSize}\n> ⚙️ Calidad: ${dl.quality}`,
           },
           { quoted: m }
         )
