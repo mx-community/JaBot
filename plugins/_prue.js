@@ -1,11 +1,49 @@
 import fetch from "node-fetch";
+import fs from "fs";
+import path from "path";
 
-// === Handler principal del comando ===
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-    if (!text) return conn.reply(m.chat, `*🌷 Uso correcto: ${usedPrefix + command} <Bocchi the rock>*`, m, rcanal);
+    global.animeCache = global.animeCache || {};
 
-    await m.reply('⏳ Buscando anime...');
+    // === Detectar si es respuesta con episodio ===
+    if (global.animeCache[m.chat] && text && /^\d+\s+\w+/i.test(text)) {
+      const [epNumber, ...langParts] = text.split(" ");
+      const epLang = langParts.join(" ");
+
+      const episode = global.animeCache[m.chat].find(e => e.episode == epNumber && e.idioma.toLowerCase() === epLang.toLowerCase());
+      if (!episode) return conn.reply(m.chat, '*❌ No se encontró ese episodio o idioma.*', m);
+      if (!episode.pixeldrain) return conn.reply(m.chat, '*❌ Este episodio no tiene enlace de descarga disponible.*', m);
+
+      await m.reply('⏳ Descargando episodio...');
+
+      // Descargar episodio
+      const res = await fetch(episode.pixeldrain);
+      const buffer = await res.arrayBuffer();
+      const sizeMB = buffer.byteLength / 1024 / 1024;
+
+      // Limite de WhatsApp
+      if (sizeMB > 90) {
+        return conn.reply(m.chat, `⚠️ El episodio pesa ${sizeMB.toFixed(2)}MB, demasiado grande para enviar por WhatsApp.\nAquí tienes el enlace de descarga:\n${episode.pixeldrain}`, m);
+      }
+
+      // Guardar temporalmente
+      const filePath = path.join('/tmp', `ep${episode.episode}_${epLang}.mp4`);
+      fs.writeFileSync(filePath, Buffer.from(buffer));
+
+      // Enviar video
+      await conn.sendMessage(m.chat, { video: fs.readFileSync(filePath), caption: `✅ Episodio ${episode.episode} - ${episode.idioma}` }, { quoted: m });
+
+      // Borrar archivo temporal
+      fs.unlinkSync(filePath);
+
+      return;
+    }
+
+    // === Si es comando nuevo de anime ===
+    if (!text) return conn.reply(m.chat, `*🌷 Uso correcto: ${usedPrefix + command} <Nombre del anime>*`, m);
+
+    await conn.reply(m.chat, '⏳ Buscando anime...');
 
     const res = await fetch(`https://api-nv.eliasaryt.pro/api/animedl?query=${encodeURIComponent(text)}&key=hYSK8YrJpKRc9jSE`);
     const data = await res.json();
@@ -15,59 +53,35 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     const anime = data.results;
 
-    // Mensaje con info del anime y episodios
     let info = `╭══✦〘 ANIME INFO 〙✦══╮
 │ 📌 *Título:* ${anime.title}
 │ 📚 *Tipo:* ${anime.type}
-│ 🎬 *Episodios disponibles:* ${anime.episodios}
+│ 🎬 *Episodios disponibles:* ${anime.episodes?.length || '0'}
 │ 📝 *Descripción:*
-│ ${anime.description.split("\n").join("\n│ ")}
+│ ${anime.description?.split("\n").join("\n│ ") || 'Sin descripción'}
 ╰═══════════════╯\n\n`;
 
     info += '*💡 Responde con el número del episodio y el idioma (ej: 1 Español) para descargar.*\n\n';
-    
-    anime.episodes.forEach(ep => {
+
+    anime.episodes?.forEach(ep => {
       info += `• Episodio ${ep.episode} - ${ep.idioma}\n`;
     });
 
-    // Enviar mensaje con imagen del anime
     await conn.sendMessage(m.chat, { image: { url: anime.image }, caption: info }, { quoted: m });
 
-    // Guardamos temporalmente los episodios en memoria
-    global.animeCache = global.animeCache || {};
+    // Guardamos episodios en caché
     global.animeCache[m.chat] = anime.episodes;
 
   } catch (err) {
     console.error(err);
-    conn.reply(m.chat, '*❌ Ocurrió un error al buscar el anime.*', m);
+    conn.reply(m.chat, '*❌ Ocurrió un error al procesar tu solicitud.*', m);
   }
 };
 
-// === Handler para descargar episodio según respuesta del usuario ===
-let downloadHandler = async (m, { conn, text }) => {
-  try {
-    if (!global.animeCache || !global.animeCache[m.chat]) return;
-
-    const [epNumber, ...langParts] = text.split(" ");
-    const epLang = langParts.join(" ");
-    if (!epNumber || !epLang) return;
-
-    const episode = global.animeCache[m.chat].find(e => e.episode == epNumber && e.idioma.toLowerCase() === epLang.toLowerCase());
-    if (!episode) return conn.reply(m.chat, '*❌ No se encontró ese episodio o idioma.*', m);
-
-    await conn.sendMessage(m.chat, { text: `✅ Episodio ${episode.episode} - ${episode.idioma}\n🔗 Link de descarga: ${episode.pixeldrain}` }, { quoted: m });
-
-  } catch (err) {
-    console.error(err);
-    conn.reply(m.chat, '*❌ Ocurrió un error al enviar el episodio.*', m);
-  }
-};
-
-// === Exportar el comando ===
-handler.command = ['anime', 'animedl']; // Puedes agregar más aliases
-handler.limit = true; // Si quieres limitar su uso
-handler.rowner = false; // No solo para owner
+handler.command = ['anime', 'animedl'];
+handler.limit = true;
+handler.rowner = false;
 handler.mods = false;
 handler.premium = true;
 
-export { handler, downloadHandler };
+export default handler;

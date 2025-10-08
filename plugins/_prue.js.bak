@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 // === Handler principal del comando ===
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-    if (!text) return conn.reply(m.chat, `*❌ Uso correcto: ${usedPrefix + command} <nombre del anime>*`, m);
+    if (!text) return conn.reply(m.chat, `*🌷 Uso correcto: ${usedPrefix + command} <Bocchi the rock>*`, m, rcanal);
 
     await m.reply('⏳ Buscando anime...');
 
