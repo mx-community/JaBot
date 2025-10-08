@@ -2,40 +2,38 @@ import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysoc
 import yts from 'yt-search';
 
 const handler = async (m, { conn }) => {
-  // Regex para detectar links de YouTube
   const youtubeRegex = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i;
   const match = m.text?.match(youtubeRegex);
-  if (!match) return; // No es link de YouTube
+  if (!match) return;
 
   const url = match[0];
 
-  // Reacción mientras procesa
   await m.react('⏳');
 
-  // Buscar video
   const result = await yts(url);
   if (!result?.videos?.length) return conn.reply(m.chat, '⚠️ No se encontró el video.', m);
 
   const video = result.videos[0];
 
-  // Preparar miniatura
   const media = await prepareWAMessageMedia(
     { image: { url: video.thumbnail } },
     { upload: conn.waUploadToServer }
   );
 
-  // Botones tipo lista al estilo de tu código
   const interactiveMessage = {
     body: {
-      text: `🎬 *TÍTULO:* ${video.title}
-🌵 *AUTOR:* ${video.author.name}
-🍁 *VISTAS:* ${video.views.toLocaleString()}
-🌿 *DURACIÓN:* ${video.timestamp}
-🔗 *LINK:* ${video.url}`
+      text: `===========================
+         *\`${video.title}\`*
+
+= ° 🌵 *𝙰𝚄𝚃𝙾𝚁:* ${video.author.name}
+= ° 🍁 *𝚅𝙸𝚂𝚃𝙰𝚂:* ${video.views.toLocaleString()}
+= ° 🌿 *𝙳𝚄𝚁𝙰𝙲𝙸𝙾𝙽:* ${video.timestamp}
+= ° 🔗 *𝚄𝚁𝙻:* ${video.url}
+===========================`
     },
-    footer: { text: 'Dev: neveloopp' },
+    footer: { text: '┊▬ 𝘒𝘈𝘕𝘌𝘒𝘐 𝘒𝘌𝘕 ▬ ❜┊' },
     header: {
-      title: '┏━❰ 乂 YOUTUBE - LINK 乂 ❱━┓',
+      title: '   乂 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 - 𝘚𝘌𝘈𝘙𝘊𝘏 乂',
       hasMediaAttachment: true,
       imageMessage: media.imageMessage
     },
@@ -44,34 +42,34 @@ const handler = async (m, { conn }) => {
         {
           name: 'single_select',
           buttonParamsJson: JSON.stringify({
-            title: 'Opciones de descarga',
+            title: '      ᴏᴘᴄɪᴏɴᴇs ᴅᴇ ᴅᴇsᴄᴀʀɢᴀ 🎋',
             sections: [
               {
                 title: video.title,
                 rows: [
                   {
-                    header: video.title,
+                    header: '',
                     title: '🎧 Descargar audio',
                     description: `Duración: ${video.timestamp}`,
                     id: `.ytmp3 ${video.url}`
                   },
                   {
-                    header: video.title,
+                    header: '',
                     title: '📹 Descargar video',
                     description: `Duración: ${video.timestamp}`,
                     id: `.ytmp4 ${video.url}`
                   },
                   {
-                    header: video.title,
-                    title: '⭐ Favorito',
-                    description: 'Agregar a favoritos',
-                    id: `.favorito ${video.url}`
+                    header: '',
+                    title: '⭐ 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢 𝘳𝘢𝘱𝘪𝘥𝘢',
+                    description: 'ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴀᴜᴅɪᴏ',
+                    id: `/yta ${video.url}`
                   },
                   {
-                    header: video.title,
-                    title: '𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢 𝘳𝘢𝘱𝘪𝘥𝘢',
-                    description: 'Compartir video',
-                    id: `.share ${video.url}`
+                    header: '',
+                    title: '🍧 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢 𝘳𝘢𝘱𝘪𝘥𝘢',
+                    description: 'ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴠɪᴅᴇᴏ',
+                    id: `/ytv ${video.url}`
                   }
                 ]
               }
@@ -84,16 +82,13 @@ const handler = async (m, { conn }) => {
   };
 
   const userJid = conn?.user?.jid || m.key.participant || m.chat;
-  const msg = generateWAMessageFromContent(m.chat, { interactiveMessage }, { userJid, quoted: m });
+  const msg = generateWAMessageFromContent(m.chat, { interactiveMessage }, { userJid, quoted: fkontak });
   await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
 
-  // Reacción de éxito
-  await m.react('✅');
+  await m.react('✔️');
 };
 
-// Activar automáticamente para cualquier link de YouTube
 handler.customPrefix = /https?:\/\/(?:www\.|youtu\.be\/|youtube\.com\/watch\?v=)[^\s]+/i;
 handler.command = new RegExp();
-handler.all = true;
 
 export default handler;
