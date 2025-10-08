@@ -24,7 +24,7 @@ const texto = `ᥫ᭡ Informacion -  Balance ❀
     fileName: 'bal.jpg',
     mentions: [who],
     ...rcanal
-  }, { quoted: m })
+  }, { quoted: fkontak })
 }
 
 handler.help = ['bal']
