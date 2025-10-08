@@ -1,5 +1,6 @@
+import fetch from "node-fetch";
+
 const handler = async (m, { conn, text }) => {
-  // Definición del fkontak tipo WhatsApp Business
   const fkontak = {
     key: {
       participant: "0@s.whatsapp.net",
@@ -7,31 +8,31 @@ const handler = async (m, { conn, text }) => {
     },
     message: {
       contactMessage: {
-        displayName: "WhatsApp Business",
-        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;WhatsApp Business;;;\nFN:WhatsApp Business\nORG:WhatsApp Business\nTEL;type=CELL;type=VOICE;waid=1234567890:+52 669 265 5251\nEND:VCARD`,
-        jpegThumbnail: Buffer.from(
-          "iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAYAAAA8AXHiAAAABHNCSVQICAgIfAhkiAAAAF9JREFUeJztwQEBAAAAgiD/r25IQAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4H4EAAQABRvhOAAAAAElFTkSuQmCC",
-          "base64"
-        ),
+        displayName: "Rin Itoshi • Official Bot ✅",
+        vcard: `BEGIN:VCARD
+VERSION:3.0
+N:;Rin Itoshi;;;
+FN:Rin Itoshi • Official Bot
+ORG:Rin System
+TEL;type=CELL;type=VOICE;waid=5219999999999:+52 999 999 9999
+END:VCARD`,
+        jpegThumbnail: await (await fetch("https://files.catbox.moe/ipahdi.jpg")).buffer(),
         thumbnail: null,
         mediaType: 1,
-        caption: "✅ STIKER GENERADO CON EXITO"
+        caption: "✨ 𝑺𝑻𝑰𝑲𝑬𝑹 𝑮𝑬𝑵𝑬𝑹𝑨𝑫𝑶 𝑪𝑶𝑵 𝑬𝑿𝑰𝑻𝑶 ✨"
       }
     }
   };
 
-  // Enviar mensaje de prueba con el contacto
   await conn.sendMessage(
     m.chat,
-    {
-      text: text || "🧩 *Prueba exitosa del fkontak*"
-    },
+    { text: text || "✅ *Prueba del fkontak con imagen completada*" },
     { quoted: fkontak }
   );
 };
 
-handler.help = ["fkontaktest"];
+handler.help = ["fkontaktest3"];
 handler.tags = ["tools"];
-handler.command = ["fkontaktest", "testfkontak"];
+handler.command = ["fkontaktest3", "testfkontak3"];
 
 export default handler;
