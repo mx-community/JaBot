@@ -2,11 +2,12 @@ import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
 
+let pendingDownloads = {}; // Para guardar el anime temporal mientras el usuario elige
+
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text) return conn.reply(m.chat, `*❌ Ingresa el nombre del anime para buscar.*`, m);
-
-    await m.react('⏳'); // reacciona mientras busca
+    await m.react('⏳');
 
     // Llamada a la API
     const apiUrl = `https://api-nv.eliasaryt.pro/api/animedl?query=${encodeURIComponent(text)}&key=hYSK8YrJpKRc9jSE`;
@@ -17,49 +18,20 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     const anime = data.results;
 
-    // Construir mensaje de info
+    // Guardamos el anime para que el usuario pueda responder con el capítulo
+    pendingDownloads[m.sender] = anime;
+
+    // Construimos mensaje con la lista de episodios
     let info = `🎬 *${anime.title}* (${anime.type})\n\n`;
     info += `📝 *Descripción:*\n${anime.description}\n\n`;
     info += `📺 *Episodios:* ${anime.episodios}\n\n`;
     info += `🔗 *Link principal:* ${anime.url}\n\n`;
-    info += `📄 *Lista de episodios:* \n`;
+    info += `*Responde con el número del episodio que deseas descargar:*\n`;
     anime.episodes.forEach(ep => {
-      info += `• Episodio ${ep.episode} [${ep.idioma}]: ${ep.pixeldrain}\n`;
+      info += `• ${ep.episode} [${ep.idioma}]\n`;
     });
 
-    // Enviar mensaje con imagen de portada
-    await conn.sendMessage(m.chat, {
-      image: { url: anime.image },
-      caption: info
-    }, { quoted: m });
-
-    // Crear documento descargable (txt)
-    const docContent = `
-🎬 ${anime.title} (${anime.type})
-
-📝 Descripción:
-${anime.description}
-
-📺 Episodios: ${anime.episodios}
-
-🔗 Link principal: ${anime.url}
-
-📄 Lista de episodios:
-${anime.episodes.map(ep => `Episodio ${ep.episode} [${ep.idioma}]: ${ep.pixeldrain}`).join('\n')}
-    `.trim();
-
-    const docPath = path.join('./', `${anime.title.replace(/[^a-zA-Z0-9]/g, '_')}_anime.txt`);
-    fs.writeFileSync(docPath, docContent);
-
-    // Enviar documento
-    await conn.sendMessage(m.chat, {
-      document: { url: docPath },
-      mimetype: 'text/plain',
-      fileName: `${anime.title}_Anime.txt`
-    }, { quoted: m });
-
-    // Opcional: borrar archivo local
-    fs.unlinkSync(docPath);
+    await conn.sendMessage(m.chat, { image: { url: anime.image }, caption: info }, { quoted: m });
 
   } catch (err) {
     console.error(err);
@@ -67,8 +39,48 @@ ${anime.episodes.map(ep => `Episodio ${ep.episode} [${ep.idioma}]: ${ep.pixeldra
   }
 };
 
+// --- Handler para la respuesta del usuario con el episodio ---
+const chooseEpisodeHandler = async (m, { conn, text }) => {
+  const anime = pendingDownloads[m.sender];
+  if (!anime) return; // no hay descarga pendiente
+
+  const episodeNum = parseInt(text);
+  if (!episodeNum || episodeNum < 1 || episodeNum > anime.episodes.length) 
+    return conn.reply(m.chat, '*❌ Número de episodio inválido.*', m);
+
+  const episode = anime.episodes[episodeNum - 1];
+  await m.react('⏳'); // esperando descarga
+
+  try {
+    // Descargar el episodio de Pixeldrain
+    const fileName = `${anime.title}_Ep${episode.episode}.mp4`;
+    const filePath = path.join('./', fileName);
+
+    const resp = await fetch(episode.pixeldrain);
+    const fileStream = fs.createWriteStream(filePath);
+    await new Promise((resolve, reject) => {
+      resp.body.pipe(fileStream);
+      resp.body.on("error", reject);
+      fileStream.on("finish", resolve);
+    });
+
+    // Enviar video
+    await conn.sendMessage(m.chat, {
+      video: { url: filePath },
+      caption: `🎬 *${anime.title}* - Episodio ${episode.episode}`,
+    }, { quoted: m });
+
+    fs.unlinkSync(filePath); // borrar archivo local
+    delete pendingDownloads[m.sender]; // limpiar pendiente
+
+  } catch (err) {
+    console.error(err);
+    conn.reply(m.chat, '*❌ Error al descargar el episodio.*', m);
+  }
+};
+
 handler.command = /^(animedl|anime)$/i;
 handler.tags = ['anime'];
 handler.help = ['animedl <nombre del anime>'];
 
-export default handler;
+export { handler, chooseEpisodeHandler };
