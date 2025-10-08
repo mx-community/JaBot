@@ -124,7 +124,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   let q = args.join(" ").trim()
   if (!q) {
     return conn.sendMessage(m.chat, {
-      text: `*\`🍉 ɪɴɢʀᴇsᴇ ᴇʟ ɴᴏᴍʙʀᴇ ᴅᴇʟ ᴀᴜᴅɪᴏ ᴀ ᴅᴇsᴄᴀʀɢᴀʀ.\`*`
+      text: `*\`🍉 ɪɴɢʀᴇsᴇ ᴇʟ ɴᴏᴍʙʀᴇ ᴅᴇʟ ᴀᴜᴅɪᴏ ᴀ ᴅᴇsᴄᴀʀɢᴀʀ.\`*`, rcanal
     }, { quoted: m })
   }
 
@@ -134,7 +134,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 > ✅ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
 
 ˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50%`
+[▓▓▓▓▓░░░░░] 50%`, rcanal
   }, { quoted: fkontak })
 
   try {
@@ -173,7 +173,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       console.log("⚠️ Error al procesar miniatura:", err)
     }
 
-    const Shadow_url = await (await fetch("https://files.catbox.moe/ipahdi.jpg")).buffer()
+    const Shadow_url = await (await fetch("https://files.catbox.moe/qm569c.jpg")).buffer()
 
     // Objeto tipo catálogo (productMessage)
     const fkontak = {
