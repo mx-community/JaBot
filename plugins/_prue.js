@@ -1,87 +1,124 @@
 import fetch from "node-fetch";
-import fs from "fs";
-import path from "path";
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
+async function getLangs(episodes) {
+  // Suponiendo que tu API ya devuelve los enlaces directos de sub y dub
+  return episodes.map(ep => ({
+    ...ep,
+    lang: ep.sub ? ["sub"] : ep.dub ? ["dub"] : []
+  }));
+}
+
+let handler = async (m, { command, usedPrefix, conn, text, args }) => {
+  if (!text) return m.reply(
+    `🌱 *Ingresa el título de algún anime.*\n\n` +
+    `• ${usedPrefix + command} Bocchi the Rock`
+  );
+
   try {
-    global.animeCache = global.animeCache || {};
-
-    // === Detectar si es respuesta con episodio ===
-    if (global.animeCache[m.chat] && text && /^\d+\s+\w+/i.test(text)) {
-      const [epNumber, ...langParts] = text.split(" ");
-      const epLang = langParts.join(" ");
-
-      const episode = global.animeCache[m.chat].find(e => e.episode == epNumber && e.idioma.toLowerCase() === epLang.toLowerCase());
-      if (!episode) return conn.reply(m.chat, '*❌ No se encontró ese episodio o idioma.*', m);
-      if (!episode.pixeldrain) return conn.reply(m.chat, '*❌ Este episodio no tiene enlace de descarga disponible.*', m);
-
-      await m.reply('⏳ Descargando episodio...');
-
-      // Descargar episodio
-      const res = await fetch(episode.pixeldrain);
-      const buffer = await res.arrayBuffer();
-      const sizeMB = buffer.byteLength / 1024 / 1024;
-
-      // Limite de WhatsApp
-      if (sizeMB > 90) {
-        return conn.reply(m.chat, `⚠️ El episodio pesa ${sizeMB.toFixed(2)}MB, demasiado grande para enviar por WhatsApp.\nAquí tienes el enlace de descarga:\n${episode.pixeldrain}`, m);
-      }
-
-      // Guardar temporalmente
-      const filePath = path.join('/tmp', `ep${episode.episode}_${epLang}.mp4`);
-      fs.writeFileSync(filePath, Buffer.from(buffer));
-
-      // Enviar video
-      await conn.sendMessage(m.chat, { video: fs.readFileSync(filePath), caption: `✅ Episodio ${episode.episode} - ${episode.idioma}` }, { quoted: m });
-
-      // Borrar archivo temporal
-      fs.unlinkSync(filePath);
-
-      return;
-    }
-
-    // === Si es comando nuevo de anime ===
-    if (!text) return conn.reply(m.chat, `*🌷 Uso correcto: ${usedPrefix + command} <bocchi the rock>*`, m, rcanal);
-
-    await conn.reply(m.chat, '⏳ Buscando anime...');
-
+    m.react("⌛");
     const res = await fetch(`https://api-nv.eliasaryt.pro/api/animedl?query=${encodeURIComponent(text)}&key=hYSK8YrJpKRc9jSE`);
     const data = await res.json();
 
-    if (!data.results || !data.results.status) 
-      return conn.reply(m.chat, '*❌ No se encontró el anime.*', m);
+    if (!data.results || !data.results.status) return m.reply("❌ No se encontraron resultados.");
 
-    const anime = data.results;
+    const info = data.results;
+    const episodes = await getLangs(info.episodes);
 
-    let info = `╭══✦〘 ANIME INFO 〙✦══╮
-│ 📌 *Título:* ${anime.title}
-│ 📚 *Tipo:* ${anime.type}
-│ 🎬 *Episodios disponibles:* ${anime.episodes?.length || '0'}
-│ 📝 *Descripción:*
-│ ${anime.description?.split("\n").join("\n│ ") || 'Sin descripción'}
-╰═══════════════╯\n\n`;
+    const eps = episodes.map(e => {
+      return `• Episodio ${e.episode} (${e.lang.includes("sub") ? "SUB" : ""}${e.lang.includes("dub") ? (e.lang.includes("sub") ? " & " : "") + "DUB" : ""})`;
+    }).join("\n");
 
-    info += '*💡 Responde con el número del episodio y el idioma (ej: 1 Español) para descargar.*\n\n';
+    const caption = `
+乂 \`\`\`ANIME - DOWNLOAD\`\`\`
 
-    anime.episodes?.forEach(ep => {
-      info += `• Episodio ${ep.episode} - ${ep.idioma}\n`;
-    });
+≡ 🌷 *Título :* ${info.title}
+≡ 🌾 *Tipo :* ${info.type}
+≡ 🌲 *Descripción :* ${info.description || "Sin descripción"}
+≡ 🎬 *Episodios disponibles :* ${episodes.length}
 
-    await conn.sendMessage(m.chat, { image: { url: anime.image }, caption: info }, { quoted: m });
+${eps}
 
-    // Guardamos episodios en caché
-    global.animeCache[m.chat] = anime.episodes;
+> Responde a este mensaje con el número del episodio y el idioma. Ejemplo: *1 sub*, *3 dub*
+`.trim();
 
-  } catch (err) {
-    console.error(err);
-    conn.reply(m.chat, '*❌ Ocurrió un error al procesar tu solicitud.*', m);
+    const buffer = await (await fetch(info.image)).arrayBuffer();
+    const sent = await conn.sendMessage(
+      m.chat,
+      { image: Buffer.from(buffer), caption },
+      { quoted: m }
+    );
+
+    conn.anime = conn.anime || {};
+    conn.anime[m.sender] = {
+      title: info.title,
+      episodes,
+      key: sent.key,
+      downloading: false,
+      timeout: setTimeout(() => delete conn.anime[m.sender], 600_000) // 10 minutos
+    };
+
+  } catch (e) {
+    console.error("Error en handler anime:", e);
+    m.reply("⚠️ Error al procesar la solicitud: " + e.message);
   }
 };
 
-handler.command = ['anime', 'animedl'];
-handler.limit = true;
-handler.rowner = false;
-handler.mods = false;
+handler.before = async (m, { conn }) => {
+  conn.anime = conn.anime || {};
+  const session = conn.anime[m.sender];
+  if (!session || !m.quoted || m.quoted.id !== session.key.id) return;
+
+  if (session.downloading) return m.reply("⏳ Ya estás descargando un episodio. Espera a que termine.");
+
+  let [epStr, langInput] = m.text.trim().split(/\s+/);
+  const epi = parseInt(epStr);
+  let idioma = langInput?.toLowerCase();
+
+  if (isNaN(epi)) return m.reply("❌ Número de episodio no válido.");
+
+  const episode = session.episodes.find(e => parseInt(e.episode) === epi);
+  if (!episode) return m.reply(`❌ Episodio ${epi} no encontrado.`);
+
+  const availableLangs = episode.lang || [];
+  if (!availableLangs.length) return m.reply(`❌ No hay idiomas disponibles para el episodio ${epi}.`);
+
+  if (!idioma || !availableLangs.includes(idioma)) {
+    idioma = availableLangs[0]; // fallback
+  }
+
+  const idiomaLabel = idioma === "sub" ? "sub español" : "español latino";
+  await m.reply(`📥 Descargando *${session.title}* - cap ${epi} (${idiomaLabel})`);
+  m.react("📥");
+
+  session.downloading = true;
+
+  try {
+    const videoRes = await fetch(episode[idioma]); // aquí debe estar el link directo de la API
+    const videoBuffer = await videoRes.arrayBuffer();
+
+    await conn.sendFile(
+      m.chat,
+      Buffer.from(videoBuffer),
+      `${session.title} - cap ${epi} ${idiomaLabel}.mp4`,
+      "",
+      m,
+      false,
+      { mimetype: "video/mp4", asDocument: true }
+    );
+
+    m.react("✅");
+  } catch (err) {
+    console.error("Error al descargar:", err);
+    m.reply("⚠️ Error al descargar el episodio: " + err.message);
+  }
+
+  clearTimeout(session.timeout);
+  delete conn.anime[m.sender];
+};
+
+handler.command = ["anime", "animedl"];
+handler.tags = ["download"];
+handler.help = ["animedl"];
 handler.premium = true;
 
 export default handler;
