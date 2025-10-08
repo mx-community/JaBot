@@ -124,7 +124,10 @@ let handler = async (m, { conn, text }) => {
     let res = await fetch(api)
     let json = await res.json()
 
-    if (!json.status || !json.data?.dl)
+    if (!json.status || !json.data?.dl) {
+      return m.reply("*Error*")
+    }
+    
     let { title, author, dl } = json.data
 
     let caption = `> 🌿 *Título:* ${title}`
