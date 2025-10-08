@@ -124,10 +124,7 @@ let handler = async (m, { conn, text }) => {
     let res = await fetch(api)
     let json = await res.json()
 
-    if (!json.status || !json.data?.dl) {
-      return m.reply("❌ No se pudo obtener el video. Verifica el enlace o intenta más tarde.")
-    }
-
+    if (!json.status || !json.data?.dl)
     let { title, author, dl } = json.data
 
     let caption = `> 🌿 *Título:* ${title}`
