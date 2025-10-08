@@ -70,22 +70,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
       await conn.sendMessage(m.chat, {
         image: { url: meta.thumbnail },
-        caption: info,
+        caption: info, ...rcanal
       })
-
-      const videoBuffer = await axios.get(dl.url, {
-        responseType: "arraybuffer",
-        headers: { "User-Agent": "Mozilla/5.0" },
-      }).then(res => res.data)
 
       if (sizeMB > 100) {
         await conn.sendMessage(
           m.chat,
           {
-            document: videoBuffer,
+            document: { url: dl.url },
             mimetype: "video/mp4",
             fileName: dl.filename,
-            caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n> Calidad: ${dl.quality}\n> Enviado como documento (más de 100 MB).`,
+            caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n Calidad: ${dl.quality}\n> Enviado como documento (más de 100 MB).`,
           },
           { quoted: m }
         )
@@ -93,7 +88,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         await conn.sendMessage(
           m.chat,
           {
-            video: videoBuffer,
+            video: { url: dl.url },
             mimetype: "video/mp4",
             fileName: dl.filename,
             caption: `> 🎋 *${meta.title}*\n> 🍧 Tamaño: ${fileSize}\n> ⚙️ Calidad: ${dl.quality}`,
@@ -102,7 +97,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         )
       }
     }
-
   } catch (err) {
     console.error(err)
     conn.reply(
