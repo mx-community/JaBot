@@ -51,24 +51,36 @@ const handler = async (m, { conn }) => {
                     header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟑',
                     title: '✿ 🎧 Descargar audio',
                     description: `✎ Duración: ${video.timestamp}`,
-                    id: `.ytmp3 ${video.url}`
+                    id: `/ytmp3 ${video.url}`
                   },
                   {
                     header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟒',
                     title: '✿ 📹 Descargar video',
                     description: `✎ Duración: ${video.timestamp}`,
-                    id: `.ytmp4 ${video.url}`
+                    id: `/ytmp4 ${video.url}`
+                  },
+                  {
+                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟑 𝐃 𝐎 𝐂',
+                    title: '✿ 🎋 ᴅᴇsᴄᴀʀɢᴀ ᴀᴜᴅɪᴏ ᴇɴ ᴅᴏᴄᴜᴍᴇɴᴛᴏ',
+                    description: `✎ Duración: ${video.timestamp}`,
+                    id: `/ytmp3doc ${video.url}`
+                  },
+                  {
+                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟒 𝐃.𝐎 𝐂',
+                    title: '✿ 🎋 ᴅᴇsᴄᴀʀɢᴀ ᴠɪᴅᴇᴏ ᴇɴ ᴅᴏᴄᴜᴍᴇɴᴛᴏ '',
+                    description: `✎ Duración: ${video.timestamp}`,
+                    id: `/ytmp4doc ${video.url}`
                   },
                   {
                     header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐀',
-                    title: '✿ ⭐ 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢 𝘳𝘢𝘱𝘪𝘥𝘢',
-                    description: '✎ ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴀᴜᴅɪᴏ',
+                    title: '✿ 🎋 ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴀᴜᴅɪᴏ ',
+                    description: `✎ Duración: ${video.timestamp}`,
                     id: `/yta ${video.url}`
                   },
                   {
                     header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐕',
-                    title: '✿ 🍧 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢 𝘳𝘢𝘱𝘪𝘥𝘢',
-                    description: '✎ ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴠɪᴅᴇᴏ',
+                    title: '✿ 🍧 ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴠɪᴅᴇᴏ',
+                    description: `✎ Duración: ${video.timestamp} `,
                     id: `/ytv ${video.url}`
                   }
                 ]
