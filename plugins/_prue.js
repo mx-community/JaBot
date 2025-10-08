@@ -41,7 +41,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     // === Si es comando nuevo de anime ===
-    if (!text) return conn.reply(m.chat, `*🌷 Uso correcto: ${usedPrefix + command} <Nombre del anime>*`, m);
+    if (!text) return conn.reply(m.chat, `*🌷 Uso correcto: ${usedPrefix + command} <bocchi the rock>*`, m, rcanal);
 
     await conn.reply(m.chat, '⏳ Buscando anime...');
 
