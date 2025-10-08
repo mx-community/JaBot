@@ -23,7 +23,7 @@ const handler = async (m, { conn }) => {
   const interactiveMessage = {
     body: {
       text: `===========================
-         *\`${video.title}\`*
+      ✿ *\`${video.title}\`*
 
 = ° 🌵 *𝙰𝚄𝚃𝙾𝚁:* ${video.author.name}
 = ° 🍁 *𝚅𝙸𝚂𝚃𝙰𝚂:* ${video.views.toLocaleString()}
@@ -31,9 +31,9 @@ const handler = async (m, { conn }) => {
 = ° 🔗 *𝚄𝚁𝙻:* ${video.url}
 ===========================`
     },
-    footer: { text: '┊▬ 𝘒𝘈𝘕𝘌𝘒𝘐 𝘒𝘌𝘕 ▬ ❜┊' },
+    footer: { text: '┊▬ кαиєкι вσт ν3 | ву ѕнα∂σω 𝚇𝙳 ▬ ❜┊' },
     header: {
-      title: '   乂 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 - 𝘚𝘌𝘈𝘙𝘊𝘏 乂',
+      title: '        乂 𝘠𝘖𝘜𝘛𝘜𝘉𝘌 - 𝘚𝘌𝘈𝘙𝘊𝘏 乂',
       hasMediaAttachment: true,
       imageMessage: media.imageMessage
     },
@@ -48,27 +48,27 @@ const handler = async (m, { conn }) => {
                 title: video.title,
                 rows: [
                   {
-                    header: '',
-                    title: '🎧 Descargar audio',
-                    description: `Duración: ${video.timestamp}`,
+                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟑',
+                    title: '✿ 🎧 Descargar audio',
+                    description: `✎ Duración: ${video.timestamp}`,
                     id: `.ytmp3 ${video.url}`
                   },
                   {
-                    header: '',
-                    title: '📹 Descargar video',
-                    description: `Duración: ${video.timestamp}`,
+                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐌 𝐏 𝟒',
+                    title: '✿ 📹 Descargar video',
+                    description: `✎ Duración: ${video.timestamp}`,
                     id: `.ytmp4 ${video.url}`
                   },
                   {
-                    header: '',
-                    title: '⭐ 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢 𝘳𝘢𝘱𝘪𝘥𝘢',
-                    description: 'ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴀᴜᴅɪᴏ',
+                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐀',
+                    title: '✿ ⭐ 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢 𝘳𝘢𝘱𝘪𝘥𝘢',
+                    description: '✎ ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴀᴜᴅɪᴏ',
                     id: `/yta ${video.url}`
                   },
                   {
-                    header: '',
-                    title: '🍧 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢 𝘳𝘢𝘱𝘪𝘥𝘢',
-                    description: 'ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴠɪᴅᴇᴏ',
+                    header: '𝐘 𝐎 𝐔 𝐓 𝐔 𝐁 𝐄 • 𝐘 𝐓 𝐕',
+                    title: '✿ 🍧 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢 𝘳𝘢𝘱𝘪𝘥𝘢',
+                    description: '✎ ᴅᴇsᴄᴀʀɢᴀ ʀᴀᴘɪᴅᴀ ᴅᴇ ᴠɪᴅᴇᴏ',
                     id: `/ytv ${video.url}`
                   }
                 ]
