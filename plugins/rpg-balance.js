@@ -18,7 +18,7 @@ const texto = `ᥫ᭡ Informacion -  Balance ❀
 ⛁ Total » *¥${total.toLocaleString()} ${currency}*
 
 > *Para proteger tu dinero, ¡depósitalo en el banco usando #deposit!*`
-await conn.reply(m.chat, texto, m)
+await conn.reply(m.chat, texto, m, rcanal)
 }
 
 handler.help = ['bal']
