@@ -124,7 +124,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   let q = args.join(" ").trim()
   if (!q) {
     return conn.sendMessage(m.chat, {
-      text: `*\`🍉 ɪɴɢʀᴇsᴇ ᴇʟ ɴᴏᴍʙʀᴇ ᴅᴇʟ ᴀᴜᴅɪᴏ ᴀ ᴅᴇsᴄᴀʀɢᴀʀ.\`*`, rcanal
+      text: `*\`🍉 ɪɴɢʀᴇsᴇ ᴇʟ ɴᴏᴍʙʀᴇ ᴅᴇʟ ᴀᴜᴅɪᴏ ᴀ ᴅᴇsᴄᴀʀɢᴀʀ.\`*`
     }, { quoted: m })
   }
 
@@ -134,7 +134,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 > ✅ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
 
 ˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50%`, rcanal
+[▓▓▓▓▓░░░░░] 50%`
   }, { quoted: fkontak })
 
   try {
@@ -174,8 +174,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 
     const Shadow_url = await (await fetch("https://files.catbox.moe/qm569c.jpg")).buffer()
-
-    // Objeto tipo catálogo (productMessage)
     const fkontak = {
       key: {
         fromMe: false,
