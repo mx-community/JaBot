@@ -314,7 +314,6 @@ let handler = async (m, { conn }) => {
       pageCount: '1',
       text: menu,
       contextInfo: {
-      forwardingScore: 0,
         mentionedJid: [mentionedJid],
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
