@@ -1,5 +1,3 @@
-import fetch from "node-fetch"
-
 export async function before(m, { groupMetadata }) {
 if (!m.text || !global.prefix.test(m.text)) return
 const usedPrefix = global.prefix.exec(m.text)[0]
@@ -24,7 +22,7 @@ if (chat.isBanned && !owner) return
 if (validCommand(command, global.plugins)) {
 } else {
 const comando = command
-/*const sadow_xyz = {
+const sadow_xyz = {
   key: {
     fromMe: false,
     participant: "0@s.whatsapp.net",
@@ -37,32 +35,8 @@ const comando = command
       previewType: "NONE"
     }
   }
-}*/
-
-
-const thumbnailUrl = "https://files.catbox.moe/zisfjv.jpg" // 👉 tu imagen miniatura
-const thumbnail = await (await fetch(thumbnailUrl)).buffer()
-
-const sadow_xyz = {
-  key: {
-    fromMe: false,
-    participant: "0@s.whatsapp.net",
-    remoteJid: "status@broadcast"
-  },
-  message: {
-    extendedTextMessage: {
-      text: "🌿 𝗞𝗮𝗻𝗲𝗸𝗶 | 𝐁𝐨𝐭 𝗩3 🚨",
-      title: "Canal Oficial 💫",
-      previewType: "NONE",
-      jpegThumbnail: thumbnail
-    }
-  }
 }
-/*
-await conn.sendMessage(m.chat, { 
-  text:
-}, { quoted: sadow_xyz })
-}}*/
+
 await conn.sendMessage(m.chat, {
     text:  `🎋 El comando *<${comando}>* no existe.\n> Usa *${usedPrefix}help* para ver la lista de comandos disponibles.` ,
     mentions: [m.sender],
@@ -74,7 +48,7 @@ await conn.sendMessage(m.chat, {
         newsletterName: channelRD.name
       },
       externalAdReply: {
-        title: ' 𝘒𝘢𝘯𝘦𝘬𝘪𝘉𝘰𝘵-𝘝3 🍓',
+        title: '🍉 𝘒𝘢𝘯𝘦𝘬𝘪𝘉𝘰𝘵-𝘝3 🍓',
         body: '💫 𝘗𝘰𝘸𝘦𝘳𝘦𝘥 𝘣𝘺 𝘚𝘩𝘢𝘥𝘰𝘸-𝘯𝘦𝘹',
         thumbnailUrl: 'https://qu.ax/SRTGf.jpg',
         sourceUrl: '',
