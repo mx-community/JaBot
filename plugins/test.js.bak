@@ -1,33 +1,47 @@
 import yts from 'yt-search'
 import fetch from 'node-fetch'
+import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys'
 
-const handler = async (m, { conn, text, usedPrefix, command }) => {
+let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return m.reply('🍓 *Por favor ingresa el nombre de la canción que deseas buscar.*')
 
   await m.react('🕓')
 
   try {
     const search = await yts(text)
-    if (!search.all || search.all.length === 0) throw '❌ No se encontraron resultados para tu búsqueda.'
+    const videos = search.all
+    if (!videos || videos.length === 0) throw 'No se encontraron resultados para tu búsqueda.'
 
-    const videoInfo = search.all[0]
+    const video = videos[0]
 
-    const body = `「✦」ძᥱsᥴᥲrgᥲᥒძ᥆ *<${videoInfo.title}>*\n\n> ✦ ᥴᥲᥒᥲᥣ » *${videoInfo.author.name || 'Desconocido'}*\n*°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°*\n> ✰ ᥎іs𝗍ᥲs » *${videoInfo.views}*\n*°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°*\n> ⴵ ძᥙrᥲᥴі᥆ᥒ » *${videoInfo.timestamp}*\n*°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°*\n> ✐ ⍴ᥙᑲᥣіᥴᥲძ᥆ » *${videoInfo.ago}*\n*°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°*\n> 🜸 ᥣіᥒk » ${videoInfo.url}\n`;
+    const info = `
+╭━━━〔 ✦ 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 ✦ 〕━━⬣
+🌸 *Título:* ${video.title}
+🎧 *Canal:* ${video.author.name || 'Desconocido'}
+⏱ *Duración:* ${video.timestamp}
+👀 *Vistas:* ${video.views}
+📅 *Publicado:* ${video.ago}
+🔗 *Link:* ${video.url}
+╰━━━━━━━━━━━━━━━━━━⬣
+`
 
     await conn.sendMessage(
       m.chat,
       {
-        image: { url: videoInfo.thumbnail },
-        caption: body,
+        image: { url: video.thumbnail },
+        caption: info,
         footer: '✦ ʀɪɴ ɪᴛᴏꜱʜɪ | ᴘʟᴀʏᴇʀ',
         buttons: [
           {
-            buttonId: `.yta_2 ${videoInfo.url}`,
-            buttonText: { displayText: 'ᯓᡣ𐭩 ᥲᥙძі᥆' },
+          buttonId: `.yta_2 ${videoInfo.url}`,
+          buttonText: {
+            displayText: 'ᥲᥙძі᥆',
           },
-          {
-            buttonId: `.ytv_2 ${videoInfo.url}`,
-            buttonText: { displayText: 'ᯓᡣ𐭩 ᥎іძᥱ᥆' },
+        },
+        {
+          buttonId: `.ytv_2 ${videoInfo.url}`,
+          buttonText: {
+            displayText: '᥎іძᥱ᥆',
           },
         ],
         headerType: 4,
@@ -37,14 +51,14 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     )
 
     await m.react('✅')
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
     await m.react('❌')
-    return m.reply('⚠️ *Ocurrió un error al procesar la búsqueda.*')
+    m.reply('⚠️ *Ocurrió un error al procesar la búsqueda.*')
   }
 }
 
-handler.command = ['play1']
+handler.command = ['play1', 'yta_2', 'ytv_2']
 handler.help = ['play1']
 handler.tags = ['descargas']
 handler.register = true
@@ -96,7 +110,7 @@ global.ytv_2 = async (m, { conn, args }) => {
     m.chat,
     {
       video: { url: res.data.url },
-      caption: `🎬 *Tu video está listo.*\n\n> ✦ ʀɪɴ ɪᴛᴏꜱʜɪ | ᴘʟᴀʏᴇʀ`,
+      caption: '🎬 *Tu video está listo.*',
       mimetype: 'video/mp4',
     },
     { quoted: m }
