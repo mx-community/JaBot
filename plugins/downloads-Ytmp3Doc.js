@@ -129,17 +129,29 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!q) {
     return conn.sendMessage(m.chat, {
       text: `*\`🍉 ɪɴɢʀᴇsᴇ ᴇʟ ɴᴏᴍʙʀᴇ ᴅᴇʟ ᴀᴜᴅɪᴏ ᴀ ᴅᴇsᴄᴀʀɢᴀʀ.\`*`
+      ...rcanal
     }, { quoted: m })
   }
 
   await conn.sendMessage(m.chat, {
-    text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
+      text: `૮₍｡˃ ᵕ ˂ ｡₎ა 🎶 *¡𝙳𝙴𝚂𝙲𝙰𝚁𝙶𝙰𝙽𝙳𝙾 𝚃𝚄 𝙰𝚄𝙳𝙸𝙾!*
 
 > ✅ єѕρєяє υи мσмєитσ, єѕтσ ρυє∂є тαя∂αя ∂єρє∂ιєи∂σ ∂єℓ ρєѕσ ∂єℓ αυ∂ισ χ∂
 
 ˚₊· ͟͟͞͞➳❥ 📊 Progresito:  
-[▓▓▓▓▓░░░░░] 50%`
-  }, { quoted: fkontak })
+[▓▓▓▓▓░░░░░] 50%`,
+      mentions: [m.sender],
+      contextInfo: {
+        externalAdReply: {
+          title: '🎬 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 - 𝗠𝗣𝟯 ° 𝗗𝗢𝗖 ⚙️',
+          body: '',
+          thumbnailUrl: await (await fetch('https://files.catbox.moe/j7bg0i.jpg')).buffer(),
+          sourceUrl: '',
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    }, { quoted: fkontak })
 
   try {
     // 🔍 Buscar en YT
