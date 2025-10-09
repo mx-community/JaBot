@@ -22,5 +22,22 @@ if (chat.isBanned && !owner) return
 if (validCommand(command, global.plugins)) {
 } else {
 const comando = command
-await m.reply(`🎋 El comando *<${comando}>* no existe.\n> Usa *${usedPrefix}help* para ver la lista de comandos disponibles.`)
+const sadow_xyz = {
+  key: {
+    fromMe: false,
+    participant: "0@s.whatsapp.net",
+    remoteJid: "status@broadcast"
+  },
+  message: {
+    extendedTextMessage: {
+      text: "🌿 𝗞𝗮𝗻𝗲𝗸𝗶 | 𝐁𝐨𝐭 𝗩3",
+      title: "Canal Oficial 💫",
+      previewType: "NONE"
+    }
+  }
+}
+
+await conn.sendMessage(m.chat, { 
+  text: `🎋 El comando *<${comando}>* no existe.\n> Usa *${usedPrefix}help* para ver la lista de comandos disponibles.` 
+}, { quoted: sadow_xyz })
 }}
