@@ -62,4 +62,4 @@ await conn.sendMessage(m.chat, {
      mentionedJid: null
     }
   }, { quoted: sadow_xyz });
-}
+}}
