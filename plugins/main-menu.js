@@ -306,7 +306,12 @@ let handler = async (m, { conn }) => {
     const randomIcono = 'https://files.catbox.moe/ge2vz7.jpg'
     const channelRD = { id: '120363404182502020@newsletter', name: '┊▬ 𝘒𝘈𝘕𝘌𝘒𝘐 𝘒𝘌𝘕 ▬ ❜┊' }
 
-    await conn.sendMessage(m.chat, { 
+    await conn.sendMessage(m.chat, {
+      document: await (await fetch(banner)).buffer(),
+      fileName: '^1.8.2 | Lastest 🍉',
+      mimetype: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      fileLength: '0',
+      pageCount: '1',
       text: menu,
       contextInfo: {
         mentionedJid: [mentionedJid],
