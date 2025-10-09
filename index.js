@@ -32,7 +32,7 @@ const { chain } = lodash
 const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 
 let { say } = cfonts
-console.log(chalk.magentaBright('\n❀ Iniciando...'))
+console.log(chalk.magentaBright('\n❀ 𝗜𝗡𝗜𝗖𝗜𝗔𝗡𝗗𝗢 𝗕𝗢𝗧 '))
 say('kanekiBot-V3', {
 font: 'simple',
 align: 'left',
@@ -103,7 +103,8 @@ opcion = '1'
 }
 if (!methodCodeQR && !methodCode && !fs.existsSync(`./${sessions}/creds.json`)) {
 do {
-opcion = await question(colors("Seleccione una opción:\n") + qrOption("1. Con código QR\n") + textOption("2. Con código de texto de 8 dígitos\n--> "))
+//opcion = await question(colors("Seleccione una opción:\n") + qrOption("1. Con código QR\n") + textOption("2. Con código de texto de 8 dígitos\n--> "))
+opcion = await question(  colors.green.bold('\n╭━━━〔 ⚡ MODO DE CONEXIÓN ⚡ 〕━━⬣\n') +  qrOption('│ ①  Con código 𝙌𝙍 📱\n') +  textOption('│ ②  Con código de texto 𝟴 𝙙𝙞𝙜𝙞𝙩𝙤𝙨 🔢\n') +  colors.yellow.bold('╰─› ') +  colors.white.bold('Seleccione una opción: '))
 if (!/^[1-2]$/.test(opcion)) {
 console.log(chalk.bold.redBright(`No se permiten numeros que no sean 1 o 2, tampoco letras o símbolos especiales.`))
 }} while (opcion !== '1' && opcion !== '2' || fs.existsSync(`./${sessions}/creds.json`))
@@ -193,7 +194,7 @@ if (connection === "open") {
 const userJid = jidNormalizedUser(conn.user.id)
 const userName = conn.user.name || conn.user.verifiedName || "Desconocido"
 await joinChannels(conn)
-console.log(chalk.green.bold(`[ ✿ ]  Conectado a: ${userName}`))
+console.log(chalk.green.bold(`[ ✿ ]  𝘾𝙤𝙣𝙚𝙘𝙩𝙖𝙙𝙤 𝙖: ${userName}`))
 }
 let reason = new Boom(lastDisconnect?.error)?.output?.statusCode
 if (connection === "close") {
