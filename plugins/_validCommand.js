@@ -1,3 +1,5 @@
+import fetch from "node-fetch"
+
 export async function before(m, { groupMetadata }) {
 if (!m.text || !global.prefix.test(m.text)) return
 const usedPrefix = global.prefix.exec(m.text)[0]
@@ -22,7 +24,7 @@ if (chat.isBanned && !owner) return
 if (validCommand(command, global.plugins)) {
 } else {
 const comando = command
-const sadow_xyz = {
+/*const sadow_xyz = {
   key: {
     fromMe: false,
     participant: "0@s.whatsapp.net",
@@ -33,6 +35,26 @@ const sadow_xyz = {
       text: "🌿 𝗞𝗮𝗻𝗲𝗸𝗶 | 𝐁𝐨𝐭 𝗩3 🚨",
       title: "Canal Oficial 💫",
       previewType: "NONE"
+    }
+  }
+}*/
+
+
+const thumbnailUrl = "https://files.catbox.moe/zisfjv.jpg" // 👉 tu imagen miniatura
+const thumbnail = await (await fetch(thumbnailUrl)).buffer()
+
+const sadow_xyz = {
+  key: {
+    fromMe: false,
+    participant: "0@s.whatsapp.net",
+    remoteJid: "status@broadcast"
+  },
+  message: {
+    extendedTextMessage: {
+      text: "🌿 𝗞𝗮𝗻𝗲𝗸𝗶 | 𝐁𝐨𝐭 𝗩3 🚨",
+      title: "Canal Oficial 💫",
+      previewType: "NONE",
+      jpegThumbnail: thumbnail
     }
   }
 }
