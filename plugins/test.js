@@ -1,4 +1,5 @@
-import { generateWAMessageFromContent } from "@whiskeysockets/baileys"
+import pkg from '@whiskeysockets/baileys'
+const { proto, generateWAMessageFromContent } = pkg
 
 let handler = async (m, { conn, usedPrefix }) => {
   const img = "https://files.catbox.moe/fft2hr.jpg"
@@ -11,25 +12,21 @@ let handler = async (m, { conn, usedPrefix }) => {
 ╰━━━━━━━━━━⬣
 `
 
-  const media = await conn.prepareMessageMedia({ image: { url: img } }, { upload: conn.waUploadToServer })
+  const mediaMsg = await conn.prepareMessageMedia({ image: { url: img } }, { upload: conn.waUploadToServer })
 
-  const content = generateWAMessageFromContent(m.chat, {
+  const msg = generateWAMessageFromContent(m.chat, {
     viewOnceMessage: {
       message: {
-        messageContextInfo: {
-          deviceListMetadata: {},
-          deviceListMetadataVersion: 2
-        },
-        interactiveMessage: {
-          header: {
+        interactiveMessage: proto.Message.InteractiveMessage.create({
+          body: proto.Message.InteractiveMessage.Body.create({ text: texto }),
+          footer: proto.Message.InteractiveMessage.Footer.create({ text: "...:." }),
+          header: proto.Message.InteractiveMessage.Header.create({
             title: "Denegado — Regístrate",
             subtitle: "USD 0.00",
             hasMediaAttachment: true,
-            imageMessage: media.imageMessage
-          },
-          body: { text: texto },
-          footer: { text: "xd" },
-          nativeFlowMessage: {
+            imageMessage: mediaMsg.imageMessage
+          }),
+          nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
             buttons: [
               {
                 name: "quick_reply",
@@ -39,13 +36,13 @@ let handler = async (m, { conn, usedPrefix }) => {
                 })
               }
             ]
-          }
-        }
+          })
+        })
       }
     }
-  }, {})
+  }, { userJid: m.chat, quoted: m })
 
-  await conn.relayMessage(m.chat, content.message, { messageId: content.key.id })
+  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
 }
 
 handler.help = ["denegado"]
