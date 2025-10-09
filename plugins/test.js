@@ -1,72 +1,98 @@
-import yts from 'yt-search'
-import fetch from 'node-fetch'
+import yts from "yt-search"
+import fetch from "node-fetch"
+import { generateWAMessageFromContent, proto } from "@whiskeysockets/baileys"
 
-const handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args[0]) return conn.reply(m.chat, `🍧 *Ingresa un título para buscar en YouTube.*`, m)
+let handler = async (m, { conn, args, usedPrefix, command }) => {
+  if (!args[0]) return m.reply("🍉 *Ingresa un título para buscar en YouTube.*")
 
-  await m.react('🕓')
+  await m.react("🕓")
 
   try {
-    let searchResults = await searchVideos(args.join(" "))
-    if (!searchResults.length) throw new Error('*✖️ No se encontraron resultados.*')
+    let res = await yts(args.join(" "))
+    let video = res.videos[0]
+    if (!video) return m.reply("✖️ *No se encontraron resultados.*")
 
-    let video = searchResults[0]
-    let thumbnail = await (await fetch(video.miniatura)).buffer()
-
-    const textMsg = `
+    let caption = `
 ╭━━━〔 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 - 𝐏𝐋𝐀𝐘 〕━━⬣
-🍧 *${video.titulo}*
-│✧ *Canal:* ${video.canal}
-│⌛ *Duración:* ${video.duracion}
-│👁️ *Vistas:* ${video.vistas}
-│📅 *Publicado:* ${video.publicado}
+🍧 *${video.title}*
+│✧ *Canal:* ${video.author.name}
+│⌛ *Duración:* ${video.duration.timestamp}
+│👁️ *Vistas:* ${video.views.toLocaleString()}
+│📅 *Publicado:* ${video.ago}
 │🔗 *Link:* ${video.url}
 ╰━━━━━━━━━━━━━━⬣
     `.trim()
 
-    const buttons = [
-      { index: 1, quickReplyButton: { displayText: '🎧 AUDIO DOC', id: `${usedPrefix}ytmp3doc ${video.url}` } },
-      { index: 2, quickReplyButton: { displayText: '🎬 VIDEO DOC', id: `${usedPrefix}ytmp4doc ${video.url}` } },
-      { index: 3, quickReplyButton: { displayText: '🎶 AUDIO', id: `${usedPrefix}yta ${video.url}` } },
-      { index: 4, quickReplyButton: { displayText: '📹 VIDEO', id: `${usedPrefix}ytmp4 ${video.url}` } }
-    ]
+    const msg = generateWAMessageFromContent(
+      m.chat,
+      {
+        viewOnceMessage: {
+          message: {
+            messageContextInfo: {
+              deviceListMetadata: {},
+              deviceListMetadataVersion: 2,
+            },
+            interactiveMessage: proto.Message.InteractiveMessage.create({
+              header: {
+                title: "🎧 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 𝗣𝗟𝗔𝗬",
+                subtitle: "Búsqueda completada con éxito",
+                hasMediaAttachment: true,
+                ...(await conn.prepareMessageMedia(
+                  { image: { url: video.thumbnail } },
+                  { upload: conn.waUploadToServer }
+                )),
+              },
+              body: { text: caption },
+              footer: { text: "🩵 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 | 𝘽𝙊𝙏" },
+              nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+                buttons: [
+                  {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "🎧 AUDIO DOC",
+                      id: `${usedPrefix}ytmp3doc ${video.url}`,
+                    }),
+                  },
+                  {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "🎬 VIDEO DOC",
+                      id: `${usedPrefix}ytmp4doc ${video.url}`,
+                    }),
+                  },
+                  {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "🎶 AUDIO",
+                      id: `${usedPrefix}yta ${video.url}`,
+                    }),
+                  },
+                  {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "📹 VIDEO",
+                      id: `${usedPrefix}ytmp4 ${video.url}`,
+                    }),
+                  },
+                ],
+              }),
+            }),
+          },
+        },
+      },
+      { quoted: m }
+    )
 
-    await conn.sendMessage(m.chat, {
-      image: thumbnail,
-      caption: textMsg,
-      footer: '🩵 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 | 𝘽𝙊𝙏',
-      templateButtons: buttons,
-      viewOnce: true
-    }, { quoted: m })
-
-    await m.react('✅')
-
-  } catch (e) {
-    console.error(e)
-    await m.react('✖️')
-    conn.reply(m.chat, '*✖️ Error: No se pudo encontrar el video.*', m)
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+    await m.react("✅")
+  } catch (err) {
+    console.error(err)
+    await m.react("✖️")
+    m.reply("✖️ *Error al buscar el video.*")
   }
 }
 
-handler.help = ['play555']
-handler.tags = ['descargas']
-handler.command = ['play555']
+handler.help = ["play"]
+handler.tags = ["descargas"]
+handler.command = ["play", "play2"]
 export default handler
-
-async function searchVideos(query) {
-  try {
-    const res = await yts(query)
-    return res.videos.slice(0, 10).map(video => ({
-      titulo: video.title,
-      url: video.url,
-      miniatura: video.thumbnail,
-      canal: video.author.name,
-      publicado: video.ago || 'No disponible',
-      vistas: video.views?.toLocaleString() || 'No disponible',
-      duracion: video.duration.timestamp || 'No disponible'
-    }))
-  } catch (error) {
-    console.error('*Error en yt-search:*', error.message)
-    return []
-  }
-}
