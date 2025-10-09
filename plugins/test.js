@@ -1,7 +1,8 @@
 import yts from 'yt-search'
 import fetch from 'node-fetch'
+import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys'
 
-const handler = async (m, { conn, text, usedPrefix, command }) => {
+let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return m.reply('🍓 *Por favor ingresa el nombre de la canción que deseas buscar.*')
 
   await m.react('🕓')
@@ -12,30 +13,66 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     const videoInfo = search.all[0]
 
-    const body = `「✦」ძᥱsᥴᥲrgᥲᥒძ᥆ *<${videoInfo.title}>*\n\n> ✦ ᥴᥲᥒᥲᥣ » *${videoInfo.author.name || 'Desconocido'}*\n*°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°*\n> ✰ ᥎іs𝗍ᥲs » *${videoInfo.views}*\n*°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°*\n> ⴵ ძᥙrᥲᥴі᥆ᥒ » *${videoInfo.timestamp}*\n*°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°*\n> ✐ ⍴ᥙᑲᥣіᥴᥲძ᥆ » *${videoInfo.ago}*\n*°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°*\n> 🜸 ᥣіᥒk » ${videoInfo.url}\n`;
+    const caption = `╭━━━〔 ✦ ʀɪɴ ɪᴛᴏꜱʜɪ ✦ 〕━━⬣
+┃ 🍓 *Título:* ${videoInfo.title}
+┃ 📺 *Canal:* ${videoInfo.author.name || 'Desconocido'}
+┃ 👁️ *Vistas:* ${videoInfo.views}
+┃ ⏳ *Duración:* ${videoInfo.timestamp}
+┃ 📅 *Publicado:* ${videoInfo.ago}
+┃ 🔗 *Link:* ${videoInfo.url}
+╰━━━━━━━━━━━━━━━━━━⬣`
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { url: videoInfo.thumbnail },
-        caption: body,
-        footer: '✦ ʀɪɴ ɪᴛᴏꜱʜɪ | ᴘʟᴀʏᴇʀ',
-        buttons: [
-          {
-            buttonId: `.yta_2 ${videoInfo.url}`,
-            buttonText: { displayText: 'ᯓᡣ𐭩 ᥲᥙძі᥆' },
+    const msg = generateWAMessageFromContent(m.chat, {
+      viewOnceMessage: {
+        message: {
+          messageContextInfo: {
+            deviceListMetadata: {},
+            deviceListMetadataVersion: 2,
           },
-          {
-            buttonId: `.ytv_2 ${videoInfo.url}`,
-            buttonText: { displayText: 'ᯓᡣ𐭩 ᥎іძᥱ᥆' },
-          },
-        ],
-        headerType: 4,
-        viewOnce: true,
+          interactiveMessage: proto.Message.InteractiveMessage.create({
+            body: proto.Message.InteractiveMessage.Body.create({
+              text: caption,
+            }),
+            footer: proto.Message.InteractiveMessage.Footer.create({
+              text: '✦ ʀɪɴ ɪᴛᴏꜱʜɪ | ᴘʟᴀʏᴇʀ',
+            }),
+            header: proto.Message.InteractiveMessage.Header.create({
+              title: `🎧 ᯓᡣ𐭩 ᴘʟᴀʏ ʀɪɴ`,
+              subtitle: 'YouTube Search',
+              hasMediaAttachment: true,
+              imageMessage: await conn
+                .prepareMessageMedia(
+                  { image: { url: videoInfo.thumbnail } },
+                  { upload: conn.waUploadToServer }
+                )
+                .then(v => v.imageMessage),
+            }),
+            nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+              buttons: [
+                {
+                  name: 'cta_url',
+                  buttonParamsJson: JSON.stringify({
+                    display_text: '🩷 Descargar Audio',
+                    url: `${usedPrefix}yta_2 ${videoInfo.url}`,
+                    merchant_url: `${videoInfo.url}`,
+                  }),
+                },
+                {
+                  name: 'cta_url',
+                  buttonParamsJson: JSON.stringify({
+                    display_text: '💜 Descargar Video',
+                    url: `${usedPrefix}ytv_2 ${videoInfo.url}`,
+                    merchant_url: `${videoInfo.url}`,
+                  }),
+                },
+              ],
+            }),
+          }),
+        },
       },
-      { quoted: m }
-    )
+    }, { quoted: m })
 
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
     await m.react('✅')
   } catch (e) {
     console.error(e)
@@ -49,57 +86,3 @@ handler.help = ['play1']
 handler.tags = ['descargas']
 handler.register = true
 export default handler
-
-// 🔊 DESCARGA AUDIO
-global.yta_2 = async (m, { conn, args }) => {
-  if (!args[0]) return m.reply('🎧 *Debes proporcionar el enlace de YouTube.*')
-  await m.react('🕓')
-
-  const url = args[0]
-  let res
-  try {
-    res = await (await fetch(`https://api.alyachan.dev/api/youtube?url=${url}&type=mp3&apikey=Gata-Dios`)).json()
-  } catch {
-    try {
-      res = await (await fetch(`https://delirius-apiofc.vercel.app/download/ytmp3?url=${url}`)).json()
-    } catch {
-      res = await (await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)).json()
-    }
-  }
-
-  if (!res.data || !res.data.url) return m.reply('❌ *No se pudo obtener el audio.*')
-
-  await conn.sendFile(m.chat, res.data.url, 'audio.mp3', '', m, null, { mimetype: 'audio/mpeg', asDocument: false })
-  await m.react('✅')
-}
-
-// 🎥 DESCARGA VIDEO
-global.ytv_2 = async (m, { conn, args }) => {
-  if (!args[0]) return m.reply('🎬 *Debes proporcionar el enlace de YouTube.*')
-  await m.react('🕓')
-
-  const url = args[0]
-  let res
-  try {
-    res = await (await fetch(`https://api.alyachan.dev/api/youtube?url=${url}&type=mp4&apikey=Gata-Dios`)).json()
-  } catch {
-    try {
-      res = await (await fetch(`https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`)).json()
-    } catch {
-      res = await (await fetch(`https://api.vreden.my.id/api/ytmp4?url=${url}`)).json()
-    }
-  }
-
-  if (!res.data || !res.data.url) return m.reply('❌ *No se pudo obtener el video.*')
-
-  await conn.sendMessage(
-    m.chat,
-    {
-      video: { url: res.data.url },
-      caption: `🎬 *Tu video está listo.*\n\n> ✦ ʀɪɴ ɪᴛᴏꜱʜɪ | ᴘʟᴀʏᴇʀ`,
-      mimetype: 'video/mp4',
-    },
-    { quoted: m }
-  )
-  await m.react('✅')
-}
