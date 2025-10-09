@@ -69,35 +69,27 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
 > *≡ Enviando, espera un momento...*`
 
-    const rcanal = async () => {
-      return {
-        contextInfo: {
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363401008003732@newsletter',
-            serverMessageId: '',
-            newsletterName: '囹🎋𑜞 ᪲•˙ꨂ ֢✧: кαиєкι вσт ν3 - ¢нαииєℓ σffι¢ιαℓ ੈ♡‧₊˚'
-          },
-          externalAdReply: {
-            title: "𐔌 . ⋮ 𝗕 𝗨 𝗦 𝗖 𝗔 𝗡 𝗗 𝗢 .ᐟ ֹ ₊ ꒱",
-            body: "",
-            mediaUrl: null,
-            description: null,
-            previewType: "PHOTO",
-            thumbnail: await (await fetch('https://files.catbox.moe/ge2vz7.jpg')).buffer(),
-            sourceUrl: redes,
-            mediaType: 1,
-            renderLargerThumbnail: false
-          }
-        }
-      }
+     await conn.sendMessage(m.chat, {
+    text:  textoInfo,
+    mentions: [m.sender],
+    contextInfo: {
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: channelRD.id,
+        serverMessageId: '',
+        newsletterName: channelRD.name
+      },
+      externalAdReply: {
+        title: '𐔌 . ⋮ 🎬 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 - 𝗦𝗘𝗔𝗥𝗖𝗛 🏔️ .ᐟ ֹ ₊ ꒱',
+        body: '',
+        thumbnailUrl: meta.thumbnail,
+        sourceUrl: meta.url,
+        mediaType: 1,
+        renderLargerThumbnail: true
+      },
+     mentionedJid: null
     }
-
-    await conn.sendMessage(m.chat, {
-      image: { url: meta.thumbnail },
-      caption: textoInfo,
-      ...(await rcanal())
-    }, { quoted: m })
+  }, { quoted: m })
 
     const audioBuffer = await (await fetch(downloadUrl)).buffer()
     await conn.sendMessage(m.chat, {
