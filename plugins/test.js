@@ -1,99 +1,118 @@
-import yts from "yt-search"
-import { generateWAMessageFromContent, prepareWAMessageMedia, proto } from "@whiskeysockets/baileys"
+import yts from 'yt-search'
+import fetch from 'node-fetch'
+import { generateWAMessageFromContent, proto } from '@whiskeysockets/baileys'
 
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args[0]) return m.reply("🍉 *Ingresa un título para buscar en YouTube.*")
-  await m.react("🕓")
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) return m.reply('🍓 *Por favor ingresa el nombre de la canción que deseas buscar.*')
+
+  await m.react('🕓')
 
   try {
-    const res = await yts(args.join(" "))
-    const video = res.videos[0]
-    if (!video) return m.reply("✖️ *No se encontraron resultados.*")
+    const search = await yts(text)
+    const videos = search.all
+    if (!videos || videos.length === 0) throw 'No se encontraron resultados para tu búsqueda.'
 
-    const caption = `
-╭━━━〔 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 - 𝐏𝐋𝐀𝐘 〕━━⬣
-🍧 *${video.title}*
-│✧ *Canal:* ${video.author.name}
-│⌛ *Duración:* ${video.duration.timestamp}
-│👁️ *Vistas:* ${video.views.toLocaleString()}
-│📅 *Publicado:* ${video.ago}
-│🔗 *Link:* ${video.url}
-╰━━━━━━━━━━━━━━⬣
-`.trim()
+    const video = videos[0]
 
-    // 🔹 Carga la miniatura correctamente
-    const media = await prepareWAMessageMedia(
-      { image: { url: video.thumbnail } },
-      { upload: conn.waUploadToServer }
-    )
+    const info = `
+╭━━━〔 ✦ 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 ✦ 〕━━⬣
+🌸 *Título:* ${video.title}
+🎧 *Canal:* ${video.author.name || 'Desconocido'}
+⏱ *Duración:* ${video.timestamp}
+👀 *Vistas:* ${video.views}
+📅 *Publicado:* ${video.ago}
+🔗 *Link:* ${video.url}
+╰━━━━━━━━━━━━━━━━━━⬣
+`
 
-    // 🔹 Estructura correcta de mensaje interactivo
-    const msg = generateWAMessageFromContent(
+    await conn.sendMessage(
       m.chat,
       {
-        viewOnceMessage: {
-          message: {
-            messageContextInfo: {
-              deviceListMetadataVersion: 2,
-              deviceListMetadata: {},
-            },
-            interactiveMessage: {
-              header: {
-                title: "🎧 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 𝗣𝗟𝗔𝗬",
-                hasMediaAttachment: true,
-                imageMessage: media.imageMessage, // ✅ se coloca aquí correctamente
-              },
-              body: { text: caption },
-              footer: { text: "🩵 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 | 𝘽𝙊𝙏" },
-              nativeFlowMessage: {
-                buttons: [
-                  {
-                    name: "quick_reply",
-                    buttonParamsJson: JSON.stringify({
-                      display_text: "🎧 AUDIO DOC",
-                      id: `${usedPrefix}ytmp3doc ${video.url}`,
-                    }),
-                  },
-                  {
-                    name: "quick_reply",
-                    buttonParamsJson: JSON.stringify({
-                      display_text: "🎬 VIDEO DOC",
-                      id: `${usedPrefix}ytmp4doc ${video.url}`,
-                    }),
-                  },
-                  {
-                    name: "quick_reply",
-                    buttonParamsJson: JSON.stringify({
-                      display_text: "🎶 AUDIO",
-                      id: `${usedPrefix}yta ${video.url}`,
-                    }),
-                  },
-                  {
-                    name: "quick_reply",
-                    buttonParamsJson: JSON.stringify({
-                      display_text: "📹 VIDEO",
-                      id: `${usedPrefix}ytmp4 ${video.url}`,
-                    }),
-                  },
-                ],
-              },
-            },
+        image: { url: video.thumbnail },
+        caption: info,
+        footer: '✦ ʀɪɴ ɪᴛᴏꜱʜɪ | ᴘʟᴀʏᴇʀ',
+        buttons: [
+          {
+            buttonId: `.yta_2 ${video.url}`,
+            buttonText: { displayText: '🎵 ᥲᥙძі᥆' },
+            type: 1,
           },
-        },
+          {
+            buttonId: `.ytv_2 ${video.url}`,
+            buttonText: { displayText: '🎬 ᥎іძᥱ᥆' },
+            type: 1,
+          },
+        ],
+        headerType: 4,
+        viewOnce: true,
       },
       { quoted: m }
     )
 
-    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
-    await m.react("✅")
-  } catch (err) {
-    console.error(err)
-    await m.react("✖️")
-    m.reply("✖️ *Error al buscar o enviar el video.*")
+    await m.react('✅')
+  } catch (error) {
+    console.error(error)
+    await m.react('❌')
+    m.reply('⚠️ *Ocurrió un error al procesar la búsqueda.*')
   }
 }
 
-handler.help = ["play1"]
-handler.tags = ["descargas"]
-handler.command = ["play1"]
+handler.command = ['play1']
+handler.help = ['play1']
+handler.tags = ['descargas']
+handler.register = true
 export default handler
+
+// 🔊 DESCARGA AUDIO
+global.yta_2 = async (m, { conn, args }) => {
+  if (!args[0]) return m.reply('🎧 *Debes proporcionar el enlace de YouTube.*')
+  await m.react('🕓')
+
+  const url = args[0]
+  let res
+  try {
+    res = await (await fetch(`https://api.alyachan.dev/api/youtube?url=${url}&type=mp3&apikey=Gata-Dios`)).json()
+  } catch {
+    try {
+      res = await (await fetch(`https://delirius-apiofc.vercel.app/download/ytmp3?url=${url}`)).json()
+    } catch {
+      res = await (await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)).json()
+    }
+  }
+
+  if (!res.data || !res.data.url) return m.reply('❌ *No se pudo obtener el audio.*')
+
+  await conn.sendFile(m.chat, res.data.url, 'audio.mp3', '', m, null, { mimetype: 'audio/mpeg', asDocument: false })
+  await m.react('✅')
+}
+
+// 🎥 DESCARGA VIDEO
+global.ytv_2 = async (m, { conn, args }) => {
+  if (!args[0]) return m.reply('🎬 *Debes proporcionar el enlace de YouTube.*')
+  await m.react('🕓')
+
+  const url = args[0]
+  let res
+  try {
+    res = await (await fetch(`https://api.alyachan.dev/api/youtube?url=${url}&type=mp4&apikey=Gata-Dios`)).json()
+  } catch {
+    try {
+      res = await (await fetch(`https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`)).json()
+    } catch {
+      res = await (await fetch(`https://api.vreden.my.id/api/ytmp4?url=${url}`)).json()
+    }
+  }
+
+  if (!res.data || !res.data.url) return m.reply('❌ *No se pudo obtener el video.*')
+
+  await conn.sendMessage(
+    m.chat,
+    {
+      video: { url: res.data.url },
+      caption: '🎬 *Tu video está listo.*',
+      mimetype: 'video/mp4',
+    },
+    { quoted: m }
+  )
+  await m.react('✅')
+}
