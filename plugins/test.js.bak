@@ -50,6 +50,6 @@ let handler = async (m, { conn, usedPrefix }) => {
 
 handler.help = ["denegado"]
 handler.tags = ["info"]
-handler.command = ['denegado']
+handler.command = /^denegado$/i
 
 export default handler
