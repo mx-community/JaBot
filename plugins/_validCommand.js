@@ -36,8 +36,30 @@ const sadow_xyz = {
     }
   }
 }
-
+/*
 await conn.sendMessage(m.chat, { 
-  text: `🎋 El comando *<${comando}>* no existe.\n> Usa *${usedPrefix}help* para ver la lista de comandos disponibles.` 
+  text:
 }, { quoted: sadow_xyz })
-}}
+}}*/
+await conn.sendMessage(m.chat, {
+    text:  `🎋 El comando *<${comando}>* no existe.\n> Usa *${usedPrefix}help* para ver la lista de comandos disponibles.` ,
+    mentions: [m.sender],
+    contextInfo: {
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: channelRD.id,
+        serverMessageId: '',
+        newsletterName: channelRD.name
+      },
+      externalAdReply: {
+        title: ' 𝘒𝘢𝘯𝘦𝘬𝘪𝘉𝘰𝘵-𝘝3 🍓',
+        body: '💫 𝘗𝘰𝘸𝘦𝘳𝘦𝘥 𝘣𝘺 𝘚𝘩𝘢𝘥𝘰𝘸-𝘯𝘦𝘹',
+        thumbnailUrl: 'https://qu.ax/SRTGf.jpg',
+        sourceUrl: '',
+        mediaType: 1,
+        renderLargerThumbnail: true
+      },
+     mentionedJid: null
+    }
+  }, { quoted: sadow_xyz });
+}
