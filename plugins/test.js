@@ -33,14 +33,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         footer: '✦ ʀɪɴ ɪᴛᴏꜱʜɪ | ᴘʟᴀʏᴇʀ',
         buttons: [
           {
-            buttonId: `.yta_2 ${video.url}`,
-            buttonText: { displayText: '🎵 ᥲᥙძі᥆' },
-            type: 1,
+          buttonId: `.yta_2 ${videoInfo.url}`,
+          buttonText: {
+            displayText: 'ᥲᥙძі᥆',
           },
-          {
-            buttonId: `.ytv_2 ${video.url}`,
-            buttonText: { displayText: '🎬 ᥎іძᥱ᥆' },
-            type: 1,
+        },
+        {
+          buttonId: `.ytv_2 ${videoInfo.url}`,
+          buttonText: {
+            displayText: '᥎іძᥱ᥆',
           },
         ],
         headerType: 4,
@@ -57,7 +58,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 }
 
-handler.command = ['play1']
+handler.command = ['play1', 'yta_2', 'ytv_2']
 handler.help = ['play1']
 handler.tags = ['descargas']
 handler.register = true
