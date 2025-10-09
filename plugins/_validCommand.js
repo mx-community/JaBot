@@ -30,7 +30,7 @@ const sadow_xyz = {
   },
   message: {
     extendedTextMessage: {
-      text: "🌿 𝗞𝗮𝗻𝗲𝗸𝗶 | 𝐁𝐨𝐭 𝗩3",
+      text: "🌿 𝗞𝗮𝗻𝗲𝗸𝗶 | 𝐁𝐨𝐭 𝗩3 🚨",
       title: "Canal Oficial 💫",
       previewType: "NONE"
     }
