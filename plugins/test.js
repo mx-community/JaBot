@@ -1,10 +1,8 @@
-import { generateWAMessageFromContent, proto } from "@whiskeysockets/baileys"
+import { generateWAMessageFromContent } from "@whiskeysockets/baileys"
 
 let handler = async (m, { conn, usedPrefix }) => {
-  // Imagen del mensaje
-  const img = "https://files.catbox.moe/fft2hr.jpg" // cambia por la que quieras
+  const img = "https://files.catbox.moe/fft2hr.jpg"
 
-  // Texto decorado
   const texto = `
 ╭━⊰ 🌸 𝗔𝗰𝗰𝗲𝘀𝗼 𝗗𝗲𝗻𝗲𝗴𝗮𝗱𝗼 ⊱━╮
 > 🦋 𝗛𝗼𝗹𝗮, 𝗽𝗮𝗿𝗮 𝘂𝘀𝗮𝗿 𝗲𝘀𝘁𝗲 𝗰𝗼𝗺𝗮𝗻𝗱𝗼 𝗱𝗲𝗯𝗲𝘀 𝗲𝘀𝘁𝗮𝗿 𝗿𝗲𝗴𝗶𝘀𝘁𝗿𝗮𝗱𝗼.
@@ -13,23 +11,25 @@ let handler = async (m, { conn, usedPrefix }) => {
 ╰━━━━━━━━━━⬣
 `
 
-  const msg = generateWAMessageFromContent(m.chat, {
+  const media = await conn.prepareMessageMedia({ image: { url: img } }, { upload: conn.waUploadToServer })
+
+  const content = generateWAMessageFromContent(m.chat, {
     viewOnceMessage: {
       message: {
-        interactiveMessage: proto.Message.InteractiveMessage.create({
-          body: proto.Message.InteractiveMessage.Body.create({
-            text: texto
-          }),
-          header: proto.Message.InteractiveMessage.Header.create({
+        messageContextInfo: {
+          deviceListMetadata: {},
+          deviceListMetadataVersion: 2
+        },
+        interactiveMessage: {
+          header: {
             title: "Denegado — Regístrate",
             subtitle: "USD 0.00",
             hasMediaAttachment: true,
-            imageMessage: (await conn.prepareMessageMedia({ image: { url: img } }, { upload: conn.waUploadToServer })).imageMessage
-          }),
-          footer: proto.Message.InteractiveMessage.Footer.create({
-            text: "🦋 Nino Nakano Group ☆"
-          }),
-          nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+            imageMessage: media.imageMessage
+          },
+          body: { text: texto },
+          footer: { text: "xd" },
+          nativeFlowMessage: {
             buttons: [
               {
                 name: "quick_reply",
@@ -39,17 +39,17 @@ let handler = async (m, { conn, usedPrefix }) => {
                 })
               }
             ]
-          })
-        })
+          }
+        }
       }
     }
   }, {})
 
-  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+  await conn.relayMessage(m.chat, content.message, { messageId: content.key.id })
 }
 
 handler.help = ["denegado"]
 handler.tags = ["info"]
-handler.command = ['denegado']
+handler.command = ["denegado"]
 
 export default handler
