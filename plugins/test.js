@@ -1,52 +1,72 @@
-import pkg from '@whiskeysockets/baileys'
-const { proto, generateWAMessageFromContent } = pkg
+import yts from 'yt-search'
+import fetch from 'node-fetch'
 
-let handler = async (m, { conn, usedPrefix }) => {
-  const img = "https://files.catbox.moe/fft2hr.jpg"
+const handler = async (m, { conn, args, usedPrefix, command }) => {
+  if (!args[0]) return conn.reply(m.chat, `🍧 *Ingresa un título para buscar en YouTube.*`, m)
 
-  const texto = `
-╭━⊰ 🌸 𝗔𝗰𝗰𝗲𝘀𝗼 𝗗𝗲𝗻𝗲𝗴𝗮𝗱𝗼 ⊱━╮
-> 🦋 𝗛𝗼𝗹𝗮, 𝗽𝗮𝗿𝗮 𝘂𝘀𝗮𝗿 𝗲𝘀𝘁𝗲 𝗰𝗼𝗺𝗮𝗻𝗱𝗼 𝗱𝗲𝗯𝗲𝘀 𝗲𝘀𝘁𝗮𝗿 𝗿𝗲𝗴𝗶𝘀𝘁𝗿𝗮𝗱𝗼.
+  await m.react('🕓')
 
-✨ 𝗨𝘀𝗮: *${usedPrefix}reg* 𝗽𝗮𝗿𝗮 𝗿𝗲𝗴𝗶𝘀𝘁𝗿𝗮𝗿𝘁𝗲
-╰━━━━━━━━━━⬣
-`
+  try {
+    let searchResults = await searchVideos(args.join(" "))
+    if (!searchResults.length) throw new Error('*✖️ No se encontraron resultados.*')
 
-  const mediaMsg = await conn.prepareMessageMedia({ image: { url: img } }, { upload: conn.waUploadToServer })
+    let video = searchResults[0]
+    let thumbnail = await (await fetch(video.miniatura)).buffer()
 
-  const msg = generateWAMessageFromContent(m.chat, {
-    viewOnceMessage: {
-      message: {
-        interactiveMessage: proto.Message.InteractiveMessage.create({
-          body: proto.Message.InteractiveMessage.Body.create({ text: texto }),
-          footer: proto.Message.InteractiveMessage.Footer.create({ text: "...:." }),
-          header: proto.Message.InteractiveMessage.Header.create({
-            title: "Denegado — Regístrate",
-            subtitle: "USD 0.00",
-            hasMediaAttachment: true,
-            imageMessage: mediaMsg.imageMessage
-          }),
-          nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-            buttons: [
-              {
-                name: "quick_reply",
-                buttonParamsJson: JSON.stringify({
-                  display_text: "🪄 REGISTRARME",
-                  id: `${usedPrefix}reg`
-                })
-              }
-            ]
-          })
-        })
-      }
-    }
-  }, { userJid: m.chat, quoted: m })
+    const textMsg = `
+╭━━━〔 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 - 𝐏𝐋𝐀𝐘 〕━━⬣
+🍧 *${video.titulo}*
+│✧ *Canal:* ${video.canal}
+│⌛ *Duración:* ${video.duracion}
+│👁️ *Vistas:* ${video.vistas}
+│📅 *Publicado:* ${video.publicado}
+│🔗 *Link:* ${video.url}
+╰━━━━━━━━━━━━━━⬣
+    `.trim()
 
-  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+    const buttons = [
+      { index: 1, quickReplyButton: { displayText: '🎧 AUDIO DOC', id: `${usedPrefix}ytmp3doc ${video.url}` } },
+      { index: 2, quickReplyButton: { displayText: '🎬 VIDEO DOC', id: `${usedPrefix}ytmp4doc ${video.url}` } },
+      { index: 3, quickReplyButton: { displayText: '🎶 AUDIO', id: `${usedPrefix}yta ${video.url}` } },
+      { index: 4, quickReplyButton: { displayText: '📹 VIDEO', id: `${usedPrefix}ytmp4 ${video.url}` } }
+    ]
+
+    await conn.sendMessage(m.chat, {
+      image: thumbnail,
+      caption: textMsg,
+      footer: '🩵 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 | 𝘽𝙊𝙏',
+      templateButtons: buttons,
+      viewOnce: true
+    }, { quoted: m })
+
+    await m.react('✅')
+
+  } catch (e) {
+    console.error(e)
+    await m.react('✖️')
+    conn.reply(m.chat, '*✖️ Error: No se pudo encontrar el video.*', m)
+  }
 }
 
-handler.help = ["denegado"]
-handler.tags = ["info"]
-handler.command = ["denegado"]
-
+handler.help = ['play555']
+handler.tags = ['descargas']
+handler.command = ['play555']
 export default handler
+
+async function searchVideos(query) {
+  try {
+    const res = await yts(query)
+    return res.videos.slice(0, 10).map(video => ({
+      titulo: video.title,
+      url: video.url,
+      miniatura: video.thumbnail,
+      canal: video.author.name,
+      publicado: video.ago || 'No disponible',
+      vistas: video.views?.toLocaleString() || 'No disponible',
+      duracion: video.duration.timestamp || 'No disponible'
+    }))
+  } catch (error) {
+    console.error('*Error en yt-search:*', error.message)
+    return []
+  }
+}
