@@ -1,4 +1,4 @@
-/*import axios from "axios"
+import axios from "axios"
 import fetch from "node-fetch"
 import { sizeFormatter } from "human-readable"
 
@@ -33,24 +33,59 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
       await conn.reply(
         m.chat,
-        `⏳ *Procesando tu solicitud...*\n🕸️ Calidad actual: *${calidadPredeterminada}p*`,
+        `☁️ *Procesando tu solicitud...*\n🕸️ Calidad actual: *${calidadPredeterminada}p*`,
         m
       )
 
-      const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=${calidadPredeterminada}`
-      const res = await axios.get(apiUrl)
+      let apiUsada = "Vreden"
+      let meta, dl, fileSize, sizeMB
 
-      if (!res.data?.status) throw new Error("No se pudo obtener información del video.")
+      try {
+        const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=${calidadPredeterminada}`
+        const res = await axios.get(apiUrl)
+        if (!res.data?.status) throw new Error("Fallo en la API principal")
 
-      const result = res.data.result
-      const meta = result.metadata
-      const dl = result.download
+        const result = res.data.result
+        meta = result.metadata
+        dl = result.download
 
-      const head = await fetch(dl.url, { method: "HEAD" })
-      const size = head.headers.get("content-length")
-      const formatSize = sizeFormatter({ std: "JEDEC", decimalPlaces: 2 })
-      const fileSize = size ? formatSize(parseInt(size)) : "Desconocido"
-      const sizeMB = size ? parseInt(size) / 1024 / 1024 : 0
+        const head = await fetch(dl.url, { method: "HEAD" })
+        const size = head.headers.get("content-length")
+        const formatSize = sizeFormatter({ std: "JEDEC", decimalPlaces: 2 })
+        fileSize = size ? formatSize(parseInt(size)) : "Desconocido"
+        sizeMB = size ? parseInt(size) / 1024 / 1024 : 0
+
+      } catch (e) {
+        console.log("⚠️ Error en la API principal, intentando con la API de respaldo...")
+
+        apiUsada = "Starlight"
+        const backupUrl = `https://apis-starlights-team.koyeb.app/starlight/youtube-mp4?url=${encodeURIComponent(text)}&format=${calidadPredeterminada}p`
+        const res2 = await axios.get(backupUrl)
+
+        if (!res2.data?.dl_url) throw new Error("No se pudo obtener el enlace de descarga (API de respaldo)")
+
+        meta = {
+          title: res2.data.title,
+          duration: { timestamp: "Desconocido" },
+          author: { name: res2.data.author },
+          views: "-",
+          ago: "Desconocido",
+          url: res2.data.url,
+          thumbnail: res2.data.thumbnail,
+        }
+
+        dl = {
+          url: res2.data.dl_url,
+          filename: `${res2.data.title}.mp4`,
+          quality: res2.data.quality,
+        }
+
+        const head = await fetch(dl.url, { method: "HEAD" })
+        const size = head.headers.get("content-length")
+        const formatSize = sizeFormatter({ std: "JEDEC", decimalPlaces: 2 })
+        fileSize = size ? formatSize(parseInt(size)) : "Desconocido"
+        sizeMB = size ? parseInt(size) / 1024 / 1024 : 0
+      }
 
       const info = `🎶 *ＹＯＵＴＵＢＥ • ＭＰ4*  🍎
 ────────────────────
@@ -62,16 +97,34 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 > °𓃉𐇽ܳ𓏸☁️ᮬᩬִּ〫᪲۟. 𝐂𝐚𝐥𝐢𝐝𝐚𝐝: *${dl.quality}*
 > °𓃉𐇽ܳ𓏸🌷ᮬᩬִּ〫᪲۟. 𝐏𝐮𝐛𝐥𝐢𝐜𝐚𝐝𝐨: *${meta.ago}*
 > °𓃉𐇽ܳ𓏸🕸️ᮬᩬִּ〫᪲۟. 𝐋𝐢𝐧𝐤: *${meta.url}*
-> °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫: *Vreden*
+> °𓃉𐇽ܳ𓏸⚙️ᮬᩬִּ〫᪲۟. 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫: *${apiUsada}*
 ────────────────────
 
 > \`N O T A:\`
 > ρєяѕσиαℓιzα ℓα ¢αℓι∂α∂ ∂єℓ νι∂єσ ¢σи /setquality`
 
-      await conn.sendMessage(m.chat, {
-        image: { url: meta.thumbnail },
-        caption: info, ...rcanal
-      })
+  await conn.sendMessage(m.chat, {
+    text:  info,
+    mentions: [m.sender],
+    contextInfo: {
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: channelRD.id,
+        serverMessageId: '',
+        newsletterName: channelRD.name
+      },
+      externalAdReply: {
+        title: '🎬 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 - 𝗦𝗘𝗔𝗥𝗖𝗛 🏔️',
+        body: '',
+        thumbnailUrl: meta.thumbnail,
+        sourceUrl: meta.url,
+        mediaType: 1,
+        renderLargerThumbnail: true
+      },
+     mentionedJid: null
+    }
+  }, { quoted: m })
+
 
       if (sizeMB > 100) {
         await conn.sendMessage(
@@ -80,7 +133,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             document: { url: dl.url },
             mimetype: "video/mp4",
             fileName: dl.filename,
-            caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n Calidad: ${dl.quality}\n> Enviado como documento (más de 100 MB).`,
+            caption: `> *${meta.title}*\n> Tamaño: ${fileSize}\n> Calidad: ${dl.quality}\n> Servidor: ${apiUsada}\n> Enviado como documento (más de 100 MB).`,
           },
           { quoted: m }
         )
@@ -91,7 +144,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             video: { url: dl.url },
             mimetype: "video/mp4",
             fileName: dl.filename,
-            caption: `> 🎋 *${meta.title}*\n> 🍧 Tamaño: ${fileSize}\n> ⚙️ Calidad: ${dl.quality}`,
+            caption: `> 🎋 *${meta.title}*\n> 🍧 Tamaño: ${fileSize}\n> ⚙️ Calidad: ${dl.quality}\n> ☁️ Servidor: ${apiUsada}`,
           },
           { quoted: m }
         )
@@ -111,7 +164,11 @@ handler.help = ["ytmp4 <url>", "setcalidad <valor>"]
 handler.tags = ["descargas"]
 handler.command = ["ytmp4", "setcalidad", "setquality"]
 
-export default handler*/
+export default handler
+
+/*
+
+
 
 import fetch from "node-fetch"
 
@@ -170,4 +227,4 @@ handler.help = ["ytmp4"]
 handler.tags = ["downloader"]
 handler.command = ["ytmp4"]
 
-export default handler
+export default handler*/
