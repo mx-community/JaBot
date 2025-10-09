@@ -1,10 +1,8 @@
 import yts from "yt-search"
-import fetch from "node-fetch"
-import { generateWAMessageFromContent, proto, prepareWAMessageMedia } from "@whiskeysockets/baileys"
+import { generateWAMessageFromContent, prepareWAMessageMedia, proto } from "@whiskeysockets/baileys"
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!args[0]) return m.reply("🍉 *Ingresa un título para buscar en YouTube.*")
-
   await m.react("🕓")
 
   try {
@@ -23,64 +21,68 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 ╰━━━━━━━━━━━━━━⬣
 `.trim()
 
-    // Prepara la imagen correctamente
-    const mediaMsg = await prepareWAMessageMedia(
+    // 🔹 Carga la miniatura correctamente
+    const media = await prepareWAMessageMedia(
       { image: { url: video.thumbnail } },
       { upload: conn.waUploadToServer }
     )
 
-    const interactiveMessage = proto.Message.InteractiveMessage.create({
-      header: {
-        hasMediaAttachment: true,
-        ...mediaMsg,
-      },
-      body: { text: caption },
-      footer: { text: "🩵 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 | 𝘽𝙊𝙏" },
-      nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-        buttons: [
-          {
-            name: "quick_reply",
-            buttonParamsJson: JSON.stringify({
-              display_text: "🎧 AUDIO DOC",
-              id: `${usedPrefix}ytmp3doc ${video.url}`,
-            }),
+    // 🔹 Estructura correcta de mensaje interactivo
+    const msg = generateWAMessageFromContent(
+      m.chat,
+      {
+        viewOnceMessage: {
+          message: {
+            messageContextInfo: {
+              deviceListMetadataVersion: 2,
+              deviceListMetadata: {},
+            },
+            interactiveMessage: {
+              header: {
+                title: "🎧 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 𝗣𝗟𝗔𝗬",
+                hasMediaAttachment: true,
+                imageMessage: media.imageMessage, // ✅ se coloca aquí correctamente
+              },
+              body: { text: caption },
+              footer: { text: "🩵 𝙍𝙞𝙣 𝙄𝙩𝙤𝙨𝙝𝙞 | 𝘽𝙊𝙏" },
+              nativeFlowMessage: {
+                buttons: [
+                  {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "🎧 AUDIO DOC",
+                      id: `${usedPrefix}ytmp3doc ${video.url}`,
+                    }),
+                  },
+                  {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "🎬 VIDEO DOC",
+                      id: `${usedPrefix}ytmp4doc ${video.url}`,
+                    }),
+                  },
+                  {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "🎶 AUDIO",
+                      id: `${usedPrefix}yta ${video.url}`,
+                    }),
+                  },
+                  {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                      display_text: "📹 VIDEO",
+                      id: `${usedPrefix}ytmp4 ${video.url}`,
+                    }),
+                  },
+                ],
+              },
+            },
           },
-          {
-            name: "quick_reply",
-            buttonParamsJson: JSON.stringify({
-              display_text: "🎬 VIDEO DOC",
-              id: `${usedPrefix}ytmp4doc ${video.url}`,
-            }),
-          },
-          {
-            name: "quick_reply",
-            buttonParamsJson: JSON.stringify({
-              display_text: "🎶 AUDIO",
-              id: `${usedPrefix}yta ${video.url}`,
-            }),
-          },
-          {
-            name: "quick_reply",
-            buttonParamsJson: JSON.stringify({
-              display_text: "📹 VIDEO",
-              id: `${usedPrefix}ytmp4 ${video.url}`,
-            }),
-          },
-        ],
-      }),
-    })
-
-    const msg = generateWAMessageFromContent(m.chat, {
-      viewOnceMessage: {
-        message: {
-          messageContextInfo: {
-            deviceListMetadataVersion: 2,
-            deviceListMetadata: {},
-          },
-          interactiveMessage,
         },
       },
-    })
+      { quoted: m }
+    )
 
     await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
     await m.react("✅")
