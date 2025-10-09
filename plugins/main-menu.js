@@ -307,33 +307,27 @@ let handler = async (m, { conn }) => {
     const channelRD = { id: '120363404182502020@newsletter', name: '┊▬ 𝘒𝘈𝘕𝘌𝘒𝘐 𝘒𝘌𝘕 ▬ ❜┊' }
 
     await conn.sendMessage(m.chat, {
-    document: await (await fetch(banner)).buffer(),
-    fileName: '^1.8.2 | Lastest 🍉',
-    mimetype: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    fileLength: 0,
-    pageCount: 1,
-    caption: menu, // ✅ aquí va tu texto o menú
-    contextInfo: {
-      forwardingScore: 0,
-      isForwarded: true,
-      mentionedJid: [m.sender],
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: channelRD.id,
-        serverMessageId: '',
-        newsletterName: channelRD.name
-      },
-      externalAdReply: {
-        title: botname,
-        body: textbot,
-        mediaType: 1,
-        thumbnailUrl: randomIcono,
-        mediaUrl: redes,
-        sourceUrl: redes,
-        showAdAttribution: false,
-        renderLargerThumbnail: true
+      text: menu,
+      contextInfo: {
+        mentionedJid: [mentionedJid],
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: channelRD.id,
+          serverMessageId: '',
+          newsletterName: channelRD.name
+        },
+        externalAdReply: {
+          title: botname,
+          body: textbot,
+          mediaType: 1,
+          mediaUrl: redes,
+          sourceUrl: redes,
+          thumbnailUrl: randomIcono,
+          showAdAttribution: false,
+          renderLargerThumbnail: true
+        }
       }
-    }
-  }, { quoted: m })
+    }, { quoted: m })
 
   } catch (e) {
     console.error(e)
