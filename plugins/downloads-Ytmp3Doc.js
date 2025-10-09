@@ -154,7 +154,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     }, { quoted: fkontak })
 
   try {
-    // 🔍 Buscar en YT
+
     let res = await fetch(`https://delirius-apiofc.vercel.app/search/ytsearch?q=${encodeURIComponent(q)}`)
     let json = await res.json()
     if (!json.status || !json.data || !json.data.length) {
@@ -163,7 +163,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let vid = json.data[0]
 
-    // 📥 Descargar con SAVETUBE
     let info = await savetube.download(vid.url)
     if (!info.status) {
       return conn.sendMessage(m.chat, { text: `🌿 No se pudo obtener el audio de *${vid.title}*.` }, { quoted: m })
