@@ -144,7 +144,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             video: { url: dl.url },
             mimetype: "video/mp4",
             fileName: dl.filename,
-            caption: `> 🎋 *${meta.title}*\n> 🍧 Tamaño: ${fileSize}\n> ⚙️ Calidad: ${dl.quality}\n> ☁️ Servidor: ${apiUsada}`,
+            caption: `> 🎋 *${meta.title}*\n> *🍧 Tamaño:* ${fileSize}\n> ⚙️ *Calidad:* ${dl.quality}\n> ☁️ *Servidor:* ${apiUsada}`,
           },
           { quoted: m }
         )
