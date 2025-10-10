@@ -125,7 +125,7 @@ let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
 
     let txtCode = await conn.sendMessage(m.chat, {
-      image: { url: 'https://files.catbox.moe/e0lxcl.jpg' },
+      image: { url: 'https://i.pinimg.com/originals/ab/e7/e4/abe7e489d32433fc81b866fe162548d6.jpg' },
       caption: rtx2,
       contextInfo: {
         mentionedJid: [m.sender],
@@ -137,7 +137,7 @@ secret = secret.match(/.{1,4}/g)?.join("-")
          },
         isForwarded: true
       }
-    }, { quoted: fkontak });
+    }, { quoted: m });
 
 codeBot = await conn.reply(m.chat, `*${secret}*`, fkontak);
 
