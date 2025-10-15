@@ -15,18 +15,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       throw `❌ No se encontraron resultados para: *${text}*`
     }
 
-    let txt = `╭━━━〔 🔍 *Resultados de MediaFire* 〕━━⬣\n`
+    let txt = `╭━━━〔 🔍 *Resultados de MediaFire* 〕\n`
     txt += `┃ ✨ *Búsqueda:* ${text}\n`
     txt += `┃ 👑 *Creador:* ShadowCore\n`
     txt += `╰━━━━━━━━━━━━━━━━━━⬣\n\n`
 
     json.results.forEach((file, i) => {
       txt += `📁 *${i + 1}.* ${file.filename || 'Archivo desconocido'}\n`
-      txt += `┆📦 *Tamaño:* ${file.filesize || 'Desconocido'}\n`
-      txt += `┆🔗 *Link:* ${file.url || 'No disponible'}\n`
-      txt += `┆🌐 *Fuente:* ${file.source_title || 'Sin título'}\n`
-      txt += `┆🔸 *URL Fuente:* ${file.source_url || 'No disponible'}\n`
-      txt += `╰━━━━━━━━━━━━⬣\n\n`
+      txt += `📦 *Tamaño:* ${file.filesize || 'Desconocido'}\n`
+      txt += `🔗 *Link:* ${file.url || 'No disponible'}\n`
+      txt += `🌐 *Fuente:* ${file.source_title || 'Sin título'}\n`
+      txt += `🔸 *URL Fuente:* ${file.source_url || 'No disponible'}\n`
+      txt += `\n\n`
     })
 
     await m.react('✔️')

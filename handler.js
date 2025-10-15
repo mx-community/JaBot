@@ -45,6 +45,17 @@ if (!("description" in user)) user.description = ""
 if (!("packstickers" in user)) user.packstickers = null
 if (!("premium" in user)) user.premium = false
 if (!user.premium) user.premiumTime = 0
+
+
+if (!('registered' in user)) user.registered = false
+
+if (!user.registered) {
+if (!('name' in user)) user.name = m.name
+if (!isNumber(user.age)) user.age = -1
+if (!isNumber(user.regTime)) user.regTime = -1
+
+
+
 if (!("banned" in user)) user.banned = false
 if (!("bannedReason" in user)) user.bannedReason = ""
 if (!isNumber(user.commands)) user.commands = 0
@@ -66,6 +77,7 @@ packstickers: null,
 premium: false,
 premiumTime: 0,
 banned: false,
+registered: false,
 bannedReason: "",
 commands: 0,
 afk: -1,
@@ -303,6 +315,10 @@ if (plugin.private && m.isGroup) {
 fail("private", m, this)
 continue
 }
+if (plugin.register == true && _user.registered == false) { 
+fail('unreg', m, this)
+continue
+}
 m.isCommand = true
 m.exp += plugin.exp ? parseInt(plugin.exp) : 10
 let extra = {
@@ -363,6 +379,11 @@ console.log(m.message)
 }}}
 
 global.dfail = (type, m, conn) => {
+
+let edadaleatoria = ['10', '28', '20', '40', '18', '21', '15', '11', '9', '17', '25'].getRandom()
+let user2 = m.pushName || 'Anónimo'
+let verifyaleatorio = ['registrar', 'reg', 'verificar', 'verify', 'register'].getRandom()
+
 const msg = {
 rowner: `🎋 El comando *${comando}* solo puede ser usado por los creadores del bot.`, 
 owner: `🍏 El comando *${comando}* solo puede ser usado por los desarrolladores del bot.`, 
@@ -372,6 +393,7 @@ group: `🎐 El comando *${comando}* solo puede ser usado en grupos.`,
 private: `🌷 El comando *${comando}* solo puede ser usado al chat privado del bot.`,
 admin: `🏔️ El comando *${comando}* solo puede ser usado por los administradores del grupo.`, 
 botAdmin: `🌱 Para ejecutar el comando *${comando}* debo ser administrador del grupo.`,
+unreg: `🌾 El comando *${comando}* solo puede ser usado por los usuarios registrado, registrate usando:\n> » #${verifyaleatorio} ${user2}.${edadaleatoria}`,
 restrict: `🍂 Esta caracteristica está desactivada.`
 }[type]
 if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))

@@ -3,7 +3,7 @@ import axios from "axios"
 import path from "path"
 import { fileTypeFromBuffer } from "file-type"
 
-const GITHUB_USER = "TU_USUARIO"           // tu usuario de GitHub
+const GITHUB_USER = "Shadow-nex"           // tu usuario de GitHub
 const GITHUB_REPO = "Storage-CS"           // tu repositorio
 const GITHUB_TOKEN = "TU_TOKEN"            // tu token personal de GitHub
 

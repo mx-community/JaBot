@@ -103,8 +103,7 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
 
   } catch (error) {
     console.error(error);
-    await m.react('✖️');
-    await m.reply('❌ Hubo un error al procesar la búsqueda en SoundCloud.');
+    await m.reply('Hubo un error al procesar la búsqueda en SoundCloud.');
   }
 }
 

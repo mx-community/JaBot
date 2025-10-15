@@ -47,7 +47,7 @@ async function generarBienvenida({ conn, userId, groupMetadata, chat }) {
 ● ${mensaje}
 ◆ _Ahora somos ${groupSize} Miembros._
 ꕥ Fecha » ${fecha}
-🌎 País » ${pais}
+= País » ${pais}
 ૮꒰ ˶• ᴗ •˶꒱ა ¡Disfruta tu estadía en el grupo!
 > *➮ Usa _#help_ para ver la lista de comandos.*
 `.trim()
@@ -112,7 +112,7 @@ async function generarDespedida({ conn, userId, groupMetadata, chat }) {
 ● ${mensaje}
 ◆ _Ahora somos ${groupSize} Miembros._
 ꕥ Fecha » ${fecha}
-🌎 País » ${pais}
+= País » ${pais}
 (˶˃⤙˂˶) ¡Te esperamos pronto!
 > *➮ Usa _#help_ para ver la lista de comandos.*
 `.trim()
