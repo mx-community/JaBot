@@ -3,7 +3,7 @@ import yts from 'yt-search'
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
 try {
-if (!text.trim()) return conn.reply(m.chat, `❀ Por favor, ingresa el nombre de la música a descargar.`, m)
+if (!text.trim()) return conn.reply(m.chat, `🌴 Por favor, ingresa el nombre de la música a descargar.`, m, rcanal);
 await m.react('🕒')
 const videoMatch = text.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/|v\/))([a-zA-Z0-9_-]{11})/)
 const query = videoMatch ? 'https://youtu.be/' + videoMatch[1] : text
@@ -15,17 +15,17 @@ if (seconds > 1800) throw '⚠ El video supera el límite de duración (10 minut
 const vistas = formatViews(views)
 const info = `「✦」Descargando *<${title}>*\n\n> ❑ Canal » *${author.name}*\n> ♡ Vistas » *${vistas}*\n> ✧︎ Duración » *${timestamp}*\n> ☁︎ Publicado » *${ago}*\n> ➪ Link » ${url}`
 const thumb = (await conn.getFile(thumbnail)).data
-await conn.sendMessage(m.chat, { image: thumb, caption: info }, { quoted: m })
+await conn.sendMessage(m.chat, { image: thumb, caption: info ...rcanal}, { quoted: m })
 if (['play', 'yta', 'ytmp3', 'playaudio'].includes(command)) {
 const audio = await getAud(url)
 if (!audio?.url) throw '⚠ No se pudo obtener el audio.'
-m.reply(`> ❀ *Audio procesado. Servidor:* \`${audio.api}\``)
+//m.reply(`> ❀ *Audio procesado. Servidor:* \`${audio.api}\``)
 await conn.sendMessage(m.chat, { audio: { url: audio.url }, fileName: `${title}.mp3`, mimetype: 'audio/mpeg' }, { quoted: m })
 await m.react('✔️')
 } else if (['play2', 'ytv', 'ytmp4', 'mp4'].includes(command)) {
 const video = await getVid(url)
 if (!video?.url) throw '⚠ No se pudo obtener el video.'
-m.reply(`> ❀ *Vídeo procesado. Servidor:* \`${video.api}\``)
+//m.reply(`> ❀ *Vídeo procesado. Servidor:* \`${video.api}\``)
 await conn.sendFile(m.chat, video.url, `${title}.mp4`, `> ❀ ${title}`, m)
 await m.react('✔️')
 }} catch (e) {
