@@ -29,7 +29,7 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
     const pais = phone.getRegionCode() || 'Desconocido 🌐'
     
     const perfil = await conn.profilePictureUrl(conn.user.jid, 'image')
-      .catch(() => 'https://files.catbox.moe/9i5o9z.jpg')
+      .catch(() => 'https://i.pinimg.com/originals/b3/67/d5/b367d513d861de468305c32c6cd22756.jpg')
 
     const channelRD = { 
       id: '120363422142340004@newsletter', 
@@ -48,13 +48,13 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
         },
         externalAdReply: {
           title: '🩸 Kaneki Bot AI',
-          body: '☯ Dev: Shadow_xyz & OmarGranda',
+          body: '☯ Dev: Shadow_xyz ☁️',
           mediaUrl: null,
           description: null,
           previewType: "PHOTO",
           thumbnailUrl: perfil,
           mediaType: 1,
-          renderLargerThumbnail: true
+          renderLargerThumbnail: false
         }
       }
     }
