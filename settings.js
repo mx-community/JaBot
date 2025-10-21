@@ -48,7 +48,7 @@ global.channel = "https://whatsapp.com/channel/0029VbC34Nt42DchIWA0q11f"
 global.github = "https://github.com/Shadow-nex/KanekiBot-V3"
 global.gmail = "shadowcore.xyz@gmail.com"
 global.ch = {
-ch1: "120363401404146384@newsletter"
+ch1: "120363422142340004@newsletter"
 }
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
