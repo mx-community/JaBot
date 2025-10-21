@@ -18,7 +18,7 @@ let name = await (async () => global.db.data.users[who].name || (async () => { t
 const target = global.db.data.users[who]
 const tiempoInactivo = Date.now() - (target.lastwork || 0)
 if (tiempoInactivo < 3600000) {
-return conn.reply(m.chat, `ꕥ Solo puedes robarle *${currency}* a un usuario si estuvo más de 1 hora inactivo.`, m)
+return conn.reply(m.chat, `ꕥ Solo puedes robarle *${currency}* a un usuario si estuvo más de 1 hora inactivo.`, m, rcanal)
 }
 const rob = Math.floor(Math.random() * 1001) + 2000
 if (target.coin < rob) {
