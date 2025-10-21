@@ -128,7 +128,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 }
 
-handler.command = [''playaudio', 'playvideo']
+handler.command = ['playaudio', 'playvideo']
 handler.help = ['playaudio', 'playvideo']
 handler.tags = ['descargas']
 export default handler
