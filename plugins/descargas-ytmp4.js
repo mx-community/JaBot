@@ -40,7 +40,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (!data?.result?.download?.url) throw `No se pudo obtener el enlace de descarga.`
 
-    const { title, thumbnail, author, views, ago, duration } = data.result.metadata
+    const { title, author, views, ago, duration } = data.result.metadata
     const { url, quality } = data.result.download
 
     const head = await fetch(url, { method: "HEAD" })
@@ -48,7 +48,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const sizeMB = size ? Number(size) / (1024 * 1024) : 0
 
     const caption = `╔═══❖•ೋ° ⚜️ °ೋ•❖═══╗
-    🎬 *ＹＯＵＴＵＢＥ ＶＩＤＥＯ* 🌷
+🎬 *ＹＯＵＴＵＢＥ ＶＩＤＥＯ* 🌷
 ╚═══❖•ೋ° ⚜️ °ೋ•❖═══╝
 🍉 *Título:* ${title}
 📡 *Canal:* ${author?.name}
@@ -58,30 +58,14 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 🎚 *Calidad:* ${quality}p
 💾 *Tamaño:* ${formatSize(size)}
 ────────────────────
-✨ *Enviando tu archivo...*`
+✨ *Descarga Completa...*`
 
     await conn.sendMessage(m.chat, {
-      image: { url: thumbnail },
+      video: { url },
+      mimetype: "video/mp4",
+      fileName: `${title}.mp4`,
       caption
     }, { quoted: m })
-
-    await m.react('📥')
-
-    if (sizeMB > 100) {
-      await conn.sendMessage(m.chat, {
-        document: { url },
-        mimetype: "video/mp4",
-        fileName: `${title}.mp4`,
-        caption: `🌿 *${title}* (Enviado como documento x pesar mas de 100 MB)`
-      }, { quoted: m })
-    } else {
-      await conn.sendMessage(m.chat, {
-        video: { url },
-        mimetype: "video/mp4",
-        fileName: `${title}.mp4`,
-        caption: `☃️ *${title}*`
-      }, { quoted: m })
-    }
 
     await m.react('✔️')
 

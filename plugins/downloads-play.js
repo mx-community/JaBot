@@ -104,20 +104,22 @@ export default handler
 
 async function getAud(url) {
   const apis = [
-    { api: 'ZenzzXD', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
-    { api: 'ZenzzXD v2', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp3v2?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
-    { api: 'Yupra', endpoint: `${global.APIs.yupra.url}/api/downloader/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.resultado?.enlace },
-    { api: 'Vreden', endpoint: `${global.APIs.vreden.url}/api/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.result?.download?.url }
+    {
+      api: 'Vreden',
+      endpoint: `https://api.vreden.my.id/api/v1/download/youtube/audio?url=${encodeURIComponent(url)}&quality=128`,
+      extractor: res => res.result?.download?.url
+    }
   ]
   return await fetchFromApis(apis)
 }
 
 async function getVid(url) {
   const apis = [
-    { api: 'ZenzzXD', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
-    { api: 'ZenzzXD v2', endpoint: `${global.APIs.zenzxz.url}/downloader/ytmp4v2?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
-    { api: 'Yupra', endpoint: `${global.APIs.yupra.url}/api/downloader/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.resultado?.formatos?.[0]?.url },
-    { api: 'Vreden', endpoint: `${global.APIs.vreden.url}/api/ytmp4?url=${encodeURIComponent(url)}`, extractor: res => res.result?.download?.url }
+    {
+      api: 'ZenzzXD',
+      endpoint: `https://api.zenzxz.my.id/api/downloader/ytmp4?url=${encodeURIComponent(url)}&resolution=360p`,
+      extractor: res => res.data?.download_url
+    }
   ]
   return await fetchFromApis(apis)
 }
@@ -137,6 +139,7 @@ async function fetchFromApis(apis) {
   return null
 }
 
+// 🔹 Formato de vistas bonito
 function formatViews(views) {
   if (views === undefined) return "No disponible"
   if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
