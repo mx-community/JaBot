@@ -1,4 +1,4 @@
-export async function before(m, { groupMetadata }) {
+/*export async function before(m, { groupMetadata }) {
 if (!m.text || !global.prefix.test(m.text)) return
 const usedPrefix = global.prefix.exec(m.text)[0]
 const command = m.text.slice(usedPrefix.length).trim().split(' ')[0].toLowerCase()
@@ -23,4 +23,4 @@ if (validCommand(command, global.plugins)) {
 } else {
 const comando = command
 await m.reply(`🎋 El comando *<${comando}>* no existe.\n> Usa *${usedPrefix}help* para ver la lista de comandos disponibles.`)
-}}
+}}*/
