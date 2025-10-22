@@ -24,12 +24,13 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (seconds > 60000) throw '⚠ El video supera el límite de duración (10 minutos).'
 
     const vistas = formatViews(views)
-    const info = `🕸️ Descargando *<${title}>*\n
+    const info = `🕸️ *Titulo:* ${title}
+
 🎋 *Canal:* ${author.name}
 🍊 *Vistas:* ${vistas}
 🌿︎ *Duración:* ${timestamp}
 ✨︎ *Publicado:* ${ago}
-🍉 *Link » ${url}`
+🍉 *Link:* ${url}`
 
     const thumb = (await conn.getFile(thumbnail)).data
     await conn.sendMessage(m.chat, { image: thumb, caption: info, ...rcanal }, { quoted: fkontak })
@@ -37,7 +38,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (['play', 'mp3'].includes(command)) {
       await m.react('🎧')
       const audio = await savetube.download(url, "audio")
-      if (!audio?.status) throw `❌ Error al obtener el audio: ${audio.error}`
+      if (!audio?.status) throw `Error al obtener el audio: ${audio.error}`
 
       await conn.sendMessage(
         m.chat,
