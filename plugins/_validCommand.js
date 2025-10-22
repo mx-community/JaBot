@@ -1,4 +1,4 @@
-/*export async function before(m, { groupMetadata }) {
+export async function before(m, { groupMetadata }) {
 if (!m.text || !global.prefix.test(m.text)) return
 const usedPrefix = global.prefix.exec(m.text)[0]
 const command = m.text.slice(usedPrefix.length).trim().split(' ')[0].toLowerCase()
@@ -50,7 +50,7 @@ await conn.sendMessage(m.chat, {
       externalAdReply: {
         title: '🍉 𝘒𝘢𝘯𝘦𝘬𝘪𝘉𝘰𝘵-𝘝3 🍓',
         body: '💫 𝘗𝘰𝘸𝘦𝘳𝘦𝘥 𝘣𝘺 𝘚𝘩𝘢𝘥𝘰𝘸-𝘯𝘦𝘹',
-        thumbnailUrl: 'https://qu.ax/SRTGf.jpg',
+        thumbnailUrl: 'https://files.catbox.moe/1pz6qa.jpg',
         sourceUrl: '',
         mediaType: 1,
         renderLargerThumbnail: true
@@ -58,4 +58,4 @@ await conn.sendMessage(m.chat, {
      mentionedJid: null
     }
   }, { quoted: sadow_xyz });
-}}*/
+}}
