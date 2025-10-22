@@ -84,16 +84,18 @@ handler.group = true
 
 export default handler
 
+
 async function getAud(url) {
   const apis = [
     {
-      api: 'Ultraplus',
-      endpoint: `https://api-nv.ultraplus.click/api/youtube/v3?url=${encodeURIComponent(url)}&key=hYSK8YrJpKRc9jSE`,
-      extractor: res => res?.url
+      api: 'Zenzxz',
+      endpoint: `https://api.zenzxz.my.id/api/downloader/ytmp3?url=${encodeURIComponent(url)}`,
+      extractor: res => res?.data?.download_url
     }
   ]
   return await fetchFromApis(apis)
 }
+
 
 async function getVid(url) {
   const apis = [
