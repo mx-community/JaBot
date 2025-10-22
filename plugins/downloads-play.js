@@ -19,15 +19,15 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!result) throw '⚠️ No se encontraron resultados.'
 
     const { title, thumbnail, timestamp, views, ago, url, author, seconds } = result
-    if (seconds > 600) throw '⚠ El video supera el límite de duración (10 minutos).'
+    if (seconds > 60000) throw '⚠ El video supera el límite de duración (10 minutos).'
 
     const vistas = formatViews(views)
-    const info = `「✦」Descargando *<${title}>*\n
-> ❑ Canal » *${author.name}*
-> ♡ Vistas » *${vistas}*
-> ✧︎ Duración » *${timestamp}*
-> ☁︎ Publicado » *${ago}*
-> ➪ Link » ${url}`
+    const info = `🕸️ Descargando *<${title}>*\n
+> ❑ *Canal:* ${author.name}
+> ♡ *Vistas:* ${vistas}
+> ✧︎ *Duración:* ${timestamp}
+> ☁︎ *Publicado:* ${ago}
+> ➪ *Link » ${url}`
 
     const thumb = (await conn.getFile(thumbnail)).data
     await conn.sendMessage(m.chat, { image: thumb, caption: info, ...rcanal }, { quoted: fkontak })
@@ -35,22 +35,13 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     if (['play', 'mp3'].includes(command)) {
       const audio = await getAud(url)
       if (!audio?.url) throw '⚠ No se pudo obtener el audio.'
+
       await conn.sendMessage(
         m.chat,
         {
           audio: { url: audio.url },
           fileName: `${title}.mp3`,
-          mimetype: 'audio/mpeg',
-          contextInfo: {
-            externalAdReply: {
-              title: title,
-              body: '',
-              thumbnailUrl: thumbnail,
-              sourceUrl: url,
-              mediaType: 1,
-              renderLargerThumbnail: false
-            }
-          }
+          mimetype: 'audio/mpeg'
         },
         { quoted: m }
       )
@@ -60,23 +51,14 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     else if (['play2', 'mp4'].includes(command)) {
       const video = await getVid(url)
       if (!video?.url) throw '⚠ No se pudo obtener el video.'
+
       await conn.sendMessage(
         m.chat,
         {
           video: { url: video.url },
           fileName: `${title}.mp4`,
           mimetype: 'video/mp4',
-          caption: `⭐ *${title}*`,
-          contextInfo: {
-            externalAdReply: {
-              title: title,
-              body: '🎬 Video descargado correctamente',
-              thumbnailUrl: thumbnail,
-              sourceUrl: url,
-              mediaType: 1,
-              renderLargerThumbnail: false
-            }
-          }
+          caption: `> ⭐ *${title}*`
         },
         { quoted: m }
       )
@@ -105,9 +87,9 @@ export default handler
 async function getAud(url) {
   const apis = [
     {
-      api: 'Vreden',
-      endpoint: `https://api.vreden.my.id/api/v1/download/youtube/audio?url=${encodeURIComponent(url)}&quality=128`,
-      extractor: res => res.result?.download?.url
+      api: 'Ultraplus',
+      endpoint: `https://api-nv.ultraplus.click/api/youtube/v3?url=${encodeURIComponent(url)}&key=hYSK8YrJpKRc9jSE`,
+      extractor: res => res?.url
     }
   ]
   return await fetchFromApis(apis)
@@ -116,9 +98,9 @@ async function getAud(url) {
 async function getVid(url) {
   const apis = [
     {
-      api: 'ZenzzXD',
-      endpoint: `https://api.zenzxz.my.id/api/downloader/ytmp4?url=${encodeURIComponent(url)}&resolution=360p`,
-      extractor: res => res.data?.download_url
+      api: 'Yupra',
+      endpoint: `https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(url)}`,
+      extractor: res => res?.result?.formats?.[0]?.url
     }
   ]
   return await fetchFromApis(apis)
@@ -133,13 +115,14 @@ async function fetchFromApis(apis) {
       clearTimeout(timeout)
       const link = extractor(res)
       if (link) return { url: link, api }
-    } catch {}
+    } catch (err) {
+      console.log(`❌ Error en API ${api}:`, err.message)
+    }
     await new Promise(resolve => setTimeout(resolve, 500))
   }
   return null
 }
 
-// 🔹 Formato de vistas bonito
 function formatViews(views) {
   if (views === undefined) return "No disponible"
   if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
