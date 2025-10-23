@@ -3,28 +3,32 @@ import Jimp from 'jimp'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
-    return m.reply(`🍂 *Uso correcto:*\n\n✦ \`${usedPrefix + command}\` <url de Spotify>\n\n📌 Ejemplo:\n${usedPrefix + command} https://open.spotify.com/track/3aPRjg26MXywx4V89uyjad`)
+    return m.reply(`🍂 *Uso correcto:*\n\n✦ \`${usedPrefix + command}\` <url o nombre de canción>\n\n📌 Ejemplo:\n${usedPrefix + command} https://open.spotify.com/track/3aPRjg26MXywx4V89uyjad`)
   }
 
   try {
-    let info, json
+    await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
+    let info = null
+    let json = {}
 
-    if (text.includes("spotify.com/track")) {
-      const url1 = `https://api.delirius.store/download/spotifydl?url=${encodeURIComponent(text)}`
-      const res1 = await fetch(url1)
-      if (!res1.ok) throw await res1.text()
-      const j1 = await res1.json()
-      if (!j1 || !j1.data || !j1.data.url) throw "No pude obtener la descarga"
+    if (text.includes('spotify.com/track')) {
+      const apiUrl = `https://api-nv.ultraplus.click/api/download/spotify?url=${encodeURIComponent(text)}&key=IUHp9S4ExrywBB35`
+      const res = await fetch(apiUrl)
+      if (!res.ok) throw await res.text()
+      const data = await res.json()
+      if (!data.status || !data.result?.url_download) throw '❌ No pude obtener la descarga del audio.'
 
+      const d = data.result
       json = {
-        title: j1.data.title,
-        author: j1.data.author,
-        image: j1.data.image,
-        duration: j1.data.duration,
-        url: j1.data.url
+        title: d.title || 'Desconocido',
+        author: d.artist || 'Desconocido',
+        image: d.image || null,
+        duration: d.duration || 0,
+        url: d.url_download,
+        source: d.source
       }
 
-      const query = encodeURIComponent(j1.data.title + " " + j1.data.author)
+      const query = encodeURIComponent(`${json.title} ${json.author}`)
       const resInfo = await fetch(`https://api.yupra.my.id/api/search/spotify?q=${query}`)
       if (resInfo.ok) {
         const jInfo = await resInfo.json()
@@ -32,45 +36,47 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
 
     } else {
-      const resSearch = await fetch(`https://api.yupra.my.id/api/search/spotify?q=${encodeURIComponent(text)}`)
-      if (!resSearch.ok) throw await resSearch.text()
-      const jSearch = await resSearch.json()
-      if (!jSearch.result || !jSearch.result[0]) throw "No encontré resultados"
+
+      const searchRes = await fetch(`https://api.yupra.my.id/api/search/spotify?q=${encodeURIComponent(text)}`)
+      if (!searchRes.ok) throw await searchRes.text()
+      const jSearch = await searchRes.json()
+      if (!jSearch.result || !jSearch.result[0]) throw 'No encontré resultados.'
 
       info = jSearch.result[0]
+      const url = info?.spotify_url || info?.spotify_preview
+      if (!url) throw 'No se encontró enlace válido de Spotify.'
 
-      const previewUrl = info.spotify_preview
-      const resDl = await fetch(`https://api.delirius.store/download/spotifydl?url=${encodeURIComponent(previewUrl)}`)
+      const apiUrl = `https://api-nv.ultraplus.click/api/download/spotify?url=${encodeURIComponent(url)}&key=IUHp9S4ExrywBB35`
+      const resDl = await fetch(apiUrl)
       if (!resDl.ok) throw await resDl.text()
-      const jDl = await resDl.json()
-      if (!jDl || !jDl.data || !jDl.data.url) throw "No pude obtener la descarga"
+      const dataDl = await resDl.json()
+      if (!dataDl.status || !dataDl.result?.url_download) throw 'Error al obtener el audio.'
 
+      const d = dataDl.result
       json = {
-        title: jDl.data.title,
-        author: jDl.data.author,
-        image: jDl.data.image,
-        duration: jDl.data.duration,
-        url: jDl.data.url
+        title: d.title || 'Desconocido',
+        author: d.artist || 'Desconocido',
+        image: d.image || null,
+        duration: d.duration || 0,
+        url: d.url_download,
+        source: d.source
       }
     }
 
-    const name = json.title || "Desconocido"
-    const author = json.author || "Desconocido"
-    const download = json.url
-    const durationMs = json.duration || 0
-    const duration = durationMs > 0 ? new Date(durationMs).toISOString().substr(14, 5) : "Desconocido"
+    const duration = json.duration > 0
+      ? new Date(json.duration).toISOString().substr(14, 5)
+      : 'Desconocido'
 
-    await conn.sendMessage(m.chat, { react: { text: '🕓', key: m.key } })
+    const moreInfo = info ? `
+🎶 Álbum: ${info.album_name || 'Desconocido'}
+📀 Lanzamiento: ${info.release_date || 'N/A'}
+🔗 Preview: ${info.spotify_preview || 'N/A'}` : ''
 
-    let moreInfo = info ? `
-🎶 Álbum: ${info.album_name || "Desconocido"}
-📀 Release: ${info.release_date || "N/A"}
-🔗 Preview: ${info.spotify_preview || "N/A"}` : ""
-
-    let caption = `\`\`\`🧪 Título: ${name}
-👤 Artista: ${author}
+    const caption = `\`\`\`🧪 Título: ${json.title}
+👤 Artista: ${json.author}
 ⏱️ Duración: ${duration}\`\`\`${moreInfo}`
 
+    // 🖼️ Miniatura
     let thumb = null
     if (json.image) {
       try {
@@ -78,47 +84,47 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         img.resize(300, Jimp.AUTO)
         thumb = await img.getBufferAsync(Jimp.MIME_JPEG)
       } catch (err) {
-        console.log("⚠️ Error al procesar miniatura:", err)
+        console.log('⚠️ Error al procesar miniatura:', err)
       }
     }
 
     await conn.sendMessage(m.chat, {
-      document: { url: download },
+      document: { url: json.url },
       mimetype: 'audio/mpeg',
-      fileName: `${name}.mp3`,
-      caption: caption,
+      fileName: `${json.title}.mp3`,
+      caption,
       ...(thumb ? { jpegThumbnail: thumb } : {}),
       contextInfo: {
         externalAdReply: {
-          title: name,
-          body: `👤 ${author} • ⏱️ ${duration}`,
+          title: json.title,
+          body: `👤 ${json.author} • ⏱️ ${duration}`,
           mediaType: 2,
           thumbnailUrl: json.image,
           renderLargerThumbnail: true,
-          sourceUrl: text
+          sourceUrl: json.source || text
         }
       }
     }, { quoted: fkontak })
-
+    
     await conn.sendMessage(m.chat, {
-      audio: { url: download },
+      audio: { url: json.url },
       mimetype: 'audio/mpeg',
-      fileName: `${name}.mp3`,
+      fileName: `${json.title}.mp3`,
       contextInfo: {
         externalAdReply: {
-          title: name,
-          body: `👤 ${author} • ⏱️ ${duration}`,
+          title: json.title,
+          body: `👤 ${json.author} • ⏱️ ${duration}`,
           mediaType: 2,
           thumbnailUrl: json.image,
           renderLargerThumbnail: true,
-          sourceUrl: text
+          sourceUrl: json.source || text
         }
       }
     }, { quoted: fkontak })
 
   } catch (e) {
     console.error(e)
-    m.reply("`❌ Error al procesar la descarga de Spotify.`")
+    m.reply('Error al procesar la descarga de Spotify.')
   }
 }
 
@@ -127,51 +133,3 @@ handler.tags = ['download']
 handler.command = ['music']
 
 export default handler
-
-/*
-
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args[0]) {
-    return m.reply(`🍂 *Uso correcto:*\n\n✦ \`${usedPrefix + command}\` <url de Spotify>\n\n📌 Ejemplo:\n${usedPrefix + command} https://open.spotify.com/track/3aPRjg26MXywx4V89uyjad`)
-  }
-
-  try {
-    let url = `https://api.neoxr.eu/api/spotify?url=${encodeURIComponent(args[0])}&apikey=russellxz`
-    let res = await fetch(url)
-    let json = await res.json()
-
-    if (!json.status) return m.reply(`❌ No se pudo obtener info.`)
-
-    let data = json.data
-
-    await conn.sendMessage(m.chat, {
-      audio: { url: data.url },
-      mimetype: 'audio/mpeg',
-      ptt: false,
-      fileName: `${data.title}.mp3`,
-      contextInfo: {
-        externalAdReply: {
-          title: data.title,
-          body: data.artist?.name || 'Spotify Downloader',
-          thumbnailUrl: data.thumbnail,
-          mediaUrl: args[0],
-          sourceUrl: args[0],
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: m })
-
-  } catch (e) {
-    console.error(e)
-    m.reply(`❌ Error al procesar la petición.`)
-  }
-}
-
-handler.help = ['wcom <url>']
-handler.tags = ['downloader']
-handler.command = ['wcom']
-
-export default handler*/
