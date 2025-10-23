@@ -5,8 +5,7 @@ import axios from "axios"
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-    if (!text?.trim())
-      return conn.reply(m.chat, `🌴 Por favor, ingresa el nombre o enlace del video.`, m, rcanal)
+    if (!text?.trim()) return conn.reply(m.chat, `🌴 Por favor, ingresa el nombre o enlace del video.`, m)
 
     await m.react('☃️')
 
@@ -14,32 +13,33 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const query = videoMatch ? `https://youtu.be/${videoMatch[1]}` : text
 
     const search = await yts(query)
+    const allItems = (search && (search.videos?.length ? search.videos : search.all)) || []
     const result = videoMatch
-      ? search.videos.find(v => v.videoId === videoMatch[1]) || search.all[0]
-      : search.all[0]
+      ? allItems.find(v => v.videoId === videoMatch[1]) || allItems[0]
+      : allItems[0]
 
     if (!result) throw '⚠️ No se encontraron resultados.'
 
-    const { title, thumbnail, timestamp, views, ago, url, author, seconds } = result
-    if (seconds > 60000) throw '⚠ El video supera el límite de duración (10 minutos).'
-
+    const { title = 'Desconocido', thumbnail, timestamp = 'N/A', views, ago = 'N/A', url = query, author = {} } = result
     const vistas = formatViews(views)
-    const info = `🕸️ *Titulo:* ${title}
 
-🎋 *Canal:* ${author.name}
-🍊 *Vistas:* ${vistas}
-🌿︎ *Duración:* ${timestamp}
-✨︎ *Publicado:* ${ago}
-🍉 *Link:* ${url}`
+    const info = ` 🕸️ *Título:* ${title}
+ 🎋 *Canal:* ${author.name || 'Desconocido'}
+ 🍊 *Vistas:* ${vistas}
+ 🌿 *Duración:* ${timestamp}
+ ✨ *Publicado:* ${ago}
+ 🍉 *Link:* ${url}`
 
-    const thumb = (await conn.getFile(thumbnail)).data
-    await conn.sendMessage(m.chat, { image: thumb, caption: info, ...rcanal }, { quoted: fkontak })
+    await conn.sendMessage(m.chat, {
+      image: { url: thumbnail },
+      caption: info
+    }, { quoted: m })
 
     if (['play', 'mp3'].includes(command)) {
       await m.react('🎧')
 
       const audio = await savetube.download(url, "audio")
-      if (!audio?.status) throw `Error al obtener el audio: ${audio.error}`
+      if (!audio?.status) throw `❌ Error al obtener el audio: ${audio?.error || 'Desconocido'}`
 
       await conn.sendMessage(
         m.chat,
@@ -48,7 +48,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           mimetype: 'audio/mpeg',
           fileName: `${title}.mp3`
         },
-        { quoted: fkontak }
+        { quoted: m }
       )
 
       await m.react('✔️')
@@ -56,8 +56,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     else if (['play2', 'mp4'].includes(command)) {
       await m.react('🎬')
+
       const video = await getVid(url)
-      if (!video?.url) throw '⚠ No se pudo obtener el video.'
+      if (!video?.url) throw '⚠️ No se pudo obtener el video.'
 
       await conn.sendMessage(
         m.chat,
@@ -65,38 +66,35 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           video: { url: video.url },
           fileName: `${title}.mp4`,
           mimetype: 'video/mp4',
-          caption: `> ⭐ *${title}*`
+          caption: `🎥 *${title}*`
         },
         { quoted: m }
       )
+
       await m.react('✔️')
     }
 
   } catch (e) {
     await m.react('✖️')
     console.error(e)
-    return conn.reply(
-      m.chat,
-      typeof e === 'string'
-        ? e
-        : '⚠︎ Ocurrió un error inesperado.\n> Usa *' + usedPrefix + 'report* para informarlo.\n\n' + e.message,
-      m
-    )
+    const msg = typeof e === 'string'
+      ? e
+      : `⚠️ Ocurrió un error inesperado.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e?.message || JSON.stringify(e)}`
+    return conn.reply(m.chat, msg, m)
   }
 }
 
 handler.command = handler.help = ['play', 'play2', 'mp3', 'mp4']
 handler.tags = ['download']
-handler.group = true
-
 export default handler
+
 
 async function getVid(url) {
   const apis = [
     {
       api: 'Yupra',
       endpoint: `https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(url)}`,
-      extractor: res => res?.result?.formats?.[0]?.url
+      extractor: res => res?.result?.formats?.[0]?.url || res?.result?.url
     }
   ]
   return await fetchFromApis(apis)
@@ -107,17 +105,19 @@ async function fetchFromApis(apis) {
     try {
       const controller = new AbortController()
       const timeout = setTimeout(() => controller.abort(), 10000)
-      const res = await fetch(endpoint, { signal: controller.signal }).then(r => r.json())
+      const r = await fetch(endpoint, { signal: controller.signal })
       clearTimeout(timeout)
+      const res = await r.json().catch(() => null)
       const link = extractor(res)
       if (link) return { url: link, api }
     } catch (err) {
-      console.log(`❌ Error en API ${api}:`, err.message)
+      console.log(`❌ Error en API ${api}:`, err?.message || err)
     }
     await new Promise(resolve => setTimeout(resolve, 500))
   }
   return null
 }
+
 
 const savetube = {
   api: {
@@ -131,13 +131,10 @@ const savetube = {
     "content-type": "application/json",
     origin: "https://yt.savetube.me",
     referer: "https://yt.savetube.me/",
-    "user-agent": "Postify/1.0.0"
+    "user-agent": "Mozilla/5.0"
   },
   crypto: {
-    hexToBuffer: (hexString) => {
-      const matches = hexString.match(/.{1,2}/g)
-      return Buffer.from(matches.join(""), "hex")
-    },
+    hexToBuffer: (hexString) => Buffer.from(hexString.match(/.{1,2}/g).join(""), "hex"),
     decrypt: async (enc) => {
       const secretKey = "C5D58EF67A7584E4A29F6C35BBC4EB12"
       const data = Buffer.from(enc, "base64")
@@ -148,7 +145,7 @@ const savetube = {
       let decrypted = decipher.update(content)
       decrypted = Buffer.concat([decrypted, decipher.final()])
       return JSON.parse(decrypted.toString())
-    },
+    }
   },
   youtube: (url) => {
     const patterns = [
@@ -156,72 +153,65 @@ const savetube = {
       /youtube.com\/embed\/([a-zA-Z0-9_-]{11})/,
       /youtu.be\/([a-zA-Z0-9_-]{11})/
     ]
-    for (let pattern of patterns) {
+    for (const pattern of patterns) {
       if (pattern.test(url)) return url.match(pattern)[1]
     }
     return null
   },
   request: async (endpoint, data = {}, method = "post") => {
     try {
+      const url = endpoint.startsWith("http") ? endpoint : `${savetube.api.base}${endpoint}`
       const { data: response } = await axios({
         method,
-        url: `${endpoint.startsWith("http") ? "" : savetube.api.base}${endpoint}`,
+        url,
         data: method === "post" ? data : undefined,
         params: method === "get" ? data : undefined,
         headers: savetube.headers
       })
-      return { status: true, code: 200, data: response }
+      return { status: true, data: response }
     } catch (error) {
-      return { status: false, code: error.response?.status || 500, error: error.message }
+      return { status: false, error: error.message }
     }
   },
   getCDN: async () => {
-    const response = await savetube.request(savetube.api.cdn, {}, "get")
-    if (!response.status) return response
-    return { status: true, code: 200, data: response.data.cdn }
+    const res = await savetube.request(savetube.api.cdn, {}, "get")
+    if (!res.status) return res
+    return { status: true, data: res.data.cdn }
   },
-  download: async (link, type = "audio") => {
+  download: async (link) => {
     const id = savetube.youtube(link)
-    if (!id) return { status: false, code: 400, error: "No se pudo obtener ID del video" }
+    if (!id) return { status: false, error: "No se pudo obtener ID del video" }
     try {
-      const cdnx = await savetube.getCDN()
-      if (!cdnx.status) return cdnx
-      const cdn = cdnx.data
-      const videoInfo = await savetube.request(
-        `https://${cdn}${savetube.api.info}`,
-        { url: `https://www.youtube.com/watch?v=${id}` }
-      )
-      if (!videoInfo.status) return videoInfo
-      const decrypted = await savetube.crypto.decrypt(videoInfo.data.data)
-      const downloadData = await savetube.request(
-        `https://${cdn}${savetube.api.download}`,
-        {
-          id,
-          downloadType: "audio",
-          quality: "mp3",
-          key: decrypted.key
-        }
-      )
-      if (!downloadData.data.data?.downloadUrl)
-        return { status: false, code: 500, error: "No se pudo obtener link de descarga" }
+      const cdnRes = await savetube.getCDN()
+      if (!cdnRes.status) return cdnRes
+      const cdn = cdnRes.data
 
-      return {
-        status: true,
-        result: {
-          download: downloadData.data.data.downloadUrl,
-          title: decrypted.title || "Desconocido"
-        }
-      }
-    } catch (error) {
-      return { status: false, code: 500, error: error.message }
+      const info = await savetube.request(`https://${cdn}${savetube.api.info}`, { url: `https://www.youtube.com/watch?v=${id}` })
+      if (!info.status) return info
+
+      const decrypted = await savetube.crypto.decrypt(info.data.data)
+      const dl = await savetube.request(`https://${cdn}${savetube.api.download}`, {
+        id,
+        downloadType: "audio",
+        quality: "mp3",
+        key: decrypted.key
+      })
+
+      if (!dl.data?.data?.downloadUrl)
+        return { status: false, error: "No se pudo obtener link de descarga" }
+
+      return { status: true, result: { download: dl.data.data.downloadUrl, title: decrypted.title } }
+    } catch (err) {
+      return { status: false, error: err.message }
     }
   }
 }
 
+// Formatear vistas
 function formatViews(views) {
-  if (views === undefined) return "No disponible"
-  if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
-  if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M (${views.toLocaleString()})`
-  if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k (${views.toLocaleString()})`
+  if (views === undefined || views === null) return "No disponible"
+  if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B`
+  if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M`
+  if (views >= 1_000) return `${(views / 1_000).toFixed(1)}K`
   return views.toString()
 }
