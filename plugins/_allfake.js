@@ -34,8 +34,10 @@ global.fkontak = { key: { participants:"0@s.whatsapp.net", "remoteJid": "status@
 
  global.icono = [
    'https://i.pinimg.com/originals/b3/67/d5/b367d513d861de468305c32c6cd22756.jpg', 
-   '', 
-   ''
+   'https://files.catbox.moe/3e5jp5.jpg', 
+   'https://files.catbox.moe/tj9nml.jpg',
+   'https://files.catbox.moe/r46c1a.jpg',
+   'https://qu.ax/iURup.jpg'
  ].getRandom()
 
 global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: '', newsletterName: channelRD.name }, externalAdReply: { title: botname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnail: await (await fetch(icono)).buffer(), sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, mentionedJid: null }}
