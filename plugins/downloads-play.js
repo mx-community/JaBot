@@ -31,7 +31,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     await conn.sendMessage(m.chat, {
       image: { url: infoData.thumbnail },
-      caption: info
+      caption: info, ...rcanal
     }, { quoted: m })
 
     if (['play', 'mp3'].includes(command)) {
