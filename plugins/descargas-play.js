@@ -21,7 +21,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const canal = author?.name || 'Desconocido'
 
     const infoMessage = `
-🕸️ *Titulo:* *${title}*
+🕸️ *Título:* *${title}*
 🌿 *Canal:* ${canal}
 🍋 *Vistas:* ${vistas}
 🍃 *Duración:* ${timestamp || 'Desconocido'}
@@ -45,25 +45,30 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (command === 'playaudio') {
       try {
-        const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/audio?url=${encodeURIComponent(url)}&quality=128`
+        const apiUrl = `https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(url)}&type=audio&quality=128kbps&apikey=russellxz`
         const res = await fetch(apiUrl)
         const json = await res.json()
 
-        if (!json.status || !json.result?.download?.url)
+        if (!json.status || !json.data?.url)
           throw '*⚠ No se obtuvo un enlace de audio válido.*'
 
-        const audioUrl = json.result.download.url
-        const titulo = json.result.metadata.title || title
-        const cover = json.result.metadata.thumbnail || thumbnail
+        const audioUrl = json.data.url
+        const titulo = json.title || title
+        const cover = json.thumbnail || thumbnail
+        const tamaño = json.data.size || 'Desconocido'
+
+        const caption = `> *\`Título:\`* ${titulo}
+> *\`Tamaño:\`* ${tamaño}`.trim()
 
         await conn.sendMessage(m.chat, {
           audio: { url: audioUrl },
           mimetype: 'audio/mpeg',
           fileName: `${titulo}.mp3`,
+          caption,
           contextInfo: {
             externalAdReply: {
               title: titulo,
-              body: '',
+              body: json.channel || '',
               mediaType: 1,
               thumbnailUrl: cover,
               sourceUrl: url,
@@ -72,7 +77,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           }
         }, { quoted: m })
 
-        await m.react('🎶')
+        await m.react('✔️')
       } catch (e) {
         console.error(e)
         return conn.reply(m.chat, '*⚠ No se pudo enviar el audio. Puede ser muy pesado o hubo un error en la API.*', m)
@@ -81,18 +86,22 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     else if (command === 'playvideo') {
       try {
-        const apiUrl = `https://api.stellarwa.xyz/dow/ytmp4?url=${encodeURIComponent(url)}&apikey=Shadow_Core`
+        const apiUrl = `https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(url)}`
         const res = await fetch(apiUrl)
         const json = await res.json()
 
-        if (!json.status || !json.data?.dl)
+        if (!json.status || !json.result?.formats?.[0]?.url)
           throw '⚠ No se obtuvo enlace de video válido.'
 
-        const videoUrl = json.data.dl
-        const titulo = json.data.title || title
+        const videoData = json.result.formats.find(f => f.qualityLabel === '360p') || json.result.formats[0]
+        const videoUrl = videoData.url
+        const titulo = json.result.title || title
+        const tamaño = formatBytes(Number(videoData.contentLength)) || 'Desconocido'
 
-        const caption = `> ♻️ *Título:* ${titulo}
-> 🎋 *Duración:* ${timestamp || 'Desconocido'}`.trim()
+        const caption = `
+> ♻️ *\`Título:\`* ${titulo}
+> 🎋 *\`Calidad:\`* ${videoData.qualityLabel || 'Desconocida'}
+> ☁️ *\`Tamaño:\`* ${tamaño}`.trim()
 
         await conn.sendMessage(m.chat, {
           video: { url: videoUrl },
@@ -139,4 +148,13 @@ function formatViews(views) {
   if (views >= 1e6) return `${(views / 1e6).toFixed(1)}M (${views.toLocaleString()})`
   if (views >= 1e3) return `${(views / 1e3).toFixed(1)}K (${views.toLocaleString()})`
   return views.toString()
+}
+
+function formatBytes(bytes, decimals = 2) {
+  if (!+bytes) return '0 Bytes'
+  const k = 1024
+  const dm = decimals < 0 ? 0 : decimals
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }

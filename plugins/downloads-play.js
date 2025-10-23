@@ -22,7 +22,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     const infoData = await getVideoInfo(result.url)
-    const info = ` 🕸️ *Título:* ${infoData.title}
+    const info = ` 🍍 𝙆𝙖𝙣𝙚𝙠𝙞𝘽𝙤𝙩 • 𝙔𝙤𝙪𝙩𝙪𝙗𝙚 𝙋𝙡𝙖𝙮 🍉
+ 
+ 🕸️ *Título:* ${infoData.title}
  🎋 *Canal:* ${infoData.author?.name || 'Desconocido'}
  🍊 *Vistas:* ${formatViews(infoData.views)}
  🌿 *Duración:* ${infoData.timestamp || 'N/A'}
