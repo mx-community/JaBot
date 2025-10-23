@@ -1,4 +1,4 @@
-/*export async function before(m, { groupMetadata }) {
+export async function before(m, { groupMetadata }) {
 if (!m.text || !global.prefix.test(m.text)) return
 const usedPrefix = global.prefix.exec(m.text)[0]
 const command = m.text.slice(usedPrefix.length).trim().split(' ')[0].toLowerCase()
@@ -58,4 +58,4 @@ await conn.sendMessage(m.chat, {
      mentionedJid: null
     }
   }, { quoted: sadow_xyz });
-}}*/
+}}

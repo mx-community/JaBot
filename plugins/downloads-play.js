@@ -37,6 +37,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (['play', 'mp3'].includes(command)) {
       await m.react('🎧')
+
       const audio = await savetube.download(url, "audio")
       if (!audio?.status) throw `Error al obtener el audio: ${audio.error}`
 
@@ -44,11 +45,12 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         m.chat,
         {
           audio: { url: audio.result.download },
-          fileName: `${title}.mp3`,
-          mimetype: 'audio/mpeg'
+          mimetype: 'audio/mpeg',
+          fileName: `${title}.mp3`
         },
-        { quoted: m }
+        { quoted: fkontak }
       )
+
       await m.react('✔️')
     }
 
