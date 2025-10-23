@@ -36,7 +36,7 @@ console.log(chalk.magentaBright('\n❀ Iniciando...'))
 say('KANEKI - BOT AI', {
 font: 'block',
 align: 'center',
-gradient: ['green', 'cyan', 'blue', 'magenta', 'red', 'yellow', 'white']
+gradient: ['green', 'white']
 })
 say('Made with love by Shadow_xyz', {
 font: 'console',
