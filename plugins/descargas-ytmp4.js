@@ -59,12 +59,12 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
   } catch (e) {
     console.error(e)
-    conn.reply(m.chat, `❌ *Ocurrió un error:*\n${e}`, m)
+    conn.reply(m.chat, `*Ocurrió un error:*\n${e}`, m)
   }
 }
 
 handler.help = ["ytmp4 <url>"]
-handler.tags = ["descargas"]
+handler.tags = ["download"]
 handler.command = ["ytmp4", "playmp4"]
 handler.group = true
 

@@ -40,7 +40,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     await conn.sendMessage(m.chat, {
       image: { url: result[0].image },
-      caption: textMsg
+      caption: textMsg,
+      ...rcanal
     }, { quoted: m });
 
   } catch (err) {
@@ -50,7 +51,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 };
 
 handler.help = ["applemusicsearch <canción>"];
-handler.tags = ["buscadores"];
+handler.tags = ["search"];
 handler.command = ['applemusicsearch'];
+handler.group = true;
 
 export default handler;

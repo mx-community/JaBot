@@ -36,7 +36,7 @@ m.reply(`⚠︎ Se ha producido un problema.\n> El detalle del error se mostrar�
 }}
 
 handler.help = ['gpbanner', 'groupimg', 'gpdesc', 'groupdesc', 'gpname', 'groupname']
-handler.tags = ['grupo']
+handler.tags = ['group']
 handler.command = ['gpbanner', 'groupimg', 'gpdesc', 'groupdesc', 'gpname', 'groupname']
 handler.group = true
 handler.admin = true

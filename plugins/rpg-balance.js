@@ -18,13 +18,7 @@ const texto = `ᥫ᭡ Informacion -  Balance ❀
 ⛁ Total » *¥${total.toLocaleString()} ${currency}*
 
 > *Para proteger tu dinero, ¡depósitalo en el banco usando #deposit!*`
-  await conn.sendMessage(m.chat, {
-    image: { url: 'https://files.catbox.moe/8xasa6.jpg' },
-    caption: texto,
-    fileName: 'bal.jpg',
-    mentions: [who],
-    ...rcanal
-  }, { quoted: fkontak })
+  await conn.sendFile(m.chat, 'https://files.catbox.moe/8xasa6.jpg', 'balance.jpg', texto, mentions: [who], m)
 }
 
 handler.help = ['bal']
@@ -54,12 +48,10 @@ let handler = async (m, { conn, usedPrefix }) => {
   let bank = user.bank || 0
   let total = coin + bank
 
-  let level = user.level || 1
+  let level = user.level || 0
   let exp = user.exp || 0
-  let rank = user.rank || 'Novato'
-  let hp = user.hp || 100
+  let health = user.health || 100
   let energy = user.energy || 50
-  let gold = user.gold || 0
   let mission = user.mission || 'Ninguna'
   let playtime = user.playtime || '00h 00m'
   
@@ -74,10 +66,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 │
 │ ⚔️ Nivel » *${level}*
 │ 📖 Experiencia » *${exp} XP*
-│ 🧭 Rango » *${rank}*
-│ ❤️ Vida » *${hp} / 100*
+│ ❤️ health » *${health} / 100*
 │ 🔮 Energía » *${energy} / 50*
-│ 🪙 Oro » *${gold}*
 │
 │ 🎯 Misión Activa » *${mission}*
 │ ⏳ Tiempo de Juego » *${playtime}*
@@ -92,7 +82,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     fileName: 'rpg-balance.jpg',
     mimetype: 'image/jpeg',
     ...rcanal
-  }, { quoted: global.fkontak })
+  }, { quoted: fkontak })
 }
 
 handler.help = ['bal', 'balance', 'bank']

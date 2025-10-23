@@ -85,7 +85,7 @@ clearTimeout(session.timeout)
 delete conn.xvideos[m.sender]}}}
 
 handler.help = ['xvideos']
-handler.tags = ['download']
+handler.tags = ['download', 'nsfw']
 handler.command = ['xvideos', 'xvsearch', 'xvideosdl', 'xvid']
 handler.group = true
 

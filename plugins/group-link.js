@@ -7,7 +7,7 @@ await conn.sendMessage(group, { image: { url: pp }, caption: message })
 }
 
 handler.help = ['link']
-handler.tags = ['grupo']
+handler.tags = ['group']
 handler.command = ['link', 'enlace']
 handler.group = true
 handler.botAdmin = true

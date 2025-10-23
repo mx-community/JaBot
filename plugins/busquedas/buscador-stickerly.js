@@ -1,18 +1,23 @@
 import fetch from 'node-fetch';
-import yts from 'yt-search';
 import baileys from '@whiskeysockets/baileys';
 
 const { generateWAMessageContent, generateWAMessageFromContent, proto } = baileys;
 
+const STICKERLY_API = `${global.APIs.delirius.url}/search/stickerly`;
+
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(`*🏔️ Por favor, ingresa un texto para buscar en YouTube.*\n> *Ejemplo:* ${usedPrefix + command} Bing Bang`);
+  if (!text) return m.reply(`*🌸 Ingresa un texto para buscar en Stickerly.*\n> *Ejemplo:* ${usedPrefix + command} Alya San`);
   await m.react('🕓');
 
   try {
-    const results = await yts(text);
-    const videos = results.videos.slice(0, 8);
+    const res = await fetch(`${STICKERLY_API}?query=${encodeURIComponent(text)}`);
+    const json = await res.json();
 
-    if (!videos.length) throw '⚠️ *No se encontraron resultados para tu búsqueda.*';
+    if (!json.status || !json.data || json.data.length === 0) {
+      throw `⚠️ No encontré resultados para *${text}*`;
+    }
+
+    const results = json.data.slice(0, 15);
 
     async function createImage(url) {
       const { imageMessage } = await generateWAMessageContent(
@@ -23,25 +28,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     let cards = [];
-    for (let video of videos) {
-      let image = await createImage(video.thumbnail);
-
-      const info1 = `囹𑜞 ᪲•˙ꨂ ֢✧: 𝙔𝙊𝙐𝙏𝙐𝘽𝙀 • 𝙎𝙀𝘼𝙍𝘾𝙃  ᪲ୂ:`;
-      const info = `
-🎋 *Título:* ${video.title}
-👤 *Autor:* ${video.author.name}
-⏱ *Duración:* ${video.timestamp} (${video.seconds} seg)
-👁 *Vistas:* ${video.views.toLocaleString()}
-📅 *Publicado:* ${video.ago}
-
-📝 *Descripción:* ${video.description ? video.description.slice(0, 100) + '...' : 'No disponible'}`
+    for (let pack of results) {
+      let image = await createImage(pack.preview);
 
       cards.push({
         body: proto.Message.InteractiveMessage.Body.fromObject({
-          text: info1
+          text: `🍃 *Nombre:* ${pack.name}\n👤 *Autor:* ${pack.author}\n🧩 *Stickers:* ${pack.sticker_count}\n👀 *Vistas:* ${pack.view_count}\n📤 *Exportados:* ${pack.export_count}`
         }),
         footer: proto.Message.InteractiveMessage.Footer.fromObject({
-          text: info
+          text: dev
         }),
         header: proto.Message.InteractiveMessage.Header.fromObject({
           title: '',
@@ -53,17 +48,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             {
               name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
-                display_text: "🎵 𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚𝐫 𝐀𝐮𝐝𝐢𝐨",
-                id: "ytmp3",
-                copy_code: `.ytmp3 ${video.url}`
-              })
-            },
-            {
-              name: 'cta_copy',
-              buttonParamsJson: JSON.stringify({
-                display_text: "📹 𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚𝐫 𝐕𝐢𝐝𝐞𝐨",
-                id: "ytmp4",
-                copy_code: `.ytmp4 ${video.url}`
+                display_text: "🍧 Copiar Pack",
+                id: "stickerlydl",
+                copy_code: `.stickerlydl ${pack.url}`
               })
             }
           ]
@@ -80,10 +67,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
           },
           interactiveMessage: proto.Message.InteractiveMessage.fromObject({
             body: proto.Message.InteractiveMessage.Body.create({
-              text: `*🌿 𝘙𝘦𝘴𝘶𝘭𝘵𝘢𝘥𝘰𝘴 𝘥𝘦:* \`${text}\`\n> Mostrando: ${videos.length} resultados`
+              text: `*🌸 Resultados de:* \`${text}\`\n> Mostrando: ${results.length} packs encontrados`
             }),
             footer: proto.Message.InteractiveMessage.Footer.create({
-              text: '_YouTube - Search_'
+              text: '_Stickerly - Search_'
             }),
             header: proto.Message.InteractiveMessage.Header.create({
               hasMediaAttachment: false
@@ -96,17 +83,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }, { quoted: m });
 
-    await m.react('✔️');
     await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id });
+    await m.react('✔️');
 
   } catch (e) {
     console.error(e);
-    await m.reply('❌ Error en la búsqueda o envío del mensaje.');
+    await m.reply('*Error en la búsqueda o envío del mensaje.*');
   }
 };
 
-handler.help = ['ytsearch2 <texto>'];
-handler.tags = ['buscador'];
-handler.command = ['ytsearch2', 'yts2'];
+handler.help = ['stickerly <texto>'];
+handler.tags = ['sticker', 'search'];
+handler.command = ['stickerly'];
 
 export default handler;

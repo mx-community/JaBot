@@ -8,7 +8,7 @@ m.reply(`❀ *Sólo los admins pueden escribir en este grupo.*`)
 }}
 
 handler.help = ['open', 'close', 'abrir', 'cerrar']
-handler.tags = ['grupo']
+handler.tags = ['group']
 handler.command = ['open', 'close', 'abrir', 'cerrar']
 handler.admin = true
 handler.botAdmin = true

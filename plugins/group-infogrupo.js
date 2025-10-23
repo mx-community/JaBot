@@ -36,7 +36,7 @@ conn.sendFile(m.chat, pp, 'img.jpg', text, m, false, { mentions: [owner, rawPrim
 }
 
 handler.help = ['infogrupo']
-handler.tags = ['grupo']
+handler.tags = ['group']
 handler.command = ['infogrupo', 'gp']
 handler.group = true
 

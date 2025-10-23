@@ -81,7 +81,7 @@ clearTimeout(session.timeout)
 delete conn.xnxx[m.sender]}}}
 
 handler.command = ['xnxxsearch', 'xnxxdl', 'xnxx']
-handler.tags = ['download']
+handler.tags = ['download', 'nsfw']
 handler.help = ['xnxx']
 handler.group = true
 

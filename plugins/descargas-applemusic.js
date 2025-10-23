@@ -8,7 +8,7 @@ let handler = async (m, { conn, args }) => {
     let res = await fetch(url);
     let json = await res.json();
 
-    if (!json.status) return conn.reply(m.chat, "❌ No se pudo obtener la información.", m);
+    if (!json.status) return conn.reply(m.chat, "No se pudo obtener la información.", m);
 
     let data = json.data || {};
     let {
@@ -50,5 +50,7 @@ let handler = async (m, { conn, args }) => {
   }
 };
 
-handler.command = ['applemusic'];
+handler.command = ['applemusic']
+handler.help = ['applemusic']
+handler.tags = ['download']
 export default handler;

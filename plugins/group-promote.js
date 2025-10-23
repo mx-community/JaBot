@@ -14,7 +14,7 @@ conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}rep
 }}
 
 handler.help = ['promote']
-handler.tags = ['grupo']
+handler.tags = ['group']
 handler.command = ['promote', 'promover']
 handler.group = true
 handler.admin = true

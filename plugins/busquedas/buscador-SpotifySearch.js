@@ -15,7 +15,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     let push = [];
-    let api = await fetch(`https://delirius-apiofc.vercel.app/search/spotify?q=${encodeURIComponent(text)}`);
+    let api = await fetch(`${global.APIs.delirius.url}/search/spotify?q=${encodeURIComponent(text)}`);
     let json = await api.json();
 
     for (let track of json.data) {
@@ -85,7 +85,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }, { quoted: m });
 
-    await m.react('✅');
+    await m.react('✔️');
     await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
   } catch (error) {
     console.error(error);
@@ -94,8 +94,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 }
 
 handler.help = ["spotifysearch *<texto>*"]
-handler.tags = ["buscador"]
+handler.tags = ["search"]
 handler.command = ["spotifysearch"]
-handler.coin = 4
 
 export default handler

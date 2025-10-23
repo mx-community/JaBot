@@ -50,7 +50,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 }
 
 handler.help = ['soundcloud2']
-handler.tags = ['downloader']
+handler.tags = ['download']
 handler.command = ['soundcloud2', 'scdl']
 
 export default handler

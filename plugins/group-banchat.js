@@ -20,8 +20,8 @@ chat.isBanned = false
 return conn.reply(m.chat, `❀ Has *activado* a ${botname}!`, m, rcanal)
 }}}
 
-handler.help = ['bot']
-handler.tags = ['grupo']
+handler.help = ['bot on/off']
+handler.tags = ['group']
 handler.command = ['bot']
 handler.admin = true
 

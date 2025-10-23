@@ -12,8 +12,7 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
     const results = response.data;
 
     if (!results || !Array.isArray(results) || results.length === 0) {
-      await m.react('✖️');
-      return m.reply('⚠️ No se encontraron resultados para esta búsqueda en SoundCloud.');
+      return m.reply('🥺 No se encontraron resultados para esta búsqueda en SoundCloud.');
     }
 
     async function createImage(url) {
@@ -31,8 +30,7 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
       const image = await createImage(track.image || banner);
 
       const infoHeader = `🎵 𝗦𝗢𝗨𝗡𝗗𝗖𝗟𝗢𝗨𝗗  • 𝗕𝗨𝗦𝗤𝗨𝗘𝗗𝗔`;
-      const infoBody = `
-🎋 *Nro:* ${i + 1}
+      const infoBody = `🎋 *Nro:* ${i + 1}
 🍬 *Título:* ${track.title || 'Sin título'}
 🍧 *Artista:* ${track.artist || 'Desconocido'}
 👽 *Reproducciones:* ${track.repro || 'N/A'}
@@ -55,9 +53,9 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
             {
               name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
-                display_text: "📋 𝘊𝘰𝘱𝘪𝘢𝘳 𝘭𝘪𝘯𝘬",
-                id: "copy_link",
-                copy_code: track.url
+                display_text: "🕸️ 𝘋𝘦𝘴𝘤𝘢𝘳𝘨𝘢𝘳",
+                id: "soundcloud2",
+                copy_code: `/soundcloud2 ${track.url}`
               })
             },
             {
@@ -103,14 +101,13 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
 
   } catch (error) {
     console.error(error);
-    await m.reply('Hubo un error al procesar la búsqueda en SoundCloud.');
+    await m.react('✖️');
+    await m.reply('❌ Hubo un error al procesar la búsqueda en SoundCloud.');
   }
 }
 
-handler.tags = ['buscador'];
+handler.tags = ['search'];
 handler.help = ['soundcloudsearch <texto>'];
 handler.command = ['soundcloudsearch', 'scsearch'];
-handler.register = true;
-handler.coin = 5;
 
 export default handler;

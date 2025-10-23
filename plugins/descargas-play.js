@@ -130,7 +130,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.command = ['playaudio', 'playvideo']
 handler.help = ['playaudio', 'playvideo']
-handler.tags = ['descargas']
+handler.tags = ['download']
 export default handler
 
 function formatViews(views) {

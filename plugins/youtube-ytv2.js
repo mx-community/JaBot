@@ -43,8 +43,8 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
 
       return await conn.sendMessage(m.chat, {
         document: { url: result.dl_url },
-        caption: `\`\`\`✦ Título: ${result.title}
-✦ Calidad: ${result.format}\`\`\``,
+        caption: `\`\`\`💐 Título: ${result.title}
+✨ Calidad: ${result.format}\`\`\``,
         mimetype: 'video/mp4',
         fileName: `${result.title || 'video'}.mp4`,
         ...(thumb ? { jpegThumbnail: thumb } : {})
@@ -76,18 +76,8 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
       { buttonId: `${usedPrefix + command} ${url} 720`, buttonText: { displayText: "📺 720p" }, type: 1 }
     ]
 
-    let thumb = null
-    try {
-      const img = await Jimp.read(video.thumbnail)
-      img.resize(300, Jimp.AUTO)
-      thumb = await img.getBufferAsync(Jimp.MIME_JPEG)
-    } catch (err) {
-      console.log("Error al procesar miniatura:", err)
-    }
-
     await conn.sendMessage(m.chat, {
       image: { url: video.thumbnail },
-      ...(thumb ? { jpegThumbnail: thumb } : {}),
       caption,
       footer: " Elige la calidad con los botones o escribe el comando con calidad",
       buttons,
@@ -101,7 +91,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
 }
 
 handler.help = ['ytv-v2 <url|título> [calidad]']
-handler.tags = ['downloader']
+handler.tags = ['download']
 handler.command = ['ytv-v2']
 
 export default handler

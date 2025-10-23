@@ -20,7 +20,7 @@ let handler = async (m, { conn, args, participants, usedPrefix }) => {
     const { jid, coin, bank } = slice[i]
     const total = (coin || 0) + (bank || 0)
     let name = await (async () => global.db.data.users[jid].name.trim() || (await conn.getName(jid).then(n => typeof n === 'string' && n.trim() ? n : jid.split('@')[0]).catch(() => jid.split('@')[0])))()
-    text += `│ ✰ ${startIndex + i + 1}. *${name}*\n│ ⤷ ¥${total.toLocaleString()} ${currency}\n│\n`
+    text += `│ ✰ ${startIndex + i + 1}. *${name}*\n│ Total ⤷ ¥${total.toLocaleString()} ${currency}\n│\n`
   }
 
   text += `│ • Página *${page}* de *${totalPages}*\n╰━━━━━━━━━━━━━━━━━━⬣`

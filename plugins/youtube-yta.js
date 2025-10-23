@@ -87,7 +87,7 @@ const savetube = {
 
   download: async (link) => {
     if (!link) return { status: false, code: 400, error: "Falta el enlace de YouTube." };
-    if (!savetube.isUrl(link)) return { status: false, code: 400, error: "URL invalida de YouTube." };
+    if (!savetube.isUrl(link)) return { status: false, code: 400, error: "URL inválida de YouTube." };
 
     const id = savetube.youtube(link);
     if (!id) return { status: false, code: 400, error: "*No se pudo extraer el ID del video.*" };
@@ -149,14 +149,14 @@ const handler = async (m, { conn, args }) => {
   if (!args[0]) return m.reply(`Ingresa una URL de YouTube`);
 
   let url = args[0];
-  if (!savetube.isUrl(url)) return m.reply("*Ingresa un link valido de YouTube.*");
+  if (!savetube.isUrl(url)) return m.reply("*💐 Ingresa un link válido de YouTube.*");
 
   try {
-    await m.react('?');
+    await m.react('🕒');
     let res = await savetube.download(url);
     if (!res.status) {
-      await m.react('??');
-      return m.reply(` Error: ${res.error}`);
+      await m.react('✖️');
+      return m.reply(`Error: ${res.error}`);
     }
 
     const { title, duration, thumbnail, download } = res.result;
@@ -173,7 +173,7 @@ const handler = async (m, { conn, args }) => {
         contextInfo: {
           externalAdReply: {
             title: title,
-            body: `? ????????: ${durationFormatted}`,
+            body: `🌿 Duración: ${durationFormatted}`,
             sourceUrl: url,
             thumbnailUrl: thumbnail,
             mediaType: 1,
@@ -184,15 +184,15 @@ const handler = async (m, { conn, args }) => {
       { quoted: m }
     );
 
-    await m.react('??');
+    await m.react('✔️');
   } catch (e) {
-    await m.react('?');
-    m.reply(`⚠️ La descarga ha fallado, es posible que el archivo sea muy pesado.`);
+    await m.react('✖️');
+    m.reply(`*La descarga ha fallado, es posible que el archivo sea muy pesado.*`);
   }
 };
 
 handler.help = ['yta <url>'];
 handler.command = ['yta'];
-handler.tags = ['descargas'];
+handler.tags = ['download'];
 
 export default handler;

@@ -24,7 +24,7 @@ return conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPre
 
 handler.command = ['mf', 'mediafire']
 handler.help = ['mediafire']
-handler.tags = ['descargas']
+handler.tags = ['download']
 handler.group = true
 handler.premium = true
 

@@ -9,7 +9,7 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
 
     const user = global.db.data.users[m.sender] || {}
     const name = await conn.getName(m.sender)
-    const premium = user.premium ? '✅ Sí' : '❌ No'
+    const premium = user.premium ? '✔️ Sí' : '❌ No'
     const limit = user.limit || 0
     const totalreg = Object.keys(global.db.data.users).length
     const groupUserCount = m.isGroup ? participants.length : '-'
@@ -20,8 +20,7 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
     const dia = fecha.toLocaleDateString(locale, { weekday: 'long' })
     const fechaTxt = fecha.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
     const hora = fecha.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
-    
-    const totalreg2 = Object.keys(global.db.data.users).length
+
     const totalCommands = Object.keys(global.plugins).length
 
     const userId = m.sender.split('@')[0]
@@ -47,8 +46,8 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
           newsletterName: channelRD.name
         },
         externalAdReply: {
-          title: '🩸 Kaneki Bot AI',
-          body: '☯ Dev: Shadow_xyz ☁️',
+          title: '🩸 Kaneki Bot AI 🌿',
+          body: '💮 Dev: Shadow_xyz ☁️',
           mediaUrl: null,
           description: null,
           previewType: "PHOTO",
@@ -60,16 +59,21 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
     }
 
     let tags = {
+      'info': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɪɴғᴏ` 🍂 ᦡᦡ',
       'main': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴍᴀɪɴ` 🍓 ᦡᦡ',
       'fun': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ғᴜɴ` 🎭 ᦡᦡ',
       'rpg': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ʀᴘɢ` 🍂 ᦡᦡ',
       'anime': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴀɴɪᴍᴇ` 🌸',
-      'descargas': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴅᴏᴡɴʟᴏᴀᴅ` 🎧 ᦡᦡ',
+      'search': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ sᴇᴀʀᴄʜ` 🧬 ᦡᦡ',
+      'download': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴅᴏᴡɴʟᴏᴀᴅ` 🎧 ᦡᦡ',
+      'gacha': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɢᴀᴄʜᴀ` 🌀 ᦡᦡ',
       'rg': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴘᴇʀғɪʟ` 🍃 ᦡᦡ',
-      'grupo': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɢʀᴜᴘᴏs` 🏮 ᦡᦡ',
+      'group': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɢʀᴜᴘᴏs` 🏮 ᦡᦡ',
+      'nable': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɴᴀʙʟᴇ` ⚙️ ᦡᦡ',
       'ia': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɪᴀ` ☁️ ᦡᦡ',
       'tools': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴛᴏᴏʟs` 🧩 ᦡᦡ',
-      'owner': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴏᴡɴᴇʀ` ⚙️ ᦡᦡ',
+      'sticker': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ sᴛɪᴄᴋᴇʀs` ✨ ᦡᦡ',
+      'owner': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴏᴡɴᴇʀ` 💙 ᦡᦡ',
       'socket': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴊᴀᴅɪ-ʙᴏᴛ` 🍰 ᦡᦡ',
       'nsfw': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɴsғᴡ` 🍑 ᦡᦡ',
     }
@@ -101,19 +105,18 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
 🍉 *Premium:* ${premium}
 🌍 *País:* ${pais}
 🎲 *Límite:* ${limit}
-🎋 *Usuarios totales:* ${totalreg2}
+🎋 *Usuarios totales:* ${totalreg}
 ☁️ *Grupos activos:* ${groupsCount}
 🚀 *Tiempo activo:* ${uptime}
 ─────────────────────
-🌾 *Bot:* ${(conn.user.jid == global.conn.user.jid ? '🌟 `ʙᴏᴛ ᴏғɪᴄɪᴀʟ`' : '✨ `sᴜʙ ʙᴏᴛ`')}
+🌾 *Bot:* ${(conn.user.jid == global.conn.user.jid ? '𝙋𝙧𝙞𝙣𝙘𝙞𝙥𝙖𝙡 🌱' : '𝙆𝙖𝙣𝙚𝙠𝙞 𝙎𝙪𝙗-𝘽𝙤𝙩 💮')}
 🕸️ *Comandos:* ${totalCommands}
-📡 *Users:* ${totalreg2}
-📡 *Fecha:* \`${hora}, ${dia}, ${fechaTxt}\`
-─────────────────────\n`.trim()
+📡 *Versión:* ${vs}
+🛠️ *Librería:* ${libreria}
+💐 *Fecha:* \`${hora}, ${dia}, ${fechaTxt}\`
+─────────────────────\n\n`.trim()
 
-    const cuerpo = infoUser + `\n*🍡 Mᴇɴú ᴅɪsᴘᴏɴɪʙʟᴇ:*
-
-${menuTexto}`.trim()
+    const cuerpo = infoUser + `*🍡 Mᴇɴú ᴅɪsᴘᴏɴɪʙʟᴇ:*${menuTexto}`.trim()
 
     const imgs = [
       'https://i.pinimg.com/originals/b3/67/d5/b367d513d861de468305c32c6cd22756.jpg',
@@ -123,6 +126,9 @@ ${menuTexto}`.trim()
 
     await conn.sendMessage(m.chat, {
       image: { url: imageUrl },
+     /* document: fs.readFileSync('./README.md'),
+      fileName: '🚀 ᴋᴀɴᴇᴋɪ ʙᴏᴛ ᴀɪ | Mᴇɴᴜ 🌸',
+      mimetype: 'application/pdf',*/
       caption: cuerpo,
       fileName: '🩸 Kaneki Bot AI | Menu ☯',
       mimetype: 'image/jpeg',
@@ -142,7 +148,6 @@ ${menuTexto}`.trim()
 handler.help = ['menu']
 handler.tags = ['main']
 handler.command = ['menu','help','menú','allmenu','menucompleto']
-handler.register = true
 
 export default handler
 

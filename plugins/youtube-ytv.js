@@ -4,7 +4,7 @@ import axios from 'axios';
 let handler = async (m, { conn, text, usedPrefix, command, args }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `🚫 *Por favor, ingresa la URL del vídeo de YouTube.*`, m);
+      return conn.reply(m.chat, `🚫 *Por favor, ingresa la URL del vídeo de YouTube.*`, m, rcanal);
     }
 
     if (!/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/i.test(args[0])) {
@@ -19,21 +19,21 @@ let handler = async (m, { conn, text, usedPrefix, command, args }) => {
     
 
     const caption = `☃️ *${json.title}*  
-🍃 Tamaño » *${sizeStr}*  
-🍋 Enlace » *${args[0]}*`;
+🍃 \`Tamaño\` » *${sizeStr}*  
+🍋 \`Enlace\` » *${args[0]}*`;
 
     await conn.sendFile(m.chat, await (await fetch(json.url)).buffer(), `${json.title}.mp4`, caption, m);
     m.react('✔️');
 
   } catch (e) {
     console.error(e);
-    m.reply(`❌ *Ocurrió un error al procesar tu solicitud:*\n\n${e.message}`);
+    m.reply(`*Ocurrió un error al procesar tu solicitud:*\n\n${e.message}`);
   }
 };
 
 handler.help = ['ytv'];
 handler.command = ['ytv'];
-handler.tags = ['descargas'];
+handler.tags = ['download'];
 
 export default handler;
 

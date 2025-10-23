@@ -2,19 +2,23 @@ import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text }) => {
   const user = global.db.data.users[m.sender] || {}
+  
+  if (user.coin < 20) {
+    return conn.reply(m.chat, `ꕥ No tienes suficientes *${currency}*.\nNecesitas al menos 20 para usar este comando.`, m)
+  }
 
-  if (!text) return m.reply(`*${emojis} Por favor, ingresa un link de Mediafire.*`)
+  if (!text) return m.reply(`*🌿 Por favor, ingresa un link válido de Mediafire.*`)
 
   await conn.sendMessage(m.chat, { react: { text: "🕒", key: m.key } })
+
   await conn.sendMessage(m.chat, {
     text: '🄸 🄽 🄸 🄲 🄸 🄰 🄽 🄳 🄾 • 🄳🄴🅂🄲🄰🅁🄶🄰\n> *Procesando descarga, por favor espere... ⏳*',
     mentions: [m.sender],
     contextInfo: {
       externalAdReply: {
-        title: '📦 Rin Itoshi • Mediafire Downloader',
+        title: '📦 Kaneki AI • Mediafire Downloader',
         body: 'Obteniendo datos del archivo...',
-        thumbnailUrl: global.logo,
-        sourceUrl: '',
+        thumbnailUrl: global.logo || 'https://i.ibb.co/5v4syqS/mediafire.jpg',
         mediaType: 1,
         renderLargerThumbnail: true
       }
@@ -22,7 +26,7 @@ let handler = async (m, { conn, text }) => {
   }, { quoted: m })
 
   try {
- 
+
     let res1 = await fetch(`https://api.siputzx.my.id/api/d/mediafire`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -34,29 +38,30 @@ let handler = async (m, { conn, text }) => {
       let d = json1.data
       let meta = d.meta || {}
 
-      let info = `乂  *MEDIAFIRE - DESCARGA EXITOSA*  乂
+      let info = `╭━━━〔 *MEDIAFIRE - DESCARGA EXITOSA* 〕━━⬣
+┃ 📦 *Nombre:* ${d.fileName}
+┃ 📁 *Tamaño:* ${d.fileSize}
+┃ 🗓️ *Subido:* ${d.uploadDate || 'Desconocida'}
+┃ 🧩 *Tipo:* ${d.fileType}
+┃ 💻 *Compatibilidad:* ${d.compatibility || 'N/A'}
+┃ 📂 *Extensión:* ${d.fileExtension || 'N/A'}
+╰━━━⬣
 
-📦 *Nombre:* ${d.fileName}
-📁 *Tamaño:* ${d.fileSize}
-🗓️ *Fecha de subida:* ${d.uploadDate}
-🧩 *Tipo:* ${d.fileType}
-💻 *Compatibilidad:* ${d.compatibility}
-📂 *Extensión:* ${d.fileExtension}
+📝 *Descripción:* ${d.description || 'No disponible'}
 
-📝 *Descripción:* ${d.description}
-
-🔗 *Enlace de descarga directa:*
+🔗 *Enlace directo:* 
 ${d.downloadLink}
 
-🌐 *Información Meta:*
+🌐 *Meta Info:*
 • URL: ${meta.url || 'N/A'}
 • Título: ${meta.title || 'N/A'}
 • Imagen: ${meta.image || 'N/A'}
-• App ID: ${meta.app_id || 'N/A'}
-`
+• App ID: ${meta.app_id || 'N/A'}`
 
       await conn.sendFile(m.chat, d.downloadLink, d.fileName, info, m)
       await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
+      user.coin -= 20
+      conn.reply(m.chat, `ꕥ Has utilizado 20 *${currency}*`, m)
       return
     }
 
@@ -72,28 +77,31 @@ ${d.downloadLink}
       m.chat,
       dl,
       title,
-      `乂  *MEDIAFIRE - DESCARGA EXITOSA*  乂
-
-📦 *Nombre:* ${title}
-📁 *Tamaño:* ${peso}
-🗓️ *Fecha:* ${fecha}
-🧩 *Tipo:* ${tipo}
+      `╭━━━〔 *MEDIAFIRE - DESCARGA EXITOSA* 〕━━⬣
+┃ 📦 *Nombre:* ${title}
+┃ 📁 *Tamaño:* ${peso}
+┃ 🗓️ *Fecha:* ${fecha}
+┃ 🧩 *Tipo:* ${tipo}
+╰━━━⬣
 
 ✅ Archivo descargado correctamente.
 🔗 *Enlace directo:* ${dl}`,
       m
     )
+
     await conn.sendMessage(m.chat, { react: { text: '✔️', key: m.key } })
+    user.coin -= 20
+    conn.reply(m.chat, `ꕥ Has utilizado 20 *${currency}*`, m)
 
   } catch (e) {
     console.error(e)
-    m.reply(`*Error al procesar la descarga:*\n${e.message}`)
+    m.reply(`*Error al procesar la descarga:*\n> ${e.message}`)
     await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } })
   }
 }
 
 handler.help = ['mediafire2']
-handler.tags = ['descargas']
+handler.tags = ['download']
 handler.command = ['mf2', 'mediafire2']
 handler.group = true
 

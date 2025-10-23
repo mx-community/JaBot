@@ -35,15 +35,13 @@ const handler = async (m, { conn, text, channelRD }) => {
       }
     };
 
-    const caption = `
-             🎶 SOUND CLOUD 🎶
- 🎧 *Título:* ${audio.title || 'Desconocido'}
- 👤 *Artista:* ${audio.user || 'Desconocido'}
- ⏱ *Duración:* ${msToTime(audio.duration) || 'Desconocido'}
- 📝 *Descripción:* ${audio.description || 'Sin descripción'}
- 🔗 *Link:* ${song.link || 'N/A'}`;
+    const info = ` 🎋 *Título:* ${audio.title || 'Desconocido'}
+ 🍂 *Artista:* ${audio.user || 'Desconocido'}
+ 💐 *Duración:* ${msToTime(audio.duration) || 'Desconocido'}
+ 🌾 *Descripción:* ${audio.description || 'Sin descripción'}
+ 🎀 *Link:* ${song.link || 'N/A'}`;
 
-    await conn.sendFile(m.chat, audio.thumbnail, 'cover.jpg', caption, { ...fake, quoted: m });
+    await conn.sendFile(m.chat, audio.thumbnail, 'cover.jpg', info, ...fake { quoted: m });
 
     await conn.sendMessage(m.chat, {
       audio: { url: audio.url },
@@ -53,7 +51,7 @@ const handler = async (m, { conn, text, channelRD }) => {
       contextInfo: {
         externalAdReply: {
           title: audio.title,
-          body: `🎵 Descarga completa | Rin Itoshi MD`,
+          body: `⭐ Descarga completa | KANEKI BOT AI 📡`,
           thumbnailUrl: audio.thumbnail,
           mediaType: 1,
           renderLargerThumbnail: true
@@ -61,11 +59,10 @@ const handler = async (m, { conn, text, channelRD }) => {
       }
     }, { quoted: m });
 
-    await m.react('✅');
+    await m.react('✔️');
   } catch (err) {
     console.error('[SOUNDCLOUD ERROR]', err);
     m.reply('❌ Ocurrió un error al procesar la solicitud.');
-    await m.react('❌');
   }
 };
 
@@ -77,8 +74,7 @@ function msToTime(ms) {
 
 handler.command = ['sound', 'soundcloud'];
 handler.help = ['soundcloud <nombre de canción o artista>'];
-handler.tags = ['descargas'];
-handler.register = true;
+handler.tags = ['download'];
 handler.limit = 2;
 
 export default handler;

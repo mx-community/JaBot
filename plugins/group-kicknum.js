@@ -32,6 +32,8 @@ break
 m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`)
 }}
 
+handler.help = ['kicknum', 'listnum', 'listanum']
+handler.tags = ['group']
 handler.command = ['kicknum', 'listnum', 'listanum']
 handler.group = true
 handler.botAdmin = true
