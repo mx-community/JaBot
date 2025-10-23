@@ -1,7 +1,6 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '1'
 import './settings.js'
 import './plugins/_allfake.js'
-import './_prueba.js'
 import cfonts from 'cfonts'
 import { createRequire } from 'module'
 import { fileURLToPath, pathToFileURL } from 'url'
@@ -37,7 +36,7 @@ console.log(chalk.magentaBright('\n❀ Iniciando...'))
 say('KANEKI - BOT AI', {
 font: 'block',
 align: 'center',
-gradient: ['green', 'white']
+gradient: ['green', 'cyan', 'blue', 'magenta', 'red', 'yellow', 'white']
 })
 say('Made with love by Shadow_xyz', {
 font: 'console',
