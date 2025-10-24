@@ -1,58 +1,66 @@
-import axios from 'axios'
+import fetch from 'node-fetch'
 
-const handler = async (m, { conn, text }) => {
-  if (!text) return m.reply('🎧 Ingresa el nombre o artista que quieres buscar en SoundCloud.')
+const handler = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text)
+    return m.reply(`🍃 *Ingresa el nombre o artista que quieres buscar en SoundCloud.*`)
 
   try {
-    await m.react('⏳')
+    let trackInfo = {}
 
+    const downloadAudio = async (url) => {
+      const res = await fetch(`https://api.zenzxz.my.id/api/downloader/soundcloud?url=${encodeURIComponent(url)}`)
+      const json = await res.json()
+      if (!json.success) throw new Error('No se pudo descargar el audio.')
+      return json.data
+    }
 
-    const search = await axios.get('https://delirius-apiofc.vercel.app/search/soundcloud', {
-      params: { q: text, limit: 1 }
-    })
-    const song = search.data?.data?.[0]
-    if (!song) return m.reply('❌ No encontré resultados en SoundCloud.')
+    if (text.includes('soundcloud.com')) {
+      trackInfo = await downloadAudio(text)
+    } else {
+      const res = await fetch(`https://api.delirius.store/search/soundcloud?q=${encodeURIComponent(text)}&limit=1`)
+      const json = await res.json()
+      if (!json.status || !json.data?.length) return m.reply('No se encontraron resultados.')
 
-    const dl = await axios.get('https://api.siputzx.my.id/api/d/soundcloud', {
-      params: { url: song.link }
-    })
-    if (!dl.data?.status) return m.reply('⚠️ No se pudo descargar el audio.')
+      const track = json.data[0]
+      const download = await downloadAudio(track.link)
 
-    const audio = dl.data.data
+      trackInfo = { ...download, ...track, duration_seconds: Math.floor(track.duration / 1000), source_url: track.link, thumbnail: track.image }
+    }
 
-    const info = `🎶 *${audio.title || 'Desconocido'}*
-👤 ${audio.user || 'Desconocido'}
-⏱️ ${msToTime(audio.duration) || 'Desconocido'}
-🔗 ${song.link || 'N/A'}`
+    const duracionSeg = trackInfo.duration_seconds || 0
+    const duracion = `${Math.floor(duracionSeg / 60)}:${(duracionSeg % 60).toString().padStart(2, '0')}`
 
-    await conn.sendMessage(m.chat, { text: info }, { quoted: m })
+    const infoFields = [
+      ['Título', trackInfo.title],
+      ['Artista', trackInfo.artist],
+      ['Álbum', trackInfo.album],
+      ['Género', trackInfo.genre],
+      ['Label', trackInfo.label_name || trackInfo.label],
+      ['Licencia', trackInfo.license],
+      ['Likes', trackInfo.likes],
+      ['Reproducciones', trackInfo.play],
+      ['Comentarios', trackInfo.comments],
+      ['Duración', duracion],
+      ['Enlace', trackInfo.source_url]
+    ]
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        audio: { url: audio.url },
-        fileName: `${audio.title || 'soundcloud'}.mp3`,
-        mimetype: 'audio/mpeg'
-      },
-      { quoted: m }
-    )
+    const caption = [
+      '╭━━━⬣ *SoundCloud Music* 🍃',
+      ...infoFields.map(([k, v]) => `┃ 🌿 ${k}: ${v ?? '-'}`),
+      '╰━━━⬣'
+    ].join('\n')
 
-    await m.react('✔️')
-  } catch (e) {
-    console.error(e)
-    await m.reply('Error al procesar la solicitud.')
+    await conn.sendMessage(m.chat, { image: { url: trackInfo.thumbnail }, caption }, { quoted: m })
+    await conn.sendMessage(m.chat, { audio: { url: trackInfo.download_url }, mimetype: 'audio/mpeg', fileName: `${trackInfo.title || 'soundcloud'}.mp3` }, { quoted: m })
+
+  } catch (err) {
+    console.error(err)
+    m.reply('*Ocurrió un error al procesar la canción.')
   }
-}
-
-function msToTime(ms) {
-  const s = Math.floor((ms / 1000) % 60)
-  const m = Math.floor((ms / (1000 * 60)) % 60)
-  return `${m}:${s.toString().padStart(2, '0')}`
 }
 
 handler.command = ['sound', 'soundcloud']
 handler.help = ['soundcloud <nombre o artista>']
 handler.tags = ['download']
-handler.limit = 2
 
 export default handler

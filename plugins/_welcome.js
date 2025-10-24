@@ -70,7 +70,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
 
   const fkontak = {
     key: { participant: '0@s.whatsapp.net', remoteJid: 'status@broadcast', fromMe: false, id: 'Halo' },
-    message: { locationMessage: { name: 'Sistema Welcome', jpegThumbnail: thumbBuffer } },
+    message: { locationMessage: { name: '🍉 𝙒𝙚𝙡𝙘𝙤𝙢𝙚 - 𝙆𝙖𝙣𝙚𝙠𝙞 𝙈𝘿 📡', jpegThumbnail: thumbBuffer } },
     participant: '0@s.whatsapp.net'
   }
 
@@ -81,7 +81,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
       product: {
         productImage: { url: pp },
         productId: '24529689176623820',
-        title: `🌸 Bienvenida/o • ${groupSubject}`,
+        title: `🌸 Bienvenida/o causa • ${groupSubject}`,
         description: caption,
         currencyCode: 'USD',
         priceAmount1000: '100000',
@@ -91,7 +91,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
       },
       businessOwnerJid: who,
       caption: caption,
-      footer: `👥 Miembros: ${totalMembers}\n📆 ${date}`,
+      footer: `👥 Miembros: ${totalMembers} 📆 ${date}`,
       interactiveButtons: [
         {
           name: 'quick_reply',
@@ -124,7 +124,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
       },
       businessOwnerJid: who,
       caption: caption,
-      footer: `👥 Miembros: ${totalMembers}\n📆 ${date}`,
+      footer: `👥 Miembros: ${totalMembers} 📆 ${date}`,
       interactiveButtons: [
         {
           name: 'quick_reply',
