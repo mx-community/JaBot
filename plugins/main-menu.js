@@ -126,9 +126,9 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
 
     await conn.sendMessage(m.chat, {
       image: { url: imageUrl },
-      document: fs.readFileSync('./README.md'),
+      /*document: fs.readFileSync('./README.md'),
       fileName: '🚀 ᴋᴀɴᴇᴋɪ ʙᴏᴛ ᴀɪ | Mᴇɴᴜ 🌸',
-      mimetype: 'application/pdf',
+      mimetype: 'application/pdf',*/
       caption: cuerpo,
       fileName: '🩸 Kaneki Bot AI | Menu ☯',
       mimetype: 'image/jpeg',
