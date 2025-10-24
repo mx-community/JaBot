@@ -129,32 +129,39 @@ secret = secret.match(/.{1,4}/g)?.join("-")
 txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
 codeBot = await m.reply(secret)*/
 
-
-        
-let icono = banner
+let icono = './lib/catalogo.jpg'
 let dev = '☁︎ KANEKI BOT - SUB BOT CODE ☁︎'
 
-const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({ 
-    interactiveMessage: {
-        body: { text: rtx2 },
-        footer: { text: dev },
-        header: { title: "🔐 CÓDIGO DE VINCULACIÓN" },
-        nativeFlowMessage: {
+  const imgBuffer = fs.readFileSync(icono)
+  const msg = generateWAMessageFromContent(m.chat, {
+    viewOnceMessage: {
+      message: {
+        messageContextInfo: { deviceListMetadata: {}, deviceListMetadataVersion: 2 },
+        interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+          header: {
+            title: "🔐 CÓDIGO DE VINCULACIÓN",
+            hasMediaAttachment: true,
+            ...await conn.prepareMessageMedia(imgBuffer, 'imageMessage', { upload: conn.waUploadToServer })
+          },
+          body: { text: rtx2 },
+          footer: { text: dev },
+          nativeFlowMessage: {
             buttons: [
-                {
-                    name: 'cta_copy',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: `📋 Copiar Código`,
-                        copy_code: secret
-                    })
-                }
+              {
+                name: 'cta_copy',
+                buttonParamsJson: JSON.stringify({
+                  display_text: `📋 Copiar Código`,
+                  copy_code: secret
+                })
+              }
             ]
-        }
+          }
+        })
+      }
     }
-}), { quoted: m })
+  }, { quoted: m })
 
-const codeBot = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
-
+const codeBot =  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
 
 console.log(secret)
 }
