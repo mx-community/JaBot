@@ -118,14 +118,14 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
 
     const cuerpo = infoUser + `*🍡 Mᴇɴú ᴅɪsᴘᴏɴɪʙʟᴇ:*${menuTexto}`.trim()
 
-  /*  const imgs = [
+    const imgs = [
       'https://i.pinimg.com/originals/b3/67/d5/b367d513d861de468305c32c6cd22756.jpg',
       'https://i.pinimg.com/originals/90/c8/58/90c858c65f0b3b2fca9a226fa369aa2b.png'
     ]
-    let imageUrl = imgs[Math.floor(Math.random() * imgs.length)]*/
+    let imageUrl = imgs[Math.floor(Math.random() * imgs.length)]
 
     await conn.sendMessage(m.chat, {
-      video: { url: 'https://files.catbox.moe/qw2csq.mp4' },
+      image: { url: imageUrl },
      /* document: fs.readFileSync('./README.md'),
       fileName: '🚀 ᴋᴀɴᴇᴋɪ ʙᴏᴛ ᴀɪ | Mᴇɴᴜ 🌸',
       mimetype: 'application/pdf',*/
