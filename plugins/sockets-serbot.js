@@ -138,33 +138,35 @@ const msg = generateWAMessageFromContent(
   m.chat,
   proto.Message.fromObject({
     interactiveMessage: {
-      header: {
+      header: proto.Message.InteractiveMessage.Header.fromObject({
         title: "🔐 CÓDIGO DE VINCULACIÓN",
-        subtitle: null,
+        subtitle: "Usa este código para vincular tu cuenta",
         hasMediaAttachment: true,
-        ...(
-          await conn.prepareMessageMedia(imgBuffer, "imageMessage", { upload: conn.waUploadToServer })
-        ),
-      },
-      body: { text: rtx2 },
-      footer: { text: dev },
-      nativeFlowMessage: {
+        ...(await conn.prepareMessageMedia(imgBuffer, "imageMessage", { upload: conn.waUploadToServer }))
+      }),
+      body: proto.Message.InteractiveMessage.Body.fromObject({
+        text: rtx2
+      }),
+      footer: proto.Message.InteractiveMessage.Footer.fromObject({
+        text: dev
+      }),
+      nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
         buttons: [
           {
             name: "cta_copy",
             buttonParamsJson: JSON.stringify({
               display_text: "📋 Copiar Código",
               copy_code: secret
-            }),
-          },
-        ],
-      },
-    },
+            })
+          }
+        ]
+      })
+    }
   }),
   { quoted: m }
 )
 
-const codeBot = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
 
 console.log(secret)
 }
