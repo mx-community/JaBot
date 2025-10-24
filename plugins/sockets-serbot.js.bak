@@ -129,39 +129,57 @@ secret = secret.match(/.{1,4}/g)?.join("-")
 txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
 codeBot = await m.reply(secret)*/
 
-let icono = './lib/catalogo.jpg'
+
+
 let dev = '☁︎ KANEKI BOT - SUB BOT CODE ☁︎'
 
-const imgBuffer = fs.readFileSync(icono)
+// Imágenes remotas
+let imagenes = [
+  "https://i.pinimg.com/736x/c9/8f/7f/c98f7f2a0555a530a9e36d3cf2b0795e.jpg", // imagen 2
+  "https://i.pinimg.com/736x/44/a2/c5/44a2c5e8234015e1b3a29a181144e891.jpg"  // imagen 3
+]
+
+// Escoge una al azar
+let randomImg = imagenes[Math.floor(Math.random() * imagenes.length)]
+let imgBuffer = await (await fetch(randomImg)).buffer()
 
 const msg = generateWAMessageFromContent(
   m.chat,
   proto.Message.fromObject({
-    interactiveMessage: {
-      header: proto.Message.InteractiveMessage.Header.fromObject({
-        title: "🔐 CÓDIGO DE VINCULACIÓN",
-        subtitle: "Usa este código para vincular tu cuenta",
-        hasMediaAttachment: true,
-        ...(await conn.prepareMessageMedia(imgBuffer, "imageMessage", { upload: conn.waUploadToServer }))
-      }),
-      body: proto.Message.InteractiveMessage.Body.fromObject({
-        text: rtx2
-      }),
-      footer: proto.Message.InteractiveMessage.Footer.fromObject({
-        text: dev
-      }),
-      nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
-        buttons: [
-          {
-            name: "cta_copy",
-            buttonParamsJson: JSON.stringify({
-              display_text: "📋 Copiar Código",
-              copy_code: secret
-            })
-          }
-        ]
-      })
-    }
+    viewOnceMessage: {
+      message: {
+        messageContextInfo: { deviceListMetadata: {}, deviceListMetadataVersion: 2 },
+        interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+          header: proto.Message.InteractiveMessage.Header.fromObject({
+            title: "🔐 CÓDIGO DE VINCULACIÓN",
+            subtitle: null,
+            hasMediaAttachment: true,
+            ...(
+              await conn.prepareMessageMedia(imgBuffer, "imageMessage", {
+                upload: conn.waUploadToServer,
+              })
+            ),
+          }),
+          body: proto.Message.InteractiveMessage.Body.fromObject({
+            text: rtx2, // aquí va el texto del código
+          }),
+          footer: proto.Message.InteractiveMessage.Footer.fromObject({
+            text: dev,
+          }),
+          nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+            buttons: [
+              {
+                name: "cta_copy",
+                buttonParamsJson: JSON.stringify({
+                  display_text: "📋 Copiar Código",
+                  copy_code: secret,
+                }),
+              },
+            ],
+          }),
+        }),
+      },
+    },
   }),
   { quoted: m }
 )
