@@ -122,14 +122,6 @@ setTimeout(() => { conn.sendMessage(m.sender, { delete: txtQR.key })}, 30000)
 return
 } 
 if (qr && mcode) {
-let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
-secret = secret.match(/.{1,4}/g)?.join("-")
-
-/*
-txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
-codeBot = await m.reply(secret)*/
-
-  if (qr && mcode) {
   let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
   secret = secret.match(/.{1,4}/g)?.join("-")
 
@@ -166,13 +158,6 @@ codeBot = await m.reply(secret)*/
                     id: "copy-code",
                     copy_code: secret
                   })
-                },
-                {
-                  name: "cta_url",
-                  buttonParamsJson: JSON.stringify({
-                    display_text: "🌐 Ir al Soporte",
-                    url: "https://t.me/KanekiSupportBot"
-                  })
                 }
               ]
             })
@@ -184,8 +169,7 @@ codeBot = await m.reply(secret)*/
   )
 
   await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
-}
-
+  console.log(chalk.cyanBright(`[✅] Código generado correctamente: ${secret}`))
 
 console.log(secret)
 }
