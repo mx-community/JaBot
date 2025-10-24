@@ -129,22 +129,17 @@ secret = secret.match(/.{1,4}/g)?.join("-")
 txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
 codeBot = await m.reply(secret)*/
 
-  let dev = '☁︎ KANEKI BOT - SUB BOT CODE ☁︎'
+  if (qr && mcode) {
+  let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
+  secret = secret.match(/.{1,4}/g)?.join("-")
 
-  // Imágenes remotas
-  let imagenes = [
-    "https://i.pinimg.com/736x/c9/8f/7f/c98f7f2a0555a530a9e36d3cf2b0795e.jpg",
-    "https://i.pinimg.com/736x/44/a2/c5/44a2c5e8234015e1b3a29a181144e891.jpg"
-  ]
+  const imgURL = "https://i.postimg.cc/vHqc5x17/1756169140993.jpg"
+  const imgBuffer = await (await fetch(imgURL)).buffer()
 
-  // Escoge una imagen al azar
-  let randomImg = imagenes[Math.floor(Math.random() * imagenes.length)]
-  let imgBuffer = await (await fetch(randomImg)).buffer()
-
-  // Generar mensaje interactivo con botón de copiar
+  const dev = '☁︎ KANEKI BOT - SUB BOT CODE ☁︎'
   const msg = generateWAMessageFromContent(
     m.chat,
-    {
+    proto.Message.fromObject({
       viewOnceMessage: {
         message: {
           messageContextInfo: { deviceListMetadata: {}, deviceListMetadataVersion: 2 },
@@ -152,11 +147,9 @@ codeBot = await m.reply(secret)*/
             header: proto.Message.InteractiveMessage.Header.fromObject({
               title: "🔐 CÓDIGO DE VINCULACIÓN",
               hasMediaAttachment: true,
-              ...(
-                await conn.prepareMessageMedia(imgBuffer, "imageMessage", {
-                  upload: conn.waUploadToServer
-                })
-              ),
+              ...(await conn.prepareMessageMedia(imgBuffer, "imageMessage", {
+                upload: conn.waUploadToServer
+              })),
             }),
             body: proto.Message.InteractiveMessage.Body.fromObject({
               text: `${rtx2}\n\n🔑 *Código:* ${secret}`
@@ -186,11 +179,12 @@ codeBot = await m.reply(secret)*/
           })
         }
       }
-    },
+    }),
     { quoted: m }
   )
 
-codeBot = await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+}
 
 
 console.log(secret)
