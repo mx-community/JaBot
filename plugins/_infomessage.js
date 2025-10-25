@@ -1,6 +1,7 @@
 let WAMessageStubType = (await import('@whiskeysockets/baileys')).default
 import chalk from 'chalk'
 import fs from 'fs'
+import axios from 'axios'
 import path from 'path'
 import fetch from 'node-fetch'
 
