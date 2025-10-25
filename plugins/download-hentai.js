@@ -1,26 +1,27 @@
-import fetch from "node-fetch"
-import cheerio from "cheerio"
-import { JSDOM } from "jsdom"
+import fetch from "node-fetch";
+import cheerio from "cheerio";
+import { JSDOM } from "jsdom";
 
-let handler = async (m, { conn, text }) => {
+let handler = async (m, { conn, text, args, setting }) => {
   try {
     if (!text) {
-      return conn.reply(m.chat, `
-🌸 *Uso correcto del comando:*
-> ✨ Ejemplo:  *.hent* Boku ni Harem Sexfriend
-`, m)
+      return conn.reply(m.chat, `🌸 *Uso correcto del comando:*
+> ✨ Ejemplo:  *.hent* Boku ni Harem Sexfriend`, m, rcanal);
     }
 
-    await m.react('🕒')
+    m.react('🕒');
 
-    // Si el usuario envía un enlace directo de VeoHentai
     if (text.includes('https://veohentai.com/ver/')) {
-      const videoInfo = await getInfo(text)
-      if (!videoInfo) return conn.reply(m.chat, '❌ No se encontró información del video.', m)
+      const videoInfo = await getInfo(text);
+      if (!videoInfo) {
+        return conn.reply(m.chat, 'No se encontró información del video.', m);
+      }
 
-      const peso = await size(videoInfo.videoUrl)
+      const videoUrl = videoInfo.videoUrl;
+      let peso = await size(videoInfo.videoUrl);
 
-      let caption = `〔 🍃 𝗩𝗲𝗼𝗛𝗲𝗻𝘁𝗮𝗶 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 🍃 〕
+      let cap = `
+〔 🍃 𝗩𝗲𝗼𝗛𝗲𝗻𝘁𝗮𝗶 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 🍃 〕
 
 🎬 *Título:* ${videoInfo.title}
 👀 *Vistas:* ${videoInfo.views}
@@ -30,126 +31,121 @@ let handler = async (m, { conn, text }) => {
 🔗 *Link:* ${text}
 
 ⚡ _Descargando el archivo, espera un momento..._
-`
+`;
+      m.reply(cap)
 
-      await conn.reply(m.chat, caption, m)
-
-      await conn.sendFile(m.chat, videoInfo.videoUrl, `${videoInfo.title}.mp4`, '', m, null, {
-        asDocument: true,
-        mimetype: "video/mp4"
-      })
-
-      await m.react('✅')
+      await conn.sendFile(m.chat, videoUrl, `${videoInfo.title}.mp4`, '', m, null, {
+        asDocument: true, mimetype: "video/mp4"
+      });
+      m.react('✔️');
     } else {
-      const results = await searchHentai(text)
-      if (results.length === 0)
-        return conn.reply(m.chat, '😿 No se encontraron resultados.', m)
+      const results = await searchHentai(text);
+      if (results.length === 0) {
+        return conn.reply(m.chat, 'No se encontraron resultados.', m);
+      }
 
-      let caption = `
-   ⬣〔 🌺 𝗛𝗲𝗻𝘁𝗮𝗶 𝗥𝗲𝘀𝘂𝗹𝘁𝘀 🌺 〕
- 🔞 *Término buscado:* ${text}
+      let cap = `◜ Hentai - Search ◞\n`;
 
-
-🎥 *Resultados encontrados:* ${results.length}
-`.trim()
-
-      results.slice(0, 15).forEach((res, i) => {
-        caption += `
-
-${i + 1}. 🌸 *Título:* ${res.titulo}
-🔗 *Link:* ${res.url}`
-      })
-
-      caption += `
-
-🍃 *Tip:* Puedes copiar el link y usar:
-> *.hent* <link>
-para descargar el video directamente. 💦
-`
-
-      await conn.reply(m.chat, caption, m)
-      await m.react("🔞")
+      results.slice(0, 15).forEach((res, index) => {
+        cap += `${i + 1}. 🌸 *Título:* ${res.titulo}
+🔗 *Link:* ${res.url}`;
+      });
+      m.reply(cap)
+      m.react("✔️");
     }
   } catch (err) {
-    console.error(err)
-    return conn.reply(m.chat, '⚠️ Error interno del comando.\n\n' + err.message, m)
+    return conn.reply(m.chat, 'Error en la ejecución.\n\n' + err, m);
   }
-}
+};
 
-handler.help = ["hentai"]
-handler.tags = ["download"]
-handler.command = ["hentai", "hent"]
-handler.group = true
-handler.premium = true
-
-export default handler
-
+handler.help = ["hentai"];
+handler.command = ["hentai", "hent"];
+handler.tags = ["download"];
+export default handler;
 
 async function searchHentai(text) {
-  const base = `https://veohentai.com/?s=${encodeURIComponent(text)}`
-  try {
-    const response = await fetch(base)
-    if (!response.ok) throw new Error(`Error HTTP ${response.status}`)
+  let base = `https://veohentai.com/?s=${encodeURIComponent(text)}`;
 
-    const html = await response.text()
-    const $ = cheerio.load(html)
-    const resultados = []
+  try {
+    const response = await fetch(base);
+    if (!response.ok) throw new Error(`Error en la petición: ${response.status}`);
+
+    const html = await response.text();
+    const $ = cheerio.load(html);
+
+    let resultados = [];
 
     $(".grid a").each((i, el) => {
-      const url = $(el).attr("href")
-      const titulo = $(el).find("h2").text().trim()
-      if (url && titulo) resultados.push({ titulo, url })
-    })
+      let url = $(el).attr("href");
+      let titulo = $(el).find("h2").text().trim();
 
-    return resultados
+      if (url && titulo) {
+        resultados.push({ titulo, url });
+      }
+    });
+
+    return resultados;
   } catch (error) {
-    console.error("Error en búsqueda:", error)
-    return []
+    console.error("Error:", error);
+    return [];
   }
 }
-
 
 async function getInfo(url) {
   try {
-    const response = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } })
-    const data = await response.text()
-    const dom = new JSDOM(data)
-    const document = dom.window.document
+    const response = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0" }
+    });
 
-    const iframe = document.querySelector(".aspect-w-16.aspect-h-9 iframe")
-    if (!iframe) return null
+    const data = await response.text();
+    const dom = new JSDOM(data);
+    const document = dom.window.document;
 
-    const iframeSrc = iframe.src
-    const videoResponse = await fetch(iframeSrc)
-    const videoHtml = await videoResponse.text()
+    const iframe = document.querySelector(".aspect-w-16.aspect-h-9 iframe");
 
-    const match = videoHtml.match(/data-id="\/player\.php\?u=([^&]*)/)
-    if (!match) throw new Error("No se encontró el video.")
+    if (iframe) {
+      const iframeSrc = iframe.src;
+      const videoResponse = await fetch(iframeSrc);
+      const videoHtml = await videoResponse.text();
+      const match = videoHtml.match(/data-id="\/player\.php\?u=([^&]*)/);
 
-    const videoUrl = atob(match[1])
-    const title = document.querySelector("h1.text-whitegray.text-lg")?.textContent.trim() || "Sin título"
-    const views = document.querySelector("h4.text-whitelite.text-sm")?.textContent.trim() || "N/A"
-    const likes = document.querySelector("#num-like")?.textContent.trim() || "0"
-    const dislikes = document.querySelector("#num-dislike")?.textContent.trim() || "0"
+      if (!match) throw new Error("No se encontró la URL del video");
 
-    return { videoUrl, title, views, likes, dislikes }
+      const videoUrl = atob(match[1]);
+
+      const title = document.querySelector("h1.text-whitegray.text-lg").textContent.trim();
+      const views = document.querySelector("h4.text-whitelite.text-sm").textContent.trim();
+      const likes = document.querySelector("#num-like").textContent.trim();
+      const dislikes = document.querySelector("#num-dislike").textContent.trim();
+
+      return {
+        videoUrl,
+        title,
+        views,
+        likes,
+        dislikes
+      };
+    } else {
+      return null;
+    }
   } catch (error) {
-    console.error("Error al obtener info:", error)
-    return null
+    console.error(error);
+    return null;
   }
 }
 
 async function size(url) {
   try {
-    const res = await fetch(url, { method: 'HEAD' })
-    const size = parseInt(res.headers.get('content-length'), 10)
-    if (!size) return 'No disponible'
+    const res = await fetch(url, { method: 'HEAD' });
+    const size = parseInt(res.headers.get('content-length'), 10);
 
-    if (size >= 1e9) return (size / 1e9).toFixed(2) + ' GB'
-    if (size >= 1e6) return (size / 1e6).toFixed(2) + ' MB'
-    if (size >= 1e3) return (size / 1e3).toFixed(2) + ' KB'
-    return size + ' Bytes'
+    if (!size) throw new Error('Size not available');
+
+    if (size >= 1e9) return (size / 1e9).toFixed(2) + ' GB';
+    if (size >= 1e6) return (size / 1e6).toFixed(2) + ' MB';
+    if (size >= 1e3) return (size / 1e3).toFixed(2) + ' KB';
+    return size + ' Bytes';
   } catch (err) {
-    return 'Error: ' + err.message
+    return 'Error: ' + err.message;
   }
 }
