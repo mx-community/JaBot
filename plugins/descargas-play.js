@@ -6,7 +6,7 @@ const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-z
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text?.trim())
-      return conn.reply(m.chat, `⚽ *Por favor, ingresa el nombre o enlace del video.*`, m)
+      return conn.reply(m.chat, `⚽ *Por favor, ingresa el nombre o enlace del video.*`, m, rcanal)
 
     let videoIdMatch = text.match(youtubeRegexID)
     let search = await yts(videoIdMatch ? 'https://youtu.be/' + videoIdMatch[1] : text)
@@ -20,13 +20,12 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     const vistas = formatViews(views)
     const canal = author?.name || 'Desconocido'
 
-    const infoMessage = `
-🕸️ *Título:* *${title}*
-🌿 *Canal:* ${canal}
-🍋 *Vistas:* ${vistas}
-🍃 *Duración:* ${timestamp || 'Desconocido'}
-📆 *Publicado:* ${ago || 'Desconocido'}
-🚀 *Enlace:* ${url}`.trim()
+    const infoMessage = `*Título:* *${title}*
+*Canal:* ${canal}
+*Vistas:* ${vistas}
+*Duración:* ${timestamp || 'Desconocido'}
+*Publicado:* ${ago || 'Desconocido'}
+*Enlace:* ${url}`.trim()
 
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
@@ -45,33 +44,26 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (command === 'playaudio') {
       try {
-        const apiUrl = `https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(url)}&type=audio&quality=128kbps&apikey=russellxz`
+        const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/audio?url=${encodeURIComponent(url)}&quality=128`
         const res = await fetch(apiUrl)
         const json = await res.json()
 
-        if (!json.status || !json.data?.url)
+        if (!json.status || !json.result?.download?.url)
           throw '*⚠ No se obtuvo un enlace de audio válido.*'
 
-        const audioUrl = json.data.url
-        const titulo = json.title || title
-        const cover = json.thumbnail || thumbnail
-        const tamaño = json.data.size || 'Desconocido'
-
-        const caption = `> *\`Título:\`* ${titulo}
-> *\`Tamaño:\`* ${tamaño}`.trim()
-
+        const data = json.result
+        const audioUrl = data.download.url
         await conn.sendMessage(m.chat, {
           audio: { url: audioUrl },
           mimetype: 'audio/mpeg',
           fileName: `${titulo}.mp3`,
-          caption,
           contextInfo: {
             externalAdReply: {
               title: titulo,
-              body: json.channel || '',
+              body: data.metadata.author?.name || '',
               mediaType: 1,
               thumbnailUrl: cover,
-              sourceUrl: url,
+              sourceUrl: data.metadata.url,
               renderLargerThumbnail: false
             }
           }
@@ -98,10 +90,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         const titulo = json.result.title || title
         const tamaño = formatBytes(Number(videoData.contentLength)) || 'Desconocido'
 
-        const caption = `
-> ♻️ *\`Título:\`* ${titulo}
-> 🎋 *\`Calidad:\`* ${videoData.qualityLabel || 'Desconocida'}
-> ☁️ *\`Tamaño:\`* ${tamaño}`.trim()
+        const caption = ``.trim()
 
         await conn.sendMessage(m.chat, {
           video: { url: videoUrl },
@@ -120,7 +109,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           }
         }, { quoted: m })
 
-        await m.react('🎥')
+        await m.react('✔️')
       } catch (e) {
         console.error(e)
         return conn.reply(m.chat, '⚠ No se pudo enviar el video. Puede ser muy pesado o hubo un error en la API.', m)
