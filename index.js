@@ -193,7 +193,7 @@ if (connection === "open") {
 const userJid = jidNormalizedUser(conn.user.id)
 const userName = conn.user.name || conn.user.verifiedName || "Desconocido"
 await joinChannels(conn)
-console.log(chalk.green.bold(`[ ✿ ]  Conectado a: ${userName}`))
+console.log(chalk.green.bold(`╭───────────────────────────◉\n│\n│🌺◌*̥₊ 𝙲𝚘𝚗𝚎𝚌𝚝𝚊𝚍𝚘 𝙲𝚘𝚛𝚛𝚎𝚌𝚝𝚊𝚖𝚎𝚗𝚝𝚎.\n│ [ ✿ ]  Conectado a: ${userName}│\n╰───────────────────────────◉`))
 }
 let reason = new Boom(lastDisconnect?.error)?.output?.statusCode
 if (connection === "close") {
