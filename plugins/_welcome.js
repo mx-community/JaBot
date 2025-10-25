@@ -16,6 +16,7 @@ async function generarBienvenida({ conn, userId, groupMetadata, chat }) {
   const caption = `👋 ¡Hola, ${username}!
 Bienvenid@ al grupo *_${groupMetadata.subject}_*
 
+
 🍃 *_Esperamos que disfrutes tu estadía._*
 
 🌿 \`𝐈𝐧𝐟𝐨 - 𝐆𝐫𝐨𝐮𝐩:\`
@@ -81,7 +82,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
       product: {
         productImage: { url: pp },
         productId: '24529689176623820',
-        title: `🌸 Bienvenida/o causa • ${groupSubject}`,
+        title: `꒰͡•*゜・。🍃 ˗ˏˋ ♡ ˎˊ˗🅆🄴🄻🄲🄾🄼🄴!˗ˏˋ ♡ ˎˊ˗🍬 ꒰͡•*゜・。 ͡꒱ֽ ׄ`,
         description: caption,
         currencyCode: 'USD',
         priceAmount1000: '100000',
@@ -114,7 +115,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
       product: {
         productImage: { url: pp },
         productId: '24529689176623820',
-        title: `🍂 Adios • ${groupSubject}`,
+        title: `꒰͡•*゜・。🍃 ˗ˏˋ ♡ ˎˊ˗🅆🄴🄻🄲🄾🄼🄴!˗ˏˋ ♡ ˎˊ˗🍬 ꒰͡•*゜・。 ͡꒱ֽ ׄ`,
         description: caption,
         currencyCode: 'USD',
         priceAmount1000: '100000',

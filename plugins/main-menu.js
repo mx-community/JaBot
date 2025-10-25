@@ -32,7 +32,7 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
 
     const channelRD = { 
       id: '120363422142340004@newsletter', 
-      name: '𝐊𝐚𝐧𝐞𝐤𝐢 𝐁𝐨𝐭 𝐀𝐈 : 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 𝐎𝐟𝐢𝐜𝐢𝐚𝐥 ☯'
+      name: '𝐊𝐚𝐧𝐞𝐤𝐢 𝐁𝐨𝐭 𝐀𝐈 : 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 𝐎𝐟𝐢𝐜𝐢𝐚𝐥 ꒰͡•*゜・。 ͡꒱ֽ ׄ< '
     }
 
     const metaMsg = {
@@ -46,7 +46,7 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
           newsletterName: channelRD.name
         },
         externalAdReply: {
-          title: '🩸 Kaneki Bot AI 🌿',
+          title: '꒰͡•*゜🩸 Kaneki Bot AI 🌿꒰͡•*゜・。 ͡꒱ֽ ׄ',
           body: '💮 Dev: Shadow_xyz ☁️',
           mediaUrl: null,
           description: null,
