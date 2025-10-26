@@ -63,7 +63,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         caption: info,
         contextInfo: { forwardingScore: 999, isForwarded: true }
       },
-      { quoted: fkontak }
+      { quoted: fkontak2 }
     );
 
     if (['play', 'mp3'].includes(command)) {
