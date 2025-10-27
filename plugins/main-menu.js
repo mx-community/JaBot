@@ -72,6 +72,7 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
       'group': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɢʀᴜᴘᴏs` 🏮 ᦡᦡ',
       'nable': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɴᴀʙʟᴇ` ⚙️ ᦡᦡ',
       'ia': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ɪᴀ` ☁️ ᦡᦡ',
+      'stalk': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ stalk` 🌹',
       'tools': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴛᴏᴏʟs` 🧩 ᦡᦡ',
       'sticker': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ sᴛɪᴄᴋᴇʀs` ✨ ᦡᦡ',
       'owner': '𓂂𓏸 𐅹੭੭  `ᴍᴇɴᴜ ᴏᴡɴᴇʀ` 💙 ᦡᦡ',
