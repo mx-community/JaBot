@@ -11,7 +11,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   }
 
   try {
-    await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+    await conn.sendMessage(m.chat, { react: { text: '🍃', key: m.key } })
     conn.reply(m.chat, `*✧ Mejorando la calidad de la imagen....*`, m, rcanal)  
     const media = await quoted.download()
     const ext = mime.split('/')[1]
@@ -44,10 +44,10 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 
     await conn.sendMessage(m.chat, {
       image: resultBuffer,
-      caption: `☆ *𝙰𝚀𝚄𝙸 𝚃𝙸𝙴𝙽𝙴𝚂 𝚃𝚄 𝙸𝙼𝙰𝙶𝙴𝙽 𝙴𝙽 𝙷𝙳* 🍂\n> © kaneki bot | ʙʏ sʜᴀᴅᴏᴡ.xʏᴢ °`.trim()
-    }, { quoted: m })
+      caption: `🍃 *𝙰𝚀𝚄𝙸 𝚃𝙸𝙴𝙽𝙴𝚂 𝚃𝚄 𝙸𝙼𝙰𝙶𝙴𝙽 𝙴𝙽 𝙷𝙳* 🚀\n> ${global.textbot}`.trim()
+    }, { quoted: fkontak })
 
-    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
+    await conn.sendMessage(m.chat, { react: { text: '🚀', key: m.key } })
   } catch (err) {
     await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } })
     m.reply(`❌ Ocurrio un error:\n${err.message || err}`)
