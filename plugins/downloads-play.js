@@ -56,15 +56,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ✨ *Publicado:* ${ago}
 🍉 *Link:* ${url}`;
 
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { url: thumbnail },
-        caption: info,
-        contextInfo: { forwardingScore: 999, isForwarded: true }
-      },
-      { quoted: fkontak2 }
-    );
+    const thumb = (await conn.getFile(thumbnail)).data
+    await conn.sendMessage(m.chat, { image: thumb, caption: info }, { quoted: fkontak2 })
+
 
     if (['play', 'mp3'].includes(command)) {
       await m.react('🎧');
