@@ -123,9 +123,42 @@ return
 if (qr && mcode) {
 let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
-txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
-codeBot = await m.reply(secret)
-console.log(secret)
+
+
+//txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
+//codeBot = await m.reply(secret)
+
+    const resImg = await fetch('https://i.postimg.cc/vHqc5x17/1756169140993.jpg')
+    const thumbCode = Buffer.from(await resImg.arrayBuffer())
+
+    const codeMessage = {
+      image: thumbCode,
+      caption: `${rtx2.trim()}\n\n> Código: *${secret}*`,
+      footer: "✨ Pulsa el botón para copiar el código y vincularte.",
+      headerType: 4,
+      viewOnce: true,
+      interactiveMessage: proto.Message.InteractiveMessage.create({
+        body: proto.Message.InteractiveMessage.Body.fromObject({
+          text: ""
+        }),
+        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+          buttons: [
+            {
+              name: "cta_copy",
+              buttonParamsJson: JSON.stringify({
+                display_text: "✨ Copiar Código",
+                copy_code: secret
+              })
+            }
+          ]
+        })
+      })
+    }
+
+    await conn.sendMessage(m.chat, codeMessage, { quoted: m })
+    console.log(chalk.green(`[CTA COPY] Código enviado con botón de copiar: ${secret}`))
+
+//console.log(secret)
 }
 if (txtCode && txtCode.key) {
 setTimeout(() => { conn.sendMessage(m.sender, { delete: txtCode.key })}, 30000)
