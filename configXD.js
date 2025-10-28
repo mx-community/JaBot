@@ -67,6 +67,6 @@ siputzx: { url: "https://api.siputzx.my.id", key: null }
 let file = fileURLToPath(import.meta.url)
 watchFile(file, () => {
 unwatchFile(file)
-console.log(chalk.redBright("Update 'settings.js'"))
+console.log(chalk.redBright("Update 'configXD.js'"))
 import(`${file}?update=${Date.now()}`)
 })
