@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 let handler = async (m, { conn, usedPrefix, command }) => {
 if (!db.data.chats[m.chat].nsfw && m.isGroup) {
-  return m.reply(hotw);
+  return m.reply(`ꕥ El contenido *NSFW* está desactivado en este grupo.\n\nUn *administrador* puede activarlo con:\n» *${usedPrefix}nsfw on*`);
 }
   try {
     const res = await fetch('https://g-mini-ia.vercel.app/api/nsfw');
