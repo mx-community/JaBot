@@ -23,7 +23,7 @@ const res = await axios({ method: 'POST', url: 'https://tikwm.com/api/feed/searc
 const results = res.data?.data?.videos?.filter(v => v.play) || []
 if (results.length < 2) return conn.reply(m.chat, 'ꕥ Se requieren al menos 2 resultados válidos con contenido.', m)
 const medias = results.slice(0, 10).map(v => ({ type: 'video', data: { url: v.play }, caption: createSearchCaption(v) }))
-await conn.sendSylphy(m.chat, medias, { quoted: m })
+await conn.sendSylphy(m.chat, medias, ...fake { quoted: fkontak })
 }
 await m.react('✔️')
 } catch (e) {
