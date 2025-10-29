@@ -19,22 +19,44 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     await m.react('🕒')
-    await conn.reply(m.chat, '*_🍃 Descargando video uwu_*', m, rcanal)
+    await conn.reply(m.chat, '*_🍃 Descargando video uwu_*', m)
 
-    const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=360`
-    const response = await fetch(apiUrl)
-    if (!response.ok) throw `Error en la API.`
-    const data = await response.json()
+    let down, meta
+    try {
+      // API principal
+      const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=360`
+      const response = await fetch(apiUrl)
+      if (!response.ok) throw "Error en la API principal."
+      const data = await response.json()
 
-    const meta = data?.result?.metadata
-    const down = data?.result?.download
-    if (!down?.url) throw `No se pudo obtener el enlace de descarga.`
+      meta = data?.result?.metadata
+      down = data?.result?.download
+      if (!down?.url) throw "No se pudo obtener el enlace de descarga desde la API principal."
+
+    } catch (err) {
+      // Fallback API: Yupra
+      const yupraUrl = `https://api.yupra.com/api/downloader/ytmp4?url=${encodeURIComponent(text)}`
+      const response = await fetch(yupraUrl)
+      if (!response.ok) throw "Error en la API Yupra."
+      const data = await response.json()
+
+      down = {
+        url: data.resultado?.formatos?.[0]?.url,
+        filename: `${data.resultado?.titulo || "video"}.mp4`,
+        quality: data.resultado?.formatos?.[0]?.calidad || "360"
+      }
+      if (!down.url) throw "No se pudo obtener el enlace de descarga desde Yupra."
+
+      meta = { title: down.filename } // Solo para mostrar algo
+    }
 
     const head = await fetch(down.url, { method: "HEAD" })
     const size = head.headers.get("content-length")
-    const sizeMB = size ? Number(size) / (1024 * 1024) : 0
 
-    const caption = `╔═══❖•ೋ° ⚜️ °ೋ•❖═══╗
+    let caption
+    if (meta?.author) {
+      // API principal
+      caption = `╔═══❖•ೋ° ⚜️ °ೋ•❖═══╗
 🎬 *ＹＯＵＴＵＢＥ ＶＩＤＥＯ* 🌷
 ╚═══❖•ೋ° ⚜️ °ೋ•❖═══╝
 🍉 *Título:* ${meta.title}
@@ -46,13 +68,17 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 💾 *Tamaño:* ${formatSize(size)}
 ────────────────────
 ✨ *Descarga Completa...*`
+    } else {
+      // API Yupra fallback
+      caption = `✨ *Descarga Completa...*`
+    }
 
     await conn.sendMessage(m.chat, {
       video: { url: down.url },
       mimetype: "video/mp4",
       fileName: down.filename || `${meta.title}.mp4`,
       caption,
-      thumbnail: await (await fetch(meta.thumbnail)).buffer()
+      thumbnail: meta?.thumbnail ? await (await fetch(meta.thumbnail)).buffer() : null
     }, { quoted: m })
 
     await m.react('✔️')
