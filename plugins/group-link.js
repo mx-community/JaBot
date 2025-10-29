@@ -24,7 +24,6 @@ ${desc}
 🔗 *Link:* ${invite}
 `.trim()
 
-    // 🃏 Crear tarjeta
     const card = {
       body: proto.Message.InteractiveMessage.Body.fromObject({
         text: info1
@@ -67,7 +66,6 @@ ${desc}
       })
     }
 
-    // 📦 Crear mensaje tipo carouselMessage (como el ytsearch2)
     const msg = generateWAMessageFromContent(m.chat, {
       viewOnceMessage: {
         message: {
