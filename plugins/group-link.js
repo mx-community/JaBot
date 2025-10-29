@@ -2,18 +2,28 @@ import pkg from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 const { proto } = pkg
 
-var handler = async (m, { conn }) => {
+const handler = async (m, { conn }) => {
   try {
+    // ✅ Reacciona mientras procesa
+    await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+
     const group = m.chat
     const metadata = await conn.groupMetadata(group)
+
+    // 🖼️ Foto del grupo
     const ppUrl = await conn.profilePictureUrl(group, 'image').catch(_ => 'https://files.catbox.moe/xr2m6u.jpg')
     const pp = await (await fetch(ppUrl)).arrayBuffer()
-    const invite = 'https://chat.whatsapp.com/' + await conn.groupInviteCode(group)
+
+    // 🔗 Link de invitación
+    const inviteCode = await conn.groupInviteCode(group)
+    const invite = 'https://chat.whatsapp.com/' + inviteCode
+
+    // 👑 Datos del grupo
     const owner = metadata.owner ? '@' + metadata.owner.split('@')[0] : 'No disponible'
     const desc = metadata.desc ? `\n*📝 Descripción:*\n${metadata.desc}\n` : ''
 
     const info = `
-*⌁☍꒷₊˚ group • link ꒷₊˚⌁*
+*⌁☍꒷₊˚ Group • Link ꒷₊˚⌁*
 
 *📛 Nombre:* ${metadata.subject}
 *🧩 ID:* ${metadata.id}
@@ -25,6 +35,7 @@ ${desc}
 > ${invite}
 `.trim()
 
+    // 📦 Mensaje interactivo (ViewOnce)
     const msg = {
       viewOnceMessage: {
         message: {
@@ -62,15 +73,20 @@ ${desc}
       }
     }
 
+    // 🚀 Envía el mensaje
     await conn.relayMessage(m.chat, msg, {})
+
+    // 💫 Reacción de confirmación
+    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
 
   } catch (e) {
     console.error(e)
-    m.reply('❌ Error al obtener la información del grupo.')
+    await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } })
+    await m.reply('❌ *Error al obtener la información del grupo.*')
   }
 }
 
-handler.help = ['link']
+handler.help = ['link', 'enlace']
 handler.tags = ['group']
 handler.command = ['link', 'enlace']
 handler.group = true
