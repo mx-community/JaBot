@@ -13,7 +13,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     }
 
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } })
-    await conn.reply(m.chat, '*_🚀 Buscando la mejor canción_*', m)
+    await conn.reply(m.chat, '*_🚀 Buscando en Youtube_*', m)
 
     const search = await yts(text)
     const video = search.videos[0]
