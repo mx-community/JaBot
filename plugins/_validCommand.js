@@ -58,14 +58,14 @@ export async function before(m, { conn }) {
     .slice(0, 3)
 
   let sugerencias = similares.length
-    ? similares.map(s => `• .${s.cmd} (${s.score}%)`).join('\n')
+    ? similares.map(s => `> 🪴 • .${s.cmd} (${s.score}%)`).join('\n')
     : '• No se encontraron coincidencias.'
 
   const texto = ` 🌿 El comando *"${command}"* no fue encontrado.
  🍃 Usa *${usedPrefix}menu* para ver la lista completa.
 
  *Posibles coincidencias:*
-> ${sugerencias}`
+${sugerencias}`
 
   await conn.sendMessage(m.chat, {
     document: { url: 'https://files.catbox.moe/6fj9u7.jpg' },
