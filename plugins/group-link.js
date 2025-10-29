@@ -3,29 +3,30 @@ const { proto } = pkg
 
 var handler = async (m, { conn }) => {
   try {
-    let group = m.chat
-    let metadata = await conn.groupMetadata(group)
+    const group = m.chat
+    const metadata = await conn.groupMetadata(group)
     const pp = await conn.profilePictureUrl(group, 'image').catch(_ => 'https://files.catbox.moe/xr2m6u.jpg')
-    let invite = 'https://chat.whatsapp.com/' + await conn.groupInviteCode(group)
+    const invite = 'https://chat.whatsapp.com/' + await conn.groupInviteCode(group)
 
-    let info = `
+    const owner = metadata.owner ? '@' + metadata.owner.split('@')[0] : 'No disponible'
+    const desc = metadata.desc ? `\n*📝 Descripción:*\n${metadata.desc}\n` : ''
+
+    const info = `
 *⌁☍꒷₊˚ Información del Grupo ꒷₊˚⌁*
 
 *📛 Nombre:* ${metadata.subject}
 *🧩 ID:* ${metadata.id}
-*👑 Creado por:* ${metadata.owner ? '@' + metadata.owner.split('@')[0] : 'No disponible'}
+*👑 Creado por:* ${owner}
 *👥 Miembros:* ${metadata.participants.length}
-${metadata.desc ? `\n*📝 Descripción:*\n${metadata.desc}\n` : ''}
+${desc}
 
 > *🔗 Link del grupo:*
 > ${invite}
-    `.trim()
+`.trim()
+
+    const img = await fetch(pp).then(res => res.arrayBuffer())
 
     const msg = {
-      messageContextInfo: {
-        deviceListMetadata: {},
-        deviceListMetadataVersion: 2
-      },
       interactiveMessage: proto.Message.InteractiveMessage.create({
         body: proto.Message.InteractiveMessage.Body.fromObject({
           text: info
@@ -34,9 +35,10 @@ ${metadata.desc ? `\n*📝 Descripción:*\n${metadata.desc}\n` : ''}
           text: textbot
         }),
         header: proto.Message.InteractiveMessage.Header.fromObject({
-          title: "🌐 Link del Grupo",
-          subtitle: "",
-          hasMediaAttachment: true
+          title: "✨ Información del Grupo",
+          subtitle: "🍬",
+          hasMediaAttachment: true,
+          jpegThumbnail: img
         }),
         nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
           buttons: [
@@ -44,7 +46,6 @@ ${metadata.desc ? `\n*📝 Descripción:*\n${metadata.desc}\n` : ''}
               name: 'cta_copy',
               buttonParamsJson: JSON.stringify({
                 display_text: "📋 Copiar Link",
-                id: "copy_group_link",
                 copy_code: invite
               })
             },
@@ -60,15 +61,11 @@ ${metadata.desc ? `\n*📝 Descripción:*\n${metadata.desc}\n` : ''}
       })
     }
 
-    await conn.sendMessage(m.chat, {
-      image: { url: pp },
-      ...msg,
-      mentions: metadata.owner ? [metadata.owner] : []
-    })
+    await conn.relayMessage(m.chat, msg, {})
 
   } catch (e) {
     console.error(e)
-    m.reply('Error al obtener la información del grupo.')
+    m.reply('❌ Error al obtener la información del grupo.')
   }
 }
 
