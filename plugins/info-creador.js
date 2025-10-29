@@ -1,17 +1,29 @@
-// by dv.shadow - https://github.com/Yuji-XDev
-
+// by dv.shadow - https://github.com/Shadow-nex
 import { proto } from '@whiskeysockets/baileys'
 import PhoneNumber from 'awesome-phonenumber'
 
 const handler = async (m, { conn }) => {
-  const name = 'sһᥲძ᥆ᥕ-᥊ᥡz | ᥆𝖿𝖿іᥴіᥲᥣ'
+  const name = 'sһᥲძ᥆ᥕ-᥊ᥡz | ᥆𝖿𝖿іᥴіᥲᥩ'
   const numCreador = '51919199620'
   const empresa = 'ᴋᴀɴᴇᴋɪ ʙᴏᴛ ɪɴɪᴄ.'
-  const about = '💖 𝑫𝒆𝒔𝒂𝒓𝒓𝒐𝒍𝒍𝒂𝒅𝒐𝒓 𝒐𝒇𝒇𝒊𝒄𝒊𝒂𝒍 𝒅𝒆 𝑲𝒂𝒏𝒆𝒌𝒊-𝑩𝒐𝒕 𝑽3'
-  const correo = 'blackoficial2025@gmail.com'
+  const about = '🍃 𝑫𝒆𝒔𝒂𝒓𝒓𝒐𝒍𝒍𝒂𝒅𝒐𝒓 𝒐𝒇𝒇𝒊𝒄𝒊𝒂𝒍 𝒅𝒆 𝑲𝒂𝒏𝒆𝒌𝒊-𝑩𝒐𝒕 𝑽3'
+  const correo = 'shadowcore.xyz@gmail.com'
   const web = 'https://shadow-xyz.vercel.app/'
   const direccion = 'Tokyo, Japón 🇯🇵'
   const fotoPerfil = 'https://qu.ax/tAWKZ.jpg'
+
+  await conn.sendMessage(m.chat, {
+    text: `╭━━━〔 💫 𝐂𝐎𝐍𝐓𝐀𝐂𝐓𝐎 𝐎𝐅𝐈𝐂𝐈𝐀𝐋 💫 〕━━⬣
+┃ 🕸️ *Nombre:* ${name}
+┃ 🏢 *Empresa:* ${empresa}
+┃ 🌎 *Sitio:* ${web}
+┃ 📧 *Correo:* ${correo}
+┃ 🗺️ *Ubicación:* ${direccion}
+┃ 🍃 *Descripción:* ${about}
+╰━━━━━━━━━━━━━━━━━━━━⬣
+  
+🚀 Enviando contacto...`,
+  }, { quoted: m })
 
   const vcard = `
 BEGIN:VCARD
@@ -38,7 +50,7 @@ END:VCARD`.trim()
   await conn.sendMessage(m.chat, {
     contacts: {
       displayName: name,
-      contacts: [contactMessage]
+      contacts: [{ contactMessage }]
     },
     contextInfo: {
       mentionedJid: [m.sender],
@@ -51,10 +63,13 @@ END:VCARD`.trim()
         sourceUrl: web
       }
     }
-  }, { quoted: fkontak })
+  }, { quoted: m })
+
+  await m.react('🌸')
 }
 
-handler.help = ['creador']
+handler.help = ['creador', 'creator', 'owner']
 handler.tags = ['info']
 handler.command = ['creador', 'creator', 'owner']
+
 export default handler
