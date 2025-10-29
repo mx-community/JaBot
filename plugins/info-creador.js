@@ -1,17 +1,17 @@
 // by dv.shadow - https://github.com/Yuji-XDev
 
-import { proto } from '@whiskeysockets/baileys';
-import PhoneNumber from 'awesome-phonenumber';
+import { proto } from '@whiskeysockets/baileys'
+import PhoneNumber from 'awesome-phonenumber'
 
 const handler = async (m, { conn }) => {
-  const name = 'sһᥲძ᥆ᥕ-᥊ᥡz | ᥆𝖿𝖿іᥴіᥲᥣ';
-  const numCreador = '51919199620';
-  const empresa = 'ᴋᴀɴᴇᴋɪ ʙᴏᴛ ɪɴɪᴄ.';
-  const about = '💖 𝑫𝒆𝒔𝒂𝒓𝒓𝒐𝒍𝒍𝒂𝒅𝒐𝒓 𝒐𝒇𝒇𝒊𝒄𝒊𝒂𝒍 𝒅𝒆 𝑲𝒂𝒏𝒆𝒌𝒊-𝑩𝒐𝒕 𝑽3';
-  const correo = 'blackoficial2025@gmail.com';
-  const web = 'https://shadow-xyz.vercel.app/';
-  const direccion = 'Tokyo, Japón 🇯🇵';
-  const fotoPerfil = 'https://qu.ax/tAWKZ.jpg';
+  const name = 'sһᥲძ᥆ᥕ-᥊ᥡz | ᥆𝖿𝖿іᥴіᥲᥣ'
+  const numCreador = '51919199620'
+  const empresa = 'ᴋᴀɴᴇᴋɪ ʙᴏᴛ ɪɴɪᴄ.'
+  const about = '💖 𝑫𝒆𝒔𝒂𝒓𝒓𝒐𝒍𝒍𝒂𝒅𝒐𝒓 𝒐𝒇𝒇𝒊𝒄𝒊𝒂𝒍 𝒅𝒆 𝑲𝒂𝒏𝒆𝒌𝒊-𝑩𝒐𝒕 𝑽3'
+  const correo = 'blackoficial2025@gmail.com'
+  const web = 'https://shadow-xyz.vercel.app/'
+  const direccion = 'Tokyo, Japón 🇯🇵'
+  const fotoPerfil = 'https://qu.ax/tAWKZ.jpg'
 
   const vcard = `
 BEGIN:VCARD
@@ -28,33 +28,73 @@ ADR:;;${direccion};;;;
 X-ABADR:ES
 X-WA-BIZ-NAME:${name}
 X-WA-BIZ-DESCRIPTION:${about}
-END:VCARD`.trim();
+END:VCARD`.trim()
 
   const contactMessage = {
     displayName: name,
     vcard
-  };
-  m.react('☁️');
+  }
+
+  const caption = `🌸 *ᴄᴏɴᴛᴀᴄᴛᴏ ᴅᴇ ᴍɪ ᴄʀᴇᴀᴅᴏʀ* 🌸
+  
+👑 *Nombre:* ${name}
+🏢 *Empresa:* ${empresa}
+📧 *Correo:* ${correo}
+🌍 *Web:* ${web}
+📍 *Ubicación:* ${direccion}
+
+${about}`
+
+  const resImg = await fetch(fotoPerfil)
+  const imgBuffer = Buffer.from(await resImg.arrayBuffer())
+
+  m.react('☁️')
+
+  const productMessage = {
+    productMessage: {
+      product: {
+        productImage: {
+          mimetype: 'image/jpeg',
+          jpegThumbnail: imgBuffer
+        },
+        title: `꒰͡•*゜・。🍃 ˗ˏˋ ♡ ˎˊ˗🄾🅆🄽🄴🅁!˗ˏˋ ♡ ˎˊ˗🍬 ꒰͡•*゜・。 ͡꒱ֽ ׄ`,
+        description: caption,
+        currencyCode: 'USD',
+        priceAmount1000: 100000,
+        retailerId: '001',
+        productImageCount: 1,
+        url: web
+      },
+      businessOwnerJid: conn.user.jid
+    }
+  }
+
+  await conn.relayMessage(
+    m.chat,
+    { viewOnceMessage: { message: productMessage } },
+    {}
+  )
+
   await conn.sendMessage(m.chat, {
     contacts: {
       displayName: name,
       contacts: [contactMessage]
     },
     contextInfo: {
-    mentionedJid: [m.sender],
+      mentionedJid: [m.sender],
       externalAdReply: {
         title: '🕸️ ƈσɳƚαƈƚσ ԃҽ ɱι ƈɾҽαԃσɾ • σиιι¢нαи 🌿',
-        body: '',
-        mediaType: 1,
+        body: about,
         thumbnailUrl: fotoPerfil,
+        mediaType: 1,
         renderLargerThumbnail: true,
         sourceUrl: web
       }
     }
-  }, { quoted: fkontak });
-};
+  }, { quoted: m })
+}
 
-handler.help = ['creador'];
-handler.tags = ['info'];
-handler.command = ['creador', 'creator', 'owner'];
-export default handler;
+handler.help = ['creador']
+handler.tags = ['info']
+handler.command = ['creador', 'creator', 'owner']
+export default handler
