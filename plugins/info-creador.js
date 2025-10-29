@@ -44,36 +44,10 @@ END:VCARD`.trim()
 📍 *Ubicación:* ${direccion}
 
 ${about}`
-
-  const resImg = await fetch(fotoPerfil)
-  const imgBuffer = Buffer.from(await resImg.arrayBuffer())
-
-  m.react('☁️')
-
-  const productMessage = {
-    productMessage: {
-      product: {
-        productImage: {
-          mimetype: 'image/jpeg',
-          jpegThumbnail: imgBuffer
-        },
-        title: `꒰͡•*゜・。🍃 ˗ˏˋ ♡ ˎˊ˗🄾🅆🄽🄴🅁!˗ˏˋ ♡ ˎˊ˗🍬 ꒰͡•*゜・。 ͡꒱ֽ ׄ`,
-        description: caption,
-        currencyCode: 'USD',
-        priceAmount1000: 100000,
-        retailerId: '001',
-        productImageCount: 1,
-        url: web
-      },
-      businessOwnerJid: conn.user.jid
-    }
-  }
-
-  await conn.relayMessage(
-    m.chat,
-    { viewOnceMessage: { message: productMessage } },
-    {}
-  )
+  await conn.sendMessage(m.chat, {
+    image: fotoPerfil,
+    caption: caption
+  }, { quoted: m })
 
   await conn.sendMessage(m.chat, {
     contacts: {
@@ -84,14 +58,14 @@ ${about}`
       mentionedJid: [m.sender],
       externalAdReply: {
         title: '🕸️ ƈσɳƚαƈƚσ ԃҽ ɱι ƈɾҽαԃσɾ • σиιι¢нαи 🌿',
-        body: about,
+        body: '',
         thumbnailUrl: fotoPerfil,
         mediaType: 1,
         renderLargerThumbnail: true,
         sourceUrl: web
       }
     }
-  }, { quoted: m })
+  }, { quoted: fkontak })
 }
 
 handler.help = ['creador']
