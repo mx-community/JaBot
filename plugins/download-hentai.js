@@ -47,8 +47,8 @@ let handler = async (m, { conn, text, args, setting }) => {
       let cap = `◜ Hentai - Search ◞\n`;
 
       results.slice(0, 15).forEach((res, index) => {
-        cap += `${i + 1}. 🌸 *Título:* ${res.titulo}
-🔗 *Link:* ${res.url}`;
+        cap += `${index + 1}. 🌸 *Título:* ${res.titulo}
+🔗 *Link:* ${res.url}\n`;
       });
       m.reply(cap)
       m.react("✔️");
