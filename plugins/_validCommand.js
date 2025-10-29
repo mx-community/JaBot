@@ -8,7 +8,7 @@ export async function before(m, { conn }) {
 
   if (!command || command === 'bot') return
 
-  const thumbRes = await fetch("https://files.catbox.moe/xydiwe.jpg")
+  const thumbRes = await fetch("https://files.catbox.moe/ntt86y.jpg")
   const thumbBuffer = await thumbRes.buffer()
 
   const fkontak = {
