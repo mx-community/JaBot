@@ -1,56 +1,51 @@
-import pkg from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
-const { proto } = pkg
+import baileys from '@whiskeysockets/baileys'
+const { generateWAMessageFromContent, proto } = baileys
 
-const handler = async (m, { conn }) => {
+let handler = async (m, { conn }) => {
   try {
-    // ✅ Reacciona mientras procesa
-    await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+    await m.react('🕓')
 
     const group = m.chat
     const metadata = await conn.groupMetadata(group)
 
-    // 🖼️ Foto del grupo
     const ppUrl = await conn.profilePictureUrl(group, 'image').catch(_ => 'https://files.catbox.moe/xr2m6u.jpg')
     const pp = await (await fetch(ppUrl)).arrayBuffer()
-
-    // 🔗 Link de invitación
-    const inviteCode = await conn.groupInviteCode(group)
-    const invite = 'https://chat.whatsapp.com/' + inviteCode
-
-    // 👑 Datos del grupo
+    const invite = 'https://chat.whatsapp.com/' + await conn.groupInviteCode(group)
     const owner = metadata.owner ? '@' + metadata.owner.split('@')[0] : 'No disponible'
-    const desc = metadata.desc ? `\n*📝 Descripción:*\n${metadata.desc}\n` : ''
+    const desc = metadata.desc ? `\n📝 *Descripción:*\n${metadata.desc}\n` : ''
 
-    const info = `
-*⌁☍꒷₊˚ Group • Link ꒷₊˚⌁*
-
+    const infoText = `
 *📛 Nombre:* ${metadata.subject}
 *🧩 ID:* ${metadata.id}
 *👑 Creado por:* ${owner}
 *👥 Miembros:* ${metadata.participants.length}
 ${desc}
-
-> *🔗 Link del grupo:*
-> ${invite}
 `.trim()
 
-    // 📦 Mensaje interactivo (ViewOnce)
-    const msg = {
+    // 🖼️ Estructura del mensaje tipo “interactiveMessage”
+    const msg = generateWAMessageFromContent(m.chat, {
       viewOnceMessage: {
         message: {
-          interactiveMessage: {
-            body: { text: info },
-            footer: { text: '🌸 Rin Itoshi' },
-            header: {
+          messageContextInfo: {
+            deviceListMetadata: {},
+            deviceListMetadataVersion: 2
+          },
+          interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+            header: proto.Message.InteractiveMessage.Header.fromObject({
               title: '✨ Información del Grupo',
               hasMediaAttachment: true,
               imageMessage: {
-                jpegThumbnail: Buffer.from(pp),
-                caption: metadata.subject
+                jpegThumbnail: Buffer.from(pp)
               }
-            },
-            nativeFlowMessage: {
+            }),
+            body: proto.Message.InteractiveMessage.Body.fromObject({
+              text: infoText
+            }),
+            footer: proto.Message.InteractiveMessage.Footer.fromObject({
+              text: dev
+            }),
+            nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
               buttons: [
                 {
                   name: 'cta_copy',
@@ -67,21 +62,18 @@ ${desc}
                   })
                 }
               ]
-            }
-          }
+            })
+          })
         }
       }
-    }
+    }, { quoted: m })
 
-    // 🚀 Envía el mensaje
-    await conn.relayMessage(m.chat, msg, {})
-
-    // 💫 Reacción de confirmación
-    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
+    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+    await m.react('✅')
 
   } catch (e) {
     console.error(e)
-    await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } })
+    await m.react('❌')
     await m.reply('❌ *Error al obtener la información del grupo.*')
   }
 }
