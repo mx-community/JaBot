@@ -943,9 +943,9 @@ const handler = async (m, { conn, command, args, usedPrefix }) => {
 `.trim()
 
         const buttons = [
-          { buttonId: `${usedPrefix}trivia A`, buttonText: { displayText: `🅰 ${q.options[0]}` }, type: 1 },
-          { buttonId: `${usedPrefix}trivia B`, buttonText: { displayText: `🅱 ${q.options[1]}` }, type: 1 },
-          { buttonId: `${usedPrefix}trivia C`, buttonText: { displayText: `🅲 ${q.options[2]}` }, type: 1 }
+          { buttonId: `${usedPrefix}trivia A`, buttonText: { displayText: `🅰` }, type: 1 },
+          { buttonId: `${usedPrefix}trivia B`, buttonText: { displayText: `🅱` }, type: 1 },
+          { buttonId: `${usedPrefix}trivia C`, buttonText: { displayText: `🅲` }, type: 1 }
         ]
 
         await conn.sendMessage(
