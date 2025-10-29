@@ -1,18 +1,19 @@
 import pkg from '@whiskeysockets/baileys'
+import fetch from 'node-fetch'
 const { proto } = pkg
 
 var handler = async (m, { conn }) => {
   try {
     const group = m.chat
     const metadata = await conn.groupMetadata(group)
-    const pp = await conn.profilePictureUrl(group, 'image').catch(_ => 'https://files.catbox.moe/xr2m6u.jpg')
+    const ppUrl = await conn.profilePictureUrl(group, 'image').catch(_ => 'https://files.catbox.moe/xr2m6u.jpg')
+    const pp = await (await fetch(ppUrl)).arrayBuffer()
     const invite = 'https://chat.whatsapp.com/' + await conn.groupInviteCode(group)
-
     const owner = metadata.owner ? '@' + metadata.owner.split('@')[0] : 'No disponible'
     const desc = metadata.desc ? `\n*📝 Descripción:*\n${metadata.desc}\n` : ''
 
     const info = `
-*⌁☍꒷₊˚ Información del Grupo ꒷₊˚⌁*
+*⌁☍꒷₊˚ group • link ꒷₊˚⌁*
 
 *📛 Nombre:* ${metadata.subject}
 *🧩 ID:* ${metadata.id}
@@ -24,41 +25,41 @@ ${desc}
 > ${invite}
 `.trim()
 
-    const img = await fetch(pp).then(res => res.arrayBuffer())
-
     const msg = {
-      interactiveMessage: proto.Message.InteractiveMessage.create({
-        body: proto.Message.InteractiveMessage.Body.fromObject({
-          text: info
-        }),
-        footer: proto.Message.InteractiveMessage.Footer.fromObject({
-          text: textbot
-        }),
-        header: proto.Message.InteractiveMessage.Header.fromObject({
-          title: "✨ Información del Grupo",
-          subtitle: "🍬",
-          hasMediaAttachment: true,
-          jpegThumbnail: img
-        }),
-        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
-          buttons: [
-            {
-              name: 'cta_copy',
-              buttonParamsJson: JSON.stringify({
-                display_text: "📋 Copiar Link",
-                copy_code: invite
-              })
+      viewOnceMessage: {
+        message: {
+          interactiveMessage: {
+            body: { text: info },
+            footer: { text: '🌸 Rin Itoshi' },
+            header: {
+              title: '✨ Información del Grupo',
+              hasMediaAttachment: true,
+              imageMessage: {
+                jpegThumbnail: Buffer.from(pp),
+                caption: metadata.subject
+              }
             },
-            {
-              name: 'cta_url',
-              buttonParamsJson: JSON.stringify({
-                display_text: "🌍 Abrir Grupo",
-                url: invite
-              })
+            nativeFlowMessage: {
+              buttons: [
+                {
+                  name: 'cta_copy',
+                  buttonParamsJson: JSON.stringify({
+                    display_text: "📋 Copiar Link",
+                    copy_code: invite
+                  })
+                },
+                {
+                  name: 'cta_url',
+                  buttonParamsJson: JSON.stringify({
+                    display_text: "🌍 Abrir Grupo",
+                    url: invite
+                  })
+                }
+              ]
             }
-          ]
-        })
-      })
+          }
+        }
+      }
     }
 
     await conn.relayMessage(m.chat, msg, {})
