@@ -1,3 +1,11 @@
+// ⚡ Plugin: trivia-rin.js
+// 🎓 Trivia Interactiva Estilo Rin Itoshi 🌸
+// By Rin — versión mejorada con puntaje, botones, imágenes y ranking
+
+import fetch from "node-fetch"
+
+const triviaImages = icono
+
 const questions = [
     {
         question: "¿Quién fue el padre de Melquisedec?",
@@ -889,92 +897,147 @@ const questions = [
         options: ["Hierro", "Aluminio", "Cobre"],
         answer: "B"
     }
-];
+]
 
-let triviaSessions = new Map();
+let triviaSessions = new Map()
+let userScores = new Map()
 
-const triviaHandler = async (m, { conn, command, args, usedPrefix }) => {
-    if (args.length === 0) {
-        // Seleccionar pregunta aleatoria
-        let randomIndex = Math.floor(Math.random() * questions.length);
-        let questionData = questions[randomIndex];
+const handler = async (m, { conn, command, args, usedPrefix }) => {
+  try {
+    if (command === "trivia") {
+      if (!args[0]) {
+        let currentSession = triviaSessions.get(m.chat)
+        let availableQuestions = [...questions]
 
-        triviaSessions.set(m.chat, { index: randomIndex, answered: false });
+        if (currentSession?.asked?.length)
+          availableQuestions = availableQuestions.filter((_, i) => !currentSession.asked.includes(i))
 
-        const caption = `
-🎓 *Trivia de Cultura General* 🌸
-
-${questionData.question}`.trim();
-
-        const buttons = [
-            {
-                buttonId: `${usedPrefix}trivia A`,
-                buttonText: { displayText: `A) ${questionData.options[0]}` },
-                type: 1
-            },
-            {
-                buttonId: `${usedPrefix}trivia B`,
-                buttonText: { displayText: `B) ${questionData.options[1]}` },
-                type: 1
-            },
-            {
-                buttonId: `${usedPrefix}trivia C`,
-                buttonText: { displayText: `C) ${questionData.options[2]}` },
-                type: 1
-            }
-        ];
-
-        await conn.sendMessage(
-            m.chat,
-            {
-                text: caption,
-                buttons: buttons,
-                viewOnce: true
-            },
-            { quoted: m }
-        );
-
-    } else {
-        // Evaluar respuesta
-        let session = triviaSessions.get(m.chat);
-        if (!session || session.answered) {
-            return conn.reply(m.chat, `⚠️ Primero usa *${usedPrefix}trivia* para obtener una pregunta.`, m);
+        if (availableQuestions.length === 0) {
+          triviaSessions.delete(m.chat)
+          return conn.reply(m.chat, "🎉 *Ya respondiste todas las preguntas disponibles!* Usa nuevamente el comando para reiniciar.", m, fake)
         }
 
-        let userAnswer = args[0].toUpperCase();
-        let correctAnswer = questions[session.index].answer;
-        let result = userAnswer === correctAnswer ? "🎉 ¡Respuesta correcta!" : `❌ Incorrecto. La respuesta correcta era *${correctAnswer}*`;
+        const randomIndex = Math.floor(Math.random() * availableQuestions.length)
+        const questionIndex = questions.indexOf(availableQuestions[randomIndex])
+        const q = questions[questionIndex]
+        const img = triviaImages[Math.floor(Math.random() * triviaImages.length)]
+
+        triviaSessions.set(m.chat, {
+          index: questionIndex,
+          answered: false,
+          asked: currentSession?.asked ? [...currentSession.asked, questionIndex] : [questionIndex]
+        })
 
         const caption = `
-📌 *Tu respuesta:* ${userAnswer}  
-✅ *Solución:* ${correctAnswer}  
-🧠 *Resultado:* ${result}
-`.trim();
+╭━━━〔 🎓 𝐓𝐑𝐈𝐕𝐈𝐀 𝐃𝐄 𝐂𝐔𝐋𝐓𝐔𝐑𝐀 🌸 〕━━⬣
+┃
+┃ 🧩 *Pregunta:* ${q.question}
+┃
+┃ 🌿 *Opciones:*
+┃  A) ${q.options[0]}
+┃  B) ${q.options[1]}
+┃  C) ${q.options[2]}
+┃
+┃ 🍍 *Toca un botón para responder*
+╰━━━━━━━━━━━━━━━━━━⬣
+`.trim()
 
         const buttons = [
-            {
-                buttonId: `${usedPrefix}trivia`,
-                buttonText: { displayText: "NUEVA PREGUNTA" },
-                type: 1
-            }
-        ];
+          { buttonId: `${usedPrefix}trivia A`, buttonText: { displayText: `🅰 ${q.options[0]}` }, type: 1 },
+          { buttonId: `${usedPrefix}trivia B`, buttonText: { displayText: `🅱 ${q.options[1]}` }, type: 1 },
+          { buttonId: `${usedPrefix}trivia C`, buttonText: { displayText: `🅲 ${q.options[2]}` }, type: 1 }
+        ]
 
         await conn.sendMessage(
-            m.chat,
-            {
-                text: caption,
-                buttons: buttons,
-                viewOnce: true
-            },
-            { quoted: m }
-        );
+          m.chat,
+          { image: { url: img }, caption, buttons, viewOnce: true },
+          { quoted: m }
+        )
+        await m.react("🎯")
+        return
+      }
 
-        triviaSessions.set(m.chat, { ...session, answered: true });
+      const session = triviaSessions.get(m.chat)
+      if (!session || session.answered)
+        return conn.reply(m.chat, `🍬 Usa *${usedPrefix}trivia* para obtener una nueva pregunta.`, m, fake)
+
+      const userAnswer = args[0].toUpperCase()
+      const correctAnswer = questions[session.index].answer
+      const isCorrect = userAnswer === correctAnswer
+
+      const userId = m.sender
+      if (!userScores.has(userId)) userScores.set(userId, 0)
+      if (isCorrect) userScores.set(userId, userScores.get(userId) + 1)
+
+      const points = userScores.get(userId)
+      const emoji = isCorrect ? "🎉" : "💔"
+      const msg = isCorrect
+        ? "✨ ¡Excelente! Has acertado la respuesta."
+        : `🌱 Incorrecto. La respuesta correcta era *${correctAnswer}*`
+
+      const caption = `
+╭━━━〔 🧠 𝐑𝐄𝐒𝐔𝐋𝐓𝐀𝐃𝐎 𝐓𝐑𝐈𝐕𝐈𝐀 〕━━⬣
+┃
+┃ 🍬 *Tu respuesta:* ${userAnswer}
+┃ ✅ *Correcta:* ${correctAnswer}
+┃
+┃ ${emoji} *${msg}*
+┃
+┃ 🏅 *Tu puntaje total:* ${points} puntos
+┃
+┃ 💫 ¿Listo para otra ronda?
+╰━━━━━━━━━━━━━━━━━━⬣
+`.trim()
+
+      const buttons = [
+        { buttonId: `${usedPrefix}trivia`, buttonText: { displayText: "🎯 NUEVA PREGUNTA" }, type: 1 },
+        { buttonId: `${usedPrefix}triviascore`, buttonText: { displayText: "🏆 VER PUNTAJE" }, type: 1 }
+      ]
+
+      await conn.sendMessage(m.chat, { text: caption, buttons, viewOnce: true }, { quoted: m })
+      await m.react(isCorrect ? "✅" : "💀")
+
+      triviaSessions.set(m.chat, { ...session, answered: true })
+      return
     }
-};
 
-triviaHandler.help = ['trivia'];
-triviaHandler.tags = ['game'];
-triviaHandler.command = ['trivia'];
+    if (command === "triviascore") {
+      if (userScores.size === 0) return m.reply("📭 Nadie ha participado aún en la trivia.")
 
-export default triviaHandler;
+      const sorted = [...userScores.entries()].sort((a, b) => b[1] - a[1])
+      const top = sorted.slice(0, 10)
+      const mentions = top.map(([u]) => u)
+
+      const ranking = top
+        .map(([user, score], i) => `*${i + 1}.* @${user.split("@")[0]} — 🏅 *${score} pts*`)
+        .join("\n")
+
+      const caption = `
+╭━━━〔 🏆 𝐑𝐀𝐍𝐊𝐈𝐍𝐆 𝐓𝐑𝐈𝐕𝐈𝐀 〕━━⬣
+┃
+${ranking}
+┃
+╰━━━━━━━━━━━━━━━━━━⬣
+🎓 *Sigue participando para subir de puesto!*
+`.trim()
+
+      const img = triviaImages[Math.floor(Math.random() * triviaImages.length)]
+
+      await conn.sendMessage(
+        m.chat,
+        { image: { url: img }, caption, mentions },
+        { quoted: m }
+      )
+      await m.react("🏆")
+    }
+  } catch (err) {
+    console.error(err)
+    m.reply("⚠️ Ocurrió un error ejecutando la trivia.")
+  }
+}
+
+handler.help = ["trivia", "triviascore"]
+handler.tags = ["game"]
+handler.command = ["trivia", "triviascore"]
+
+export default handler
