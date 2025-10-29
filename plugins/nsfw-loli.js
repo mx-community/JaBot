@@ -6,7 +6,9 @@
 import fetch from 'node-fetch';
 
 let handler = async(m, { conn, usedPrefix, command }) => {
-
+if (!db.data.chats[m.chat].nsfw && m.isGroup) {
+    return m.reply(`《✦》El contenido *NSFW* está desactivado en este grupo.\n> Un administrador puede activarlo con el comando » *#nsfw on*`);
+    }
 m.react('🕑');
 
 const gp = global.db.data.chats[m.chat] || {};

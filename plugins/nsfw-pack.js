@@ -1,6 +1,9 @@
 import fetch from 'node-fetch'
 
 const handler = async (m, { conn }) => {
+   if (!db.data.chats[m.chat].nsfw && m.isGroup) {
+    return m.reply(`¡m?¡nEl contenido *NSFW* est? desactivado en este grupo.\n> Un administrador puede activarlo con el comando ? *#nsfw on*`);
+    }
   try {
     const res = await fetch('https://api.waifu.pics/nsfw/waifu')
     if (!res.ok) throw new Error('No se pudo obtener el pack, intenta de nuevo...')
@@ -18,8 +21,6 @@ const handler = async (m, { conn }) => {
 handler.command = ['pack2']
 handler.tags = ['nsfw']
 handler.help = ['pack2']
-handler.level = 10
-handler.register = true
 handler.premium = true
 
 export default handler
