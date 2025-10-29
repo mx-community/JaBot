@@ -27,13 +27,13 @@ const handler = async (m, { conn, text, command }) => {
 > ${canal}
 
 💐 *Vistas:*
->  ${vistas}
+> ${vistas}
 
 ⌛ *Duración:* 
 > ${timestamp || 'Desconocido'}
 
 📆 *Publicado:* 
->${ago || 'Desconocido'}
+> ${ago || 'Desconocido'}
 
 🌱 *Enlace:*
 > ${url}`.trim()
@@ -79,7 +79,7 @@ const handler = async (m, { conn, text, command }) => {
             renderLargerThumbnail: false
           }
         }
-      }, { quoted: m })
+      }, { quoted: fkontak })
 
       await m.react('🎧')
     }
@@ -111,7 +111,7 @@ const handler = async (m, { conn, text, command }) => {
             renderLargerThumbnail: false
           }
         }
-      }, { quoted: m })
+      }, { quoted: fkontak })
 
       await m.react('🎥')
     }
