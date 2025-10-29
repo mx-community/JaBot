@@ -28,7 +28,7 @@ export async function before(m, { conn }) {
   }
 
   const channelRD = { 
-    id: '120363401008003732@newsletter', 
+    id: '120363422142340004@newsletter', 
     name: '🌸 𝗞𝗮𝗻𝗲𝗸𝗶 𝗕𝗼𝘁 | 𝗢𝗳𝗶𝗰𝗶𝗮𝗹 🚀'
   }
 
@@ -67,12 +67,10 @@ export async function before(m, { conn }) {
  *Posibles coincidencias:*
 > ${sugerencias}`
 
-  const thumb = 'https://files.catbox.moe/6fj9u7.jpg'
-
   await conn.sendMessage(m.chat, {
     document: { url: 'https://files.catbox.moe/6fj9u7.jpg' },
     mimetype: 'application/pdf',
-    fileName: 'KanekiBot_AI_CommandInfo.pdf',
+    fileName: '🍃 🄴🅁🅁🄾🅁 🚀.pdf',
     caption: texto.trim(),
     mentions: [m.sender],
     contextInfo: {
@@ -85,7 +83,7 @@ export async function before(m, { conn }) {
       externalAdReply: {
         title: '   🍉 𝐊𝐚𝐧𝐞𝐤𝐢 𝐁𝐨𝐭 - 𝐀𝐒𝐒𝐈𝐒𝐓𝐀𝐍𝐓 🍓',
         body: 'Asistente inteligente y multifunción.',
-        thumbnailUrl: thumb,
+        thumbnailUrl: banner,
         mediaType: 1,
         renderLargerThumbnail: true
       },
