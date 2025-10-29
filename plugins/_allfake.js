@@ -33,8 +33,30 @@ global.packsticker2 = `\n°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯
 global.fake = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, newsletterName: channelRD.name, serverMessageId: -1 }
 }}, { quoted: m }
 
-var ase = new Date(); var hour = ase.getHours(); switch(hour){ case 0: hour = 'Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃'; break; case 1: hour = 'Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃'; break; case 2: hour = 'Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃'; break; case 3: hour = 'Lɪɴᴅᴀ Mᴀɴ̃ᴀɴᴀ 🌄'; break; case 4: hour = 'Lɪɴᴅᴀ Mᴀɴ̃ᴀɴᴀ 🌄'; break; case 5: hour = 'Lɪɴᴅᴀ Mᴀɴ̃ᴀɴᴀ 🌄'; break; case 6: hour = 'Lɪɴᴅᴀ Mᴀɴ̃ᴀɴᴀ 🌄'; break; case 7: hour = 'Lɪɴᴅᴀ Mᴀɴ̃ᴀɴᴀ 🌅'; break; case 8: hour = 'Lɪɴᴅᴀ Mᴀɴ̃ᴀɴᴀ 🌄'; break; case 9: hour = 'Lɪɴᴅᴀ Mᴀɴ̃ᴀɴᴀ 🌄'; break; case 10: hour = 'Lɪɴᴅᴏ Dɪᴀ 🌤'; break; case 11: hour = 'Lɪɴᴅᴏ Dɪᴀ 🌤'; break; case 12: hour = 'Lɪɴᴅᴏ Dɪᴀ 🌤'; break; case 13: hour = 'Lɪɴᴅᴏ Dɪᴀ 🌤'; break; case 14: hour = 'Lɪɴᴅᴀ Tᴀʀᴅᴇ 🌆'; break; case 15: hour = 'Lɪɴᴅᴀ Tᴀʀᴅᴇ 🌆'; break; case 16: hour = 'Lɪɴᴅᴀ Tᴀʀᴅᴇ 🌆'; break; case 17: hour = 'Lɪɴᴅᴀ Tᴀʀᴅᴇ 🌆'; break; case 18: hour = 'Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃'; break; case 19: hour = 'Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃'; break; case 20: hour = 'Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃'; break; case 21: hour = 'Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃'; break; case 22: hour = 'Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃'; break; case 23: hour = 'Lɪɴᴅᴀ Nᴏᴄʜᴇ 🌃'; break;}
-global.saludo = hour;
+// (Horario Perú 🇵🇪)
+var ase = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Lima" }))
+var hour = ase.getHours()
+switch (true) {
+  case (hour >= 0 && hour < 3):
+    hour = '🌙 𝗟𝗶𝗻𝗱𝗮 𝗡𝗼𝗰𝗵𝗲 ✨ Que descanses bien 💫'
+    break
+  case (hour >= 3 && hour < 7):
+    hour = '🌄 𝗕𝘂𝗲𝗻 𝗔𝗺𝗮𝗻𝗲𝗰𝗲𝗿 ☀️ ¡Inicia tu día con energía! ⚡'
+    break
+  case (hour >= 7 && hour < 12):
+    hour = '🌞 𝗟𝗶𝗻𝗱𝗮 𝗠𝗮ñ𝗮𝗻𝗮 💐 ¡A brillar como el sol! 🌻'
+    break
+  case (hour >= 12 && hour < 18):
+    hour = '🌤 𝗟𝗶𝗻𝗱𝗮 𝗧𝗮𝗿𝗱𝗲 💖 ¡Sigue dando lo mejor de ti! 💪'
+    break
+  case (hour >= 18 && hour < 22):
+    hour = '🌆 𝗕𝗼𝗻𝗶𝘁𝗮 𝗡𝗼𝗰𝗵𝗲 🌙 ¡Relájate y disfruta el atardecer! 🌇'
+    break
+  case (hour >= 22 && hour <= 23):
+    hour = '🌌 𝗗𝘂𝗹𝗰𝗲𝘀 𝗦𝘂𝗲ñ𝗼𝘀 😴 ¡Descansa y repón energías! 🌙'
+    break
+}
+global.saludo = hour
 global.nombre = m.pushName || 'Anónimo'
 
 
@@ -61,7 +83,7 @@ global.rcanal = {
       newsletterName: channelRD.name,
     },
     externalAdReply: {
-      title: botname,
+      title: `•◍⃝߭۫ꯨ🍨۪〬.࠭⤿ʅ ${botname} 𑁍ꥈ࣪⬪🍃`,
       body: `（つ /${nombre} • ${saludo}🍓꒱`,
       mediaUrl: null,
       description: null,
@@ -82,8 +104,8 @@ global.rcanalx = {
       newsletterName: channelRD.name,
     },
     externalAdReply: {
-      title: '🍃 🄰🄲🄲🄴🅂🄾 🄳🄴🄽🄴🄶🄰🄳🄾 🍬',
-      body: dev,
+      title: '❒︴🍃 🄰🄲🄲🄴🅂🄾 • 🄳🄴🄽🄴🄶🄰🄳🄾 🍬✗',
+      body: `（๑•ᴗ• )づ ${dev}`,
       mediaUrl: null,
       description: null,
       previewType: "PHOTO",
@@ -103,8 +125,8 @@ global.rcanalw = {
       newsletterName: channelRD.name,
     },
     externalAdReply: {
-      title: dev,
-      body: '',
+      title: botname,
+      body: dev,
       mediaUrl: null,
       description: null,
       previewType: "PHOTO",
