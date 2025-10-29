@@ -19,7 +19,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     await m.react('🕒')
-    await conn.reply(m.chat, '*_🍃 Descargando video uwu_*', m)
+    await conn.reply(m.chat, '*_🍃 Descargando video uwu_*', m, rcanal)
 
     let down, meta
     try {
