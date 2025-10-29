@@ -35,20 +35,6 @@ END:VCARD`.trim()
     vcard
   }
 
-  const caption = `🌸 *ᴄᴏɴᴛᴀᴄᴛᴏ ᴅᴇ ᴍɪ ᴄʀᴇᴀᴅᴏʀ* 🌸
-  
-👑 *Nombre:* ${name}
-🏢 *Empresa:* ${empresa}
-📧 *Correo:* ${correo}
-🌍 *Web:* ${web}
-📍 *Ubicación:* ${direccion}
-
-${about}`
-  await conn.sendMessage(m.chat, {
-    image: fotoPerfil,
-    caption: caption
-  }, { quoted: m })
-
   await conn.sendMessage(m.chat, {
     contacts: {
       displayName: name,
