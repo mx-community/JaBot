@@ -1,40 +1,25 @@
-import fetch from 'node-fetch';
-var handler = async (m, { conn, text, args, usedPrefix, command }) => {
-if (!args[0]) {
-if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba un texto para crear una imagen.\n\n• *Por ejemplo:*\n${usedPrefix + command} Un gato.` }, { quoted: m });
+import axios from 'axios';
+const handler = async (m, { args, conn }) => {
+if (args.length < 2) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba un texto y un segundo texto con el simbolo mas.\n\n• *Por ejemplo:*\n${usedPrefix + command} MX + Alan.Js`}, { quoted: m });
+const [titulo, slogan] = args.join(" ").split("+");
 try {
-await m.react('⏳');
-conn.sendPresenceUpdate('composing', m.chat);
-var apii = await fetch(`https://api.agungny.my.id/api/text2img?prompt=${encodeURIComponent(text)}`);
-var res = await apii.arrayBuffer();
-await conn.sendMessage(m.chat, { image: { url: Buffer.from(res) }, caption: "🖼️  *image-ai.png*" }, { quoted: m });
-} catch (error) {
-console.error(error);
-return await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
- }
-} else if (args[0] === 'force' || args[0] === '--force') {
-if (!text) {
-return conn.sendMessage(m.chat, { text: `Ingrese de nuevo el comando y escriba lo que quiera para generar una imagen.\n\n• *Por ejemplo:*\n${usedPrefix + command} Un arbol con frutos.` }, { quoted: m });
+await m.react("⏳")
+let payload = { ai_icon: [333276, 333279], height: 300, idea: `Un Icono ${titulo}`, industry_index: "N", industry_index_id: "", pagesize: 4, session_id: "", slogan: slogan || "", title: titulo, whiteEdge: 80, width: 400 };
+let { data } = await axios.post("https://www.sologo.ai/v1/api/logo/logo_generate", payload);
+if (!data || !data.data.logoList.length) {
+return conn.sendMessage(m.chat, { text: `No se ha podido crear el logo.\n- Esto puede ser un fallo en la api o en el comando, por lo tanto, intentelo de nuevo.`}, { quoted: m });
 }
-await conn.sendMessage(m.chat, { text: `Intentare crear eso, espere un momento...` }, { quoted: m });
-await m.react("⏳");
-try {
-const prompt = encodeURIComponent(text.trim());
-const imageUrl = `https://anime-xi-wheat.vercel.app/api/ia-img?prompt=${prompt}`;
-let mensajeResp = `${pickRandom(global.listos)}`
-await conn.sendMessage(m.chat, { image: { url: imageUrl }, caption: mensajeResp }, { quoted: m });
-} catch (e) {
-console.error(e);
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
+
+const logoUrls = data.data.logoList.map(logo => logo.logo_thumb);
+for (let i = 1; i < logoUrls.length; i++) {
+await conn.sendMessage(m.chat, { image: { url: logoUrls[i] } }, { quoted: m });
+}
+} catch (error) {
+console.error("Error al generar el logo:", error);
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m });
 }
 };
- }
+handler.command = ["logogen", "logoc"];
 
-handler.command = ['imagina'];
 export default handler;
-
-function pickRandom(list) {
-return list[Math.floor(Math.random() * list.length)]}
-
-global.listos = ["Aqui tienes tu imagen. ¿Te gustaria que genere otra cosa?", "Tu imagen esta listo. ¿Que te parece? ¿O genero otra?", "Aqui tienes tu imagen solicitada. ¿Te parece bien o genero otra?"]
-
+     
