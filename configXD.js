@@ -12,16 +12,22 @@ global.botNumber = "" //Ejemplo: 573218138672
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.owner = [
-"51919199620",
-"51971285104"
+"5493873655135",
+"5493873579805"
 ]
 
-global.suittag = ["51919199620"] 
+global.suittag = ["5493873655135"] 
 global.prems = []
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.libreria = "Baileys Multi Device"
+global.xMage = "https://qu.ax/BAuJt.jpg"
+global.xMage2 = "https://qu.ax/BTUHt.jpg"
+global.xMage3 = "https://qu.ax/shFmH.jpg"
+global.xImagen = "https://qu.ax/MooSb.jpg"
+global.xImagen2 = "https://qu.ax/XPDQK.jpg"
+global.xImagen3 = "https://qu.ax/GbfQk.jpg"
 global.vs = "^1.8.2 • Latest"
 global.nameqr = "ᴋᴀɴᴇᴋɪ-ʙᴏᴛ.ᴍᴅ"
 global.sessions = "Sessions/Principal"
@@ -30,13 +36,13 @@ global.kanekiAIJadibts = true
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.botname = "🍏 𝙆𝙖𝙣𝙚𝙠𝙞𝘽𝙤𝙩-𝙑𝟯 🕸️"
-global.textbot = "🍓 кαиєкι вσт ν3 • мα∂є ву ѕнα∂σω-χуz"
-global.dev = "© ⍴᥆ᥕᥱrᥱძ ᑲᥡ 𝚂𝙷𝙰𝙳𝙾𝚆`°𝙲𝚘𝚛𝚎"
-global.author = "© mᥲძᥱ ᥕі𝗍һ ᑲᥡ ѕнα∂σω`¢σяє"
-global.etiqueta = "✫.ƚԋҽ ʂԋαԃσɯ ƈσɾҽ  ⊹꙰ "
-global.currency = "¥enes"
-global.banner = "https://i.pinimg.com/originals/90/c8/58/90c858c65f0b3b2fca9a226fa369aa2b.png"
+global.botname = "MX : BOT"
+global.textbot = "Designed and created by Alan.Js / @mdmx_mktg"
+global.dev = "Alan.Js"
+global.author = "@mx-principal"
+global.etiqueta = "@mx-support"
+global.currency = "Monedas"
+global.banner = "https://qu.ax/XPDQK.jpg"
 //global.icono = "https://i.pinimg.com/originals/b3/67/d5/b367d513d861de468305c32c6cd22756.jpg"
 global.catalogo = fs.readFileSync('./lib/catalogo.jpg')
 
@@ -48,7 +54,7 @@ global.channel = "https://whatsapp.com/channel/0029VbC34Nt42DchIWA0q11f"
 global.github = "https://github.com/Shadow-nex/KanekiBot-V3"
 global.gmail = "shadowcore.xyz@gmail.com"
 global.ch = {
-ch1: "120363422142340004@newsletter"
+ch1: "120363318353263389@newsletter"
 }
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
