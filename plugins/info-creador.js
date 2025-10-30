@@ -1,6 +1,8 @@
-// by dv.shadow - https://github.com/Shadow-nex
-import { proto } from '@whiskeysockets/baileys'
-import PhoneNumber from 'awesome-phonenumber'
+
+// by dv.shadow - https://github.com/Yuji-XDev
+
+import { proto } from '@whiskeysockets/baileys';
+import PhoneNumber from 'awesome-phonenumber';
 
 const handler = async (m, { conn }) => {
   const name = 'sһᥲძ᥆ᥕ-᥊ᥡz | ᥆𝖿𝖿іᥴіᥲᥩ'
@@ -11,19 +13,6 @@ const handler = async (m, { conn }) => {
   const web = 'https://shadow-xyz.vercel.app/'
   const direccion = 'Tokyo, Japón 🇯🇵'
   const fotoPerfil = 'https://qu.ax/tAWKZ.jpg'
-
-  await conn.sendMessage(m.chat, {
-    text: `╭━━━〔 💫 𝐂𝐎𝐍𝐓𝐀𝐂𝐓𝐎 𝐎𝐅𝐈𝐂𝐈𝐀𝐋 💫 〕━━⬣
-┃ 🕸️ *Nombre:* ${name}
-┃ 🏢 *Empresa:* ${empresa}
-┃ 🌎 *Sitio:* ${web}
-┃ 📧 *Correo:* ${correo}
-┃ 🗺️ *Ubicación:* ${direccion}
-┃ 🍃 *Descripción:* ${about}
-╰━━━━━━━━━━━━━━━━━━━━⬣
-  
-🚀 Enviando contacto...`,
-  }, { quoted: m })
 
   const vcard = `
 BEGIN:VCARD
@@ -40,36 +29,33 @@ ADR:;;${direccion};;;;
 X-ABADR:ES
 X-WA-BIZ-NAME:${name}
 X-WA-BIZ-DESCRIPTION:${about}
-END:VCARD`.trim()
+END:VCARD`.trim();
 
   const contactMessage = {
     displayName: name,
     vcard
-  }
-
+  };
+  m.react('🌿');
   await conn.sendMessage(m.chat, {
     contacts: {
       displayName: name,
-      contacts: [{ contactMessage }]
+      contacts: [contactMessage]
     },
     contextInfo: {
-      mentionedJid: [m.sender],
+    mentionedJid: [m.sender],
       externalAdReply: {
-        title: '🕸️ ƈσɳƚαƈƚσ ԃҽ ɱι ƈɾҽαԃσɾ • σиιι¢нαи 🌿',
+        title: '🍃 ᴄᴏɴᴛᴀᴄᴛᴏ ᴅᴇ ᴍɪ ᴄʀᴇᴀᴅᴏʀ ᴜᴡᴜ 🍉',
         body: '',
-        thumbnailUrl: fotoPerfil,
         mediaType: 1,
+        thumbnailUrl: fotoPerfil,
         renderLargerThumbnail: true,
         sourceUrl: web
       }
     }
-  }, { quoted: m })
+  }, { quoted: fkontak });
+};
 
-  await m.react('🌸')
-}
-
-handler.help = ['creador', 'creator', 'owner']
-handler.tags = ['info']
-handler.command = ['creador', 'creator', 'owner']
-
-export default handler
+handler.help = ['creador'];
+handler.tags = ['info'];
+handler.command = ['creador', 'creator', 'owner'];
+export default handler;
