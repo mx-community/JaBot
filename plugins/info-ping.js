@@ -80,10 +80,10 @@ let handler = async (m, { conn }) => {
         externalAdReply: {
           title: botname,
           body: textbot,
-          thumbnail: mMages,
+          thumbnail: fImagen3,
           sourceUrl: redes,
           mediaType: 1,
-          renderLargerThumbnail: false
+          renderLargerThumbnail: true
         }
       }
     }, { quoted: fkontak })
