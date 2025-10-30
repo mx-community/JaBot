@@ -1,35 +1,50 @@
+import axios from "axios";
 
-import fetch from 'node-fetch';
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nombre del usuario en *TikTok* para buscarlo.\n\n• *Por ejemplo:*\n${usedPrefix + command} ejemplo_usuario`}, { quoted: m });
-await m.react('⏳');
+if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba un texto para crear una imagen.\n\n• *Por ejemplo:*\n${usedPrefix + command} Imagina un arbol.` }, { quoted: m })
 try {
-const res = await fetch(`https://vapis.my.id/api/tt-stalk?username=${text}`);
-const json = await res.json();
-if (!json.status || !json.data) {
-return await conn.sendMessage(m.chat, { text: `📍  No se han encontrado resultados.\n- Verifica si esta bien escrito y vuelva a intentarlo.`}, { quoted: m });
+await m.react("⏳");
+const result = await fluximg.create(text);
+if (result && result.imageLink) {
+await conn.sendMessage(m.chat, { image: { url: result.imageLink }, caption: `📷 *Foto creada por Flux AI.*` }, { quoted: m });
+} else {
+return conn.sendMessage(m.chat, { text: `No se ha podido generar la imagen, intentalo de nuevo.`}, { quoted: m });
 }
-
-const { uniqueId: username, nickname, avatarLarger: profile, verified, region } = json.data.user;
-const { followerCount: followers, followingCount: following, heart: likes, videoCount: videos } = json.data.stats;
-
-let txt = `· •──• ✦ *RESULTADO* ✦ •──• ·
-
-⊸⊹ *Usuario:* ${username}
-⊸⊹ *Nombre:* ${nickname}
-⊸⊹ *Seguidores:* ${followers}
-⊸⊹ *Seguidos:* ${following}
-⊸⊹ *Likes:* ${likes}
-⊸⊹ *Videos:* ${videos}
-⊸⊹ *Verificado:* ${verified ? 'Sí' : 'No'}
-⊸⊹ *Region:* ${region || 'No disponible'}`;
-await conn.sendMessage(m.chat, { image: { url: profile }, caption: txt }, { quoted: m });
-  //conn.sendMessage(m.chat, { text: txt, contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnailUrl: profile, sourceUrl: null, mediaType: 1, showAdAttribution: true, renderLargerThumbnail: true }}} , { quoted: m });
 } catch (error) {
 console.error(error);
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m });
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
 }
 };
-handler.command = ['tiktok-user', 'user-tiktok', 'ttstalk'];
+
+handler.command = ["flux"];
 export default handler;
-                                                                             
+
+const fluximg = {
+defaultRatio: "2:3", 
+
+create: async (query) => {
+const config = {
+headers: {
+accept: "*/*",
+authority: "1yjs1yldj7.execute-api.us-east-1.amazonaws.com",
+"user-agent": "Postify/1.0.0",
+},
+};
+
+try {
+const response = await axios.get(
+`https://1yjs1yldj7.execute-api.us-east-1.amazonaws.com/default/ai_image?prompt=${encodeURIComponent(
+query
+)}&aspect_ratio=${fluximg.defaultRatio}`,
+config
+);
+return {
+imageLink: response.data.image_link,
+};
+} catch (error) {
+console.error(error);
+throw error;
+}
+},
+};
+
