@@ -78,9 +78,9 @@ let handler = async (m, { conn }) => {
       mentions: [m.sender],
       contextInfo: {
         externalAdReply: {
-          title: '    👑 𝐊𝐚𝐧𝐞𝐤𝐢 𝐁𝐨𝐭 𝐕3 💫',
-          body: '',
-          thumbnail: thumb,
+          title: botname,
+          body: '📍  Prueba de ping.',
+          thumbnail: xImagen2,
           sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: true
