@@ -12,7 +12,7 @@ return conn.sendMessage(m.chat, { text: `No se ha podido crear el logo.\n- Esto 
 
 const logoUrls = data.data.logoList.map(logo => logo.logo_thumb);
 for (let i = 1; i < logoUrls.length; i++) {
-await conn.sendMessage(m.chat, { image: { url: logoUrls[i] } }, { quoted: m });
+await conn.sendMessage(m.chat, { image: { url: logoUrls[i] } }, m);
 }
 } catch (error) {
 console.error("Error al generar el logo:", error);
