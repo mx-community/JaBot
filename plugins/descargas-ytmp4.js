@@ -23,7 +23,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     let down, meta
     try {
-      // API principal
       const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=360`
       const response = await fetch(apiUrl)
       if (!response.ok) throw "Error en la API principal."
@@ -34,7 +33,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       if (!down?.url) throw "No se pudo obtener el enlace de descarga desde la API principal."
 
     } catch (err) {
-      // Fallback API: Yupra
       const yupraUrl = `https://api.yupra.com/api/downloader/ytmp4?url=${encodeURIComponent(text)}`
       const response = await fetch(yupraUrl)
       if (!response.ok) throw "Error en la API Yupra."
@@ -47,29 +45,25 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }
       if (!down.url) throw "No se pudo obtener el enlace de descarga desde Yupra."
 
-      meta = { title: down.filename } // Solo para mostrar algo
+      meta = { title: down.filename }
     }
 
     const head = await fetch(down.url, { method: "HEAD" })
     const size = head.headers.get("content-length")
 
     let caption
-    if (meta?.author) {
-      // API principal
-      caption = `╔═══❖•ೋ° ⚜️ °ೋ•❖═══╗
-🎬 *ＹＯＵＴＵＢＥ ＶＩＤＥＯ* 🌷
-╚═══❖•ೋ° ⚜️ °ೋ•❖═══╝
-🍉 *Título:* ${meta.title}
-📡 *Canal:* ${meta.author?.name}
+    if (meta?.author) {l
+      caption = `🍃 *Título:* ${meta.title}
+🍟 *Canal:* ${meta.author?.name}
 🕒 *Duración:* ${meta.duration?.timestamp || "Desconocida"}
 👁 *Vistas:* ${meta.views?.toLocaleString() || "?"}
-📆 *Publicado:* ${meta.ago}
-🎚 *Calidad:* ${down.quality}p
+📅 *Publicado:* ${meta.ago}
+🌾 *Calidad:* ${down.quality}p
 💾 *Tamaño:* ${formatSize(size)}
 ────────────────────
 ✨ *Descarga Completa...*`
     } else {
-      // API Yupra fallback
+
       caption = `✨ *Descarga Completa...*`
     }
 

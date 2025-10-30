@@ -1,65 +1,3 @@
-/*import speed from 'performance-now'
-import { exec } from 'child_process'
-import moment from 'moment-timezone'
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn }) => {
-  let timestamp = speed()
-  let latensi = speed() - timestamp
-
-  const start = new Date().getTime()
-  await conn.sendMessage(m.chat, { text: `*⚙️ 𝘊𝘢𝘭𝘤𝘶𝘭𝘢𝘯𝘥𝘰 𝘱𝘪𝘯𝘨...*` }, { quoted: m })
-  const end = new Date().getTime()
-  const latency = end - start
-
-  const uptime = process.uptime()
-  const hours = Math.floor(uptime / 3600)
-  const minutes = Math.floor((uptime % 3600) / 60)
-  const secondsUp = Math.floor(uptime % 60)
-  const uptimeFormatted = `${hours}h ${minutes}m ${secondsUp}s`
-
-  const usedRAM = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
-  const fechaHora = moment().tz('America/Lima').format('YYYY/MM/DD, h:mm A')
-
-  const thumbBuffer = Buffer.from(await (await fetch('https://files.catbox.moe/ge2vz7.jpg')).arrayBuffer())
-
-  exec(`neofetch --stdout`, async (error, stdout) => {
-    let sysInfo = stdout.toString("utf-8").replace(/Memory:/, "Ram:")
-
-    let response = 
-` \`⚡ 𝗦 𝗧 𝗔 𝗧 𝗨 𝗦 • 𝗣 𝗜 𝗡 𝗚 🌿\`
-
-┌ ° 🌟 *Ping:* ${latency} ms
-> ° 📡 *Latency:* ${latensi.toFixed(4)} ms
-> ° 💻 *RAM Usage:* ${usedRAM} MB
-> ° ⏳ *Uptime:* ${uptimeFormatted}
-└ ° 🗓️ *Date/Time:* ${fechaHora}
-\`\`\`${sysInfo.trim()}\`\`\`
-> ☄︎ кαиєкι вσт ν3 | 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 𝚂𝙷𝙰𝙳𝙾𝚆-𝚇𝚈𝚉`
-
-    await conn.sendMessage(m.chat, {
-      text: response,
-      mentions: [m.sender],
-      contextInfo: {
-        externalAdReply: {
-          title: '👑 𝐊𝐚𝐧𝐞𝐤𝐢 𝐁𝐨𝐭 𝐕3 💫 ',
-          body: '🌷 ρσωєяє∂ ву ѕнα∂σω',
-          thumbnail: thumbBuffer,
-          sourceUrl: redes,
-          mediaType: 1,
-          renderLargerThumbnail: true
-        }
-      }
-    }, { quoted: fkontak })
-  })
-}
-
-handler.help = ['ping', 'p']
-handler.tags = ['info']
-handler.command = ['ping', 'p']
-
-export default handler*/
-
 import speed from 'performance-now'
 import { exec } from 'child_process'
 import moment from 'moment-timezone'
@@ -106,30 +44,30 @@ let handler = async (m, { conn }) => {
 
 ━━━━━━━━━━━━━━━━━━━━━━
           ⬣ ᴘ ɪ ɴ ɢ ⬣
-> 🚀 *Ping:* ${ping} ms
-> 💫 *Latencia:* ${latency.toFixed(2)} ms
-> 🌿 *Uptime:* ${uptimeFormatted}
-> 🗓️ *Fecha/Hora:* ${fechaHora}
+> 🚀 *𝑝𝑖𝑛𝑔:* ${ping} ms
+> 💫 *𝑙𝑎𝑡𝑒𝑛𝑐𝑖𝑎:* ${latency.toFixed(2)} ms
+> 🌿 *𝑢𝑝𝑡𝑖𝑚𝑒:* ${uptimeFormatted}
+> 🗓️ *𝑓𝑒𝑐ℎ𝑎/ℎ𝑜𝑟𝑎:* ${fechaHora}
 
 ━━━━━━━━━━━━━━━━━━━━━━
      ⬣ ʀ ᴇ ᴄ ᴜ ʀ s ᴏ s ⬣
-> 🍉 *RAM usada:* ${usedRAM} GB
-> 💮 *RAM libre:* ${freeRAM} GB
-> 💾 *RAM total:* ${totalRAM} GB
-> 🌾 *Carga promedio:* ${loadAvg}
+> 🍉 *𝑟𝑎𝑚 𝑢𝑠𝑎𝑑𝑎:* ${usedRAM} GB
+> 💮 *𝑟𝑎𝑚 𝑙𝑖𝑏𝑟𝑒:* ${freeRAM} GB
+> 💾 *𝑟𝑎𝑚 𝑡𝑜𝑡𝑎𝑙:* ${totalRAM} GB
+> 🌾 *𝑐𝑎𝑟𝑔𝑎 𝑝𝑟𝑜𝑚𝑒𝑑𝑖𝑜:* ${loadAvg}
 
 ━━━━━━━━━━━━━━━━━━━━━━
           ⬣ ᴄ ᴘ ᴜ ⬣
-> ⚙️ *Modelo:* ${cpuModel}
-> 🔧 *Velocidad:* ${cpuSpeed} GHz
-> 📡 *Núcleos:* ${cores}
+> ⚙️ *𝑚𝑜𝑑𝑒𝑙𝑜:* ${cpuModel}
+> 🔧 *𝑣𝑒𝑙𝑜𝑐𝑖𝑑𝑎𝑑:* ${cpuSpeed} GHz
+> 📡 *𝑛𝑢𝑐𝑙𝑒𝑜𝑠:* ${cores}
 
 ━━━━━━━━━━━━━━━━━━━━━━
        ⬣ s ɪ s ᴛ ᴇ ᴍ ᴀ⬣
-> 🖥️ *Arquitectura:* ${arch}
-> 🌲 *Plataforma:* ${platform}
-> 🌐 *Host:* ${hostname}
-> 🟢 *NodeJS:* ${nodeVer}
+> 🖥️ *𝑎𝑟𝑞𝑢𝑖𝑐𝑡𝑒𝑐𝑡𝑢𝑟𝑎:* ${arch}
+> 🌲 *𝑝𝑙𝑎𝑡𝑎𝑓𝑜𝑟𝑚𝑎:* ${platform}
+> 🌐 *ℎ𝑜𝑠𝑡:* ${hostname}
+> 🟢 *𝑛𝑜𝑑𝑒𝑗𝑠:* ${nodeVer}
 \`\`\`${sysInfo.trim()}\`\`\`
 ━━━━━━━━━━━━━━━━━━━━━━
 

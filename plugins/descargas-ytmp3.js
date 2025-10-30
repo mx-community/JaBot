@@ -48,10 +48,7 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     const size = await getSize(downloadUrl)
     const sizeStr = size ? formatSize(size) : 'Desconocido'
 
-    const textoInfo = `╔═══❖•ೋ° ⚜️ °ೋ•❖═══╗
-       *🎧 ＹＯＵＴＵＢＥ ＭＰ3 🎶*
-╚═══❖•ೋ° ⚜️ °ೋ•❖═══╝
-🌸 *Título:* 
+    const textoInfo = `🍃 *Título:* 
 > ${meta.title}
 🕒 *Duración:* 
 > ${meta.duration}

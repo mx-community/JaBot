@@ -6,6 +6,7 @@ async function generarBienvenida({ conn, userId, groupMetadata, chat }) {
   const username = `@${userId.split('@')[0]}`
   const pp = await conn.profilePictureUrl(userId, 'image').catch(() => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
   const fecha = new Date().toLocaleDateString("es-ES", { timeZone: "America/Mexico_City", day: 'numeric', month: 'long', year: 'numeric' })
+  const hora = fecha.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
   const groupSize = groupMetadata.participants.length + 1
   const desc = groupMetadata.desc?.toString() || 'Sin descripción'
   const mensaje = (chat.sWelcome || 'Edita con el comando "setwelcome"')
@@ -21,7 +22,7 @@ Bienvenid@ al grupo *_${groupMetadata.subject}_*
 
 🌿 \`𝐈𝐧𝐟𝐨 - 𝐆𝐫𝐨𝐮𝐩:\`
  • ᴍɪᴇᴍʙʀᴏs: ${groupSize}
- • ʜᴏʀᴀ: undefined
+ • ʜᴏʀᴀ: ${hora}
  • ғᴇᴄʜᴀ: ${fecha}
  • ᴅᴇsᴄʀɪᴘᴄɪᴏɴ: ${mensaje}`
   return { pp, caption, username }
@@ -44,7 +45,7 @@ async function generarDespedida({ conn, userId, groupMetadata, chat }) {
 
 📉 \`𝐄𝐬𝐭𝐚𝐝𝐨 𝐀𝐜𝐭𝐮𝐚𝐥:\`
  • ᴍɪᴇᴍʙʀᴏs: ${groupSize}
- • ʜᴏʀᴀ: undefined
+ • ʜᴏʀᴀ: ${hora}
  • ғᴇᴄʜᴀ: ${fecha}`
   return { pp, caption, username }
 }
@@ -71,7 +72,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
 
   const fkontak = {
     key: { participant: '0@s.whatsapp.net', remoteJid: 'status@broadcast', fromMe: false, id: 'Halo' },
-    message: { locationMessage: { name: '🍉 𝙒𝙚𝙡𝙘𝙤𝙢𝙚 - 𝙆𝙖𝙣𝙚𝙠𝙞 𝙈𝘿 📡', jpegThumbnail: thumbBuffer } },
+    message: { locationMessage: { name: '🍓 𝙒𝙚𝙡𝙘𝙤𝙢𝙚 - 𝙆𝙖𝙣𝙚𝙠𝙞 𝙈𝘿 🍟', jpegThumbnail: thumbBuffer } },
     participant: '0@s.whatsapp.net'
   }
 
@@ -98,7 +99,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
           name: 'quick_reply',
           buttonParamsJson: JSON.stringify({
             display_text: '🌿 ᴍᴇɴᴜ - ᴋᴀɴᴇᴋɪ ᴀɪ 💐',
-            id: '.menu'
+            id: '#menu'
           })
         }
       ],
@@ -131,7 +132,7 @@ handler.before = async function (m, { conn, participants, groupMetadata }) {
           name: 'quick_reply',
           buttonParamsJson: JSON.stringify({
             display_text: '🌿 ᴍᴇɴᴜ - ᴋᴀɴᴇᴋɪ ᴀɪ 💐',
-            id: '.menu'
+            id: '#menu'
           })
         }
       ],

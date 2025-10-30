@@ -5,7 +5,7 @@ import PhoneNumber from 'awesome-phonenumber'
 
 let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
   try {
-    await m.react('🍋')
+    await m.react('🚀')
 
     const user = global.db.data.users[m.sender] || {}
     const name = await conn.getName(m.sender)
@@ -96,12 +96,12 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
         .map(cmd => cmd.help.map(e => `> ര ׄ 🍃 ׅ  ${usedPrefix}${e}`).join('\n'))
         .join('\n')
       if (comandos) {
-        menuTexto += `\n\n*${tags[tag]}*\n${comandos}`
+        menuTexto += `\n\n*${tags[tag]}*\n\`\`\`${comandos}\`\`\``
       }
     }
 
     const infoUser = `
-ര ׄ ☃️ ׅ  Bienvenid@ a | Kaneki Bot AI  
+ര ׄ ☃️ ׅ  Bienvenid@ soy | Kaneki Bot AI  
 ─────────────────────
 🌿 *Usuario:* @${userId}
 🍉 *Premium:* ${premium}
