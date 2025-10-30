@@ -32,8 +32,7 @@ const similares = allCommands
 .slice(0, 3)
 
 let sugerencias = similares.length
-? similares.map(s => `❒ *Comando:* *${s.cmd}* con un ${s.score}%`).join('\n')
-: '\n\n📍  No se han encontrado comandos relacionados.'
+? similares.map(s => `❒ *Comando:* *${s.cmd}* con un ${s.score}%`).join('\n') : '📍  No se han encontrado comandos relacionados.'
 
 const texto = ` ✦  Hola usuario, el comando *"#${command}"* no existe en la base de datos.
 - Use el comando *#menu* para ver la lista completa.
