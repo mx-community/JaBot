@@ -13,12 +13,12 @@
 },
 "repository": {
 "type": "git",
-"url": "git+https://github.com/Shadow-nex/KanekiBot-V3.git"
+"url": "git+https://github.com/mx-community/JaBot.git"
 },  
-"author": "Shadow.xyz",
+"author": "Alan.Js",
 "license": "MIT-License",
 "bugs": {
-"url": "https://github.com/Shadow-nex/KanekiBot-V3/issues"
+"url": "https://github.com/mx-community/JaBot/issues"
 },
 "homepage": "https://github.com/Shadow-nex/KanekiBot-V3#readme",
 "dependencies": {
