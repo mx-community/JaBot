@@ -24,8 +24,18 @@ var comunidad = 'https://whatsapp.com/channel/0029VbC34Nt42DchIWA0q11f'
 var git = 'https://github.com/Shadow-nex'
 var github = 'https://github.com/Shadow-nex/KanekiBot-V3' 
 var correo = 'shadowcore.xyz@gmail.com'
-global.redes = [canal, comunidad, git, github, correo].getRandom()
 
+var fMage = "https://qu.ax/BAuJt.jpg"
+var fMage2 = "https://qu.ax/BTUHt.jpg"
+var fMage3 = "https://qu.ax/shFmH.jpg"
+var fImagen = "https://qu.ax/MooSb.jpg"
+var fImagen2 = "https://qu.ax/XPDQK.jpg"
+var fImagen3 = "https://qu.ax/GbfQk.jpg"
+
+global.redes = [canal, comunidad, git, github, correo].getRandom()
+global.mMages = [fMage, fMage2, fMage3].getRandom()
+global.mImagen = [fImagen, fImagen2, fImagen3].getRandom()
+  
 global.nombre = m.pushName || 'Anónimo'
 global.packsticker = `•─• ⟢ ${botname} ⟣ •─•\nUsuario: ${nombre}\nBot: ${botname}\nCreado: ${fecha}\nHora: ${moment.tz('America/Caracas').format('HH:mm:ss')}`
 global.packsticker2 = `\n${textbot}`
