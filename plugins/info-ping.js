@@ -80,7 +80,7 @@ let handler = async (m, { conn }) => {
         externalAdReply: {
           title: botname,
           body: textbot,
-          thumbnail: fImagen3,
+          thumbnail: thumb,
           sourceUrl: redes,
           mediaType: 1,
           renderLargerThumbnail: true
