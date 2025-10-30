@@ -23,7 +23,8 @@ let txt = `· •──• ✦ *RESULTADO* ✦ •──• ·
 ⊸⊹ *Videos:* ${videos}
 ⊸⊹ *Verificado:* ${verified ? 'Sí' : 'No'}
 ⊸⊹ *Region:* ${region || 'No disponible'}`;
-await conn.sendMessage(m.chat, { text: txt, contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnailUrl: profile, sourceUrl: null, mediaType: 1, showAdAttribution: true, renderLargerThumbnail: true }}} , { quoted: m });
+await conn.sendMessage(m.chat, { image: { url: profile }, caption: txt }, { quoted: m });
+  //conn.sendMessage(m.chat, { text: txt, contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnailUrl: profile, sourceUrl: null, mediaType: 1, showAdAttribution: true, renderLargerThumbnail: true }}} , { quoted: m });
 } catch (error) {
 console.error(error);
 await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m });
