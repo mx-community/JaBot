@@ -6,8 +6,8 @@ import fetch from 'node-fetch'
 
 let handler = async (m, { conn }) => {
   const start = new Date().getTime()
-  await m.react('📡')
-  await conn.sendMessage(m.chat, { text: `⏳ *Calculando el ping...*` }, { quoted: m })
+  await m.react('⏳')
+  await conn.sendMessage(m.chat, { text: `📍  Enviando resultados de avance...` }, { quoted: m })
   const end = new Date().getTime()
   const ping = end - start
 
@@ -79,11 +79,11 @@ let handler = async (m, { conn }) => {
       contextInfo: {
         externalAdReply: {
           title: botname,
-          body: '📍  Prueba de ping.',
-          thumbnail: thumb,
+          body: textbot,
+          thumbnail: mMages,
           sourceUrl: redes,
           mediaType: 1,
-          renderLargerThumbnail: true
+          renderLargerThumbnail: false
         }
       }
     }, { quoted: fkontak })
