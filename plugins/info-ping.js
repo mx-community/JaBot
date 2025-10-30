@@ -34,7 +34,7 @@ let handler = async (m, { conn }) => {
   const loadAvg = os.loadavg().map(n => n.toFixed(2)).join(', ')
   const fechaHora = moment().tz('America/Lima').format('YYYY/MM/DD, h:mm:ss A')
 
-  const thumb = Buffer.from(await (await fetch('https://qu.ax/XPDQK.jpg')).arrayBuffer())
+  const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 
   exec('neofetch --stdout', async (error, stdout) => {
     let sysInfo = stdout.toString('utf-8').replace(/Memory:/, 'Ram:')
