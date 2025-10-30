@@ -33,19 +33,22 @@ const hostname = os.hostname()
 const loadAvg = os.loadavg().map(n => n.toFixed(2)).join(', ')
 const fechaHora = moment().tz('America/Lima').format('YYYY/MM/DD, h:mm:ss A')
 
-const thumb = Buffer.from(await (await fetch(`${global.mImagen}`)).arrayBuffer())
+const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 
 exec('neofetch --stdout', async (error, stdout) => {
 let sysInfo = stdout.toString('utf-8').replace(/Memory:/, 'Ram:')
-let response = `•─• ⟢ *PING : TEST* ⟣ •─•
-
+let response = `> •─• ⟢ *PING : TEST* ⟣ •─•
 ⊸❒ *Ping:* ${ping} ms
 ⊸❒ *Latencia:* ${latency.toFixed(2)} ms
 ⊸❒ *Actividad:* ${uptimeFormatted}
 ⊸❒ *F.H:* ${fechaHora}
+
+> •─• ⟢ *USO DE RAM* ⟣ •─•
 ⊸❒ *Ram usado:* ${usedRAM} GB
 ⊸❒ *Ram libre:* ${freeRAM} GB
 ⊸❒ *Ram total:* ${totalRAM} GB
+
+> •─• ⟢ *DETALLES* ⟣ •─•
 ⊸❒ *Carga:* ${loadAvg}
 ⊸❒ *Modelo:* ${cpuModel}
 ⊸❒ *Velocidad:* ${cpuSpeed} GHz
