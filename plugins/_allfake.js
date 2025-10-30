@@ -7,8 +7,8 @@ const { generateWAMessageFromContent, prepareWAMessageMedia, proto } = pkg
 
 var handler = m => m
 handler.all = async function (m) { 
-global.canalIdM = ["120363422142340004@newsletter", "120363422142340004@newsletter"]
-global.canalNombreM = ["☃️ 𝑲𝒂𝒏𝒆𝒌𝒊𝑩𝒐𝒕 - 𝑶𝒇𝒇𝒊𝒄𝒊𝒂𝒍 𝑪𝒉𝒂𝒏𝒏𝒆𝒍 🌿", "🔥 𝐊𝐚𝐧𝐞𝐊𝐢𝐁𝐨𝐭-𝐕3 - 𝑶𝒇𝒇𝒊𝒄𝒊𝒂𝒍 𝑪𝒉𝒂𝒏𝒏𝒆𝒍 ᯓ🍋"]
+global.canalIdM = ["120363318353263389@newsletter", "120363422142340004@newsletter"]
+global.canalNombreM = ["MX - BOT", "MX : NOTIFY"]
 global.channelRD = await getRandomChannel()
 
 global.d = new Date(new Date + 3600000)
@@ -27,8 +27,8 @@ var correo = 'shadowcore.xyz@gmail.com'
 global.redes = [canal, comunidad, git, github, correo].getRandom()
 
 global.nombre = m.pushName || 'Anónimo'
-global.packsticker = `°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°\n🌿 Usuario: ${nombre}\n🎀 Bot: ${botname}\n📆 Fecha: ${fecha}\nⴵ Hora: ${moment.tz('America/Caracas').format('HH:mm:ss')}`
-global.packsticker2 = `\n°.⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸⎯ܴ⎯̶᳞͇ࠝ⎯⃘̶⎯̸.°\n\n🍃 ${dev}`
+global.packsticker = `•─• ⟢ ${botname} ⟣ •─•\nUsuario: ${nombre}\nBot: ${botname}\nCreado: ${fecha}\nHora: ${moment.tz('America/Caracas').format('HH:mm:ss')}`
+global.packsticker2 = `\n${textbot}`
 
 global.fake = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, newsletterName: channelRD.name, serverMessageId: -1 }
 }}, { quoted: m }
@@ -63,12 +63,12 @@ global.nombre = m.pushName || 'Anónimo'
 global.fkontak = { key: { participants:"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
 
 global.icono = [
-'https://i.pinimg.com/originals/b3/67/d5/b367d513d861de468305c32c6cd22756.jpg', 
-'https://cdn.yupra.my.id/yp/mmuj995h.jpg', 
-'https://cdn.yupra.my.id/yp/ey5l5cct.jpg',
-'https://cdn.yupra.my.id/yp/o720p39m.jpg',
-'https://cdn.yupra.my.id/yp/a81y4vy5.jpg',
-'https://cdn.yupra.my.id/yp/uwx1azzu.jpg'
+'https://qu.ax/BAuJt.jpg', 
+'https://qu.ax/BTUHt.jpg', 
+'https://qu.ax/shFmH.jpg',
+'https://qu.ax/MooSb.jpg',
+'https://qu.ax/XPDQK.jpg',
+'https://qu.ax/GbfQk.jpg'
 ].getRandom()
 /*
 global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: '', newsletterName: channelRD.name }, externalAdReply: { title: botname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnail: await (await fetch(icono)).buffer(), sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, mentionedJid: null }}
@@ -83,8 +83,8 @@ global.rcanal = {
       newsletterName: channelRD.name,
     },
     externalAdReply: {
-      title: `•◍⃝߭۫ꯨ🍨۪〬.࠭⤿ʅ ${botname} 𑁍ꥈ࣪⬪🍃`,
-      body: `（つ /${nombre} • ${saludo}🍓꒱`,
+      title: `${botname} : @mx-commynity`,
+      body: `${textbot}`,
       mediaUrl: null,
       description: null,
       previewType: "PHOTO",
@@ -104,8 +104,8 @@ global.rcanalx = {
       newsletterName: channelRD.name,
     },
     externalAdReply: {
-      title: '❒︴🍃 🄰🄲🄲🄴🅂🄾 • 🄳🄴🄽🄴🄶🄰🄳🄾 🍬✗',
-      body: `（๑•ᴗ• )づ ${dev}`,
+      title: 'CHANNEL : MX',
+      body: `${textbot}`,
       mediaUrl: null,
       description: null,
       previewType: "PHOTO",
@@ -126,7 +126,7 @@ global.rcanalw = {
     },
     externalAdReply: {
       title: botname,
-      body: dev,
+      body: textbot,
       mediaUrl: null,
       description: null,
       previewType: "PHOTO",
