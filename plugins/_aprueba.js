@@ -1,5 +1,5 @@
 import axios from 'axios';
-const handler = async (m, { args, conn }) => {
+const handler = async (m, { args, conn, usedPrefix, command }) => {
 if (args.length < 2) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba un texto y un segundo texto con el simbolo mas.\n\n• *Por ejemplo:*\n${usedPrefix + command} MX + Alan.Js`}, { quoted: m });
 const [titulo, slogan] = args.join(" ").split("+");
 try {
