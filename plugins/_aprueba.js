@@ -1,7 +1,8 @@
 import fetch from 'node-fetch'
 const handler = async (m, { conn, usedPrefix, command }) => {
 const thumb = Buffer.from(await (await fetch(`https://qu.ax/hNADg.jpg`)).arrayBuffer())
-let xd = `👋🏻  Hola usuario @${m.sender.split('@')[0]}.
+const name = await conn.getName(m.sender)
+let xd = `👋🏻  Hola usuario ${name}.
 - Para contactar con el creador, puedes usar los siguientes comandos:
 
 1. *#internet*
