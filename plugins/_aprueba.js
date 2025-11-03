@@ -13,7 +13,7 @@ let xd = `👋🏻  Hola usuario @${m.sender.split('@')[0]}.
 > https://mx-website.vercel.app`
 
 
-await conn.sendMessage(m.chat, { text: xd, mentions: conn.parseMention(xd), contextInfo: { externalAdReply: { 
+await conn.sendMessage(m.chat, { text: xd, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: botname, 
 body: textbot, 
 thumbnail: thumb, 
