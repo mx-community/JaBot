@@ -21,9 +21,9 @@ let resHarumi = [
 'No, debes de ingresar el comando y escribir algo en particular donde pueda responderte jaja.', 
 '¡Jajajaja! No, debes de usar el comando, es para llamarme y asi responderte si escribes algo en particular.'
 ].getRandom()
-if (!text) return conn.reply(m.chat, resHarumi, m, takedaHaru)
+if (!text) return conn.reply(m.chat, resHarumi, m)
 let syms1 = await fetch('https://raw.githubusercontent.com/mx-community/mx-files/main/archivos/IAs/TakedaHarumi.txt').then((v) => v.text())
-if (command == 'ia' || command == 'chatgpt') {
+if (command == 'harumi' || command == 'takeda') {
 try {
 const messages = [
 {role: 'system', content: syms1},
@@ -67,7 +67,7 @@ console.error(`Falló ${fallback}: ${e.message}`)
 }
 
 if (response.status) {
-await conn.reply(m.chat, response.result.response, m, takedaHaru)
+await conn.reply(m.chat, response.result.response, m)
 }
 } catch {
 try {
@@ -96,7 +96,7 @@ await conn.reply(m.chat, response, m, takedaHaru)
 try {
 let gpt = await fetch(`${apis}/ia/gptweb?text=${text}`)
 let res = await gpt.json()
-await conn.reply(m.chat, res.gpt, m, takedaHaru)
+await conn.reply(m.chat, res.gpt, m)
 
 /*let gpt = await fetch(`https://deliriusapi-official.vercel.app/ia/chatgpt?q=${text}`)
 let res = await gpt.json()
