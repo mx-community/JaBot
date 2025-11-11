@@ -100,10 +100,13 @@ global.takedaHaru = [
 global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: '', newsletterName: channelRD.name }, externalAdReply: { title: botname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnail: await (await fetch(icono)).buffer(), sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, mentionedJid: null }}
 }
 */
+
+/*
 global.alanFake { contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: mMages, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true },},}
 global.alanFake2 { contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: mMages, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true },},}
 global.alanAdv { contextInfo: { externalAdReply: { title: "📍  FUNCIÓN NO EJECUTADO.", body: textbot, thumbnail: , sourceUrl: null, mediaType: 1, renderLargerThumbnail: true },},}
-
+*/
+  
 global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { title: `${botname}`, body: `${textbot}`, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, mediaType: 1, renderLargerThumbnail: false },},}
 global.rcanalx = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 101, newsletterName: channelRD.name, }, externalAdReply: { title: 'CHANNEL : MX', body: `${textbot}`, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, mediaType: 1, renderLargerThumbnail: false },},}
 global.rcanalw = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 102, newsletterName: channelRD.name, }, externalAdReply: { title: botname, body: textbot, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, mediaType: 1, renderLargerThumbnail: false },},}
