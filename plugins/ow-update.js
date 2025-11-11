@@ -8,7 +8,7 @@ const stdout = execSync('git pull' + (m.fromMe && text ? ' ' + text : ''));
 let messager = stdout.toString()
 if (messager.includes('📍  La actualización de la pagina web ya esta en un estado normal.')) messager = '📍  La actualización del la pagina ya esta completa, no es necesario actualizarla.'
 if (messager.includes('⏳  Actualización pendiente...')) messager = '✓  *[ WEB : ACTUALIZADO ]*\n\n' + stdout.toString()
-conn.reply(m.chat, `·─┄ · ✦ *Update : Web* ✦ ·\n- _Se ha actualizado la pagina web con exito.\n\n⊹ ✎ *Version:* ${global.vs} (actual)\n⊹ ✎ *Actualizado:* ${global.fecha}\n⊹ ✎ *Web:* mx-website\n⊹ ✎ *Ruta:* ../plugins/(update.js)\n⊹ ✎ *Pruebas:*\n\`\`\`${messager}\`\`\``, m, alanFake)
+conn.reply(m.chat, `·─┄ · ✦ *Update : Web* ✦ ·\n- _Se ha actualizado la pagina web con exito.\n\n⊹ ✎ *Version:* ${global.vs} (actual)\n⊹ ✎ *Actualizado:* ${global.fecha}\n⊹ ✎ *Web:* mx-website\n⊹ ✎ *Ruta:* ../plugins/(update.js)\n⊹ ✎ *Pruebas:*\n\`\`\`${messager}\`\`\``, m)
 } catch { 
 try {
 const status = execSync('git status --porcelain')
@@ -20,7 +20,7 @@ return null
 return '*→ ' + line.slice(3) + '*'}).filter(Boolean)
 if (conflictedFiles.length > 0) {
 const errorMessage = `📍  [ ERROR ]:\n\n${conflictedFiles.join('\n')}.`
-await conn.reply(m.chat, errorMessage, m, alanFake)
+await conn.reply(m.chat, errorMessage, m)
 }}} catch (error) {
 console.error(error)
 let errorMessage2 = '📍  [ ERROR ]'
