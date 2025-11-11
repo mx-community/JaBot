@@ -6,7 +6,7 @@ Evitando el tedioso cambio de nombre por cada comando.
 
 import { makeWASocket } from '@whiskeysockets/baileys'
 import fs from 'fs'
-import { generarBienvenida, generarDespedida } from './_welcome.js'
+import { generarBienvenida, generarDespedida } from './_fc-welcome.js'
 
 const handler = async (m, { conn, args, text, command, usedPrefix }) => {
 
