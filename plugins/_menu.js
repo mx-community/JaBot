@@ -26,14 +26,14 @@ const phone = PhoneNumber('+' + userId)
 const pais = phone.getRegionCode() || 'Desconocido 🌐'
 const perfil = await conn.profilePictureUrl(conn.user.jid, 'image').catch(() => `${global.mMages}`)
 
-const infoUser = `
+const infoUser = `${hora}, ${dia}, ${fechaTxt}
+
 ╭──────────────• · · · 
-│🜲 *Usuario:* @${userId}
+│🜲 *Usuario:* @${name}
 │✦ *Premium:* ${premium}
 │ⴵ *Actividad:* ${uptime}
 │⚇ *Bot:* ${(conn.user.jid == global.conn.user.jid ? 'Principal' : 'PreBot')}
-│々 *Versión:* ${vs}
-│⏍ *Fecha:* ${hora}, ${dia}, ${fechaTxt}
+│々 *Versión:* ${vs} 
 ╰──────────────• · · · 
 
 ╭──• ⩽ *Information* ⩾ •──• · · ·
@@ -176,7 +176,6 @@ const infoUser = `
 │✎  *#takeda*  <text>
 │✎  *#dalle*  <text>
 │✎  *#flux*  <text>
-│✎  *#chatgpt*  <text>
 │✎  *#luminai*  <text>
 ╰──────• ⩽⩾ •─────• · · ·
 
@@ -197,6 +196,7 @@ const infoUser = `
 │✎  *#s-name*  <text>
 │✎  *#s-desc*  <text>
 │✎  *#s-foto*  <reply>
+│✎  *#servers*  
 │✎  *#newserver*  
 ╰──────• ⩽⩾ •─────• · · ·
 
