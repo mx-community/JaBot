@@ -24,15 +24,27 @@ var comunidad = 'https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt'
 var webmx = 'https://mx-website.vercel.app'
 var paypal = 'https://www.paypal.me/aJosueUSDpaypal'
 
-var fMage = "https://qu.ax/BAuJt.jpg"
-var fMage2 = "https://qu.ax/BTUHt.jpg"
-var fMage3 = "https://qu.ax/shFmH.jpg"
-var fImagen = "https://qu.ax/MooSb.jpg"
-var fImagen2 = "https://qu.ax/XPDQK.jpg"
-var fImagen3 = "https://qu.ax/GbfQk.jpg"
+var fMage = "https://qu.ax/pZHAP.jpg"
+var fMage2 = "https://qu.ax/CjXUm.jpg"
+var fMage3 = "https://qu.ax/OdZjV.jpg"
+var fMage4 = "https://qu.ax/BZCXW.jpg"
+var fMage5 = "https://qu.ax/NUtMi.jpg"
+var fMage6 = "https://qu.ax/nCkOS.jpg"
+var fMage7 = "https://qu.ax/niBpw.jpg"
+var fMage8 = "https://qu.ax/WkCBo.jpg"
+var fMage9 = "https://qu.ax/qoYZp.jpg"
+var fMage10 = "https://qu.ax/cngJw.jpg"
+var fMage11 = "https://qu.ax/dwCHt.jpg"
+var fMage12 = "https://qu.ax/yDSeo.jpg"
+var fMage13 = "https://qu.ax/shFmH.jpg"
+var fMage14 = "https://qu.ax/fEaFZ.jpg"
+var fMage15 = "https://qu.ax/MDYPK.jpg"
+var fMage16 = "https://qu.ax/XkGjU.jpg"
+var fMage17 = 'https://qu.ax/uxLCn.jpg"
+var fMage18 = "https://qu.ax/fpAtH.jpg"
 
 global.redes = [canal, comunidad, webmx, paypal].getRandom()
-global.mMages = [fMage, fMage2, fMage3].getRandom()
+global.mMages = [fMage, fMage2, fMage3, fMage4, fMage5, fMage6, fMage7, fMage8, fMage9, fMage10, fMage11, fMage12, fMage13, fMage14, fMage15, fMage16, fMage17, fMage18].getRandom()
 global.mImagen = [fImagen, fImagen2, fImagen3].getRandom()
 //global.mVideos = ["","",""].getRandom()
 
