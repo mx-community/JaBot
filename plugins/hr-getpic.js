@@ -1,4 +1,4 @@
-let handler = async (m, { conn }) => {
+ let handler = async (m, { conn, usedPrefix, command }) => {
 let mentionedJid = await m.mentionedJid
 let who = await m.quoted?.sender || mentionedJid?.[0]
 if (!who) return conn.sendMessage(m.chat, { text: `Ingrese el comando y menciona a un usuario para ver su foto de perfil.\n\n• Por ejemplo:\n*#${command}* @${m.sender.split('@')[0]}`, mentions: [m.sender] }, { quoted: m })
@@ -7,8 +7,8 @@ let pp = await conn.profilePictureUrl(who, 'image').catch(() => 'https://raw.git
 await conn.sendMessage(m.chat, { text: `Enviando foto de perfil, espere un momento...` }, { quoted: m })
 await conn.sendMessage(m.chat, { image: { url: pp }, caption: `✓ Foto de *${name}* descargada.` }, { quoted: m })
 }
-handler.help = ['pfp']
-handler.tags = ['sticker']
+handler.help = ['getpic  <text>']
+handler.tags = ['herramientas']
 handler.command = ['pfp', 'getpic']
-handler.group = true
 export default handler
+  
