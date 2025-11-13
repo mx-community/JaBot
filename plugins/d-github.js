@@ -1,4 +1,47 @@
 import fetch from 'node-fetch'
+let regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
+let handler = async (m, { args, usedPrefix, command }) => {
+if (!args[0]) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace valido de un repositorio de *GitHub* para descargarlo.` }, { quoted: m })
+}
+if (!regex.test(args[0])) {
+return conn.sendMessage(m.chat, { text: `📍  Verifica si el enlace ingresado es de un repositorio de *GitHub*.`}, { quoted: m })
+}
+let [_, user, repo] = args[0].match(regex) || []
+let sanitizedRepo = repo.replace(/.git$/, '')
+let repoUrl = `https://api.github.com/repos/${user}/${sanitizedRepo}`
+let zipUrl = `https://api.github.com/repos/${user}/${sanitizedRepo}/zipball`
+await m.react("⏳")
+//conn.sendMessage(m.chat, { text: `_ⴵ Buscando resultados, espere un momento..._` }, { quoted: m })
+try {
+let [repoResponse, zipResponse] = await Promise.all([
+fetch(repoUrl),
+fetch(zipUrl),
+])
+let repoData = await repoResponse.json()
+let filename = zipResponse.headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
+let type = zipResponse.headers.get('content-type')
+let txt = `·─┄ · ✦ *GitHub : Download* ✦ ·
+
+⊹ ✎ *Usuario:* ${user}
+⊹ ✎ *Repositorio:* ${sanitizedRepo}
+⊹ ✎ *Enlace:* ${args[0]}
+
+📍  *Descripcion:* ${repoData.description || 'No tiene descripcion.'}`
+
+await conn.sendMessage(m.chat, { text: txt, contextInfo: { externalAdReply: { title: botname, body: '📍 Descargando archivo de GitHub, espere un momento...', thumbnailUrl: global.icono, sourceUrl: null, mediaType: 1, showAdAttribution: true, renderLargerThumbnail: true }}} , { quoted: m })
+await conn.sendFile(m.chat, await zipResponse.buffer(), filename, null, m)
+} catch (e) {
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
+}
+}
+handler.command = ["git", "github"]
+handler.tags = ["descargas"]
+handler.help = ["git", "github"]
+export default handler
+
+/*
+import fetch from 'node-fetch'
 
 const regex = /^(?:https:\/\/|git@)github\.com\/([^\/]+)\/([^\/]+?)(?:\.git)?$/i
 const handler = async (m, { conn, usedPrefix, text }) => {
@@ -56,3 +99,4 @@ function formatDate(n, locale = 'es') {
 const d = new Date(n)
 return d.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
 }
+*/
