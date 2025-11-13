@@ -64,13 +64,13 @@ global.mImagen = [fImagen, fImagen2, fImagen3, fImagen4, fImagen5, fImagen6, fIm
 //global.mVideos = ["","",""].getRandom()
 
 global.nombre = m.pushName || 'Anónimo'
-global.packsticker = `•─• ⟢ ${botname} ⟣ •─•\nUsuario: ${nombre}\nBot: ${botname}\nCreado: ${fecha}\nHora: ${moment.tz('America/Caracas').format('HH:mm:ss')}`
-global.packsticker2 = `\n${textbot}`
+global.packsticker = `•─• ⟢ STICKER ⟣ •─•\nUsuario: ${nombre}\nBot: ${botname}\nCreado: ${fecha}\nHora: ${moment.tz('America/Caracas').format('HH:mm:ss')}`
+global.packsticker2 = `\n•─• ⟢ CREATED ⟣ •─•`
 
 global.fake = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, newsletterName: channelRD.name, serverMessageId: -1 }
 }}, { quoted: m }
 
-// (Horario Perú 🇵🇪)
+// HORARIO 📍
 var ase = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Lima" }))
 var hour = ase.getHours()
 switch (true) {
@@ -100,28 +100,27 @@ global.nombre = m.pushName || 'Anónimo'
 global.fkontak = { key: { participants:"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
 
 global.icono = [
-'https://qu.ax/BAuJt.jpg', 
-'https://qu.ax/BTUHt.jpg', 
-'https://qu.ax/shFmH.jpg', 
-'https://qu.ax/MooSb.jpg', 
-'https://qu.ax/XPDQK.jpg', 
-'https://qu.ax/GbfQk.jpg'
+"https://qu.ax/pZHAP.jpg", 
+"https://qu.ax/CjXUm.jpg", 
+"https://qu.ax/OdZjV.jpg", 
+"https://qu.ax/BZCXW.jpg", 
+"https://qu.ax/NUtMi.jpg", 
+"https://qu.ax/nCkOS.jpg", 
+"https://qu.ax/niBpw.jpg", 
+"https://qu.ax/WkCBo.jpg", 
+"https://qu.ax/qoYZp.jpg", 
+"https://qu.ax/cngJw.jpg", 
+"https://qu.ax/dwCHt.jpg", 
+"https://qu.ax/yDSeo.jpg", 
+"https://qu.ax/shFmH.jpg", 
+"https://qu.ax/fEaFZ.jpg", 
+"https://qu.ax/MDYPK.jpg", 
+"https://qu.ax/XkGjU.jpg", 
+"https://qu.ax/uxLCn.jpg", 
+"https://qu.ax/fpAtH.jpg"
 ].getRandom()
 
-global.gMages = [
-'https://qu.ax/cngJw.jpg', 
-'https://qu.ax/CjXUm.jpg', 
-'https://qu.ax/pZHAP.jpg', 
-'https://qu.ax/dwCHt.jpg', 
-'https://qu.ax/WkCBo.jpg', 
-'https://qu.ax/qoYZp.jpg'
-].getRandom()
 
-global.takedaHaru = [
-'https://qu.ax/BZCXW.jpg', 
-'https://qu.ax/niBpw.jpg', 
-'https://qu.ax/OdZjV.jpg'
-].getRandom()
 /*
 global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: '', newsletterName: channelRD.name }, externalAdReply: { title: botname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnail: await (await fetch(icono)).buffer(), sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, mentionedJid: null }}
 }
