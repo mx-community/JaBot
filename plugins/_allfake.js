@@ -7,8 +7,8 @@ const { generateWAMessageFromContent, prepareWAMessageMedia, proto } = pkg
 
 var handler = m => m
 handler.all = async function (m) { 
-global.canalIdM = ["120363318353263389@newsletter", "120363422142340004@newsletter"]
-global.canalNombreM = ["MX - BOT", "MX : NOTIFY"]
+global.canalIdM = ["120363402356085997@newsletter", "120363318353263389@newsletter"]
+global.canalNombreM = ["MX COMMUNITY", "MX : NOTIFY"]
 global.channelRD = await getRandomChannel()
 
 global.d = new Date(new Date + 3600000)
@@ -19,11 +19,10 @@ global.mes = d.toLocaleDateString('es', {month: 'long'})
 global.año = d.toLocaleDateString('es', {year: 'numeric'})
 global.tiempo = d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true})
 
-var canal = 'https://whatsapp.com/channel/0029VbC34Nt42DchIWA0q11f'
-var comunidad = 'https://whatsapp.com/channel/0029VbC34Nt42DchIWA0q11f'
-var git = 'https://github.com/Shadow-nex'
-var github = 'https://github.com/Shadow-nex/KanekiBot-V3' 
-var correo = 'shadowcore.xyz@gmail.com'
+var canal = 'https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d'
+var comunidad = 'https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt'
+var webmx = 'https://mx-website.vercel.app'
+var paypal = 'https://www.paypal.me/aJosueUSDpaypal'
 
 var fMage = "https://qu.ax/BAuJt.jpg"
 var fMage2 = "https://qu.ax/BTUHt.jpg"
@@ -32,7 +31,7 @@ var fImagen = "https://qu.ax/MooSb.jpg"
 var fImagen2 = "https://qu.ax/XPDQK.jpg"
 var fImagen3 = "https://qu.ax/GbfQk.jpg"
 
-global.redes = [canal, comunidad, git, github, correo].getRandom()
+global.redes = [canal, comunidad, webmx, paypal].getRandom()
 global.mMages = [fMage, fMage2, fMage3].getRandom()
 global.mImagen = [fImagen, fImagen2, fImagen3].getRandom()
 //global.mVideos = ["","",""].getRandom()
