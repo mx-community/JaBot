@@ -24,9 +24,9 @@ await conn.sendMessage(m.chat, { document: { url: data5.dllink }, mimetype: 'app
 await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
 }}
 
-handler.tags = ['download']
-handler.help = ['apkmod']
-handler.command = ['apk', 'modapk', 'aptoide']
+handler.tags = ['descargas']
+handler.help = ['apk']
+handler.command = ['apk', 'app']
 
 
 export default handler
