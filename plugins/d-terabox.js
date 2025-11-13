@@ -24,6 +24,8 @@ await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${err}` }, {
 };
 
 handler.command = ["terabox", "tbx"];
+handler.help = ["terabox", "tbx"];
+handler.tags = ["descargas"];
 
 export default handler;
 
