@@ -24,6 +24,19 @@ var comunidad = 'https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt'
 var webmx = 'https://mx-website.vercel.app'
 var paypal = 'https://www.paypal.me/aJosueUSDpaypal'
 
+  //APIS MX 📍
+global.apimx_cafirexos = 'https://api.cafirexos.com'
+global.apimx_key = 'BrunoSobrino'
+global.apimx_brunosobrino = 'https://api-brunosobrino-dcaf9040.koyeb.app'
+global.apimx_brunosobrino2 = 'https://api-brunosobrino.onrender.com'
+global.baseapi_delirius = "https://delirius-apiofc.vercel.app"
+global.baseapi_skynex = "https://skynex.boxmine.xyz"
+global.apirest_key = 'BrunoSobrino' 
+global.apirest_url = 'https://api.cafirexos.com' // Bloqueo de IP -> usar esta para no ser bloqueado: 'https://api-brunosobrino.onrender.com';
+global.apirest_url2 = 'https://api-brunosobrino-dcaf9040.koyeb.app'
+global.apirest_url3 = 'https://api-brunosobrino.onrender.com'
+  
+  
 var fMage = "https://qu.ax/pZHAP.jpg"
 var fMage2 = "https://qu.ax/CjXUm.jpg"
 var fMage3 = "https://qu.ax/OdZjV.jpg"
