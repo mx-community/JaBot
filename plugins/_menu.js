@@ -62,6 +62,7 @@ const infoUser = `${hora}, ${dia}, ${fechaTxt}
 │✎  *#threads*  <url>
 │✎  *#terabox*  <url>
 │✎  *#kwaii*  <url>
+│✎  *#likee*  <url>
 │✎  *#tiktok*  <url>
 │✎  *#spotify*  <url>
 │✎  *#sound*  <url>
@@ -69,9 +70,11 @@ const infoUser = `${hora}, ${dia}, ${fechaTxt}
 │✎  *#mega*  <url>
 │✎  *#github*  <url>
 │✎  *#imagen*  <url>
-│✎  *#pinterest*  <text/url>
-│✎  *#pinimg*  <text>
-│✎  *#pinvid*  <text>
+│✎  *#pinterest*  <url>
+│✎  *#vimeo*  <url>
+│✎  *#videy*  <url>
+│✎  *#threads*  <url>
+│✎  *#npm*  <text>
 ╰──────• ⩽⩾ •─────• · · ·
 
 ╭──• ⩽ *Groups* ⩾ •──• · · ·
