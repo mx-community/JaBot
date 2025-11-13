@@ -1,29 +1,29 @@
-
 import axios from 'axios';
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-if (!text) return m.reply(`Ejemplo:\n${usedPrefix + command} https://terabox.com/s/1kReYr_2pyxLZ2c2kEAHF3A`);
-await m.react('🕓')
+if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace valido de un archivo de *TeraBox* para descargarlo.` }, { quoted: m });
+await conn.sendMessage(m.chat, { text: `Descargando contenido, espere un momento...` }, { quoted: m });
 try {
 const result = await terabox(text);
-if (!result.length) return m.reply('ingresa un url válido.');
+if (!result.length) return conn.sendMessage(m.chat, { text: `📍  No se ha podido acceder al enlace.\n- Verifique si el enlace es de un archivo de *TeraBox.*`}, { quoted: m })
 
 for (let i = 0; i < result.length; i++) {
 const { fileName, type, thumb, url } = result[i];
-const caption = `📄 *Nombre File:* ${fileName}\n📂 *Formato:* ${type}`;
+const captions = `·─┄ · ✦ *Terabox - Download* ✦ ·
 
-await m.react('✅')
-await conn.sendFile(m.chat, url, fileName, caption, m, false, {
-thumbnail: thumb ? await getBuffer(thumb) : null
-});
+⊸⊹ *Plataforma:* TeraBox
+⊸⊹ *Nombre:* ${fileName}
+⊸⊹ *Formato:* ${type}
+⊸⊹ *Enlace:* ${url}`;
+
+ await conn.sendFile(m.chat, url, fileName, '', m, false, { thumbnail: thumb ? await getBuffer(thumb) : null});
 }
 } catch (err) {
 console.error(err);
-m.reply('error al descargar el archivo.');
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${err}` }, { quoted: m });
 }
 };
-handler.help = ["terabox *<url>*"];
-handler.tags = ["download"];
-handler.command = ["terabox"];
+
+handler.command = ["terabox", "tbx"];
 
 export default handler;
 
@@ -78,4 +78,5 @@ return res.data;
 console.error(err);
 return null;
 }
-}
+                     }
+  
