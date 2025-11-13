@@ -1,7 +1,7 @@
 
-[![a579c03ce939996cba403e5ef47999ca.jpg](https://i.postimg.cc/g2jZ1GHM/a579c03ce939996cba403e5ef47999ca.jpg)](https://postimg.cc/ts0JxQfP)
-
 <div align="center">
+
+[![a579c03ce939996cba403e5ef47999ca.jpg](https://i.postimg.cc/g2jZ1GHM/a579c03ce939996cba403e5ef47999ca.jpg)](https://postimg.cc/ts0JxQfP)
   
 [`MX COMMUNITY`](https://wa.me/5493873655135)  :  `WhatsApp`
 
