@@ -40,12 +40,27 @@ var fMage13 = "https://qu.ax/shFmH.jpg"
 var fMage14 = "https://qu.ax/fEaFZ.jpg"
 var fMage15 = "https://qu.ax/MDYPK.jpg"
 var fMage16 = "https://qu.ax/XkGjU.jpg"
-var fMage17 = 'https://qu.ax/uxLCn.jpg"
+var fMage17 = "https://qu.ax/uxLCn.jpg"
 var fMage18 = "https://qu.ax/fpAtH.jpg"
 
+var fImagen = "https://qu.ax/mGWJo.jpg"
+var fImagen2 = "https://qu.ax/yjwKQ.jpg"
+var fImagen3 = "https://qu.ax/xKQmY.jpg"
+var fImagen4 = "https://qu.ax/FGOYw.jpg"
+var fImagen5 = "https://qu.ax/WeZPb.jpg"
+var fImagen6 = "https://qu.ax/WmGNt.jpg"
+var fImagen7 = "https://qu.ax/BfvEb.jpg"
+var fImagen8 = "https://qu.ax/eaYtC.jpg"
+var fImagen9 = "https://qu.ax/MVmRD.jpg"
+var fImagen10 = "https://qu.ax/GbfQk.jpg"
+var fImagen11 = "https://qu.ax/XPDQK.jpg"
+var fImagen12 = "https://qu.ax/hNADg.jpg"
+var fImagen13 = "https://qu.ax/Vijkj.jpg"
+var fImagen14 = "https://qu.ax/ptwXa.jpg"
+  
 global.redes = [canal, comunidad, webmx, paypal].getRandom()
 global.mMages = [fMage, fMage2, fMage3, fMage4, fMage5, fMage6, fMage7, fMage8, fMage9, fMage10, fMage11, fMage12, fMage13, fMage14, fMage15, fMage16, fMage17, fMage18].getRandom()
-global.mImagen = [fImagen, fImagen2, fImagen3].getRandom()
+global.mImagen = [fImagen, fImagen2, fImagen3, fImagen4, fImagen5, fImagen6, fImagen7, fImagen8, fImagen9, fImagen10, fImagen11, fImagen12, fImagen13, fImagen14].getRandom()
 //global.mVideos = ["","",""].getRandom()
 
 global.nombre = m.pushName || 'Anónimo'
