@@ -6,7 +6,7 @@ let sorted = users.sort((a, b) => (b.exp || 0) - (a.exp || 0))
 const page = Math.max(1, Math.min(parseInt(args[0]) || 1, Math.ceil(sorted.length / 10)))
 const startIndex = (page - 1) * 10
 const endIndex = startIndex + 10
-let text = `ᗢ *TOP : USUARIOS RPG ᗢ\n✎ Los usuarios con mas *${currency}, ${currency2} y ${currency3}*.\n\n`
+let text = `ᗢ *TOP : USUARIOS RPG ᗢ\n✎ Los usuarios con mas *${currency}, ${currency2} y nivel*.\n\n`
 const slice = sorted.slice(startIndex, endIndex)
 for (let i = 0; i < slice.length; i++) {
 const { coin, exp, level } = slice[i]
