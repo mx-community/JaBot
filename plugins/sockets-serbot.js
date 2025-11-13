@@ -1,4 +1,5 @@
 const { useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore, fetchLatestBaileysVersion } = (await import("@whiskeysockets/baileys"))
+
 import qrcode from "qrcode"
 import NodeCache from "node-cache"
 import fs from "fs"
@@ -17,31 +18,8 @@ let crm3 = "SBpbmZvLWRvbmFyLmpz"
 let crm4 = "IF9hdXRvcmVzcG9uZGVyLmpzIGluZm8tYm90Lmpz"
 let drm1 = ""
 let drm2 = ""
-let rtx = `·─┄ · ✦ *Sub-Bot : Servers* ✦ ·
-> Vincula tu celular, pc o laptop con el bot facil y rapido.
-
-1. _Entra a WhatsApp y presione los 3 puntos en la parte superior derecha._
-2. _Presioné la sección de *(Dispositivos vinculados)*._
-3. _Presioné en *(Vincular un dispositivo)* y escanee el codigo QR._
-
-📍  Eso seria todo, ya te habrias vinculado con el bot.
-- Si usas WhatsApp Business, puedes poner el nombre que quieras para continuar.
-
-🜲 *Web:* https://mx-website.vercel.app
-ⴵ *Expiración:* El codigo expira en 45 segundos.`
-let rtx2 = `·─┄ · ✦ *Sub-Bot : Servers* ✦ ·
-> Vincula tu celular, pc o laptop con el bot facil y rapido.
-
-1. _Espera el codigo de 8 digitos._
-2. _Al llegar dicho código, copialo._
-3. _Entra a la notificación de WhatsApp que te llega._
-4. _Pega el codigo de 8 digitos para vincularte._
-
-📍  Eso seria todo, ya habrías de vincularte al bot con exito.
-- En caso de WhatsApp Business, puedes poner cualquier nombre.
-
-🜲 *Web:* https://mx-website.vercel.app
-ⴵ *Expiración:* El codigo expira en 45 segundos.`
+let rtx = `·─┄ · ✦ *New : Servers* ✦ ·\n> Vincula tu celular, pc o laptop con el bot facil y rapido.\n\n1. _Entra a WhatsApp y presione los 3 puntos en la parte superior derecha._\n2. _Presioné la sección de *(Dispositivos vinculados)*._\n3. _Presioné en *(Vincular un dispositivo)* y escanee el codigo QR._\n\n📍  Eso seria todo, ya te habrias vinculado con el bot.\n- Si usas WhatsApp Business, puedes poner el nombre que quieras para continuar.\n\n🜲 *Web:* https://mx-website.vercel.app\nⴵ *Expiración:* El codigo expira en 45 segundos.`
+let rtx2 = `·─┄ · ✦ *New : Servers* ✦ ·\n> Vincula tu celular, pc o laptop con el bot facil y rapido.\n\n1. _Espera el codigo de 8 digitos._\n2. _Al llegar dicho código, copialo._\n3. _Entra a la notificación de WhatsApp que te llega._\n4. _Pega el codigo de 8 digitos para vincularte._\n\n📍  Eso seria todo, ya habrías de vincularte al bot con exito.\n- En caso de WhatsApp Business, puedes poner cualquier nombre.\n\n🜲 *Web:* https://mx-website.vercel.app\nⴵ *Expiración:* El codigo expira en 45 segundos.`
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const kanekiAIJBOptions = {}
@@ -49,12 +27,12 @@ if (global.conns instanceof Array) console.log()
 else global.conns = []
 function isSubBotConnected(jid) { return global.conns.some(sock => sock?.user?.jid && sock.user.jid.split("@")[0] === jid.split("@")[0]) }
 let handler = async (m, { conn, args, usedPrefix, command, isOwner }) => {
-if (!globalThis.db.data.settings[conn.user.jid].jadibotmd) return conn.sendMessage(m.chat, { text: `📍  Los servidores no estan disponibles en este momento, vuelva mas tarde.` }, { quoted: m })
+if (!globalThis.db.data.settings[conn.user.jid].jadibotmd) return m.reply(`📍  El Comando *${command}* está desactivado temporalmente.`)
 let time = global.db.data.users[m.sender].Subs + 120000
-if (new Date - global.db.data.users[m.sender].Subs < 120000) return conn.sendMessage(m.chat, { text: `📍  Debe de esperar ${msToTime(time - new Date())} para volver a usar el comando.\n- Esto para evitar la saturación y sobrecarga de los servidores.` }, { quoted: m })
+if (new Date - global.db.data.users[m.sender].Subs < 120000) return conn.reply(m.chat, `📍  Debes esperar ${msToTime(time - new Date())} para volver a vincular un *nuevo servidor.*`, m)
 let socklimit = global.conns.filter(sock => sock?.user).length
 if (socklimit >= 10) {
-return conn.sendMessage(m.chat, { text: `📍  Lo siento, la cantidad de servidores a usarse son 10.\n- No hay espacios por el momento, vuelva pronto.` }, { quoted: m })
+return m.reply(`📍  No hay espacios para mas servidores.\n- Vuelvaas tarde para comprobarlo de nuevo.`)
 }
 let mentionedJid = await m.mentionedJid
 let who = mentionedJid && mentionedJid[0] ? mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
@@ -73,16 +51,16 @@ kanekiAIJBOptions.fromCommand = true
 kanekiAIJadiBot(kanekiAIJBOptions)
 global.db.data.users[m.sender].Subs = new Date * 1
 }
-
-handler.command = ['newserver', 'server']
-handler.register = true
+handler.help = ['newserver', 'newbot']
+handler.tags = ['newbot']
+handler.command = ['newserver', 'newbot']
 export default handler 
 
 export async function kanekiAIJadiBot(options) {
 let { pathkanekiAIJadiBot, m, conn, args, usedPrefix, command } = options
-if (command === 'newserver') {
+if (command === 'newbot') {
 command = 'newserver'
-args.unshift('newserver')
+args.unshift('newbot')
 }
 const mcode = args[0] && /(digito|8)/.test(args[0].trim()) ? true : args[1] && /(digito|8)/.test(args[1].trim()) ? true : false
 let txtCode, codeBot, txtQR
@@ -97,7 +75,7 @@ fs.mkdirSync(pathkanekiAIJadiBot, { recursive: true })}
 try {
 args[0] && args[0] != undefined ? fs.writeFileSync(pathCreds, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : ""
 } catch {
-conn.reply(m.chat, `Ingrese el comando de la siguiente manera: ${usedPrefix + command}`, m)
+conn.reply(m.chat, `📍  Use correctamente el comando » ${usedPrefix + command}`, m)
 return
 }
 const comb = Buffer.from(crm1 + crm2 + crm3 + crm4, "base64")
@@ -146,9 +124,7 @@ return
 if (qr && mcode) {
 let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
-
-
-txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
+txtCode = await conn.sendMessage(m.chat, {text : rtx2 }, { quoted: m })
 codeBot = await m.reply(secret)
 
 console.log(secret)
@@ -282,3 +258,6 @@ for (const value of Object.values(global.ch)) {
 if (typeof value === 'string' && value.endsWith('@newsletter')) {
 await sock.newsletterFollow(value).catch(() => {})
 }}}
+
+
+
