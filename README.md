@@ -68,3 +68,22 @@ npm start
 </details>
 
 -----------
+
+<p align="center">
+👋🏻 Esperamos y te agrade nuestro proyecto.
+</p><div align="center">
+  <h1 align="center">📍 PROPIETARIO 📍</h1><div align="center"><table>
+<tr>
+<td align="center" width="180">
+  <img src="https://qu.ax/shFmH.jpg" width="150" style="border-radius: 20px;" alt="mx-community Avatar">
+</td>
+<td align="left" style="padding-left: 20px; vertical-align: middle;"><h2> • <b>MX-COMMUNITY</b> • </h2><p><a href="https://github.com/mx-community" target="_blank">
+<b>ghttps://mx-website.vercel.app</b>
+</a></p>
+<p>^2.8.4 • version.</p><p align="center">
+<a href="https://wa.me/5493873655135" target="_blank">
+<img src="https://img.shields.io/badge/Contact-WhatsApp-green?style=for-the-badge&logo=whatsapp">
+</a>
+</p></td>
+</tr>
+</table></div>
