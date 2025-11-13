@@ -25,26 +25,27 @@ const isMainBot = bot === global.conn.user.jid
 const v = global.conns.find((conn) => conn.user.jid === bot)
 const uptime = isMainBot ? convertirMsADiasHorasMinutosSegundos(Date.now() - global.conn.uptime) : v?.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Activo desde ahora"
 const mention = bot.replace(/[^0-9]/g, '')
-return `🜲 *Bot:* @${mention}
-⎋ *Plataforma:* MX
-⫹⫺ *Servidor:* ${isMainBot ? 'Principal.' : 'Socket.'}
-ⴵ *Actividad:* ${uptime}`}).join("\n──────────────────\n") : `📍  No hay servidores activos en este momento, vuelva pronto.`
-const message = `·─┄ · ✦ *Servers  :  Sockets* ✦ ·
-
-⊹✎ *Version:* ${global.vs}
-⊹✎ *Servidores:* ${users.length - 1} en total.
-⊹✎ *Chat:* ${groupBots.length} bots
+return `🜲 *Servidor:* @${mention || "Undefined."}
+⫹⫺ *Estado:* ${isMainBot ? 'Principal.' : 'New-Server.'}
+ⴵ *Actividad:* ${uptime}`}).join("\n\n") : `📍  No hay servidores activos en este momento.\n- Vuelva mas tarde para comprobar.`
+const message = `
+╭──• · ✦ \`Servers : Bot\` ✦ · · ·
+│⊹ ✎ *Principal:* 1 (@${botname})
+│⊹ ✎ *Servidores:* ${users.length - 1} en total.
+│⊹ ✎ *Chat:* ${groupBots.length + " servidores en este chat." || "Chat sin servidores."}
+╰──────────────• · · ·
  
 ${botsGroup}`
 const mentionList = groupBots.map(bot => bot.endsWith("@s.whatsapp.net") ? bot : `${bot}@s.whatsapp.net`)
-alanFake.contextInfo.mentionedJid = mentionList
-await conn.sendMessage(m.chat, { text: message, ...alanFake }, { quoted: m })
+rcanal.contextInfo.mentionedJid = mentionList
+await conn.sendMessage(m.chat, { text: message, ...rcanal }, { quoted: fkontak })
 } catch (error) {
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error}` }, { quoted: m })
 }}
 
 handler.tags = ["serbot"]
 handler.help = ["botlist"]
-handler.command = ["servidores", "servers", "sockets"]
+handler.command = ["servers", "sockets", "servidores"]
 
 export default handler
+ 
