@@ -6,20 +6,20 @@ await m.react("⏳");
 const regex = /https?:\/\/(www\.)?whatsapp\.com\/channel\/([a-zA-Z0-9-_]+)/;
 const match = text.match(regex);
 
-if (!match) return conn.sendMessage(m.chat, { text: `📍  El enlace proporcionado no es valido, recuerde copiar un enlace del canal de WhatsApp para sacar su ID.` }, { quoted: m });
+if (!match) return conn.sendMessage(m.chat, { text: `📍  El enlace proporcionado no es valido.\n- Recuerde copiar un enlace del canal de WhatsApp para sacar su ID.` }, { quoted: m });
 
 let channelId = match[2];
 let res = await conn.newsletterMetadata("invite", channelId);
 
 if (!res || !res.id) return conn.sendMessage(m.chat, { text: `📍  No se ha podido obtener datos del canal, intentalo de nuevo.` }, { quoted: m });
 
-let chMdmx = `🝐✦  *CHANNEL : INFO*
+let chMdmx = `·─┄ · ✦ *Channel : Info* ✦ ·
 
 ❒ *Nombre:* ${res.name}
-❒ *Seguidores:* ${res.subscribers.toLocaleString()}
-❒ *Verifify:* ${res.verification === "VERIFIED" ? "Si." : "No."}
-❒ *ID:* ${res.id}`;
+❒ *Seguidores:* ${res.subscribers.toLocaleString()} en total.
+❒ *Verifify:* ${res.verification === "VERIFIED" ? "Si." : "No."}`;
 return conn.sendMessage(m.chat, { text: chMdmx }, { quoted: m });
+await conn.sendMessage(m.chat, { text: res.id }, m );
 } catch (error) {
 console.error(error);
 return conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m });
