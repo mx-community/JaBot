@@ -68,7 +68,7 @@ return null
 }
 }
 
-var handler = async (m, { text, conn }) => {
+var handler = async (m, { text, conn, command }) => {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba lo que quiere buscar en *YouTube*.\n\n• Por ejemplo:\n*#${command}* Jacob and the stone.` }, { quoted: m })
 
 try {
