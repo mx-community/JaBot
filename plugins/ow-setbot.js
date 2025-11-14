@@ -50,13 +50,13 @@ let noValido = `📍  Aqui tiene una lista de lo que puedes configurar en el num
 
 
 > ⩽ *Opciones : Disponibles* ⩾
-⊹ ✎ *#${comando} img*  <reply>
+⊹ ✎ *#bot-img*  <reply>
 > (Cambia la foto de perfil del bot.)
-⊹ ✎ *#${comando} px*  <query>
+⊹ ✎ *#bot-px*  <query>
 > (Cambia el prefijo a un nuevo prefijo predeterminado.)
-⊹ ✎ *#${comando} desc*  <text>
+⊹ ✎ *#bot-desc*  <text>
 > (Cambia la descripción del perfil en el bot.)
-⊹ ✎ *#${comando} name*  <text>
+⊹ ✎ *#bot-name*  <text>
 > (Cambia el nombre de perfil del bot.)`.trim();
 return conn.sendMessage(m.chat, { text: noValido }, { quoted: m })
 }
