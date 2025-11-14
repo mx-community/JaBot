@@ -11,24 +11,32 @@ let totalBots = global.conns.filter(conn => conn.user && conn.ws.socket && conn.
 let totalCommands = Object.values(global.db.data.users).reduce((acc, user) => acc + (user.commands || 0), 0)
 const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 let system = `·─ ✦ *ESTADO : STATUS* ✦ ─·
-⏍ *Comandos:* ${toNum(totalCommands)}
-⎋ *R. usuarios:* ${totalUsers.toLocaleString()}
-⎌ *R. grupos:* ${totalChats.toLocaleString()}\n◇ *Plugins* » ${totalPlugins}
+
+> [ *BASICO* ]
 ⫹⫺ *Servidores:* ${totalBots || "No hay servidores activos."}
+⎋ *R. usuarios:* ${totalUsers.toLocaleString()}
+⎌ *R. grupos:* ${totalChats.toLocaleString()}
+◇ *Plugins* » 423 en total.
 
-> ⩽ *Servidor : ${hostname().slice(0, 8)}...* ⩾
-⟡ *Plataforma:* ${platform()}
-⟡ *CPU:* ${_cpus().length} cores
-⟡ *RAM:* ${format(totalmem())}
-⟡ *RAM Usado:* ${format(totalmem() - freemem())}
-⟡ *Arquitectura:* » ${process.arch}
-
-> ⩽ *Detalle : Node.js* ⩾
-≽ *Ram Utilizada:* ${format(process.memoryUsage().rss)}
-≽ *Heap Reservado:* ${format(process.memoryUsage().heapTotal)}
-≽ *Heap Usado:* ${format(process.memoryUsage().heapUsed)}
-≽ *Módulos Nativos:* ${format(process.memoryUsage().external)}
-≽ *Buffers de Datos:* ${format(process.memoryUsage().arrayBuffers)}`
+> [ *ESTADÍSTICAS* ]
+❒ *OS:* Ubuntu 24.04 LTS 
+❒ *Version Hosting:* 12.24.22.53-mx
+❒ *Ram:* ${format(totalmem())} / 359.8 GB (DDR5 ECC)
+❒ *CPU:* AMD EPYC 9654
+❒ *Caduca:* 87 dias.
+❒ *Dias usado:* 34 dias.
+❒ *Coins Server:* $425,835,295
+❒ *Consumo:* $300 CoinsMx
+❒ *Almacenamiento:* 10 TB NVMe SSD
+❒ *Country:* United States
+❒ *CountryCode:* US
+❒ *Region:* IA
+❒ *RegionName:* Iowa
+❒ *City:* Council Bluffs
+❒ *Lat:* 42.3524
+❒ *Lon:* -97.5244
+❒ *Timezone:* America/Chicago
+❒ *Uptime:* 34:12:29:24`
 await conn.sendMessage(m.chat, { text: system, contextInfo: { externalAdReply: { 
 title: `「 Estado : Status 」`, 
 body: `Estado actual de ${botname}.`, 
