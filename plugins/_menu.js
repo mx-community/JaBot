@@ -5,7 +5,7 @@ import PhoneNumber from 'awesome-phonenumber'
 
 let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
 try {
-await m.react('📍')
+await m.react('👋🏻')
 
 const user = global.db.data.users[m.sender] || {}
 const name = await conn.getName(m.sender)
@@ -36,273 +36,223 @@ const infoUser = `${hora}, ${dia}, ${fechaTxt}
 │々 *Versión:* ${vs} 
 ╰──────────────• · · · 
 
-╭──• ⩽ *Information* ⩾ •──• · · ·
-│⫶☰ _Informaciones bases._
-│✎  *#ping*  
-│✎  *#stat*  
-│✎  *#creador*  
-│✎  *#grupos*  
-│✎  *#canal*  
-│✎  *#ds*  
-│✎  *#report*  <query>
-│✎  *#suggest*  <query>
-│✎  *#stest*  
-│✎  *#main*  
-╰──────• ⩽⩾ •─────• · · ·
+╭─• ⫶☰ \`Informacion.\`
+> *Informacion acerca del bot.*
+│ *#creador*  
+│ *#stest*  
+│ *#ds*  
+│ *#main*  
+│ *#ping*  
+│ *#status*  
+└───────────•
 
-╭──• ⩽ *Download* ⩾ •──• · · ·
-│⫶☰ _Descargadores disponibles._
-│✎  *#play*  <text>
-│✎  *#audio*  <url/text>
-│✎  *#video*  <url/text>
-│✎  *#mediafire*  <url>
-│✎  *#facebook*  <url>
-│✎  *#instagram*  <url>
-│✎  *#twitter*  <url>
-│✎  *#threads*  <url>
-│✎  *#terabox*  <url>
-│✎  *#kwaii*  <url>
-│✎  *#likee*  <url>
-│✎  *#tiktok*  <url>
-│✎  *#spotify*  <url>
-│✎  *#sound*  <url>
-│✎  *#stickerly*  <url>
-│✎  *#mega*  <url>
-│✎  *#github*  <url>
-│✎  *#imagen*  <url>
-│✎  *#pinterest*  <url>
-│✎  *#vimeo*  <url>
-│✎  *#videy*  <url>
-│✎  *#threads*  <url>
-│✎  *#npm*  <text>
-╰──────• ⩽⩾ •─────• · · ·
 
-╭──• ⩽ *Groups* ⩾ •──• · · ·
-│⫶☰ _Para chats grupales._
-│✎  *#add*  <number>
-│✎  *#kick*  <mention>
-│✎  *#promote*  <mention>
-│✎  *#demote*  <mention>
-│✎  *#link*  
-│✎  *#revoke*  
-│✎  *#delete*  <reply>
-│✎  *#bot on/off*  
-│✎  *#gw name*  <text>
-│✎  *#gw desc*  <text>
-│✎  *#gw foto*  <reply>
-│✎  *#gw welc*  <text>
-│✎  *#gw t-welc*  
-│✎  *#gw bye*  <text>
-│✎  *#gw t-bye*  
-│✎  *#gw bchat*  
-│✎  *#gw bchat2*  
-│✎  *#setprim*  <mention>
-│✎  *#notify*  <reply>
-│✎  *#tagall*  <text>
-│✎  *#warn*  <mention>
-│✎  *#unwarn*  <mention>
-╰──────• ⩽⩾ •─────• · · ·
+╭─• ⫶☰ \`Descargas.\`
+> *Descarga contenidos segun tu preferencia.*
+│ *#apk*  <text>
+│ *#github*  <url>
+│ *#audio*  <url>
+│ *#video*  <url>
+│ *#imagen*  <text>
+│ *#instagram*  <url>
+│ *#facebook*  <url>
+│ *#kwaii*  <url>
+│ *#likee*  <url>
+│ *#mediafire*  <url>
+│ *#mega*  <url>
+│ *#pinterest*  <url>
+│ *#play*  <text/url>
+│ *#sound*  <url>
+│ *#spotify*  <text/url>
+│ *#stickerly*  <url>
+│ *#terabox*  <url>
+│ *#tiktok*  <url>
+│ *#threads*  <url>
+│ *#twitter*  <url>
+│ *#videy*  <url>
+│ *#vimeo*  <url>
+└───────────•
 
-╭──• ⩽ *Settings* ⩾ •──• · · ·
-│⫶☰ _Ajustes aleatorios._
-│✎  *#cid*  <url>
-│✎  *#getpic*  <mention>
-│✎  *#mylid*  
-│✎  *#trad*  <code/text>
-│✎  *#ss*  <url>
-│✎  *#fetch*  <url>
-│✎  *#calc*  <query>
-╰──────• ⩽⩾ •─────• · · ·
 
-╭──• ⩽ *RPG* ⩾ •──• · · ·
-│⫶☰ _Gana experiencia y nivel._
-│✎  *#balance*  
-│✎  *#cofre*  
-│✎  *#heal*  
-│✎  *#lb*  
-│✎  *#levelup*  
-│✎  *#mine*  
-│✎  *#profile*  
-│✎  *#birth*  <query>
-│✎  *#d-birth*  
-│✎  *#genero*  <query>
-│✎  *#d-genero*  
-│✎  *#desc*  <query>
-│✎  *#d-desc*  
-│✎  *#work*  
-╰──────• ⩽⩾ •─────• · · ·
+╭─• ⫶☰ \`Grupos.\`
+> *Comandos para chats grupales.*
+│ *#add*  <nro>
+│ *#kick*  <mention>
+│ *#delete*  <reply>
+│ *#bot*  <on/off>
+│ *#demote*  <mention>
+│ *#promote*  <mention>
+│ *#g-name*  <text>
+│ *#g-img*  <reply>
+│ *#g-desc*  <text>
+│ *#setwelcome*  <text>
+│ *#setbye*  <text>
+│ *#setprim*  <query>
+│ *#revoke*  
+│ *#grupo?*  
+│ *#tag*  <reply>
+│ *#tagall*  <text>
+│ *#warn*  <mention>
+│ *#unwarn*  <mention>
+│ *#enlace*  
+└───────────•
 
-╭──• ⩽ *Logos* ⩾ •──• · · ·
-│⫶☰ _Crea logos personalizados_
-│✎  *#logoc*  <text>
-│✎  *#logo1*  <text>
-│✎  *#logo2*  <text>
-│✎  *#logo3*  <text>
-│✎  *#logo4*  <text>
-│✎  *#logo5*  <text>
-│✎  *#logo6*  <text>
-│✎  *#logo7*  <text>
-│✎  *#logo8*  <text>
-│✎  *#logo9*  <text>
-│✎  *#logo10*  <text>
-│✎  *#logo11*  <text>
-│✎  *#logo12*  <text>
-│✎  *#logo13*  <text>
-│✎  *#logo14*  <text>
-│✎  *#logo15*  <text>
-│✎  *#logo16*  <text>
-│✎  *#logo17*  <text>
-│✎  *#logo18*  <text>
-│✎  *#logo19*  <text>
-│✎  *#logo20*  <text>
-│✎  *#logo21*  <text>
-│✎  *#logo22*  <text>
-│✎  *#logo23*  <text>
-│✎  *#logo24*  <text>
-│✎  *#logo25*  <text>
-│✎  *#logo26*  <text>
-│✎  *#logo27*  <text>
-│✎  *#logo28*  <text>
-│✎  *#logo29*  <text>
-│✎  *#logo30*  <text>
-│✎  *#logo31*  <text>
-│✎  *#logo32*  <text>
-│✎  *#logo33*  <text>
-│✎  *#logo34*  <text>
-│✎  *#logo35*  <text>
-│✎  *#logo36*  <text>
-│✎  *#logo37*  <text>
-╰──────• ⩽⩾ •─────• · · ·
 
-╭──• ⩽ *Inteligence* ⩾ •──• · · ·
-│⫶☰ _Chat bots de calidad._
-│✎  *#takeda*  <text>
-│✎  *#dalle*  <text>
-│✎  *#flux*  <text>
-│✎  *#luminai*  <text>
-╰──────• ⩽⩾ •─────• · · ·
+╭─• ⫶☰ \`Herramientas.\`
+> *Herramientas que podrian ser útiles en su uso.*
+│ *#calcular*  <query>
+│ *#ofuscar*  <code>
+│ *#cid*  <url>
+│ *#get*  <url>
+│ *#cfoto*  
+│ *#getpic*  <mention>
+│ *#hweb*  <url>
+│ *#mylid*  
+│ *#traducir*  <id+text>
+│ *#ss*  <url>
+└───────────•
 
-╭──• ⩽ *Stickers* ⩾ •──• · · ·
-│⫶☰ _Crea stickers únicos._
-│✎  *#sticker*  <reply>
-│✎  *#exif*  <text|text>
-│✎  *#d-exif*  
-│✎  *#brat*  <text>
-│✎  *#bratv*  <text>
-│✎  *#emojix*  <emoji+emoji>
-│✎  *#qc*  <text>
-│✎  *#take*  <reply>
-╰──────• ⩽⩾ •─────• · · ·
 
-╭──• ⩽ *Sockets* ⩾ •──• · · ·
-│⫶☰ _Servidores disponibles._
-│✎  *#s-name*  <text>
-│✎  *#s-desc*  <text>
-│✎  *#s-foto*  <reply>
-│✎  *#servers*  
-│✎  *#newserver*  
-╰──────• ⩽⩾ •─────• · · ·
+╭─• ⫶☰ \`Inteligencia Artificial.\`
+> *Crea imagenes o charla con inteligencia artificial.*
+│ *#chatgpt*  <text>
+│ *#gemini*  <text>
+│ *#imagina*  <text>
+│ *#nanob*  <text>
+│ *#dalle*  <text>
+│ *#seek*  <text>
+└───────────•
 
-╭──• ⩽ *Search* ⩾ •──• · · ·
-│⫶☰ _Buscadores disponibles._
-│✎  *#tenor*  <text>
-│✎  *#tiktoks*  <text>
-│✎  *#wikipedia*  <text>
-│✎  *#spotifys*  <text>
-│✎  *#wmusic*  <reply>
-│✎  *#stickerlys*  <text>
-│✎  *#songs*  <text>
-│✎  *#wmusic2*  <reply>
-│✎  *#pokex*  <query>
-│✎  *#capcuts*  <text>
-│✎  *#apples*  <text>
-│✎  *#google*  <text>
-╰──────• ⩽⩾ •─────• · · ·
 
-╭──• ⩽ *Stalks* ⩾ •──• · · ·
-│⫶☰ _Informacion sobre usuarios._
-│✎  *#u-tiktok*  <user>
-│✎  *#u-github*  <user>
-╰──────• ⩽⩾ •─────• · · ·
+╭─• ⫶☰ \`Logos con diseño.\`
+> *Crea logos personalizados, existe un total de 37 logos.*
+│ *#logoc*  <text>
+│ *#logo1*  <text>
+│ *#logo2*  <text>
+│ *#logo3*  <text>
+│ *#logo4*  <text>
+│ *#logo5*  <text>
+│ *#logo6*  <text>
+│ *#logo7*  <text>
+│ *#logo8*  <text>
+│ *#logo9*  <text>
+│ *#logo10*  <text>
+│ *#logo11*  <text>
+│ *#logo12*  <text>
+│ *#logo13*  <text>
+│ *#logo14*  <text>
+│ *#logo15*  <text>
+│ *#logo16*  <text>
+│ *#logo17*  <text>
+│ *#logo18*  <text>
+│ *#logo19*  <text>
+│ *#logo20*  <text>
+│ *#logo21*  <text>
+│ *#logo22*  <text>
+│ *#logo23*  <text>
+│ *#logo24*  <text>
+│ *#logo25*  <text>
+│ *#logo26*  <text>
+│ *#logo27*  <text>
+│ *#logo28*  <text>
+│ *#logo29*  <text>
+│ *#logo30*  <text>
+│ *#logo31*  <text>
+│ *#logo32*  <text>
+│ *#logo33*  <text>
+│ *#logo34*  <text>
+│ *#logo35*  <text>
+│ *#logo36*  <text>
+│ *#logo37*  <text>
+└───────────•
 
-╭──• ⩽ *Reactions* ⩾ •──• · · ·
-│⫶☰ _Reacciones con amigos._
-│✎  *#angry*  <mention>
-│✎  *#bath*  <mention>
-│✎  *#bite*  <mention>
-│✎  *#bleh*  <mention>
-│✎  *#blush*  <mention>
-│✎  *#bored*  <mention>
-│✎  *#clap*  <mention>
-│✎  *#coffe*  <mention>
-│✎  *#cry*  <mention>
-│✎  *#cuddle*  <mention>
-│✎  *#dance*  <mention>
-│✎  *#drunk*  <mention>
-│✎  *#eat*  <mention>
-│✎  *#facepalm*  <mention>
-│✎  *#happy*  <mention>
-│✎  *#hug*  <mention>
-│✎  *#kill*  <mention>
-│✎  *#kiss*  <mention>
-│✎  *#laugh*  <mention>
-│✎  *#lick*  <mention>
-│✎  *#slap*  <mention>
-│✎  *#sleep*  <mention>
-│✎  *#smoke*  <mention>
-│✎  *#spit*  <mention>
-│✎  *#step*  <mention>
-│✎  *#think*  <mention>
-│✎  *#love*  <mention>
-│✎  *#pat*  <mention>
-│✎  *#poke*  <mention>
-│✎  *#pout*  <mention>
-│✎  *#punch*  <mention>
-│✎  *#preg*  <mention>
-│✎  *#run*  <mention>
-│✎  *#sad*  <mention>
-│✎  *#scared*  <mention>
-│✎  *#seduce*  <mention>
-│✎  *#shy*  <mention>
-│✎  *#walk*  <mention>
-│✎  *#beso*  <mention>
-│✎  *#dramatic*  <mention>
-│✎  *#cringe*  <mention>
-│✎  *#wink*  <mention>
-│✎  *#smug*  <mention>
-│✎  *#smile*  <mention>
-│✎  *#5*  <mention>
-│✎  *#bully*  <mention>
-│✎  *#mano*  <mention>
-│✎  *#wave*  <mention>
-╰──────• ⩽⩾ •─────• · · ·
 
-╭──• ⩽ *Creador* ⩾ •──• · · ·
-│⫶☰ _Solo para owners._
-│✎  *#banned*  <mention>
-│✎  *#unban*  <mention>
-│✎  *#block*  <mention>
-│✎  *#unblock*  <mention>
-│✎  *#banlist*  
-│✎  *#blocklist*  
-│✎  *#c-*  <code>
-│✎  *#c+*  <code>
-│✎  *#gplugin*  <reply>
-│✎  *#gfile*  <query/text>
-│✎  *#dfile*  <query/text>
-│✎  *#vplugin*  <query>
-│✎  *#reprefix*  
-│✎  *#join*  <url/query>
-│✎  *#vip*  <query>
-│✎  *#restart*  
-│✎  *#xbot foto*  <reply>
-│✎  *#xbot name*  <text>
-│✎  *#xbot desc*  <text>
-│✎  *#xbot prefix*  <query>
-│✎  *#update*  
-│✎  *#syntax*  
-│✎  *#autoadmin*  
-╰──────• ⩽⩾ •─────• · · ·
+╭─• ⫶☰ \`Buscadores.\`
+> *Busca videos, musicas o imagenes por este medio.*
+│ *#aninfo*  <text>
+│ *#apples*  <text>
+│ *#capcuts*  <text>
+│ *#google*  <text>
+│ *#pokex*  <text>
+│ *#wmusic*  <reply>
+│ *#wmusic2*  <reply>
+│ *#songs*  <text>
+│ *#spotifys*  <text>
+│ *#stickerlys*  <text>
+│ *#tenor*  <text>
+│ *#tiktoks*  <text>
+│ *#wikipedia*  <text>
+│ *#playlist*  <text>
+└───────────•
+
+
+╭─• ⫶☰ \`Juegos RPG\`
+> *Sube de nivel jugando estos comandos.*
+│ *#balance*  
+│ *#cofre*  
+│ *#heal*  
+│ *#lb*  
+│ *#levelup*  
+│ *#minar*  
+│ *#work*  
+└───────────•
+
+
+╭─• ⫶☰ \`Servidores\`
+> **
+│ *#alquilar*  <query>
+│ *#comprar*  <query>
+│ *#servers*  
+└───────────•
+
+
+╭─• ⫶☰ \`Stalks : Redes\`
+> *Vea la información del usuario usando estos comandos.*
+│ *#u-github*  <user>
+│ *#u-tiktok*  <user>
+└───────────•
+
+
+╭─• ⫶☰ \`Stickers\`
+> *Crea tus propios stickers facil y rapido.*
+│ *#sticker*  <reply>
+│ *#exif*  <text|text>
+│ *#d-exif*  
+│ *#brat*  <text>
+│ *#bratv*  <text>
+│ *#emojix*  <emoji+emoji>
+│ *#qc*  <text>
+│ *#take*  <text>
+└───────────•
+
+
+╭─• ⫶☰ \`Propietario.\`
+> *Comandos exclusivos para el propietario y administradores del bot.*
+│ *#scopy*  
+│ *#resetear*  
+│ *#wbot*  <on/off>
+│ *#banned*  <mention>
+│ *#unban*  <mention>
+│ *#block*  <mention>
+│ *#unblock*  <mention>
+│ *#banlist*  
+│ *#blocklist*  
+│ *#c+*  <query>
+│ *#c-*  <query>
+│ *#gplugin*  <query>
+│ *#gfile*  <query>
+│ *#dfile*  <query>
+│ *#vplugin*  <query>
+│ *#reprefix*  
+│ *#xbot foto*  <reply>
+│ *#xbot name*  <text>
+│ *#xbot desc*  <text>
+│ *#xbot prefix*  <text>
+│ *#update*  
+│ *#update2*  
+│ *#autoadmin*  
+└───────────•
+
 `.trim()
 const thumbBot = Buffer.from(await (await fetch(`${global.mImagen}`)).arrayBuffer())
 
@@ -331,3 +281,4 @@ const m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
 const s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
 return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
 }
+  
