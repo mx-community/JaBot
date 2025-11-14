@@ -18,8 +18,9 @@ let chMdmx = `·─┄ · ✦ *Channel : Info* ✦ ·
 ❒ *Nombre:* ${res.name}
 ❒ *Seguidores:* ${res.subscribers.toLocaleString()} en total.
 ❒ *Verifify:* ${res.verification === "VERIFIED" ? "Si." : "No."}`;
-return conn.sendMessage(m.chat, { text: chMdmx }, { quoted: m });
-await conn.sendMessage(m.chat, { text: res.id }, m );
+  
+await conn.sendMessage(m.chat, { text: chMdmx }, { quoted: m });
+conn.sendMessage(m.chat, { text: res.id }, m );
 } catch (error) {
 console.error(error);
 return conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m });
