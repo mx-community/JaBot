@@ -1,7 +1,7 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
 
-let handler = async (m, { conn, text }) => {
+let handler = async (m, { conn, text, command }) => {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video o imagen de *Pinterest* para descargarlo.\n\n• Por ejemplo:\n*#${command}* https://pin.it/6CNk6Fenn` }, { quoted: m })
 await conn.sendMessage(m.chat, { text: `Descargando contenido, espere un momento...` }, { quoted: m })
 try {
