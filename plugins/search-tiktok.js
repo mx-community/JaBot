@@ -1,4 +1,4 @@
-import axios from 'axios'
+/*import axios from 'axios'
 
 const handler = async (m, { conn, text, usedPrefix, command}) => {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba lo que quiere buscar en TikTok.\n\n• Por ejemplo:\n*${usedPrefix + command}* Trends de baile.` }, { quoted: m })
@@ -43,7 +43,7 @@ handler.command = ['tiktoks', 'tts']
 
 
 export default handler
-  
+  */
 
 /*import axios from "axios";
 const { proto, generateWAMessageFromContent, generateWAMessageContent, } = (await import("@whiskeysockets/baileys")).default;
