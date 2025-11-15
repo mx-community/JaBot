@@ -3,7 +3,7 @@ import { xpRange } from '../lib/levelling.js'
 import fs from 'fs'
 import PhoneNumber from 'awesome-phonenumber'
 
-let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
+let handler = async (m, { conn, usedPrefix, args, command, __dirname, participants }) => {
 try {
 const user = global.db.data.users[m.sender] || {}
 const name = await conn.getName(m.sender)
