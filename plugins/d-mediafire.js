@@ -25,7 +25,7 @@ const fileUrl = data?.url || data?.link || data?.download || data?.dl || data?.d
 const fileTitle = data?.title || data?.filename || data?.name || 'archivo'
 const fileSize = data?.size || data?.filesize || 'Desconocido'
 const fileMime = data?.mime || data?.mimetype || 'application/octet-stream'
-const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
+const thumbBot = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 
 if (!fileUrl) throw new Error('No se pudo obtener el enlace de descarga.')
 
