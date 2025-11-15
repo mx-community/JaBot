@@ -15,7 +15,7 @@ const groupUserCount = m.isGroup ? participants.length : '-'
 const groupsCount = Object.values(conn.chats).filter(v => v.id.endsWith('@g.us')).length
 const uptime = clockString(process.uptime() * 1000)
 const fecha = new Date(Date.now())
-const locale = 'es-PE'
+const locale = 'es-AR'
 const dia = fecha.toLocaleDateString(locale, { weekday: 'long' })
 const fechaTxt = fecha.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
 const hora = fecha.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
@@ -45,7 +45,7 @@ let menu = `${hora}, ${dia}, ${fechaTxt}
 │#status   │
 │#ds       │
 │#main     │
-╰──[ @mx-community ]─•
+╰─────────────────•
 
 
 ╭───[ ⛉ DESCARGAS ⛉ ]─•
@@ -58,7 +58,7 @@ let menu = `${hora}, ${dia}, ${fechaTxt}
 │#mega     │✎ link.
 │#threads  │✎ link.
 │#pinterest│✎ link.
-╰──[ @mx-community ]─•
+╰─────────────────•
 
 
 ╭───[ ⛉ GRUPOS ⛉ ]─•
@@ -73,7 +73,7 @@ let menu = `${hora}, ${dia}, ${fechaTxt}
 │#g-name   │✎ texto.
 │#g-desc   │✎ texto.
 │#link     │
-╰──[ @mx-community ]─•
+╰─────────────────•
 
 
 ╭───[ ⛉ RPG GAME ⛉ ]─•
@@ -88,7 +88,7 @@ let menu = `${hora}, ${dia}, ${fechaTxt}
 │#balance  │
 │#dep      │✎ query.
 │#ret      │✎ query.
-╰──[ @mx-community ]─•
+╰─────────────────•
 
 
 ╭───[ ⛉ PROPIETARIO ⛉ ]─•
@@ -101,7 +101,7 @@ let menu = `${hora}, ${dia}, ${fechaTxt}
 │#reprefix │
 │#gfile    │✎ query.
 │#dfile    │✎ query.
-╰──[ @mx-community ]─•
+╰─────────────────•
 \`\`\`
 `
 return conn.sendMessage(m.chat, { text: menu, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
@@ -122,7 +122,7 @@ let menu1 = `╭──────────────• · · ·
 │#mega     │✎ link.
 │#threads  │✎ link.
 │#pinterest│✎ link.
-╰──[ @mx-community ]─•
+╰─────────────────•
 \`\`\`
 `
 return conn.sendMessage(m.chat, { text: menu1, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
@@ -143,7 +143,7 @@ let menu2 = `╭──────────────• · · ·
 │#mega     │✎ link.
 │#threads  │✎ link.
 │#pinterest│✎ link.
-╰──[ @mx-community ]─•
+╰─────────────────•
 \`\`\`
 `
 return conn.sendMessage(m.chat, { text: menu2, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
