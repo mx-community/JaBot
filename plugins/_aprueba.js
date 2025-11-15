@@ -24,7 +24,7 @@ const userId = m.sender.split('@')[0]
 const phone = PhoneNumber('+' + userId)
 const pais = phone.getRegionCode() || 'Desconocido 🌐'
 const perfil = await conn.profilePictureUrl(conn.user.jid, 'image').catch(() => `${global.mMages}`)
-const thumb = Buffer.from(await (await fetch(`${global.mImagen}`)).arrayBuffer())
+const thumbBot = Buffer.from(await (await fetch(`${global.mImagen}`)).arrayBuffer())
 
  await m.react('👋🏻')
 if (command === 'mtest' || command === 'testmenu') {
@@ -151,7 +151,7 @@ return conn.sendMessage(m.chat, { text: menu2.trim(), mentions: [m.sender], cont
 }
 } catch (e) {
 console.error(e)
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
 }
 }
 handler.help = ['help  <category>', 'menu  <category>']
