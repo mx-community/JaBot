@@ -42,7 +42,7 @@ title: fileTitle,
 body: textbot, 
 thumbnail: thumbBot, 
 sourceUrl: null, 
-mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
 
 conn.sendFile(m.chat, fileUrl, fileTitle, null, m, null, {mimetype: fileMime, asDocument: true})
 
