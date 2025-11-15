@@ -11,11 +11,11 @@ if (result.data.type === 'video') {
 let videoText = `·─┄ · ✦ *Twitter : Download* ✦ ·
 
 ⊹ ✎ *Título:* ${result.data.title}`
-conn.sendFile(m.chat, result.data.dl[0].url, "video.mp4", videoText, m)
+conn.sendFile(m.chat, result.data.dl[0].url, "video.mp4", videoText.trim(), m)
 
 } else {
 await conn.sendMessage(m.chat, { image: { url: result.data.imageUrl },
-caption: `·─┄ · ✦ *Twitter : Download* ✦ ·\n\n✓  Imagen descargada con éxito.`}, { quoted: m })
+caption: `✓  Imagen descargada con éxito.`}, { quoted: m })
 }} catch (e) {
 return await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
 }}
