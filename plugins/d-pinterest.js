@@ -39,12 +39,12 @@ const caption = `·─┄ · ✦ *Pinterest : Download* ✦ ·\n\n⊹ ✎ *Titul
 await conn.sendMessage(m.chat, {image: {url}, caption}, {quoted: m})
 return m.react('✅')
 }
-} catch (e) {
+} catch {
 continue
 }
 }
 
-return await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
+return await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = error_undefined` }, { quoted: m })
 }
 
 handler.help = ['pinterest <consulta|enlace>']
