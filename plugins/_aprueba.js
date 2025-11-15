@@ -15,7 +15,7 @@ const groupUserCount = m.isGroup ? participants.length : '-'
 const groupsCount = Object.values(conn.chats).filter(v => v.id.endsWith('@g.us')).length
 const uptime = clockString(process.uptime() * 1000)
 const fecha = new Date(Date.now())
-const locale = 'es-AR'
+const locale = 'es-PE'
 const dia = fecha.toLocaleDateString(locale, { weekday: 'long' })
 const fechaTxt = fecha.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
 const hora = fecha.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
@@ -37,7 +37,7 @@ let menu = `${hora}, ${dia}, ${fechaTxt}
 │⚇ *Bot:* ${(conn.user.jid == global.conn.user.jid ? 'Principal' : 'PreBot')}
 │々 *Versión:* ${vs} 
 ╰──────────────• · · · 
-${readMore}
+
 \`\`\`
 ╭───[ ⛉ INFORMACIÓN ⛉ ]─•
 │#info     │
@@ -104,7 +104,7 @@ ${readMore}
 ╰──[ @mx-community ]─•
 \`\`\`
 `
-return conn.sendMessage(m.chat, { text: menu.trim(), mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+return conn.sendMessage(m.chat, { text: menu, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
 if (args[0] === '1' || args[0] === 'info') {
 let menu1 = `╭──────────────• · · · 
 │🜲 *Usuario:* @${name} *(Prem: ${premium})*
@@ -125,7 +125,7 @@ let menu1 = `╭──────────────• · · ·
 ╰──[ @mx-community ]─•
 \`\`\`
 `
-return conn.sendMessage(m.chat, { text: menu1.trim(), mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+return conn.sendMessage(m.chat, { text: menu1, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
 } else if (args[0] === '2' || args[0] === 'descargas') {
 let menu2 = `╭──────────────• · · · 
 │🜲 *Usuario:* @${name} *(Prem: ${premium})*
@@ -146,7 +146,7 @@ let menu2 = `╭──────────────• · · ·
 ╰──[ @mx-community ]─•
 \`\`\`
 `
-return conn.sendMessage(m.chat, { text: menu2.trim(), mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+return conn.sendMessage(m.chat, { text: menu2, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
 }
 }
 } catch (e) {
