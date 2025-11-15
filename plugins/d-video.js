@@ -3,30 +3,36 @@ import axios from 'axios';
 
 let handler = async (m, { conn, text, usedPrefix, command, args }) => {
 try {
-if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video de *YouTube* para descargarlo.` }, { quoted: m });
-if (!/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/i.test(args[0])) return conn.sendMessage(m.chat, { text: `📍  El enlace ingresado no es valido.\n- Recuerde copiar un enlace de un video de *YouTube* para descargarlo.` }, { quoted: m });
-await conn.sendMessage(m.chat, { text: `Descargando, espere un momento...` }, { quoted: m });
+if (!text) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video de *YouTube* para descargarlo.` }, { quoted: m });
+}
+if (!/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/i.test(args[0])) {
+return conn.sendMessage(m.chat, { text: `📍  No se ha podido acceder al enlace.\n- Verifique si el enlace es de *YouTube* y vuelva a intentarlo.` }, { quoted: m });
+}
+m.react('⏳');
 
 let json = await ytdl(args[0]);
 let size = await getSize(json.url);
 let sizeStr = size ? await formatSize(size) : 'Desconocido';
 
-const resulXd = `·─┄ · ✦ *Play : MP4* ✦ ·
+
+const caption = `·─┄ · ✦ *Play : Download* ✦ ·
 ⊹ ✎ *Titulo:* ${json.title}
-⊹ ✎ *Tamaño:* ${sizeStr}
+⊹ ✎ *Peso:* ${sizeStr}
 ⊹ ✎ *Enlace:* ${args[0]}`;
 
-await conn.sendMessage(m.chat, { video: { url: (await fetch(json.url)).buffer() }, caption: `✓  Video descargado.` }, { quoted: m });
+await conn.sendFile(m.chat, await (await fetch(json.url)).buffer(), `${json.title}.mp4`, caption, m);
+m.react('✅');
 
 } catch (e) {
 console.error(e);
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m });
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m });
 }
 };
 
-handler.help = ['ytv'];
+handler.help = ['video  <link>'];
 handler.command = ['video', 'mp4'];
-handler.tags = ['download'];
+handler.tags = ['descargas'];
 
 export default handler;
 
