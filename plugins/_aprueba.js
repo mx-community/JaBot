@@ -1,4 +1,38 @@
-import axios from 'axios'
+let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
+try {
+const user = global.db.data.users[m.sender] || {}
+const name = await conn.getName(m.sender)
+const thumBot = Buffer.from(await (await fetch(`${global.mImagen}`)).arrayBuffer())
+await m.react('👋🏻')
+if (!args[0]) {
+let menu = `Hola. xd`
+return conn.sendMessage(m.chat, { text: menu, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+} else if (args[0] === '1' || args[0] === 'info') {
+let menu1 = `Muy xd.
+Xd`
+return conn.sendMessage(m.chat, { text: menu1, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+} else if (args[0] === "descargas") {
+let menu2 = `Hola, descargas.`
+return conn.sendMessage(m.chat, { text: menu2 }, { quoted: m })
+l
+}
+} catch (e) {
+console.error(e)
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
+}
+}
+handler.help = ['help  <category>', 'menu  <category>']
+handler.tags = ['menus']
+handler.command = ['testmenu', 'mtest']
+
+
+export default handler
+
+const more = String.fromCharCode(8206)
+const readMore = more.repeat(4001)
+
+ 
+/*import axios from 'axios'
 import fetch from 'node-fetch'
 import { xpRange } from '../lib/levelling.js'
 import fs from 'fs'
@@ -170,4 +204,4 @@ const m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
 const s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
 return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
 }
-
+*/
