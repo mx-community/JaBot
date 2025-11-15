@@ -13,7 +13,7 @@ let videoText = `·─┄ · ✦ *Twitter : Download* ✦ ·
 ⊹ ✎ *Título:* ${result.data.title}
 ⊹ ✎ *Duracion:* ${result.data.duration}
 ⊹ ✎ *Enlace:* ${text}`
-conn.sendFile(m.chat, result.data.dl[0].url, "video.mp4", caption, m)
+conn.sendFile(m.chat, result.data.dl[0].url, "video.mp4", videoText, m)
 
 } else {
 await conn.sendMessage(m.chat, { image: { url: result.data.imageUrl },
