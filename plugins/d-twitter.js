@@ -22,7 +22,7 @@ caption: `✓  Imagen de Twitter descargada.`}, { quoted: m })
 return await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
 }}
 
-handler.command = ["x", "twitter", "xdl"]
+handler.command = ["x", "twitter", "tw"]
 handler.help = ["twitter"]
 handler.tags = ["download"]
 
