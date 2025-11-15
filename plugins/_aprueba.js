@@ -27,7 +27,7 @@ const perfil = await conn.profilePictureUrl(conn.user.jid, 'image').catch(() => 
 const thumb = Buffer.from(await (await fetch(`${global.mImagen}`)).arrayBuffer())
 
  await m.react('👋🏻')
-if (command === 'menu') {
+if (command === 'mtest' || command === 'testmenu') {
 let menu = `${hora}, ${dia}, ${fechaTxt}
 
 ╭──────────────• · · · 
