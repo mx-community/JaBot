@@ -14,7 +14,6 @@ return conn.sendMessage(m.chat, { text: menu1, mentions: [m.sender], contextInfo
 } else if (args[0] === "descargas") {
 let menu2 = `Hola, descargas.`
 return conn.sendMessage(m.chat, { text: menu2 }, { quoted: m })
-l
 }
 } catch (e) {
 console.error(e)
