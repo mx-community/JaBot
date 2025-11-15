@@ -1,232 +1,162 @@
 import fetch from "node-fetch"
 import yts from "yt-search"
-import crypto from "crypto"
-import axios from "axios"
+import axios from "axios";
+
+const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
+  
 try {
-if (!text?.trim())
-return conn.reply(m.chat, `💫 *Por favor ingresa el nombre o enlace del video que deseas buscar.*`, m)
+if (!text.trim()) return conn.reply(m.chat, `🔔 *Por favor, ingresa el nombre o link del archivo a descargar.*`, m)
+    await m.react('🎧')
 
-await m.react('🎧')
+    let videoIdMatch = text.match(youtubeRegexID)
+    let search = await yts(videoIdMatch ? 'https://youtu.be/' + videoIdMatch[1] : text)
+    let video = videoIdMatch
+      ? search.all.find(v => v.videoId === videoIdMatch[1]) || search.videos.find(v => v.videoId === videoIdMatch[1])
+      : search.videos?.[0]
 
-const videoMatch = text.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|shorts\/|v\/)?([a-zA-Z0-9_-]{11})/)
-const query = videoMatch ? `https://youtu.be/${videoMatch[1]}` : text
+    if (!video) return conn.reply(m.chat, '❌ *No se encontraron resultados para tu búsqueda.*', m)
 
-const search = await yts(query)
-const result = videoMatch
-? search.videos.find(v => v.videoId === videoMatch[1]) || search.all[0]
-: search.all[0]
+    const { title, thumbnail, timestamp, views, ago, url, author } = video
+    const vistas = formatViews(views)
+    const canal = author?.name || 'Desconocido'
+    
+    const infoMessage = 
+    `*🎵 Titulo:* ${title}
+    
+> *🎬 Canal:* ${canal}
+     
+> *👀 Vistas:* ${vistas}
+     
+> *⏳ Duración:* ${timestamp}
+     
+> *📆 Publicado:* ${ago}
+     
+> *🔗 Link:* ${url}
 
-if (!result) throw '⚠️ No se encontraron resultados para tu búsqueda.'
+𝘔𝘪𝘺𝘶𝘬𝘪𝘉𝘰𝘵-𝘔𝘋 | © 𝘗𝘰𝘸𝘦𝘳𝘦𝘥 𝘉𝘺 𝘖𝘮𝘢𝘳𝘎𝘳𝘢𝘯𝘥𝘢`
 
-const { title, thumbnail, timestamp, views, ago, url, author, seconds } = result
-if (seconds > 60000) throw '🚫 *El video supera el límite de duración (10 minutos).*'
+    const thumb = (await conn.getFile(thumbnail))?.data
+    const external = {
+      contextInfo: {
+        externalAdReply: {
+          title: title,
+          body: 'Descargando archivo',
+          mediaType: 1,
+          previewType: 0,
+          mediaUrl: url,
+          sourceUrl: url,
+          thumbnail: thumb,
+          renderLargerThumbnail: true
+        }
+      }
+    }
 
-const vistas = formatViews(views)
-const info = `🎅🏻🔔 𝙔𝙤𝙪𝙏𝙪𝙗𝙚 𝙋𝙡𝙖𝙮𝙚𝙧 — ❄️ 𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙉𝙖𝙫𝙞𝙙𝙖𝙙 ❄️
+    await conn.reply(m.chat, infoMessage, m, external)
 
-┏━━━━━━━━🎄━━━━━━━━┓
-┃ 📀 *Título:* ${title}
-┃ 📺 *Canal:* ${author.name}
-┃ 👁️ *Vistas:* ${vistas}
-┃ ⏱️ *Duración:* ${timestamp}
-┃ 🗓️ *Publicado:* ${ago}
-┃ 🔗 *Enlace:* ${url}
-┗━━━━━━━━🎁━━━━━━━━┛
+    if (['playaudio'].includes(command)) {
+      try {
+        const res = await fetch(`https://api.vreden.my.id/api/v1/download/youtube/audio?url=${url}&quality=128`)
+        const json = await res.json()
+        
+        if (!json.result?.download?.url) throw '*⚠️ No se obtuvo un enlace válido.*'
 
-✨🎶 Que este temón te saque el espíritu navideño aunque no quieras uwu 😎🌟`
+        await conn.sendMessage(m.chat, {
+          audio: { url: json.result.download.url },
+          mimetype: 'audio/mpeg',
+          fileName: json.result.download.filename || `${json.result.metadata?.title || title}.mp3`,
+          contextInfo: {
+            externalAdReply: {
+              title: title,
+              body: 'Archivo descargado' ,
+              mediaType: 1,
+              thumbnail: thumb,
+              mediaUrl: url,
+              sourceUrl: url,
+              renderLargerThumbnail: true
+            }
+          }
+        }, { quoted: m })
 
-const thumb = (await conn.getFile(thumbnail)).data
-await conn.sendMessage(m.chat, { image: thumb, caption: info, ...fake }, { quoted: fkontak })
+        await m.react('✅')
+      } catch (e) {
+        return conn.reply(m.chat, '*❌ No se pudo enviar el audio. El archivo podría ser demasiado pesado o hubo un error en la generación del enlace.*', m)
+      }
+    }
+    
+    else if (['playvideo'].includes(command)) {
+      try {
+        // 🔥 API ACTUALIZADA AQUÍ
+        const res = await fetch(`https://api.stellarwa.xyz/dl/ytmp4?url=${encodeURIComponent(url)}&key=Shadow_Core`)
+        const json = await res.json()
 
-if (['playp', 'mpp3'].includes(command)) {
-await m.react('🎶')
+        if (!json.status || !json.data?.dl) throw '⚠️ *No se obtuvo enlace de video.*'
+        const data = json.data
 
-const audio = await savetube.download(url, "audio")
-if (!audio?.status) throw `❌ Error al obtener el audio: ${audio.error}`
+        const size = await getSize(data.dl)
+        const sizeStr = size ? await formatSize(size) : 'Desconocido'
 
-await conn.sendMessage(
-m.chat,
-{
-audio: { url: audio.result.download },
-mimetype: 'audio/mpeg',
-fileName: `${title}.mp3`
-},
-{ quoted: fkontak }
-)
+        let caption = `🎬 *Título:*
+> ${data.title}
+> *📦 Tamaño:* ${sizeStr}`
+       .trim()
 
-await m.react('✅')
+        await conn.sendFile(
+          m.chat,
+          data.dl,
+          `${data.title || 'video'}.mp4`,
+          caption,
+          m
+        )
+
+        await m.react('✅')
+      } catch (e) {
+        return conn.reply(m.chat, '⚠️ *No se pudo enviar el video. El archivo podría ser muy pesado o hubo un error en el enlace.*', m)
+      }
+    }
+
+    else {
+      return conn.reply(m.chat, '✧︎ Comando no reconocido.', m)
+    }
+
+  } catch (err) {
+    return m.reply(`❌ *Ocurrió un error* \n${err}`)
+  }
 }
 
-else if (['playp2', 'mpp4'].includes(command)) {
-await m.react('🎥')
-const video = await getVid(url)
-if (!video?.url) throw '⚠️ No se pudo obtener el video.'
-
-await conn.sendMessage(
-m.chat,
-{
-video: { url: video.url },
-fileName: `${title}.mp4`,
-mimetype: 'video/mp4',
-caption: `🌟 *${title}*`
-},
-{ quoted: m }
-)
-await m.react('✅')
-}
-
-} catch (e) {
-await m.react('❌')
-console.error(e)
-return conn.reply(
-m.chat,
-typeof e === 'string'
-? e
-: '⚠️ *Ocurrió un error inesperado.*\n💌 Usa *' + usedPrefix + 'report* para informarlo.\n\n🪶 ' + e.message,
-m
-)
-}
-}
-
-handler.command = handler.help = ['playp', 'playp2', 'mpp3', 'mpp4']
-handler.tags = ['download']
-handler.group = true
+handler.command = handler.help = ['playaudio', 'playvideo']
+handler.tags = ['descargas']
 
 export default handler
 
-async function getVid(url) {
-const apis = [
-{
-api: 'Yupra',
-endpoint: `https://api.yupra.my.id/api/downloader/ytmp4?url=${encodeURIComponent(url)}`,
-extractor: res => res?.result?.formats?.[0]?.url
-}
-]
-return await fetchFromApis(apis)
-}
-
-async function fetchFromApis(apis) {
-for (const { api, endpoint, extractor } of apis) {
-try {
-const controller = new AbortController()
-const timeout = setTimeout(() => controller.abort(), 10000)
-const res = await fetch(endpoint, { signal: controller.signal }).then(r => r.json())
-clearTimeout(timeout)
-const link = extractor(res)
-if (link) return { url: link, api }
-} catch (err) {
-console.log(`❌ Error en API ${api}:`, err.message)
-}
-await new Promise(resolve => setTimeout(resolve, 500))
-}
-return null
-}
-
-const savetube = {
-api: {
-base: "https://media.savetube.me/api",
-info: "/v2/info",
-download: "/download",
-cdn: "/random-cdn"
-},
-headers: {
-accept: "*/*",
-"content-type": "application/json",
-origin: "https://yt.savetube.me",
-referer: "https://yt.savetube.me/",
-"user-agent": "Postify/1.0.0"
-},
-crypto: {
-hexToBuffer: (hexString) => {
-const matches = hexString.match(/.{1,2}/g)
-return Buffer.from(matches.join(""), "hex")
-},
-decrypt: async (enc) => {
-const secretKey = "C5D58EF67A7584E4A29F6C35BBC4EB12"
-const data = Buffer.from(enc, "base64")
-const iv = data.slice(0, 16)
-const content = data.slice(16)
-const key = savetube.crypto.hexToBuffer(secretKey)
-const decipher = crypto.createDecipheriv("aes-128-cbc", key, iv)
-let decrypted = decipher.update(content)
-decrypted = Buffer.concat([decrypted, decipher.final()])
-return JSON.parse(decrypted.toString())
-},
-},
-youtube: (url) => {
-const patterns = [
-/youtube.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
-/youtube.com\/embed\/([a-zA-Z0-9_-]{11})/,
-/youtu.be\/([a-zA-Z0-9_-]{11})/
-]
-for (let pattern of patterns) {
-if (pattern.test(url)) return url.match(pattern)[1]
-}
-return null
-},
-request: async (endpoint, data = {}, method = "post") => {
-try {
-const { data: response } = await axios({
-method,
-url: `${endpoint.startsWith("http") ? "" : savetube.api.base}${endpoint}`,
-data: method === "post" ? data : undefined,
-params: method === "get" ? data : undefined,
-headers: savetube.headers
-})
-return { status: true, code: 200, data: response }
-} catch (error) {
-return { status: false, code: error.response?.status || 500, error: error.message }
-}
-},
-getCDN: async () => {
-const response = await savetube.request(savetube.api.cdn, {}, "get")
-if (!response.status) return response
-return { status: true, code: 200, data: response.data.cdn }
-},
-download: async (link, type = "audio") => {
-const id = savetube.youtube(link)
-if (!id) return { status: false, code: 400, error: "No se pudo obtener ID del video" }
-try {
-const cdnx = await savetube.getCDN()
-if (!cdnx.status) return cdnx
-const cdn = cdnx.data
-const videoInfo = await savetube.request(
-`https://${cdn}${savetube.api.info}`,
-{ url: `https://www.youtube.com/watch?v=${id}` }
-)
-if (!videoInfo.status) return videoInfo
-const decrypted = await savetube.crypto.decrypt(videoInfo.data.data)
-const downloadData = await savetube.request(
-`https://${cdn}${savetube.api.download}`,
-{
-id,
-downloadType: "audio",
-quality: "mp3",
-key: decrypted.key
-}
-)
-if (!downloadData.data.data?.downloadUrl)
-return { status: false, code: 500, error: "No se pudo obtener link de descarga" }
-
-return {
-status: true,
-result: {
-download: downloadData.data.data.downloadUrl,
-title: decrypted.title || "Desconocido"
-}
-}
-} catch (error) {
-return { status: false, code: 500, error: error.message }
-}
-}
-}
 
 function formatViews(views) {
-if (views === undefined) return "No disponible"
-if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
-if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M (${views.toLocaleString()})`
-if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k (${views.toLocaleString()})`
-return views.toString()
+  if (views === undefined) return "No disponible"
+  if (views >= 1e9) return `${(views / 1e9).toFixed(1)}B (${views.toLocaleString()})`
+  if (views >= 1e6) return `${(views / 1e6).toFixed(1)}M (${views.toLocaleString()})`
+  if (views >= 1e3) return `${(views / 1e3).toFixed(1)}K (${views.toLocaleString()})`
+  return views.toString()
+}
+
+async function getSize(downloadUrl) {
+  try {
+    const response = await axios.head(downloadUrl, { maxRedirects: 5 });
+    const length = response.headers['content-length'];
+    return length ? parseInt(length, 10) : null;
+  } catch (error) {
+    console.error("Error al obtener el tamaño:", error.message);
+    return null;
+  }
+}
+
+async function formatSize(bytes) {
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let i = 0;
+  if (!bytes || isNaN(bytes)) return 'Desconocido';
+  while (bytes >= 1024 && i < units.length - 1) {
+    bytes /= 1024;
+    i++;
+  }
+  return `${bytes.toFixed(2)} ${units[i]}`;
 }
