@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 let regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
-let handler = async (m, { args, usedPrefix, command }) => {
+let handler = async (m, { args, usedPrefix, command, text }) => {
 if (!args[0]) {
 return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace valido de un repositorio de *GitHub* para descargarlo.` }, { quoted: m })
 }
@@ -30,7 +30,7 @@ let txt = `·─┄ · ✦ *GitHub : Download* ✦ ·
 
 📍  *Descripcion:* ${repoData.description || 'No tiene descripcion.'}`
 
-await await conn.sendMessage(m.chat, { text: text, mentions: [m.sender], contextInfo: { externalAdReply: { 
+await await conn.sendMessage(m.chat, { text: txt, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: botname, 
 body: textbot, 
 thumbnail: thumb, 
