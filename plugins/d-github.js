@@ -13,6 +13,7 @@ let repoUrl = `https://api.github.com/repos/${user}/${sanitizedRepo}`
 let zipUrl = `https://api.github.com/repos/${user}/${sanitizedRepo}/zipball`
 await m.react("⏳")
 //conn.sendMessage(m.chat, { text: `_ⴵ Buscando resultados, espere un momento..._` }, { quoted: m })
+const thumb = Buffer.from(await (await fetch(`https://qu.ax/hNADg.jpg`)).arrayBuffer())
 try {
 let [repoResponse, zipResponse] = await Promise.all([
 fetch(repoUrl),
@@ -29,8 +30,14 @@ let txt = `·─┄ · ✦ *GitHub : Download* ✦ ·
 
 📍  *Descripcion:* ${repoData.description || 'No tiene descripcion.'}`
 
-await conn.sendMessage(m.chat, { text: txt, contextInfo: { externalAdReply: { title: botname, body: '📍 Descargando archivo de GitHub, espere un momento...', thumbnailUrl: global.icono, sourceUrl: null, mediaType: 1, showAdAttribution: true, renderLargerThumbnail: true }}} , { quoted: m })
-await conn.sendFile(m.chat, await zipResponse.buffer(), filename, null, m)
+await await conn.sendMessage(m.chat, { text: text, mentions: [m.sender], contextInfo: { externalAdReply: { 
+title: botname, 
+body: textbot, 
+thumbnail: thumb, 
+sourceUrl: null, 
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
+//conn.sendMessage(m.chat, { text: txt, contextInfo: { externalAdReply: { title: botname, body: '📍 Descargando archivo de GitHub, espere un momento...', thumbnailUrl: global.icono, sourceUrl: null, mediaType: 1, showAdAttribution: true, renderLargerThumbnail: true }}} , { quoted: m })
+conn.sendFile(m.chat, await zipResponse.buffer(), filename, null, m)
 } catch (e) {
 await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
 }
@@ -39,6 +46,7 @@ handler.command = ["git", "github"]
 handler.tags = ["descargas"]
 handler.help = ["git", "github"]
 export default handler
+                                                 
 
 /*
 import fetch from 'node-fetch'
