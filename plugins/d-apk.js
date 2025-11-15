@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 let apkSession = new Map();
 let handler = async (m, { conn, text, usedPrefix, command, args }) => {
   if (command === 'apk' && text) {
-const reactionMessage = await conn.sendMessage(m.chat, { text: `Buscando resultados, espere un momento...` }, { quoted: m })
+ await conn.sendMessage(m.chat, { text: `Buscando resultados, espere un momento...` }, { quoted: m })
 try {
 const response = await fetch(`https://delirius-apiofc.vercel.app/download/apk?query=${encodeURIComponent(text)}`);
 const data = await response.json();
@@ -11,7 +11,7 @@ if (!data.status || !data.data)
   throw new Error("No se encontró la aplicación.");
 const app = data.data;
 apkSession.set(m.chat, { app });
-const thumb = Buffer.from(await (await fetch(`${app.image}`)).arrayBuffer())
+//const thumb = Buffer.from(await (await fetch(`${app.image}`)).arrayBuffer())
 let description = `·─┄ · ✦ *Apk : Download* ✦ ·
 
 ⊹ ✎ *Nombre:* ${app.name}
@@ -29,7 +29,7 @@ let description = `·─┄ · ✦ *Apk : Download* ✦ ·
 await conn.sendMessage(m.chat, { text: description, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: app.name, 
 body: app.publish, 
-thumbnail: thumb, 
+thumbnail: app.image, 
 sourceUrl: null, 
 mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
 return;
