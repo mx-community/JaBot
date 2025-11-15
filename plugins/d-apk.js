@@ -1,4 +1,4 @@
-import fs from 'fs';
+/*import fs from 'fs';
 import fetch from 'node-fetch';
 let apkSession = new Map();
 let handler = async (m, { conn, text, usedPrefix, command, args }) => {
@@ -55,9 +55,9 @@ return conn.sendMessage(m.chat, { text: `📍  Ingrese el comando y escriba el n
 
 handler.command = /^(apk|app)$/i;
 export default handler;
-                       
+    */                   
 
-/*import { search, download } from 'aptoide-scraper'
+import { search, download } from 'aptoide-scraper'
 
 var handler = async (m, { conn, usedPrefix, command, text }) => {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nombre de la app o apk para descargar.\n\n• Por ejemplo:\n*#${command}* WhatsApp` }, { quoted: m })
@@ -67,10 +67,10 @@ let searchA = await search(text)
 let data5 = await download(searchA[0].id)
 let apkResultado = `·─┄ · ✦ *Apk : Download* ✦ ·
 
-❒ *Nombre:* ${data5.name}
-❒ *Actualización:* ${data5.lastup}
-❒ *Peso:* ${data5.size}
-❒ *Paquete:* ${data5.package}
+⊹ ✎ *Nombre:* ${data5.name}
+⊹ ✎ *Publicado:* ${data5.lastup}
+⊹ ✎ *Peso:* ${data5.size}
+⊹ ✎ *Paquete:* ${data5.package}
 
 📍  Descargando, espere un momento...`
 await conn.sendMessage(m.chat, { text: apkResultado }, { quoted: m })
@@ -89,4 +89,4 @@ handler.command = ['apk', 'app']
 
 
 export default handler
-*/
+
