@@ -5,7 +5,7 @@ if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un en
 m.react('⏳')
 if (/^https?:\/\/[^\s]+$/i.test(text)) {
 try {
-let {data} = await axios.get(`${global.APIs.stellar.url}/dow/pinterest?url=${text}&apikey=${global.APIs.stellar.key}`)
+let {data} = await axios.get(`https://api.stellarwa.xyz/dow/pinterest?url=${text}&apikey=Stellar`)
 if (!data?.data) throw null
 
 const file = {
@@ -22,7 +22,6 @@ return conn.sendMessage(m.chat, { text: "📍  No se ha podido acceder al enlace
 }
 
 const apis = [
-`${global.APIs.stellar.url}/search/pinterest?query=${text}&apikey=${global.APIs.stellar.key}`,
 `https://api.dorratz.com/v2/pinterest?q=${text}`,
 `https://api.siputzx.my.id/api/s/pinterest?query=${text}`,
 `https://api.betabotz.eu.org/api/search/pinterest?query=${text}`
