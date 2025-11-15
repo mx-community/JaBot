@@ -146,23 +146,33 @@ return `${m}:${s.toString().padStart(2, '0')} min`;
 }
 
 const handler = async (m, { conn, args }) => {
-if (!args[0]) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video de *YouTube* para descargarlo en audio.` }, { quoted: m });
+if (!args[0]) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video de *YouTube* para descargarlo.` }, { quoted: m });
+
 let url = args[0];
-if (!savetube.isUrl(url)) return conn.sendMessage(m.chat, { text: `📍  El enlace ingresado no es valido.\n- Recuerde copiar el enlace de un video de *YouTube* para descargarlo en audio.` }, { quoted: m })
+if (!savetube.isUrl(url)) return conn.sendMessage(m.chat, { text: `📍  No se ha podido acceder al enlace.\n- Verifique si el enlace es de *YouTube* y vuelva a intentarlo.` }, { quoted: m })
+
 try {
-conn.sendMessage(m.chat, { text: `Descargando audio, espere un momento...` }, { quoted: m });
+await conn.sendMessage(m.chat, { text: `Descargando el audio, espere un momento...` }, { quoted: m });
 let res = await savetube.download(url);
 if (!res.status) {
-return conn.sendMessage(m.chat, { text: `📍  No se ha podido descargar el audio, intentelo de nuevo.` }, { quoted: m })
+return conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${res.error}` }, { quoted: m });
 }
-const { title, duration, thumbnail, download } = res.result;
-const durationFormatted = formatDuration(Number(duration));
-await conn.sendMessage( m.chat, { audio: { url: download }, fileName: `${title}.mp3`, mimetype: "audio/mpeg", ptt: false, contextInfo: { externalAdReply: { title: title, body: `🌿 Duración: ${durationFormatted}`, sourceUrl: url, thumbnailUrl: thumbnail, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m });
 
+const { title, duration, thumbnail, download } = res.result;
+
+const durationFormatted = formatDuration(Number(duration));
+
+await await conn.sendMessage( m.chat, { audio: { url: download }, fileName: `${apiData.title}.mp3`, mimetype: 'audio/mpeg', ptt: false, caption: null }, { quoted: m });
+
+await m.react('✅');
 } catch (e) {
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m });
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m });
 }
 };
 
-handler.command = ['yta', 'mp3', 'audio'];
+handler.help = ['audio  <url>'];
+handler.command = ['audio', 'mp3'];
+handler.tags = ['descargas'];
+
 export default handler;
+  
