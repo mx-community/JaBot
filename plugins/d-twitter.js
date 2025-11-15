@@ -10,19 +10,21 @@ if (!result.status) return conn.reply(m.chat, `📍  No se ha podido obtener el 
 if (result.data.type === 'video') {
 let videoText = `·─┄ · ✦ *Twitter : Download* ✦ ·
 
-⊹ ✎ *Título:* ${result.data.title}`
-conn.sendFile(m.chat, result.data.dl[0].url, "video.mp4", videoText.trim(), m)
+⊹ ✎ *Título:* ${result.data.title}
+⊹ ✎ *Duracion:* ${result.data.duration}
+⊹ ✎ *Enlace:* ${text}`
+conn.sendFile(m.chat, result.data.dl[0].url, "video.mp4", videoText, m)
 
 } else {
 await conn.sendMessage(m.chat, { image: { url: result.data.imageUrl },
-caption: `✓  Imagen descargada con éxito.`}, { quoted: m })
+caption: `✓  Imagen de Twitter descargada.`}, { quoted: m })
 }} catch (e) {
 return await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
 }}
 
-handler.command = ["x", "twitter", "tw"]
-handler.help = ["twitter  <link>", "tw  <link>", "x  <link>]
-handler.tags = ["descargas"]
+handler.command = ["x", "twitter", "xdl"]
+handler.help = ["twitter"]
+handler.tags = ["download"]
 
 export default handler
 
