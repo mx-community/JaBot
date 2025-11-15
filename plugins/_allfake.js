@@ -25,6 +25,7 @@ var webmx = 'https://mx-website.vercel.app'
 var paypal = 'https://www.paypal.me/aJosueUSDpaypal'
 
   //APIS MX 📍
+global.apis = 'https://delirius-apiofc.vercel.app'
 global.apimx_cafirexos = 'https://api.cafirexos.com'
 global.apimx_key = 'BrunoSobrino'
 global.apimx_brunosobrino = 'https://api-brunosobrino-dcaf9040.koyeb.app'
