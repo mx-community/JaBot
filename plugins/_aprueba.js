@@ -28,7 +28,7 @@ const thumbBot = Buffer.from(await (await fetch(`${global.mImagen}`)).arrayBuffe
 
  await m.react('👋🏻')
 if (command === 'mtest' || command === 'testmenu') {
-let menu = `${hora}, ${dia}, ${fechaTxt}
+let menu = `📍  ${dia}, ${fechaTxt}
 
 ╭──────────────• · · · 
 │🜲 *Usuario:* @${name}
