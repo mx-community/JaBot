@@ -1,128 +1,93 @@
-import axios from "axios";
-import * as cheerio from "cheerio";
+import fetch from "node-fetch";
+import axios from 'axios';
 
-const pindl = {
-    video: async (url) => {
-        try {
-            const { data: html } = await axios.get(url);
-            const $ = cheerio.load(html);
-
-            const mediaDataScript = $('script[data-test-id="video-snippet"]');
-            if (!mediaDataScript.length) return null;
-
-            const mediaData = JSON.parse(mediaDataScript.html());
-            if (mediaData["@type"] === "VideoObject" && mediaData.contentUrl?.endsWith(".mp4")) {
-                return {
-                    type: "video",
-                    name: mediaData.name,
-                    description: mediaData.description,
-                    contentUrl: mediaData.contentUrl,
-                    thumbnailUrl: mediaData.thumbnailUrl,
-                    uploadDate: mediaData.uploadDate,
-                    duration: mediaData.duration
-                };
-            }
-            return null;
-        } catch {
-            return null;
-        }
-    },
-
-    image: async (url) => {
-        try {
-            const { data: html } = await axios.get(url);
-            const $ = cheerio.load(html);
-            const mediaDataScript = $('script[data-test-id="leaf-snippet"]');
-            if (!mediaDataScript.length) return null;
-
-            const mediaData = JSON.parse(mediaDataScript.html());
-            if (mediaData["@type"] === "SocialMediaPosting" && mediaData.image && !mediaData.image.endsWith(".gif")) {
-                return {
-                    type: "image",
-                    headline: mediaData.headline,
-                    image: mediaData.image
-                };
-            }
-            return null;
-        } catch {
-            return null;
-        }
-    },
-
-    gif: async (url) => {
-        try {
-            const { data: html } = await axios.get(url);
-            const $ = cheerio.load(html);
-            const mediaDataScript = $('script[data-test-id="leaf-snippet"]');
-            if (!mediaDataScript.length) return null;
-
-            const mediaData = JSON.parse(mediaDataScript.html());
-            if (mediaData["@type"] === "SocialMediaPosting" && mediaData.image?.endsWith(".gif")) {
-                return {
-                    type: "gif",
-                    headline: mediaData.headline,
-                    gif: mediaData.image
-                };
-            }
-            return null;
-        } catch {
-            return null;
-        }
-    },
-
-    download: async (url) => {
-        return (await pindl.video(url)) || (await pindl.image(url)) || (await pindl.gif(url)) || { error: "No se encontró medio" };
+let handler = async (m, { conn, text, usedPrefix, command, args }) => {
+  try {
+    if (!text) {
+      return conn.reply(m.chat, `🚫 *Por favor, ingresa la URL del vídeo de YouTube.*`, m, rcanal);
     }
-};
 
-const downloadBuffer = async (url) => {
-    const res = await axios.get(url, { responseType: 'arraybuffer' });
-    return Buffer.from(res.data);
-};
-
-const handler = async (m, { conn, text }) => {
-    if (!text) throw "¿💥 Dónde está la URL?";
-    await m.react("🕓");
-
-    try {
-        const result = await pindl.download(text);
-        if (result.error) throw result.error;
-
-        let caption = "";
-        const maxSize = 10 * 1024 * 1024;
-
-        if (result.type === "video" || result.type === "gif") {
-            caption = `「✦」 *Información Video/GIF*\n\n> ✐ Título » ${result.name || result.headline || "N/A"}\n> 🜸 Link » ${result.contentUrl || result.gif}`;
-
-            const buffer = await downloadBuffer(result.contentUrl || result.gif);
-            if (buffer.length > maxSize) {
-                caption += `\n⚠️ El archivo es muy pesado para enviar. Usa el enlace.`;
-                await conn.sendMessage(m.chat, { text: caption }, { quoted: m });
-            } else {
-                await conn.sendMessage(m.chat, {
-                    video: buffer,
-                    caption,
-                    mimetype: "video/mp4"
-                }, { quoted: m });
-            }
-
-        } else if (result.type === "image") {
-            caption = `「✦」 *Información Imagen*\n\n> ✐ Título » ${result.headline || "N/A"}\n> 🜸 Link » ${result.image}`;
-            await conn.sendMessage(m.chat, {
-                image: { url: result.image },
-                caption
-            }, { quoted: m });
-        }
-
-        await m.react("✅");
-    } catch (error) {
-        await m.react("✖️");
-        await conn.sendMessage(m.chat, { text: `Algo salió mal: ${error}` }, { quoted: m });
+    if (!/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/i.test(args[0])) {
+      return m.reply(`⚠️ *Enlace inválido. Asegúrate de colocar un enlace válido de YouTube.*`);
     }
+
+    m.react('🕒');
+    //await conn.sendMessage(m.chat, { text: "⏳ *⍴rᥱ⍴ᥲrᥲᥒძ᥆ 𝗍ᥙ ᥎іძᥱ᥆ ᥆ᥒіᥴһᥲᥒ...*\n> 🍃 ⍴᥆r 𝖿ᥲ᥎᥆r ᥱs⍴ᥱrᥲ ᥙᥒ᥆s sᥱgᥙᥒძ᥆s 🐢" }, { quoted: m });
+
+    let json = await ytdl(args[0]);
+    let size = await getSize(json.url);
+    let sizeStr = size ? await formatSize(size) : 'Desconocido';
+    
+
+    const caption = `☃️ *${json.title}*  
+🍃 \`Tamaño\` » *${sizeStr}*  
+💮 \`Enlace\` » *${args[0]}*`;
+
+    await conn.sendFile(m.chat, await (await fetch(json.url)).buffer(), `${json.title}.mp4`, caption, fkontak);
+    m.react('✔️');
+
+  } catch (e) {
+    console.error(e);
+    m.reply(`*Ocurrió un error al procesar tu solicitud:*\n\n${e.message}`);
+  }
 };
 
-handler.help = ["pinterestdl *<url>*"];
-handler.tags = ["descargas"];
-handler.command = ['testpin'];
+handler.help = ['ytv'];
+handler.command = ['ytv'];
+handler.tags = ['download'];
 
 export default handler;
+
+
+async function ytdl(url) {
+  const headers = {
+    "accept": "*/*",
+    "accept-language": "es-ES,es;q=0.9",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "cross-site",
+    "Referer": "https://id.ytmp3.mobi/",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  };
+
+  const initial = await fetch(`https://d.ymcdn.org/api/v1/init?p=y&23=1llum1n471&_=${Math.random()}`, { headers });
+  const init = await initial.json();
+  const id = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|.*v=))([\w-]+)/)?.[1];
+  if (!id) throw new Error('No se pudo extraer el ID del video.');
+
+  const convertURL = init.convertURL + `&v=${id}&f=mp4&_=${Math.random()}`;
+  const convert = await (await fetch(convertURL, { headers })).json();
+
+  let info = {};
+  for (let i = 0; i < 3; i++) {
+    const progress = await fetch(convert.progressURL, { headers });
+    info = await progress.json();
+    if (info.progress === 3) break;
+  }
+
+  return {
+    url: convert.downloadURL,
+    title: info.title || 'video'
+  };
+}
+
+async function getSize(url) {
+  try {
+    const response = await axios.head(url);
+    const contentLength = response.headers['content-length'];
+    return contentLength ? parseInt(contentLength, 10) : null;
+  } catch (e) {
+    console.error("Error al obtener el tamaño:", e.message);
+    return null;
+  }
+}
+
+async function formatSize(bytes) {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  let i = 0;
+  while (bytes >= 1024 && i < units.length - 1) {
+    bytes /= 1024;
+    i++;
+  }
+  return `${bytes.toFixed(2)} ${units[i]}`;
+}
