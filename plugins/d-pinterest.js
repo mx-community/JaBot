@@ -5,7 +5,7 @@ if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un en
 m.react('⏳')
 if (/^https?:\/\/[^\s]+$/i.test(text)) {
 try {
-let {data} = await axios.get(`https://api.stellarwa.xyz/dow/pinterest?url=${text}&apikey=Stellar`)
+let {data} = await axios.get(`https://api.dorratz.com/v2/pinterest?q=${text}`)
 if (!data?.data) throw null
 
 const file = {
