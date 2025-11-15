@@ -2,7 +2,7 @@ let handler = async (m, { conn, usedPrefix, __dirname, participants }) => {
 try {
 const user = global.db.data.users[m.sender] || {}
 const name = await conn.getName(m.sender)
-const thumBot = Buffer.from(await (await fetch(`${global.mImagen}`)).arrayBuffer())
+const thumbBot = Buffer.from(await (await fetch(`${global.mImagen}`)).arrayBuffer())
 await m.react('👋🏻')
 if (!args[0]) {
 let menu = `Hola. xd`
@@ -17,7 +17,7 @@ return conn.sendMessage(m.chat, { text: menu2 }, { quoted: m })
 }
 } catch (e) {
 console.error(e)
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
 }
 }
 handler.help = ['help  <category>', 'menu  <category>']
