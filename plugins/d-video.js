@@ -10,13 +10,14 @@ if (!/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/i.test(args[0])) {
 return conn.sendMessage(m.chat, { text: `📍  No se ha podido acceder al enlace.\n- Verifique si el enlace es de *YouTube* y vuelva a intentarlo.` }, { quoted: m });
 }
 m.react('⏳');
-
+await conn.sendMessage(m.chat, { text: `Descargando el video, espere un momento...` }, { quoted: m });
 let json = await ytdl(args[0]);
 let size = await getSize(json.url);
 let sizeStr = size ? await formatSize(size) : 'Desconocido';
 
 
 const caption = `·─┄ · ✦ *Play : Download* ✦ ·
+
 ⊹ ✎ *Titulo:* ${json.title}
 ⊹ ✎ *Peso:* ${sizeStr}
 ⊹ ✎ *Enlace:* ${args[0]}`;
