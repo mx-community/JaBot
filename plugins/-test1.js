@@ -15,7 +15,7 @@ if (!newDesc) {
 return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nuevo nombre del bot.\n\n• Por ejemplo:\n*${usedPrefix + command}* MX BOT` }, { quoted: m });
 };
 global.textbot = newDesc;
-conn.sendMessage(m.chat, { text: `✓  Se ha cambiado el nombre del bot a ( *${newName}* ) con exito.` }, { quoted: m });
+conn.sendMessage(m.chat, { text: `✓  Se ha cambiado el nombre del bot a ( *${newDesc}* ) con exito.` }, { quoted: m });
 };
 };
 
