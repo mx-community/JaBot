@@ -15,7 +15,7 @@ conn.sendFile(m.chat, result.data.dl[0].url, "video.mp4", videoText, m)
 
 } else {
 await conn.sendMessage(m.chat, { image: { url: result.data.imageUrl },
-caption: `✓  Imagen de Twitter descargada.`}, { quoted: m })
+caption: `·─┄ · ✦ *Twitter : Download* ✦ ·\n\n⊹ ✎ *Título:* ${result.data.title || "Undefined."}`}, { quoted: m })
 }} catch (e) {
 return await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
 }}
