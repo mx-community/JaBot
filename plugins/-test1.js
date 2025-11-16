@@ -1,14 +1,19 @@
-import { webp2png } from '../lib/webp2mp4.js'
-let handler = async (m, {conn, usedPrefix, command}) => {
-const q = m.quoted || m
-const mime = q.mediaType || ''
-if (!/sticker/.test(mime)) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a un sticker sin animación.` }, { quoted: m })
-const media = await q.download()
-let out = (await webp2png(media).catch((_) => null)) || Buffer.alloc(0)
-await conn.sendFile(m.chat, out, 'error.png', null, m)
-}
-handler.help = ['timg  <reply>']
-handler.tags = ['convertidor']
-handler.command = ['timg']
-export default handler
-  
+import fetch from 'node-fetch';
+const handler = async (m, { conn, usedPrefix, command }) => {
+const name = await conn.getName(m.sender);
+const thumb = Buffer.from(await (await fetch(`${global.botmenu}`)).arrayBuffer());
+let xd = `👋🏻  Hola usuario *${name}*.
+Test de prueba.`;
+  await conn.sendMessage(m.chat, { text: xd, mentions: conn.parseMention(xd), contextInfo: { externalAdReply: { 
+title: botname, 
+body: textbot, 
+thumbnail: thumb, 
+sourceUrl: null, 
+mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m });
+
+};
+
+handler.help = ['creador'];
+handler.tags = ['info'];
+handler.command = ['testreply', 'retest'];
+export default handler;
