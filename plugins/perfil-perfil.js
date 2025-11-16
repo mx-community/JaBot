@@ -32,7 +32,8 @@ let rank = sorted.findIndex(u => u.jid === userId) + 1
 let premium = user.premium || global.prems.includes(userId.split('@')[0])
 let tiempoPremium = premium ? (user.premiumTime ? await formatTime(user.premiumTime - Date.now()) : 'Permanente') : 'No'
 let pp = await conn.profilePictureUrl(userId, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
-
+const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
+  
 let text = `
 ╭──────────────• · · ·
 │🜲 *Nombre:* @${name} 
@@ -61,7 +62,7 @@ let text = `
 await conn.sendMessage(m.chat, { text: text, contextInfo: { externalAdReply: { 
 title: botname, 
 body: textbot, 
-thumbnail: pp, 
+thumbnail: thumb, 
 sourceUrl: null, 
 mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
 
