@@ -19,9 +19,9 @@ chat.isBanned = false
 return conn.sendMessage(m.chat, { text: `✓  Se ha activado el bot.` }, { quoted: m })
 }}}
 
-handler.help = ['bot on/off']
-handler.tags = ['group']
-handler.command = ['bot']
+handler.help = ['chat  <on/off>']
+handler.tags = ['grupos']
+handler.command = ['chat']
 handler.admin = true
 
 export default handler
