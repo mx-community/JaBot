@@ -23,7 +23,7 @@ conn.sendMessage(m.chat, { text: `✅  Se ha configurado con éxito la foto del 
 
   } catch (error) {
     console.error(error);
-    await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error}` }, { quoted: m })
+    await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error}` }, { quoted: m });
   }
 };
 
@@ -51,7 +51,7 @@ const isImageValid = (buffer) => {
 
 handler.help = ['setbanner'];
 handler.tags = ['tools'];
-handler.command = ['setbanner'];
+handler.command = ['s-menu'];
 handler.rowner = true;
 
 export default handler;
