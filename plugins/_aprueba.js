@@ -140,6 +140,72 @@ let menu2 = `╭──────────────• · · ·
 \`\`\`
 `
 return conn.sendMessage(m.chat, { text: menu2, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+} else if (args[0] === "grupos" || args[0] === "3") {
+let menu3 = `╭──────────────• · · · 
+│🜲 *Usuario:* @${name} *(Prem: ${premium})*
+│ⴵ *Actividad:* ${uptime} / ${(conn.user.jid == global.conn.user.jid ? 'Bot Principal.' : 'PreBot.')}
+╰──────────────• · · · 
+
+\`\`\`
+╭───[ ⛉ GRUPOS ⛉ ]─•
+│#add      │✎ número.
+│#kick     │✎ mention.
+│#delete   │✎ meply.
+│#promote  │✎ mention.
+│#demote   │✎ mention.
+│#warn     │✎ mention.
+│#unwarn   │✎ mention.
+│#g-img    │✎ reply.
+│#g-name   │✎ texto.
+│#g-desc   │✎ texto.
+│#link     │
+╰─────────────────•
+\`\`\`
+`
+return conn.sendMessage(m.chat, { text: menu3, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+} else if (args[0] === "rpg" || args[0] === "4") {
+let menu4 = `╭──────────────• · · · 
+│🜲 *Usuario:* @${name} *(Prem: ${premium})*
+│ⴵ *Actividad:* ${uptime} / ${(conn.user.jid == global.conn.user.jid ? 'Bot Principal.' : 'PreBot.')}
+╰──────────────• · · · 
+
+\`\`\`
+╭───[ ⛉ RPG GAME ⛉ ]─•
+│#cofre    │
+│#lb       │
+│#levelup  │
+│#minar    │
+│#work     │
+│#ruleta   │✎ query.
+│#slot     │✎ query.
+│#color    │✎ query.
+│#balance  │
+│#dep      │✎ query.
+│#ret      │✎ query.
+╰─────────────────•
+\`\`\`
+`
+return conn.sendMessage(m.chat, { text: menu4, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+} else if (args[0] === "owner") {
+let menuow = `╭──────────────• · · · 
+│🜲 *Usuario:* @${name} *(Prem: ${premium})*
+│ⴵ *Actividad:* ${uptime} / ${(conn.user.jid == global.conn.user.jid ? 'Bot Principal.' : 'PreBot.')}
+╰──────────────• · · · 
+
+\`\`\`
+╭───[ ⛉ PROPIETARIO ⛉ ]─•
+│#update   │
+│#autoadmin│
+│#bot-name │✎ texto.
+│#bot-desc │✎ texto.
+│#bot-img  │✎ reply.
+│#bot-px   │✎ texto.
+│#reprefix │
+│#gfile    │✎ query.
+│#dfile    │✎ query.
+╰─────────────────•
+\`\`\`
+`
 }
 } catch (e) {
 console.error(e)
