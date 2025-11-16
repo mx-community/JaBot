@@ -45,6 +45,7 @@ if (!("health" in user) || !isNumber(user.health)) user.health = 100
 if (!("genre" in user)) user.genre = ""
 if (!("birth" in user)) user.birth = ""
 if (!("marry" in user)) user.marry = ""
+if (!("tmenu" in user)) global.botname = ""
 if (!("description" in user)) user.description = ""
 if (!("packstickers" in user)) user.packstickers = null
 if (!("premium" in user)) user.premium = false
