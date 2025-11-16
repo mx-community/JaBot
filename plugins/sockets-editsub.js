@@ -1,44 +1,123 @@
-import fetch from 'node-fetch'
-import Jimp from 'jimp'
+import fetch from 'node-fetch';
+import Jimp from 'jimp';
 
-const handler = async (m, { conn, command, usedPrefix, text }) => {
-const isSubBots = [conn.user.jid, ...global.owner.map(([number]) => `${number}@s.whatsapp.net`)].includes(m.sender)
-if (!isSubBots) return conn.sendMessage(m.chat, { text: `📍  Solo puedes usar este comando con tu servidor.\n- Es decir, con el número vinculado al bot para editarlo tu mismo.` }, { quoted: m })
+const handler = async (m, { conn, isRowner command, usedPrefix, text }) => {
+const isSubBots = [conn.user.jid, ...global.owner.map(([number]) => `${number}@s.whatsapp.net`)].includes(m.sender);
+if (!isSubBots) return conn.sendMessage(m.chat, { text: `📍  Este comando solo puede ser utilizado por un servidor.\n- Aqui un servidor usando *#newserver*` }, { quoted: m });
+
+//Imagen del bot.
+const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer());
+
+//Tipo de cambios disponibles.
+const newName = m.text.trim().split(' ').slice(1).join(' ');
+const newDesc = m.text.trim().split(' ').slice(1).join(' ');
+const newPage = m.text.trim().split(' ').slice(1).join(' ');
+const newGroup = m.text.trim().split(' ').slice(1).join(' ');
+const newChannel = m.text.trim().split(' ').slice(1).join(' ');
+
+//Listado total.
+let responseMessage = `⫶☰ Lista de edición para tu servidor.
+- Para editar tu servidor debes ver los términos y condiciones aparte.
+
+⫶☰ \`Edición basica:\`
+❒  *#s-name*  :  <text>
+> ⤷ _Edita el nombre del bot visible en chats._ ( *${global.botname}* )
+❒  *#s-desc*  :  <text>
+> ⤷ _Edita la descripción del bot visible en chats._
+❒  *#s-web*  :  <text>
+> ⤷ _Edita la pagina web, sea red social o otro._
+❒  *#s-group*  :  <text>
+> ⤷ _Edita el enlace grupal del bot a tu enlace grupal._
+❒  *#s-channel*  :  <text>
+> ⤷ _Edita el link directo del canal en el bot a tu enlace._
+
+⫶☰ \`Edición de imagenes:\`
+❒  *#s-menu*  :  <text>
+> ⤷ _Edita la foto del menu en el bot._
+❒  *#s-img*  :  <text>
+> ⤷ _Edita la imagen del bot._
+
+⫶☰ \`Edición de recursos:\`
+❒  *#s-coin*  :  <text>
+> ⤷ _Edita el nombre del recurso._ ( *${global.currency}* )
+❒  *#s-coin2*  :  <text>
+> ⤷ _Edita el nombre del segundo recurso._ ( *${global.currency2}* )`;
+let messageTitle = `Listado completo.`;
+let messageFooter = `⫶☰  Lista de edición para el servidor alquilado.`;
+
 try {
-const value = text ? text.trim() : ''
 switch (command) {
-case 's-foto': case 's-img': {
-const q = m.quoted || m
-const mime = (q.msg || q).mimetype || ''
-if (!/image\/(png|jpe?g)/.test(mime)) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen para cambiar la foto de perfil de tu servidor.` }, { quoted: m })
-const media = await q.download()
-if (!media) return conn.sendMessage(m.chat, { text: `📍  Debes responder a una imagen, nada de videos, stickers o textos.` }, { quoted: m })
-const image = await Jimp.read(media)
-const buffer = await image.getBufferAsync(Jimp.MIME_JPEG)
-await conn.updateProfilePicture(conn.user.jid, buffer)
-conn.sendMessage(m.chat, { text: `✓  Se ha configurado la foto de perfil del servidor con exito.` }, { quoted: m })
+//Inicio del comando.
+case "s-bot": {
+await conn.sendMessage(m.chat, { text: responseMessage.trim(), mentions: [m.sender], contextInfo: { externalAdReply: { 
+title: messageTitle, 
+body: messageFooter, 
+thumbnail: thumb, 
+sourceUrl: null, 
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m });
 break
-}
-case 's-bio': case 's-desc': {
-if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba la biografía del servidor para configurarlo.` }, { quoted: m })
-await conn.updateProfileStatus(text)
-conn.sendMessage(m.chat, { text: `✓  Se ha configurado la biografía del servidor con exito.` }, { quoted: m })
+};
+
+//Cambio de nombre (visible en menus o otros distintos puntos.)
+case "s-name": {
+if (!newName) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nuevo nombre del bot.\n\n⊹ ✎ *Nombre actual:* ${global.botname}\n\n• Por ejemplo:\n*${usedPrefix + command}* MxBot` }, { quoted: m });
+};
+global.botname = newName;
+let exito = `✅  Se ha cambiado el nombre del bot con exito a ( *${newName}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
 break
-}
-case 's-name': case 's-nombre': {
-if (!value) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nuevo nombre para cambiar el nombre del servidor.` }, { quoted: m })
-conn.reply(m.chat, '❀ Ingresa el nuevo nombre de usuario que deseas establecer.', m)
-if (value.length < 3 || value.length > 25)
-return conn.reply(m.chat, 'ꕥ El nombre debe tener entre 3 y 25 caracteres.')
-await conn.updateProfileName(value)
-m.reply(`❀ Se cambió el nombre de usuario a *${value}* correctamente.`)
+};
+
+//Cambio de descripción (Info inferior)
+case "s-desc": {
+if (!newDesc) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba la nueva descripción del bot.\n\n⊹ ✎ *Descripción actual:*\n${global.textbot}\n\n• Por ejemplo:\n*${usedPrefix + command}* Bot estable para WhatsApp.` }, { quoted: m });
+};
+global.textbot = newDesc;
+let exito = `✅  Se ha cambiado la descripción del bot con exito a ( *${newDesc}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
+break
+};
+
+//Cambio de enlace (pagina o web)
+case "s-web": {
+if (!newPage) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de su red social o pagina web para aplicarlo al bot.\n\n⊹ ✎ *Pagina/Web actual:*\n${global.botpage}\n\n• Por ejemplo:\n*${usedPrefix + command}* https://mipaginaweb.ejemplo` }, { quoted: m });
+};
+global.botweb = newPage;
+let exito = `✅  Se ha cambiado la pagina/web del bot con exito a ( *${newPage}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
+break
+};
+
+//Cambio del enlace grupal (establece un enlace grupal para el bot.)
+case "s-group": {
+if (!newGroup) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de su chat grupal o comunidad para aplicarlo al bot.\n\n⊹ ✎ *Grupo actual:*\n${global.botgroup}\n\n• Por ejemplo:\n*${usedPrefix + command}* https://migrupo.ejemplo` }, { quoted: m });
+};
+global.botgroup = newGroup;
+let exito = `✅  Se ha cambiado el enlace grupal del bot con exito a ( *${newGroup}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
+break
+};
+
+//Establece un canal para el bot, es decir, poder cambiar el canal a preferencia.
+case "s-channel": {
+if (!newChannel) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de su canal de WhatsApp, Telegram o otra red para establecerlo al bot.\n\n⊹ ✎ *Canal actual:*\n${global.botcanal}\n\n• Por ejemplo:\n*${usedPrefix + command}* https://channel.ejemplo` }, { quoted: m });
+};
+global.botcanal = newChannel;
+let exito = `✅  Se ha cambiado el canal del bot con exito a ( *${newChannel}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
 break
 }}} catch (error) {
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error}` }, { quoted: m })
 }}
 
-handler.help = ['setpfp', 'setimage', 'setstatus', 'setbio', 'setusername', 'setuser']
-handler.tags = ['socket']
-handler.command = ['setpfp', 'setimage', 'setstatus', 'setbio', 'setusername', 'setuser']
+handler.help = ['s-name', 's-desc', 's-web', 's-group', 's-channel', 's-bot'];
+handler.tags = ['servidor'];
+handler.command = ['s-name', 's-desc', 's-web', 's-group', 's-channel', 's-bot'];
 
-export default handler
+export default handler;
+
