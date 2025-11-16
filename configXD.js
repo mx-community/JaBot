@@ -22,7 +22,7 @@ global.prems = []
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.libreria = "Baileys Multi Device"
-global.vs = "^2.3.4 • Latest"
+global.vs = "^2.3.5 website/baileys"
 global.nameqr = "ᴋᴀɴᴇᴋɪ-ʙᴏᴛ.ᴍᴅ"
 global.sessions = "Sessions/Principal"
 global.jadi = "Sessions/SubBot"
@@ -31,6 +31,11 @@ global.kanekiAIJadibts = true
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.botname = "MX : BOT"
+global.botgroup = ""
+goobal.botchannel = ""
+global.botweb = ""
+global.botmenu = ""
+global.botimg = ""
 global.textbot = "Designed and created by Alan.Js / @mdmx_mktg"
 global.dev = "Alan.Js"
 global.author = "@mx-community"
