@@ -45,8 +45,6 @@ if (!("health" in user) || !isNumber(user.health)) user.health = 100
 if (!("genre" in user)) user.genre = ""
 if (!("birth" in user)) user.birth = ""
 if (!("marry" in user)) user.marry = ""
-if (!("tnombre" in user)) global.botname = ""
-if (!("tmenu" in user)) global.botimg = ""
 if (!("description" in user)) user.description = ""
 if (!("packstickers" in user)) user.packstickers = null
 if (!("premium" in user)) user.premium = false
@@ -75,8 +73,6 @@ descargas: 0,
 level: 0,
 health: 100,
 genre: "",
-tnombre: "",
-tmenu: "",
 birth: "",
 marry: "",
 description: "",
