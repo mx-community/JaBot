@@ -1,281 +1,120 @@
-import fetch from 'node-fetch'
-import yts from 'yt-search'
-import ytdl from 'ytdl-core'
-import axios from 'axios'
-import { ogmp3 } from '../lib/youtubedl.js'
-const LimitAud = 725 * 1024 * 1024 // Limite de audio 725MB
-const LimitVid = 425 * 1024 * 1024 // Limite del video 425MB
-let tempStorage = {}
+import fetch from 'node-fetch';
+import Jimp from 'jimp';
 
-const handler = async (m, {conn, command, args, text, usedPrefix}) => {
-if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nombre de la canción o un enlace para buscar la canción.\n\n• Por ejemplo:\n*${usedPrefix + command}* Golden Brown - The Stranglers` }, { quoted: m })
-const yt_play = await search(args.join(' '))
-const ytplay2 = await yts(text)
-const texto1 = `·─┄ · ✦ *Play : YouTube* ✦ ·
-> ${yt_play[0].title}
+const handler = async (m, { conn, isRowner command, usedPrefix, text }) => {
+const isSubBots = [conn.user.jid, ...global.owner.map(([number]) => `${number}@s.whatsapp.net`)].includes(m.sender);
+if (!isSubBots) return conn.sendMessage(m.chat, { text: `📍  Este comando solo puede ser utilizado por un servidor.\n- Aqui un servidor usando *#newserver*` }, { quoted: m });
 
-⊹ ✎ *Publicado:* ${yt_play[0].ago}
-⊹ ✎ *Vistas:* ${MilesNumber(yt_play[0].view)}
-⊹ ✎ *Duración:* ${secondString(yt_play[0].duration.seconds)}
-⊹ ✎ *Enlace:* ${yt_play[0].url.replace(/^https?:\/\//, '')}
+//Imagen del bot.
+const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer());
 
-📍  Reaccione a este mensaje con lo siguiente:
-> "❤️"  *(Descarga en audio)*
-> "👍"  *(Descarga en video)*
-`.trim()
+//Tipo de cambios disponibles.
+const newName = m.text.trim().split(' ').slice(1).join(' ');
+const newDesc = m.text.trim().split(' ').slice(1).join(' ');
+const newPage = m.text.trim().split(' ').slice(1).join(' ');
+const newGroup = m.text.trim().split(' ').slice(1).join(' ');
+const newChannel = m.text.trim().split(' ').slice(1).join(' ');
 
-tempStorage[m.sender] = {url: yt_play[0].url, title: yt_play[0].title}
+//Listado total.
+let responseMessage = `⫶☰ Lista de edición para tu servidor.
+- Para editar tu servidor debes ver los términos y condiciones aparte.
 
-await conn.sendMessage(m.chat, { text: texto1, mentions: [m.sender], contextInfo: { externalAdReply: { 
-title: yt_play[0].title, 
-body: yt_play[0].ago, 
-thumbnail: yt_play[0].thumbnail, 
+⫶☰ \`Edición basica:\`
+❒  *#s-name*  :  <text>
+> ⤷ _Edita el nombre del bot visible en chats._ ( *${global.botname}* )
+❒  *#s-desc*  :  <text>
+> ⤷ _Edita la descripción del bot visible en chats._
+❒  *#s-web*  :  <text>
+> ⤷ _Edita la pagina web, sea red social o otro._
+❒  *#s-group*  :  <text>
+> ⤷ _Edita el enlace grupal del bot a tu enlace grupal._
+❒  *#s-channel*  :  <text>
+> ⤷ _Edita el link directo del canal en el bot a tu enlace._
+
+⫶☰ \`Edición de imagenes:\`
+❒  *#s-menu*  :  <text>
+> ⤷ _Edita la foto del menu en el bot._
+❒  *#s-img*  :  <text>
+> ⤷ _Edita la imagen del bot._
+
+⫶☰ \`Edición de recursos:\`
+❒  *#s-coin*  :  <text>
+> ⤷ _Edita el nombre del recurso._ ( *${global.currency}* )
+❒  *#s-coin2*  :  <text>
+> ⤷ _Edita el nombre del segundo recurso._ ( *${global.currency2}* )`;
+let messageTitle = `Listado completo.`;
+let messageFooter = `⫶☰  Lista de edición para el servidor alquilado.`;
+
+try {
+
+//Inicio del comando.
+if (command === "s-bot") {
+await conn.sendMessage(m.chat, { text: responseMessage.trim(), mentions: [m.sender], contextInfo: { externalAdReply: { 
+title: messageTitle, 
+body: messageFooter, 
+thumbnail: thumb, 
 sourceUrl: null, 
-mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
-}
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m });
+};
 
-handler.before = async (m, {conn}) => {
-const text = m.text.trim().toLowerCase()
-if (!['❤️', 'audio', '👍', 'video'].includes(text)) return
-const userVideoData = tempStorage[m.sender]
-if (!userVideoData || !userVideoData.url) return
-const [input, qualityInput = text === '❤️' || text === 'audio' ? '320' : '720'] = userVideoData.title.split(' ')
-const audioQualities = ['64', '96', '128', '192', '256', '320']
-const videoQualities = ['240', '360', '480', '720', '1080']
-const isAudio = text === '❤️' || text === 'audio'
-const selectedQuality = (isAudio ? audioQualities : videoQualities).includes(qualityInput) ? qualityInput : isAudio ? '320' : '720'
+//Cambio de nombre (visible en menus o otros distintos puntos.)
+if (command === "s-name") {
+if (!newName) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nuevo nombre del bot.\n\n⊹ ✎ *Nombre actual:* ${global.botname}\n\n• Por ejemplo:\n*${usedPrefix + command}* MxBot` }, { quoted: m });
+}
+global.botname = newName;
+let exito = `✅  Se ha cambiado el nombre del bot con exito a ( *${newName}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
+};
 
-const audioApis = [
-{url: () => ogmp3.download(userVideoData.url, selectedQuality, 'audio'), extract: (data) => ({data: data.result.download, isDirect: false})},
-{url: () => ytmp3(userVideoData.url), extract: (data) => ({data, isDirect: true})},
-{
-url: () =>
-fetch(`https://api.neoxr.eu/api/youtube?url=${userVideoData.url}&type=audio&quality=128kbps&apikey=GataDios`).then((res) => res.json()),
-extract: (data) => ({data: data.data.url, isDirect: false})
-},
-{
-url: () => fetch(`${global.APIs.stellar.url}/dow/ytmp3?url=${userVideoData.url}&key=GataDios`).then((res) => res.json()),
-extract: (data) => ({data: data?.data?.dl, isDirect: false})
-},
-{
-url: () => fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${userVideoData.url}`).then((res) => res.json()),
-extract: (data) => ({data: data.dl, isDirect: false})
-},
-{
-url: () => fetch(`${apis}/download/ytmp3?url=${userVideoData.url}`).then((res) => res.json()),
-extract: (data) => ({data: data.status ? data.data.download.url : null, isDirect: false})
-},
-{
-url: () => fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${userVideoData.url}`).then((res) => res.json()),
-extract: (data) => ({data: data.result.download.url, isDirect: false})
+//Cambio de descripción (Info inferior)
+if (command === "s-desc") {
+if (!newDesc) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba la nueva descripción del bot.\n\n⊹ ✎ *Descripción actual:*\n${global.textbot}\n\n• Por ejemplo:\n*${usedPrefix + command}* Bot estable para WhatsApp.` }, { quoted: m });
 }
-]
+global.textbot = newDesc;
+let exito = `✅  Se ha cambiado la descripción del bot con exito a ( *${newDesc}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
+};
 
-const videoApis = [
-{url: () => ogmp3.download(userVideoData.url, selectedQuality, 'video'), extract: (data) => ({data: data.result.download, isDirect: false})},
-{url: () => ytmp4(userVideoData.url), extract: (data) => ({data, isDirect: false})},
-{
-url: () => fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${userVideoData.url}`).then((res) => res.json()),
-extract: (data) => ({data: data.dl, isDirect: false})
-},
-{
-url: () => fetch(`https://api.neoxr.eu/api/youtube?url=${userVideoData.url}&type=video&quality=720p&apikey=GataDios`).then((res) => res.json()),
-extract: (data) => ({data: data.data.url, isDirect: false})
-},
-{
-url: () => fetch(`${global.APIs.stellar.url}/dow/ytmp4?url=${userVideoData.url}&key=GataDios`).then((res) => res.json()),
-extract: (data) => ({data: data?.data?.dl, isDirect: false})
-},
-{
-url: () => fetch(`${apis}/download/ytmp4?url=${userVideoData.url}`).then((res) => res.json()),
-extract: (data) => ({data: data.status ? data.data.download.url : null, isDirect: false})
-},
-{
-url: () => fetch(`https://exonity.tech/api/ytdlp2-faster?apikey=adminsepuh&url=${userVideoData.url}`).then((res) => res.json()),
-extract: (data) => ({data: data.result.media.mp4, isDirect: false})
+//Cambio de enlace (pagina o web)
+if (command === "s-web") {
+if (!newPage) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de su red social o pagina web para aplicarlo al bot.\n\n⊹ ✎ *Pagina/Web actual:*\n${global.botpage}\n\n• Por ejemplo:\n*${usedPrefix + command}* https://mipaginaweb.ejemplo` }, { quoted: m });
 }
-]
+global.botweb = newPage;
+let exito = `✅  Se ha cambiado la pagina/web del bot con exito a ( *${newPage}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
+};
 
-const download = async (apis) => {
-let mediaData = null
-let isDirect = false
-for (const api of apis) {
-try {
-const data = await api.url()
-const {data: extractedData, isDirect: direct} = api.extract(data)
-if (extractedData) {
-const size = await getFileSize(extractedData)
-if (size >= 1024) {
-mediaData = extractedData
-isDirect = direct
-break
+//Cambio del enlace grupal (establece un enlace grupal para el bot.)
+if (command === "s-group") {
+if (!newGroup) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de su chat grupal o comunidad para aplicarlo al bot.\n\n⊹ ✎ *Grupo actual:*\n${global.botgroup}\n\n• Por ejemplo:\n*${usedPrefix + command}* https://migrupo.ejemplo` }, { quoted: m });
 }
-}
-} catch (e) {
-console.log(`Error con API: ${e}`)
-continue
-}
-}
-return {mediaData, isDirect}
-}
-try {
-if (text === '❤️' || text === 'audio') {
-await conn.sendMessage(m.chat, { text: `Descargando el audio, espere un momento...` }, { quoted: m || null })
-const {mediaData, isDirect} = await download(audioApis)
-if (mediaData) {
-const fileSize = await getFileSize(mediaData)
-if (fileSize > LimitAud) {
-await conn.sendMessage(
-m.chat,
-{document: isDirect ? mediaData : {url: mediaData}, mimetype: 'audio/mpeg', fileName: `${userVideoData.title}.mp3`},
-{quoted: m || null}
-)
-} else {
-await conn.sendMessage(m.chat, {audio: isDirect ? mediaData : {url: mediaData}, mimetype: 'audio/mpeg'}, {quoted: m || null})
-}
-} else {
-await conn.sendMessage(m.chat, { text: `📍  No se ha podido descargar el audio.\n- Esto puede deberse un fallo en la api o un error.` }, { quoted: m || null })
-}
-} else if (text === '👍' || text === 'video') {
-await conn.sendMessage(m.chat, { text: `Descargando el video, espere un momento...` }, { quoted: m || null })
-const {mediaData, isDirect} = await download(videoApis)
-if (mediaData) {
-const fileSize = await getFileSize(mediaData)
-const messageOptions = {fileName: `${userVideoData.title}.mp4`, caption: `·─┄ · ✦ *Video : Download* ✦ ·\n\n⊹ ✎ *Titulo:* ${userVideoData.title}`, mimetype: 'video/mp4'}
-if (fileSize > LimitVid) {
-await conn.sendMessage(m.chat, {document: isDirect ? mediaData : {url: mediaData}, ...messageOptions}, {quoted: m || null})
-} else {
-await conn.sendMessage(m.chat, {video: isDirect ? mediaData : {url: mediaData}, ...messageOptions}, {quoted: m || null})
-}
-} else {
-await conn.sendMessage(m.chat, { text: `📍  No se ha podido descargar el video.\n- Esto puede deberse un fallo en la api o un error.` }, { quoted: m || null })
-}
-}
-} catch (error) {
-console.error(error)
-} finally {
-delete tempStorage[m.sender]
-}
-}
-handler.command = ["testplay"]
-export default handler
+global.botgroup = newGroup;
+let exito = `✅  Se ha cambiado el enlace grupal del bot con exito a ( *${newGroup}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
+};
 
-async function search(query, options = {}) {
-const search = await yts.search({query, hl: 'es', gl: 'ES', ...options})
-return search.videos
+//Establece un canal para el bot, es decir, poder cambiar el canal a preferencia.
+if (command === "s-channel") {
+if (!newChannel) {
+return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de su canal de WhatsApp, Telegram o otra red para establecerlo al bot.\n\n⊹ ✎ *Canal actual:*\n${global.botcanal}\n\n• Por ejemplo:\n*${usedPrefix + command}* https://channel.ejemplo` }, { quoted: m });
 }
+global.botcanal = newChannel;
+let exito = `✅  Se ha cambiado el canal del bot con exito a ( *${newChannel}* ).`;
+await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
+};
 
-function MilesNumber(number) {
-const exp = /(\d)(?=(\d{3})+(?!\d))/g
-const rep = '$1.'
-const arr = number.toString().split('.')
-arr[0] = arr[0].replace(exp, rep)
-return arr[1] ? arr.join('.') : arr[0]
-}
 
-function secondString(seconds) {
-seconds = Number(seconds)
-const d = Math.floor(seconds / (3600 * 24))
-const h = Math.floor((seconds % (3600 * 24)) / 3600)
-const m = Math.floor((seconds % 3600) / 60)
-const s = Math.floor(seconds % 60)
-const dDisplay = d > 0 ? d + (d == 1 ? ' día, ' : ' días, ') : ''
-const hDisplay = h > 0 ? h + (h == 1 ? ' hora, ' : ' horas, ') : ''
-const mDisplay = m > 0 ? m + (m == 1 ? ' minuto, ' : ' minutos, ') : ''
-const sDisplay = s > 0 ? s + (s == 1 ? ' segundo' : ' segundos') : ''
-return dDisplay + hDisplay + mDisplay + sDisplay
-}
+ } catch (error) {
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error}` }, { quoted: m });
+}};
 
-const getBuffer = async (url) => {
-try {
-const response = await fetch(url)
-const buffer = await response.arrayBuffer()
-return Buffer.from(buffer)
-} catch (error) {
-console.error('Error al obtener el buffer', error)
-throw new Error('Error al obtener el buffer')
-}
-}
+handler.help = ['s-name', 's-desc', 's-web', 's-group', 's-channel', 's-bot'];
+handler.tags = ['servidor'];
+handler.command = ['s-name', 's-desc', 's-web', 's-group', 's-channel', 's-bot'];
 
-async function getFileSize(url) {
-try {
-const response = await fetch(url, {method: 'HEAD'})
-return parseInt(response.headers.get('content-length') || 0)
-} catch {
-return 0
-}
-}
-
-async function fetchInvidious(url) {
-const apiUrl = 'https://invidious.io/api/v1/get_video_info'
-const response = await fetch(`${apiUrl}?url=${encodeURIComponent(url)}`)
-const data = await response.json()
-if (data && data.video) {
-const videoInfo = data.video
-return videoInfo
-} else {
-throw new Error('No se pudo obtener información del video desde Invidious')
-}
-}
-
-function getBestVideoQuality(videoData) {
-const preferredQualities = ['720p', '360p', 'auto']
-const availableQualities = Object.keys(videoData.video)
-for (let quality of preferredQualities) {
-if (availableQualities.includes(quality)) {
-return videoData.video[quality].quality
-}
-}
-return '360p'
-}
-
-async function ytMp3(url) {
-return new Promise((resolve, reject) => {
-ytdl
-.getInfo(url)
-.then(async (getUrl) => {
-let result = []
-for (let i = 0; i < getUrl.formats.length; i++) {
-let item = getUrl.formats[i]
-if (item.mimeType == 'audio/webm; codecs=\"opus\"') {
-let {contentLength} = item
-let bytes = await bytesToSize(contentLength)
-result[i] = {audio: item.url, size: bytes}
-}
-}
-let resultFix = result.filter((x) => x.audio != undefined && x.size != undefined)
-let tiny = await axios.get(`https://tinyurl.com/api-create.php?url=${resultFix[0].audio}`)
-let tinyUrl = tiny.data
-let title = getUrl.videoDetails.title
-let thumb = getUrl.player_response.microformat.playerMicroformatRenderer.thumbnail.thumbnails[0].url
-resolve({title, result: tinyUrl, result2: resultFix, thumb})
-})
-.catch(reject)
-})
-}
-
-async function ytMp4(url) {
-return new Promise(async (resolve, reject) => {
-ytdl
-.getInfo(url)
-.then(async (getUrl) => {
-let result = []
-for (let i = 0; i < getUrl.formats.length; i++) {
-let item = getUrl.formats[i]
-if (item.container == 'mp4' && item.hasVideo == true && item.hasAudio == true) {
-let {qualityLabel, contentLength} = item
-let bytes = await bytesToSize(contentLength)
-result[i] = {video: item.url, quality: qualityLabel, size: bytes}
-}
-}
-let resultFix = result.filter((x) => x.video != undefined && x.size != undefined && x.quality != undefined)
-let tiny = await axios.get(`https://tinyurl.com/api-create.php?url=${resultFix[0].video}`)
-let tinyUrl = tiny.data
-let title = getUrl.videoDetails.title
-let thumb = getUrl.player_response.microformat.playerMicroformatRenderer.thumbnail.thumbnails[0].url
-resolve({title, result: tinyUrl, rersult2: resultFix[0].video, thumb})
-})
-.catch(reject)
-})
-                         }
-    
+export default handler;
+  
