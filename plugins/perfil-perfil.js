@@ -18,7 +18,9 @@ let exp = user.exp || 0
 let nivel = user.level || 0
 let coin = user.coin || 0
 let bank = user.bank || 0
+let bankk = user.bankk || 0
 let total = coin + bank
+let total2 = exp + bankk
 
 let { min, xp } = xpRange(nivel, global.multiplier)
 let percent = Math.floor(((exp - min) / xp) * 100)
