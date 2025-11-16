@@ -58,16 +58,6 @@ mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m });
 break
 };
 
-//Cambio de nombre (visible en menus o otros distintos puntos.)
-case "s-name": {
-if (!newName) {
-return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nuevo nombre del bot.\n\n⊹ ✎ *Nombre actual:* ${global.botname}\n\n• Por ejemplo:\n*${usedPrefix + command}* MxBot` }, { quoted: m });
-};
-global.botname = newName;
-let exito = `✅  Se ha cambiado el nombre del bot con exito a ( *${newName}* ).`;
-await conn.sendMessage(m.chat, { text: exito.trim() }, { quoted: m });
-break
-};
 
 //Cambio de descripción (Info inferior)
 case "s-desc": {
