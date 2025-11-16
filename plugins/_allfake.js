@@ -24,6 +24,15 @@ var comunidad = 'https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt'
 var webmx = 'https://mx-website.vercel.app'
 var paypal = 'https://www.paypal.me/aJosueUSDpaypal'
 
+//Nombre y mas
+global.botname = "MX : BOT"
+global.botgroup = "https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt"
+global.botcanal = "https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d"
+global.botweb = "https://wa.me/5493873655135"
+global.botmenu = "https://qu.ax/MooSb.jpg"
+global.botimg = "https://qu.ax/BAuJt.jpg"
+global.textbot = "Designed and created by Alan.Js / @mdmx_mktg"
+  
   //APIS MX 📍
 global.apis = 'https://delirius-apiofc.vercel.app'
 global.apimx_cafirexos = 'https://api.cafirexos.com'
@@ -73,8 +82,10 @@ var fImagen13 = "https://qu.ax/Vijkj.jpg"
 var fImagen14 = "https://qu.ax/ptwXa.jpg"
   
 global.redes = [canal, comunidad, webmx, paypal].getRandom()
-global.mMages = [fMage, fMage2, fMage3, fMage4, fMage5, fMage6, fMage7, fMage8, fMage9, fMage10, fMage11, fMage12, fMage13, fMage14, fMage15, fMage16, fMage17, fMage18].getRandom()
-global.mImagen = [fImagen, fImagen2, fImagen3, fImagen4, fImagen5, fImagen6, fImagen7, fImagen8, fImagen9, fImagen10, fImagen11, fImagen12, fImagen13, fImagen14].getRandom()
+global.mMages = `${global.botimg}`
+  //[fMage, fMage2, fMage3, fMage4, fMage5, fMage6, fMage7, fMage8, fMage9, fMage10, fMage11, fMage12, fMage13, fMage14, fMage15, fMage16, fMage17, fMage18].getRandom()
+global.mImagen = `${global.botmenu}`
+  //[fImagen, fImagen2, fImagen3, fImagen4, fImagen5, fImagen6, fImagen7, fImagen8, fImagen9, fImagen10, fImagen11, fImagen12, fImagen13, fImagen14].getRandom()
 //global.mVideos = ["","",""].getRandom()
 
 global.nombre = m.pushName || 'Anónimo'
@@ -85,7 +96,7 @@ global.fake = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo
 }}, { quoted: m }
 
 // HORARIO 📍
-var ase = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Lima" }))
+var ase = new Date(new Date().toLocaleString("en-AR", { timeZone: "America/Buenos_Aires" }))
 var hour = ase.getHours()
 switch (true) {
 case (hour >= 0 && hour < 3):
