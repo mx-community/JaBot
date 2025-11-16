@@ -1,1 +1,87 @@
+import fs from 'fs';  
+import path from 'path';  
+import fetch from "node-fetch";
+import crypto from "crypto";
+import { FormData, Blob } from "formdata-node";
+import { fileTypeFromBuffer } from "file-type";
 
+let handler = async (m, { conn, isRowner }) => {
+
+  if (!m.quoted || !/image/.test(m.quoted.mimetype)) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen para establecerlo en el menu.` }, { quoted: m });
+
+  try {
+
+    const media = await m.quoted.download();
+    let link = await catbox(media);
+    
+    if (!isImageValid(media)) {
+      return conn.sendMessage(m.chat, { text: `📍  El contenido no es valido.\n- Solo puedes responder imagenes, nada de videos, stickers o gifs.` }, { quoted: m });
+    }
+
+    global.botmenu = `${link}`;  
+conn.sendMessage(m.chat, { text: `✅  Se ha configurado con éxito la foto del menu.` }, { quoted: m });
+
+  } catch (error) {
+    console.error(error);
+    await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error}` }, { quoted: m })
+  }
+};
+
+
+const isImageValid = (buffer) => {
+  const magicBytes = buffer.slice(0, 4).toString('hex');
+
+
+  if (magicBytes === 'ffd8ffe0' || magicBytes === 'ffd8ffe1' || magicBytes === 'ffd8ffe2') {
+    return true;
+  }
+
+
+  if (magicBytes === '89504e47') {
+    return true;
+  }
+
+
+  if (magicBytes === '47494638') {
+    return true;
+  }
+
+  return false; 
+};
+
+handler.help = ['setbanner'];
+handler.tags = ['tools'];
+handler.command = ['setbanner'];
+handler.rowner = true;
+
+export default handler;
+
+function formatBytes(bytes) {
+  if (bytes === 0) {
+    return "0 B";
+  }
+  const sizes = ["B", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  return `${(bytes / 1024 ** i).toFixed(2)} ${sizes[i]}`;
+}
+
+async function catbox(content) {
+  const { ext, mime } = (await fileTypeFromBuffer(content)) || {};
+  const blob = new Blob([content.toArrayBuffer()], { type: mime });
+  const formData = new FormData();
+  const randomBytes = crypto.randomBytes(5).toString("hex");
+  formData.append("reqtype", "fileupload");
+  formData.append("fileToUpload", blob, randomBytes + "." + ext);
+
+  const response = await fetch("https://catbox.moe/user/api.php", {
+    method: "POST",
+    body: formData,
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36",
+    },
+  });
+
+  return await response.text();
+    }
+    
