@@ -17,7 +17,7 @@ global.dia = d.toLocaleDateString(locale, {weekday: 'long'})
 global.fecha = d.toLocaleDateString('es', {day: 'numeric', month: 'numeric', year: 'numeric'})
 global.mes = d.toLocaleDateString('es', {month: 'long'})
 global.año = d.toLocaleDateString('es', {year: 'numeric'})
-global.tiempo = d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true})
+global.tiempo = d.toLocaleString('es-AR', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true})
 
 var canal = 'https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d'
 var comunidad = 'https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt'
