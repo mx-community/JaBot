@@ -1,4 +1,4 @@
-import { xpRange } from '../lib/levelling.js'
+/*import { xpRange } from '../lib/levelling.js'
 import moment from 'moment-timezone'
 import fetch from 'node-fetch'
 
@@ -78,4 +78,4 @@ if (m) t.push(`${m} m:${m > 1 ? 's' : ''}:`)
 if (s) t.push(`${s} s${s > 1 ? 's' : ''}`)
 return t.length > 1 ? t.slice(0, -1).join(' ') + ' y ' + t.slice(-1) : t[0]
 }
-
+*/
