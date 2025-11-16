@@ -1,29 +1,14 @@
-let handler = async (m, { conn, isRowner, usedPrefix, command }) => {
-
-if (command === "b-name") {
-const newName = m.text.trim().split(' ').slice(1).join(' ');
-if (!newName) {
-return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nuevo nombre del bot.\n\n• Por ejemplo:\n*${usedPrefix + command}* MX BOT` }, { quoted: m });
-};
-global.botname = newName;
-conn.sendMessage(m.chat, { text: `✓  Se ha cambiado el nombre del bot a ( *${newName}* ) con exito.` }, { quoted: m });
-};
-
-if (command === "b-desc") {
-const newDesc = m.text.trim().split(' ').slice(1).join(' ');
-if (!newDesc) {
-return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el nuevo nombre del bot.\n\n• Por ejemplo:\n*${usedPrefix + command}* MX BOT` }, { quoted: m });
-};
-global.textbot = newDesc;
-conn.sendMessage(m.chat, { text: `✓  Se ha cambiado el nombre del bot a ( *${newDesc}* ) con exito.` }, { quoted: m });
-};
-};
-
-handler.help = ['b-name  <text>', 'b-desc  <text>'];
-handler.tags = ['Edicion'];
-handler.command = ['b-name', 'b-desc']; 
-handler.owner = true
-
-export default handler;
-
-
+import { webp2png } from '../lib/webp2mp4.js'
+let handler = async (m, {conn, usedPrefix, command}) => {
+const q = m.quoted || m
+const mime = q.mediaType || ''
+if (!/sticker/.test(mime)) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a un sticker sin animación.` }, { quoted: m })
+const media = await q.download()
+let out = (await webp2png(media).catch((_) => null)) || Buffer.alloc(0)
+await conn.sendFile(m.chat, out, 'error.png', null, m)
+}
+handler.help = ['timg  <reply>']
+handler.tags = ['convertidor']
+handler.command = ['timg']
+export default handler
+  
