@@ -58,14 +58,14 @@ let text = `
 
 > 📍  Puedes usar *#pf* para ver lo que puedes editar.`
 
-await conn.sendMessage(m.chat, { text: text, mentions: [m.sender], contextInfo: { externalAdReply: { 
+/*await conn.sendMessage(m.chat, { text: text, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: `Barra de nivel:`, 
 body: `${barra} *${percent}%*`, 
 thumbnail: pp, 
 sourceUrl: null, 
-mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })*/
 
-//conn.sendMessage(m.chat, { image: { url: pp }, caption: text }, { quoted: m })
+await conn.sendMessage(m.chat, { image: { url: pp }, caption: text }, { quoted: m })
 } catch (e) {
 await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
 }}
