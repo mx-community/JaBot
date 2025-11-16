@@ -30,13 +30,6 @@ global.kanekiAIJadibts = true
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.botname = "MX : BOT"
-global.botgroup = "https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt"
-global.botcanal = "https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d"
-global.botweb = "https://wa.me/5493873655135"
-global.botmenu = "https://qu.ax/MooSb.jpg"
-global.botimg = "https://qu.ax/BAuJt.jpg"
-global.textbot = "Designed and created by Alan.Js / @mdmx_mktg"
 global.dev = "Alan.Js"
 global.author = "@mx-community"
 global.etiqueta = "@mx-support"
