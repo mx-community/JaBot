@@ -83,7 +83,7 @@ break
 //Cambio de enlace (pagina o web)
 case "s-web": {
 if (!newPage) {
-return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de su red social o pagina web para aplicarlo al bot.\n\n⊹ ✎ *Pagina/Web actual:*\n${global.botpage}\n\n• Por ejemplo:\n*${usedPrefix + command}* https://mipaginaweb.ejemplo` }, { quoted: m });
+return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de su red social o pagina web para aplicarlo al bot.\n\n⊹ ✎ *Pagina/Web actual:*\n${global.botweb}\n\n• Por ejemplo:\n*${usedPrefix + command}* https://mipaginaweb.ejemplo` }, { quoted: m });
 };
 global.botweb = newPage;
 let exito = `✅  Se ha cambiado la pagina/web del bot con exito a ( *${newPage}* ).`;
