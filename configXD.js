@@ -32,7 +32,7 @@ global.kanekiAIJadibts = true
 
 global.botname = "MX : BOT"
 global.botgroup = "https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt"
-goobal.botcanal = "https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d"
+global.botcanal = "https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d"
 global.botweb = "https://wa.me/5493873655135"
 global.botmenu = "https://qu.ax/MooSb.jpg"
 global.botimg = "https://qu.ax/BAuJt.jpg"
