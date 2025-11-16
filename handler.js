@@ -44,6 +44,7 @@ if (!("level" in user) || !isNumber(user.level)) user.level = 0
 if (!("health" in user) || !isNumber(user.health)) user.health = 100
 if (!("genre" in user)) user.genre = ""
 if (!("birth" in user)) user.birth = ""
+if (!("misocial" in user)) user.misocial = ""
 if (!("marry" in user)) user.marry = ""
 if (!("description" in user)) user.description = ""
 if (!("packstickers" in user)) user.packstickers = null
