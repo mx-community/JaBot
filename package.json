@@ -29,6 +29,7 @@
 "aptoide-scraper": "github:DIEGO-OFC/dv-aptoide-scraper",
 "awesome-phonenumber": "^3.4.0",
 "axios": "^1.1.2",
+"baileys": "npm:theshadowbails",
 "cfonts": "^3.3.0",
 "chalk": "^5.1.0",
 "cheerio": "npm:cheerio@1.0.0-rc.12",
@@ -59,6 +60,7 @@
 "javascript-obfuscator": "^4.0.0",
 "yargs": "^17.3.1",
 "yt-search": "^2.10.3"
+"axios-cookiejar-support": "*"
 },
 "optionalDependencies": {
 "moment-timezone": "^0.5.37",
