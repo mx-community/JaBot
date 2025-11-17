@@ -1,6 +1,6 @@
 let handler = async (m, { conn, usedPrefix }) => {
 if (!db.data.chats[m.chat].economy && m.isGroup) {
-return m.reply(`《✦》Los comandos de *Economía* están desactivados en este grupo.\n\nUn *administrador* puede activarlos con el comando:\n» *${usedPrefix}economy on*`)
+return conn.sendMessage(m.chat, { text: `⦗ ᗢ ⦘ El comando *${usedPrefix + command}* está desactivado en este grupo.\n- Activalo si eres admin de la siguiente manera.\n\n• Por ejemplo:\n*${usedPrefix}rpg on*` }, { quoted: m })
 }
 let mentionedJid = await m.mentionedJid
 let who = mentionedJid[0] ? mentionedJid[0] : m.quoted ? await m.quoted.sender : m.sender
@@ -9,7 +9,9 @@ if (!(who in global.db.data.users)) return conn.sendMessage(m.chat, { text: `�
 let user = global.db.data.users[who]
 let coin = user.coin || 0
 let bank = user.bank || 0
+let bankk = user.bankk || 0
 let total = (user.coin || 0) + (user.bank || 0)
+let total2 = (user.exp || 0) + (user.bankk || 0)
 let level = user.level || 0
 let exp = user.exp || 0
 const texto = `⟤ *BILLETERA : RPG* ⟥
@@ -33,7 +35,7 @@ await conn.sendMessage(m.chat, { text: texto, mentions: [who] }, { quoted: m })
 
 handler.help = ['bal']
 handler.tags = ['rpg']
-handler.command = ['bal', 'balance', 'bank'] 
+handler.command = ['bal', 'balance', 'bank', 'wallet'] 
 handler.group = true 
 
 export default handler
