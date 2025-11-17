@@ -13,7 +13,7 @@ let infoHtml = `·─┄ · ✦ *Website : Html* ✦ ·
 > Se ha extraido la pagina web con exito.
 
 ⊹ ✎ *Hecho:* HTML
-⊹ ✎ *Pagina:* ${text}
+⊹ ✎ *Pagina:* ${args[0]}
 ${data}`
 let paginaHtml = `${data}`
 
