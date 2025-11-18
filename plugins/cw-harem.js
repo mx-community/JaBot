@@ -68,7 +68,7 @@ message += `· · · •──────────────• · · ·\n
 for (let i = startIndex; i < endIndex; i++) {
 const character = userCharacters[i]
 message += `々 *Personaje ${i + 1}:* ${character.name}\n`
-message += `⛁ *Precio:* ${character.value}\n`
+message += `╰⛁ *Precio:* ${character.value}\n\n`
 }
 
 message += `\n· · · •──────────────• · · ·\n`
