@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import { xpRange } from '../lib/levelling.js'
 import fs from 'fs'
+import moment from 'moment-timezone'
 import PhoneNumber from 'awesome-phonenumber'
 
 let handler = async (m, { conn, usedPrefix, args, command, __dirname, participants }) => {
@@ -19,7 +20,8 @@ const fecha = new Date(Date.now())
 const locale = 'es-AR'
 const dia = fecha.toLocaleDateString(locale, { weekday: 'long' })
 const fechaTxt = fecha.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
-const hora = d.toLocaleString('es-AR', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour: true})
+const hora = `${moment.tz('America/Buenos_Aires').format('HH:mm:ss')}`
+ //d.toLocaleString('es-AR', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour: true})
 //fecha.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
 const totalCommands = Object.keys(global.plugins).length
 const userId = m.sender.split('@')[0]
