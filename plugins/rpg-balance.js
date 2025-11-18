@@ -1,7 +1,9 @@
-let handler = async (m, { conn, usedPrefix }) => {
+import fetch from 'node-fetch'
+let handler = async (m, { conn, usedPrefix, command }) => {
 if (!db.data.chats[m.chat].economy && m.isGroup) {
 return conn.sendMessage(m.chat, { text: `⦗ ᗢ ⦘ El comando *${usedPrefix + command}* está desactivado en este grupo.\n- Activalo si eres admin de la siguiente manera.\n\n• Por ejemplo:\n*${usedPrefix}rpg on*` }, { quoted: m })
 }
+const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 let mentionedJid = await m.mentionedJid
 let who = mentionedJid[0] ? mentionedJid[0] : m.quoted ? await m.quoted.sender : m.sender
 let name = await (async () => global.db.data.users[who].name || (async () => { try { const n = await conn.getName(who); return typeof n === 'string' && n.trim() ? n : who.split('@')[0] } catch { return who.split('@')[0] } })())()
@@ -15,22 +17,29 @@ let total2 = (user.exp || 0) + (user.bankk || 0)
 let level = user.level || 0
 let exp = user.exp || 0
 const texto = `⟤ *BILLETERA : RPG* ⟥
-- Hola usuario ${name}, aqui esta tu billetera.
-
-> ⩽ *Recaudado* ⩾
-≽ *Recaudo ${currency}:* ${total.toLocaleString()} en total.
-≽ *Recaudo ${currency2}:* ${total.toLocaleString()} en total.
+- Hola usuario *@${name}*, aqui esta tu billetera.
 
 > ⩽ *Recursos obtenidos* ⩾
-≽ *${currency}:*
-≽ *${currency2}:*
+≽ *${currency}:* ${coin.toLocaleString()}
+≽ *${currency2}:* ${exp.toLocaleString()}
 
 > ⩽ *Recursos guardados* ⩾
 ≽ *${currency}:* ${bank.toLocaleString()} en total.
 ≽ *${currency2}:* ${bankk.toLocaleString()} en total.
 
+> ⩽ *Recaudado* ⩾
+≽ *Recaudo ${currency}:* ${total.toLocaleString()} en total.
+≽ *Recaudo ${currency2}:* ${total2.toLocaleString()} en total.
+
 📍  Para guardar tus recursos, usa *#dep* o *#dep2* para guardar tus *${currency}* o *${currency2}*.`
-await conn.sendMessage(m.chat, { text: texto, mentions: [who] }, { quoted: m })
+await conn.sendMessage(m.chat, { text: texto, mentions: [who], contextInfo: { externalAdReply: { 
+title: botname, 
+body: "Wallet", 
+thumbnail: thumb, 
+sourceUrl: null, 
+mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+
+  //conn.sendMessage(m.chat, { text: texto, mentions: [who] }, { quoted: m })
 }
 
 handler.help = ['bal']
