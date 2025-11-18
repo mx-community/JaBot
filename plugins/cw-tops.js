@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import fetch form 'node-fetch'
+import fetch from 'node-fetch'
 const charactersFilePath = './src/database/characters[1].json'
 
 async function loadCharacters() {
