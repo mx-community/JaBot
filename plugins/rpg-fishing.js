@@ -1,7 +1,10 @@
+import moment from 'moment-timezone'
 let handler = async (m, { conn, command, usedPrefix }) => {
 if (!db.data.chats[m.chat].economy && m.isGroup) {
 return conn.sendMessage(m.chat, { text: `⦗ ᗢ ⦘ El comando *${usedPrefix + command}* está desactivado en este grupo.\n- Activalo si eres admin de la siguiente manera.\n\n• Por ejemplo:\n*${usedPrefix}rpg on*` }, { quoted: m })
 }
+const thumb = Buffer.from(await (await fetch(`https://qu.ax/dCiAO.jpg`)).arrayBuffer())
+let hora = `${moment.tz('America/Buenos_Aires').format('HH:mm:ss')}`
 let user = global.db.data.users[m.sender]
 if (!user) global.db.data.users[m.sender] = user = { coin: 0, exp: 0, lastFish: 0 }
 const cooldown = 12 * 60 * 1000
@@ -16,12 +19,12 @@ const evento = pickRandom(eventos)
 let monedas, experiencia
 if (evento.tipo === 'victoria') {
 monedas = Math.floor(Math.random() * 2001) + 11000
-experiencia = Math.floor(Math.random() * 61) + 30
+experiencia = Math.floor(Math.random() * 4000) + 11000
 user.coin += monedas
 user.exp += experiencia
 } else {
-monedas = Math.floor(Math.random() * 2001) + 5000
-experiencia = Math.floor(Math.random() * 31) + 30
+monedas = Math.floor(Math.random() * 600) + 60
+experiencia = Math.floor(Math.random() * 700) + 60
 user.coin -= monedas
 user.exp -= experiencia
 if (user.exp < 0) user.exp = 0
@@ -32,14 +35,23 @@ const resultado = `·─┄ · ✦ *Pesca : Fishing* ✦ ·
 
 🪙 *${currency}:* ${monedas.toLocaleString()}
 ⚡ *${currency2}:* ${experiencia.toLocaleString()}
-⏳ *Proximo:* ${wait}`
-await conn.reply(m.chat, resultado, m)
+⏰ *Hora:* ${hora}
+
+> 📍  Ya has pescado, vuelva pronto.`
+await conn.sendMessage(m.chat, { text: resultado, mentions: [m.sender], contextInfo: { externalAdReply: { 
+title: "々 P E S C A  :  F I S H I N G 々", 
+body: textbot, 
+thumbnail: thumb, 
+sourceUrl: null, 
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
+  
+  //conn.reply(m.chat, resultado, m)
 await global.db.write()
 }
 
 handler.tags = ['rpg']
 handler.help = ['pescar', 'fish']
-handler.command = ['pescar', 'fish']
+handler.command = ['pescar', 'fish', 'fishing']
 handler.group = true
 
 export default handler
