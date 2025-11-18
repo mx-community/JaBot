@@ -16,8 +16,7 @@ let total = (user.coin || 0) + (user.bank || 0)
 let total2 = (user.exp || 0) + (user.bankk || 0)
 let level = user.level || 0
 let exp = user.exp || 0
-const texto = `⟤ *BILLETERA : RPG* ⟥
-- Hola usuario *@${name}*, aqui esta tu billetera.
+const texto = `- Hola usuario *@${name}*, aqui esta tu billetera.
 
 > ⩽ *Recursos obtenidos* ⩾
 ≽ *${currency}:* ${coin.toLocaleString()}
@@ -34,10 +33,10 @@ const texto = `⟤ *BILLETERA : RPG* ⟥
 📍  Para guardar tus recursos, usa *#dep* o *#dep2* para guardar tus *${currency}* o *${currency2}*.`
 await conn.sendMessage(m.chat, { text: texto, mentions: [who], contextInfo: { externalAdReply: { 
 title: botname, 
-body: "Wallet", 
+body: "々 W A L L E T : B A L 々", 
 thumbnail: thumb, 
 sourceUrl: null, 
-mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
 
   //conn.sendMessage(m.chat, { text: texto, mentions: [who] }, { quoted: m })
 }
