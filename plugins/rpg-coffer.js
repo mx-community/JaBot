@@ -1,8 +1,12 @@
+import moment from 'moment-timezone'
+import fetch from 'node-fetch'
 var handler = async (m, { conn, usedPrefix, command }) => {
 if (!db.data.chats[m.chat].economy && m.isGroup) {
-return m.reply(`《✦》Los comandos de *Economía* están desactivados en este grupo.\n\nUn *administrador* puede activarlos con el comando:\n» *${usedPrefix}economy on*`)
+return conn.sendMessage(m.chat, { text: `⦗ ᗢ ⦘ El comando *${usedPrefix + command}* está desactivado en este grupo.\n- Activalo si eres admin de la siguiente manera.\n\n• Por ejemplo:\n*${usedPrefix}rpg on*` }, { quoted: m })
 }
 let user = global.db.data.users[m.sender]
+const thumb = Buffer.from(await (await fetch(`https://qu.ax/fkKqr.jpg`)).arrayBuffer())
+let hora = `${moment.tz('America/Buenos_Aires').format('HH:mm:ss')}`
 let now = Date.now()
 let gap = 86400000
 user.lastcofre = user.lastcofre || 0
@@ -13,17 +17,25 @@ let wait = formatTime(Math.floor((user.lastcofre - now) / 1000))
 return conn.sendMessage(m.chat, { text: `📍  Debes esperar *${wait}* para volver a abrir el cofre.` }, { quoted: m })
 }
 let reward = Math.floor(Math.random() * (60000 - 40000 + 1)) + 40000
-let expGain = Math.floor(Math.random() * (111)) + 50
+let expGain = Math.floor(Math.random() * (60000 - 40000 + 1)) + 60000
 user.coin += reward
 user.exp += expGain
-user.level += 1
 user.lastcofre = now + gap
 let cofreA = `·─┄ · ✦ *Cofre : Coffer* ✦ ·
 
-❒ *${currency}:* +${reward.toLocaleString()} conseguidos.
-❒ *${currency2}:* +${expGain.toLocaleString()} conseguidos.
-❒ *Nivel:* +1 conseguido.`
-await conn.sendMessage(m.chat, { text: cofreA }, { quoted: m })
+🪙 *${currency}:* +${reward.toLocaleString()}
+⚡ *${currency2}:* +${expGain.toLocaleString()}
+⏰ *Time Again:* ${wait}
+
+> 📍  Ya reclamaste tu cofre, vuelva pronto.`
+await conn.sendMessage(m.chat, { text: cofreA, mentions: [m.sender], contextInfo: { externalAdReply: { 
+title: "々 C O F R E  :  R P G 々", 
+body: textbot, 
+thumbnail: thumb, 
+sourceUrl: null, 
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
+
+//await conn.sendMessage(m.chat, { text: cofreA }, { quoted: m })
 }
 
 handler.help = ['cofre']
@@ -45,4 +57,5 @@ return txt.join(' ')
 }
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)]
-}
+  }
+  
