@@ -30,13 +30,16 @@ await conn.sendMessage(m.chat, { text: txt }, { quoted: m })
 if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen o video para convertirlo en un enlace.` }, { quoted: m })
 await conn.sendMessage(m.chat, { text: `Procesando, espere un momento...` }, { quoted: m })
 const media = await q.download()
+  await m.teact("⏳")
 const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
 const link = await uploadImage(media)
-const txt = `·─┄ · ✦ *Uploader : URL* ✦ ·
+const txt = `·─┄ · ✦ *Uploader : File* ✦ ·
+
 *» Enlace* : ${link}
 *» Tamaño* : ${formatBytes(media.length)}
 *» Expiración* : ${isTele ? 'No expira' : 'Desconocido'}`
 await conn.sendMessage(m.chat, { text: txt }, { quoted: m })
+  await m.react("✅")
 }} catch (error) {
 await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
 }}
