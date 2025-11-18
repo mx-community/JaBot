@@ -13,7 +13,8 @@ let mime = (q.msg || q).mimetype || ''
 
 if (args[0] === "--force" || args[0] === "force") {
 if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese de nuevo el comando y responda a una imagen o video para convertir en enlace.` }, { quoted: m })
-await conn.sendMessage(m.chat, { text: `Procesando, espere un momento...` }, { quoted: m })
+await m.react("⏳")
+  //conn.sendMessage(m.chat, { text: `Procesando, espere un momento...` }, { quoted: m })
 const media = await q.download()
 const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
 const link = await catbox(media)
@@ -23,6 +24,7 @@ const txt = `·─┄ · ✦ *Uploader : Force* ✦ ·
 ❒ *Tamaño:* ${formatBytes(media.length)}
 ❒ *Expiración:* ${isTele ? 'No expira' : 'Desconocido'}`
 await conn.sendMessage(m.chat, { text: txt }, { quoted: m })
+  m.react("✅")
 } else if (args[0] === "mp3" || args[0] === "audio") {
 } else {
 if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen o video para convertirlo en un enlace.` }, { quoted: m })
@@ -41,7 +43,7 @@ await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command erro
 
 handler.help = ['tourl', 'catbox']
 handler.tags = ['tools']
-handler.command = ['tourl', 'catbox']
+handler.command = ['turl', 'catbox']
 
 export default handler
 
