@@ -10,6 +10,144 @@ try {
 const data = await fs.readFile(charactersFilePath, 'utf-8');
 return JSON.parse(data);
 } catch (error) {
+throw new Error('🧧 No se pudo cargar el archivo characters.json.');
+}
+}
+
+async function saveCharacters(characters) {
+try {
+await fs.writeFile(charactersFilePath, JSON.stringify(characters, null, 2), 'utf-8');
+} catch (error) {
+throw new Error('🧧 No se pudo guardar el archivo characters.json.');
+}
+}
+
+let handler = async (m, { conn }) => {
+const userId = m.sender;
+const now = Date.now();
+
+// Reaccionar al mensaje del usuario inmediatamente
+await conn.sendMessage(m.chat, {
+react: {
+text: '⏳',
+key: m.key
+}
+});
+
+if (cooldowns[userId] && now < cooldowns[userId]) {
+const remainingTime = Math.ceil((cooldowns[userId] - now) / 1000);
+const minutes = Math.floor(remainingTime / 60);
+const seconds = remainingTime % 60;
+await conn.reply(m.chat, `📍  Debe esperar *${minutes} minutos y ${seconds} segundos* para volver a usar el comando.`, m);
+
+// Reacción de error por tiempo de espera
+await conn.sendMessage(m.chat, {
+react: {
+text: '❎️',
+key: m.key
+}
+});
+return;
+}
+
+if (m.quoted && m.quoted.sender === conn.user.jid) {
+try {
+const characters = await loadCharacters();
+const characterIdMatch = m.quoted.text.match(/ID: \*(.+?)\*/);
+
+if (!characterIdMatch) {
+await conn.reply(m.chat, '📍  No se pudo encontrar el ID del personaje en el mensaje citado.', m);
+// Reacción de error
+await conn.sendMessage(m.chat, {
+react: {
+text: '❎️',
+key: m.key
+}
+});
+return;
+}
+
+const characterId = characterIdMatch[1];
+const character = characters.find(c => c.id === characterId);
+
+if (!character) {
+await conn.reply(m.chat, '📍  El mensaje citado no es un personaje válido.', m);
+// Reacción de error
+await conn.sendMessage(m.chat, {
+react: {
+text: '❎️',
+key: m.key
+}
+});
+return;
+}
+
+if (character.user && character.user !== userId) {
+await conn.reply(m.chat, `📍  El personaje ya ha sido reclamado por @${character.user.split('@')[0]}, inténtalo a la próxima.`, m, { mentions: [character.user] });
+// Reacción de error - ya reclamado
+await conn.sendMessage(m.chat, {
+react: {
+text: '❎️',
+key: m.key
+}
+});
+return;
+}
+
+character.user = userId;
+character.status = "Reclamado";
+
+await saveCharacters(characters);
+
+await conn.reply(m.chat, `✅️  Has reclamado al personaje ( *${character.name}* ) con éxito.`, m);
+// Reacción de éxito al mensaje del usuario
+await conn.sendMessage(m.chat, {
+react: {
+text: '✅️',
+key: m.key
+}
+});
+
+// Cooldown reducido de 30 minutos a 5 minutos
+cooldowns[userId] = now + 15 * 1000;
+
+} catch (error) {
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error}` }, { quoted: m })
+// Reacción de error por excepción
+await conn.sendMessage(m.chat, {
+react: {
+text: '❎️',
+key: m.key
+}
+});
+}
+
+} else {
+await conn.reply(m.chat, 'Ingrese el comando y responda a un personaje con el comando *#cw* para reclamar.', m);
+// Reacción de error - no citó mensaje
+}
+};
+
+handler.help = ['claim'];
+handler.tags = ['gacha'];
+handler.command = ['c', 'claim', 'reclamar'];
+handler.group = true;
+
+export default handler;
+
+
+/*import { promises as fs } from 'fs';
+
+const charactersFilePath = './src/database/characters[1].json'
+const haremFilePath = './src/database/harem.json'
+
+const cooldowns = {};
+
+async function loadCharacters() {
+try {
+const data = await fs.readFile(charactersFilePath, 'utf-8');
+return JSON.parse(data);
+} catch (error) {
 throw new Error('📍 No se pudo cargar el archivo characters.json.');
 }
 }
@@ -43,7 +181,7 @@ return;
 if (m.quoted && m.quoted.sender === conn.user.jid) {
 try {
 const characters = await loadCharacters();
-const characterIdMatch = m.quoted.text.match(/🪪 ID: \*(.+?)\*/);
+const characterIdMatch = m.quoted.text.match(/🪪 ID: \*(.+?)\
 
 if (!characterIdMatch) {
 await conn.sendMessage(m.chat, { text: `📍  Solicitud de ID no verificado.\n- No se ha podido entrar un personaje con esa ID.` }, { quoted: m });
@@ -102,4 +240,4 @@ handler.help = ['claim'];
 handler.tags = ['gacha'];
 handler.command = ['c', 'claim', 'reclamar'];
 
-export default handler;
+export default handler;*/
