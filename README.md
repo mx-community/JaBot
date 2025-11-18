@@ -1,7 +1,7 @@
 
 <div align="center">
 
-[![a579c03ce939996cba403e5ef47999ca.jpg](https://i.postimg.cc/g2jZ1GHM/a579c03ce939996cba403e5ef47999ca.jpg)](https://postimg.cc/ts0JxQfP)
+[![Picsart-25-11-17-21-39-38-243.jpg](https://i.postimg.cc/T36QzHw3/Picsart-25-11-17-21-39-38-243.jpg)](https://postimg.cc/vc0W9hfJ)
   
 [`MX COMMUNITY`](https://wa.me/5493873655135)  :  `WhatsApp`
 
