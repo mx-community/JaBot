@@ -1,4 +1,4 @@
-import fs from 'fs';
+/*import fs from 'fs';
 import { img2img } from '../lib/nanobanana.js';
 const handler = async (m, { conn, text, usedPrefix, command }) => {
 const q = m.quoted ? m.quoted : m;
@@ -22,3 +22,4 @@ handler.tags = ['inteligencias'];
 handler.command = ['nanob', 'nano'];
 export default handler;
  
+*/
