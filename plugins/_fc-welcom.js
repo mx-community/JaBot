@@ -32,17 +32,13 @@ const mensaje = (chat.sWelcome || 'Edita con el comando "setwelcome"')
 .replace(/{grupo}/g, `*${groupMetadata.subject}*`)
 .replace(/{desc}/g, `${desc}`)
 
-const caption = `👋 ¡Hola, ${username}!
-Bienvenid@ al grupo *_${groupMetadata.subject}_*
+const caption = `·─┄ · ✦ *Nuevo Usuario* ✦ ·
 
-🍃 *_Esperamos que disfrutes tu estadía._*
+👋🏻 ¡Bienvenido ${username}!
+Este es el grupo ${groupMetadata.subject}
 
-🌿 \`𝐈𝐧𝐟𝐨 - 𝐆𝐫𝐨𝐮𝐩:\`
- • ᴍɪᴇᴍʙʀᴏs: ${groupSize}
- • ᴘᴀíꜱ: ${pais}
- • ʜᴏʀᴀ: ${hora}
- • ғᴇᴄʜᴀ: ${fechaTexto}
- • ᴅᴇsᴄʀɪᴘᴄɪᴏɴ: ${mensaje}`
+📍  Esperamos y te agrade el grupo.
+`
 
 return { pp, caption, username }
 }
@@ -63,15 +59,11 @@ const mensaje = (chat.sBye || 'Edita con el comando "setbye"')
 .replace(/{grupo}/g, `*${groupMetadata.subject}*`)
 .replace(/{desc}/g, `*${desc}*`)
 
-const caption = `💐 ${username}, ha salido del grupo *"_${groupMetadata.subject}_"*
+const caption = `·─┄ · ✦ *Despedida* ✦ ·
+👋🏻 ¡Nos despedimos de ${username}!
+- ha salido del grupo *"_${groupMetadata.subject}_"*
 
-🌾 ${mensaje}
-
-📉 \`𝐄𝐬𝐭𝐚𝐝𝐨 𝐀𝐜𝐭𝐮𝐚𝐥:\`
- • ᴍɪᴇᴍʙʀᴏs: ${groupSize}
- • ᴘᴀíꜱ: ${pais}
- • ʜᴏʀᴀ: ${hora}
- • ғᴇᴄʜᴀ: ${fechaTexto}`
+📍  Esperamos y se encuentre bien.`
 
 return { pp, caption, username }
 }
@@ -98,7 +90,7 @@ thumbBuffer = null
 
 const fkontak = {
 key: { participant: '0@s.whatsapp.net', remoteJid: 'status@broadcast', fromMe: false, id: 'Halo' },
-message: { locationMessage: { name: '🍓 𝙒𝙚𝙡𝙘𝙤𝙢𝙚 - 𝙆𝙖𝙣𝙚𝙠𝙞 𝙈𝘿 🍟', jpegThumbnail: thumbBuffer } },
+message: { locationMessage: { name: botname, jpegThumbnail: thumbBuffer } },
 participant: '0@s.whatsapp.net'
 }
 
@@ -111,7 +103,7 @@ const productMessage = {
 product: {
 productImage: { url: pp },
 productId: '24529689176623820',
-title: `꒰͡•*゜・。🍃 ˗ˏˋ ♡ ˎˊ˗🅆🄴🄻🄲🄾🄼🄴!˗ˏˋ ♡ ˎˊ˗🍬 ꒰͡•*゜・。 ͡꒱ֽ ׄ`,
+title: textbot,
 description: caption,
 currencyCode: 'USD',
 priceAmount1000: '100000',
@@ -121,12 +113,12 @@ productImageCount: 1
 },
 businessOwnerJid: who,
 caption: caption,
-footer: `👥 Miembros: ${totalMembers} • 📅 ${date}`,
+footer: `📌 Somos ${totalMembers} participantes en total de esta fecha ${date}`,
 interactiveButtons: [
 {
 name: 'quick_reply',
 buttonParamsJson: JSON.stringify({
-display_text: '🌿 ᴍᴇɴᴜ - ᴋᴀɴᴇᴋɪ ᴀɪ 💐',
+display_text: 'M E N U',
 id: '#menu'
 })
 }
@@ -146,7 +138,7 @@ const productMessage = {
 product: {
 productImage: { url: pp },
 productId: '24529689176623820',
-title: `꒰͡•*゜・。🍃 ˗ˏˋ ♡ ˎˊ˗🅆🄴🄻🄲🄾🄼🄴!˗ˏˋ ♡ ˎˊ˗🍬 ꒰͡•*゜・。 ͡꒱ֽ ׄ`,
+title: botname,
 description: caption,
 currencyCode: 'USD',
 priceAmount1000: '100000',
@@ -156,12 +148,12 @@ productImageCount: 1
 },
 businessOwnerJid: who,
 caption: caption,
-footer: `👥 Miembros: ${totalMembers} • 📅 ${date}`,
+footer: `📌 Somos ${totalMembers} de participantes en total en esta fecha ${date}`,
 interactiveButtons: [
 {
 name: 'quick_reply',
 buttonParamsJson: JSON.stringify({
-display_text: '🌿 ᴍᴇɴᴜ - ᴋᴀɴᴇᴋɪ ᴀɪ 💐',
+display_text: 'M E N U',
 id: '#menu'
 })
 }
