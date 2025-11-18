@@ -5,7 +5,7 @@ import axios from 'axios';
 import fetch from 'node-fetch';
 import NodeID3 from 'node-id3';
 import * as uuid from 'uuid';
-const { generateWAMessageFromContent, prepareWAMessageMedia } = (await import("baileys")).default;
+const { generateWAMessageFromContent, prepareWAMessageMedia } = (await import("@whiskeysockets/baileys")).default;
 
 var uuidv4 = uuid.default.v4;
 
