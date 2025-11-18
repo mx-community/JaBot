@@ -25,13 +25,13 @@ var webmx = 'https://mx-website.vercel.app'
 var paypal = 'https://www.paypal.me/aJosueUSDpaypal'
 
 //Nombre y mas
-global.botname = "MX : BOT"
+global.botname = "ＴＯＲＵ : WhatsApp IA"
 global.botgroup = "https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt"
 global.botcanal = "https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d"
 global.botweb = "https://wa.me/5493873655135"
-global.botmenu = "https://qu.ax/MooSb.jpg"
-global.botimg = "https://qu.ax/BAuJt.jpg"
-global.textbot = "Designed and created by Alan.Js / @mdmx_mktg"
+global.botmenu = "https://qu.ax/yuRHN.jpg"
+global.botimg = "https://qu.ax/XDDtS.jpg"
+global.textbot = "Designed and created by @mx-community"
   
   //APIS MX 📍
 global.apis = 'https://delirius-apiofc.vercel.app'
@@ -89,8 +89,8 @@ global.mImagen = `${global.botmenu}`
 //global.mVideos = ["","",""].getRandom()
 
 global.nombre = m.pushName || 'Anónimo'
-global.packsticker = `•─• ⟢ STICKER ⟣ •─•\nUsuario: ${nombre}\nBot: ${botname}\nCreado: ${fecha}\nHora: ${moment.tz('America/Caracas').format('HH:mm:ss')}`
-global.packsticker2 = `\n•─• ⟢ CREATED ⟣ •─•`
+global.packsticker = `•─• ⟢ ＴＯＲＵ ⟣ •─•\nUsuario: ${nombre}\nBot: ${botname}\nCreado: ${fecha}\nHora: ${moment.tz('America/Buenos_Aires').format('HH:mm:ss')}`
+global.packsticker2 = `\n•─•  ⛉  •─•`
 
 global.fake = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, newsletterName: channelRD.name, serverMessageId: -1 }
 }}, { quoted: m }
