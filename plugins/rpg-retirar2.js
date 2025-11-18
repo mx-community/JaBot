@@ -26,7 +26,7 @@ let retirado = `·─┄ · ✦ *Retiro del banco* ✦ ·
 await conn.sendMessage(m.chat, { text: retirado }, { quoted: m })
 return !0
 }
-if (!Number(args[0])) return conn.sendMessage(m.chat, { text: `📍  Debe de ingresar el comando y una cantidad valida de *${currency}*.\n\n• Por ejemplo:\n*${usedPrefix + command}* 500` }, { quoted: m })
+if (!Number(args[0])) return conn.sendMessage(m.chat, { text: `📍  Debe de ingresar el comando y una cantidad valida de *${currency2}*.\n\n• Por ejemplo:\n*${usedPrefix + command}* 500` }, { quoted: m })
 let count = parseInt(args[0])
 if (!user.bankk) return conn.sendMessage(m.chat, { text: `📍  Lo siento, no tienes suficientes *${currency2}* para retirar esa cantidad.\n- Solo tienes ${user.bankk.toLocaleString()} en tu banco.` }, { quoted: m })
 if (user.bankk < count) return conn.sendMessage(m.chat, { text: `📍  Solo dispones de ${user.bankk.toLocaleString()} de *${currency2}* en el banco.\n- La cantidad solicitada a retirar es erronea.` }, { quoted: m })
