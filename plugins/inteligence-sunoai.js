@@ -9,7 +9,7 @@ const { generateWAMessageFromContent, prepareWAMessageMedia } = (await import("@
 
 var uuidv4 = uuid.default.v4;
 
-const handler = async (m, { conn, args }) => {
+const handler = async (m, { conn, args, command, usedPrefix }) => {
 try {
 if (!args[0]) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba un tema y ritmo de la música para generarla.\n\n• Por ejemplo:\n*#${command}* canción de amor | pop, romántico, acústico` }, { quoted: m });
 const input = args.join(' ');
