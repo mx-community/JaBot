@@ -20,7 +20,7 @@ user.bankk += count * 1
 let depositado = `·─┄ · ✦ *Depositado* ✦ ·
 > Se ha depositado todo tu recurso con éxito.
 
-⚡ *Cantidad:* ${count.toLocaleString()} *${currency}*
+⚡ *Cantidad:* ${count.toLocaleString()} *${currency2}*
 📅 *Fecha:* ${fecha}
 ⏳ *Hora:* ${hora} (argentina)`.trim()
 await conn.sendMessage(m.chat, { text: depositado }, { quoted: m })
