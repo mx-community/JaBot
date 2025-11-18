@@ -52,7 +52,8 @@ let menu = `> ${hora}, ${dia} ${fechaTxt}
 │#menu ≽ perfil   • (7)
 │#menu ≽ search   • (8)
 │#menu ≽ stickers • (9)
-│#menu ≽ rw       • (7)
+│#menu ≽ stickers • (10)
+│#menu ≽ rw       • (11)
 ╰─────────────────•\`\`\`
 
 • Por ejemplo:
@@ -297,7 +298,7 @@ let menu10 = `╭──────────────• · · ·
 ╰──────────────• · · · 
 
 \`\`\`
-📍  No hay menus disponibles, usa del 1 al 9.
+📍  El menu sigue en proceso, use otra categoria..
 \`\`\`
 
 > ${textbot}`
@@ -468,7 +469,7 @@ let menuAll = `${hora}, ${dia} ${fechaTxt}
 
 > ${textbot}`
 return conn.sendMessage(m.chat, { text: menuAll, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
-} else if (args[0] === "rw" || args[0] === "10") {
+} else if (args[0] === "rw" || args[0] === "11") {
 let menu10 = `╭──────────────• · · · 
 │🜲 *Usuario:* @${name} *(Prem: ${premium})*
 │々 *Versión:* ${vs} / ${(conn.user.jid == global.conn.user.jid ? 'Bot Principal.' : 'Servidor.')}
