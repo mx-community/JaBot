@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs'
+/*import { promises as fs } from 'fs'
 
 const charactersFilePath = './src/database/characters[1].json'
 const haremFilePath = './src/database/harem.json'
@@ -163,4 +163,4 @@ handler.tags = ['gacha']
 handler.command = ['vote', 'votar', 'voto']
 handler.group = true
 
-export default handler
+export default handler*/
