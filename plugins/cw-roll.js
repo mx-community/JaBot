@@ -33,12 +33,7 @@ let handler = async (m, { conn }) => {
     const seconds = remainingTime % 60
     await conn.reply(
       m.chat,
-      `╭━━━〔 🎀 𝐂𝐎𝐎𝐋𝐃𝐎𝐖𝐍 🎀 〕━━━⬣
-│ ⏰ *Tiempo de espera:*
-│ ${minutes} minutos y ${seconds} segundos
-╰━━━━━━━━━━━━━━━━━━━━━━⬣
-
-🌸 *Itsuki te pide paciencia...* (´･ω･\`)`,
+      `📍 Debe esperar *${minutes} minutos y ${seconds} segundos* para volver a usar el comando.`,
       m
     )
     await conn.sendMessage(m.chat, { react: { text: '❎', key: m.key } })
@@ -67,23 +62,23 @@ let handler = async (m, { conn }) => {
 
     // USANDO LA MISMA MENCION QUE EL MENÚ
     const statusMessage = isClaimed
-      ? `🔴 Ya reclamado por @${randomCharacter.user.split('@')[0]}`
-      : '🟢 Disponible para reclamar'
+      ? `Reclamado por @${randomCharacter.user.split('@')[0]}`
+      : 'Disponible'
 
     // Mensaje principal
-    const message = `╭━━━〔 🌸 𝐏𝐄𝐑𝐒𝐎𝐍𝐀𝐉𝐄 𝐀𝐋𝐄𝐀𝐓𝐎𝐑𝐈𝐎 🌸 〕━━━⬣
-│ 🎴 Nombre ➪ *${randomCharacter.name}*
-│ ⚧️ Género ➪ *${randomCharacter.gender}*
-│ 💎 Valor ➪ *${randomCharacter.value}*
-│ 🎯 Estado ➪ ${statusMessage}
-│ 📚 Fuente ➪ *${randomCharacter.source}*
-│ 🪪 ID: *${randomCharacter.id}*
-╰━━━━━━━━━━━━━━━━━━━━━━⬣
+    const message = `·─┄ · ✦ *Personajes : Colección* ✦ ·
+
+ 👤 Nombre : *${randomCharacter.name}*
+ ⚧️ Género : *${randomCharacter.gender}*
+ 🪙 Valor : *${randomCharacter.value}*
+ 📥 Estado : ${statusMessage}
+ 📌 Fuente : *${randomCharacter.source}*
+ 🪪 ID: *${randomCharacter.id}*
 
 ${
   !isClaimed
-    ? `🍜 *¡Personaje disponible!*\n📖 *Responde con .c para reclamarlo* 🎀`
-    : `📚 *Este personaje ya tiene dueño*\n🌸 *Sigue intentando para encontrar uno disponible*`
+    ? `✅ *¡Personaje disponible!*\n- *Responde con .c para reclamarlo*.`
+    : `📍 *Este personaje ya tiene dueño*\n- *Sigue intentando para encontrar uno disponible*`
 }`
 
     // Menciones para que funcione el tag - IGUAL QUE EN EL MENÚ
@@ -98,7 +93,7 @@ ${
         forwardedNewsletterMessageInfo: {
           newsletterJid: 'status@broadcast', 
           serverMessageId: 100, 
-          newsletterName: 'Itsuki Nakano' 
+          newsletterName: 'TORU' 
         }
       }
     })
@@ -111,11 +106,7 @@ ${
   } catch (error) {
     await conn.reply(
       m.chat,
-      `╭━━━〔 🎀 𝐄𝐑𝐑𝐎𝐑 🎀 〕━━━⬣
-│ ❌ *Error:* ${error.message}
-╰━━━━━━━━━━━━━━━━━━━━━━⬣
-
-🌸 *Itsuki lo intentará de nuevo...* (´；ω；\`)`,
+      `📍 ERROR UNDEFINED.`,
       m
     )
     await conn.sendMessage(m.chat, { react: { text: '❎', key: m.key } })
@@ -124,7 +115,7 @@ ${
 
 handler.help = ['ver', 'rw', 'rollwaifu']
 handler.tags = ['gacha']
-handler.command = ['ver', 'rw', 'rollwaifu']
+handler.command = ['rw', 'rollwaifu']
 handler.group = true
 
 export default handler
