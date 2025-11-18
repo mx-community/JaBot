@@ -1,4 +1,4 @@
-import { join } from 'path';
+/*import { join } from 'path';
 import { writeFileSync, existsSync, unlinkSync } from 'fs';
 import { tmpdir } from 'os';
 import axios from 'axios';
@@ -101,10 +101,11 @@ await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error}` },
 handler.help = ['sunoai  <query+text>'];
 handler.tags = ['inteligencia'];
 handler.command = /^(sunoai)$/i;
-export default handler;
+export default handler;*/
 
 /* Credits to @NB_SCRIPT ~ en WhatsApp: https://whatsapp.com/channel/0029Vb5EZCjIiRotHCI1213L */
 
+/*
 const sonu = {
 api: {
 base: 'https://musicai.apihub.today/api/v1',
@@ -357,3 +358,4 @@ lastMessage = '';
 }
 };
 };
+*/
