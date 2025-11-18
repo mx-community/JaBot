@@ -52,6 +52,7 @@ let menu = `> ${hora}, ${dia} ${fechaTxt}
 │#menu ≽ perfil   • (7)
 │#menu ≽ search   • (8)
 │#menu ≽ stickers • (9)
+│#menu ≽ rw       • (7)
 ╰─────────────────•\`\`\`
 
 • Por ejemplo:
@@ -456,10 +457,33 @@ let menuAll = `${hora}, ${dia} ${fechaTxt}
 │#qc       │✎ text.
 │#exif     │✎ text.
 │#d-exif   │
+╰─────────────────•
+
+
+╭───[ ⛉ ROLL WAIFU ⛉ ]─•
+│#harem    │✎ index.
+│#rw       │
+│#c        │✎ reply.
 ╰─────────────────•\`\`\`
 
 > ${textbot}`
 return conn.sendMessage(m.chat, { text: menuAll, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+} else if (args[0] === "rw" || args[0] === "10") {
+let menu10 = `╭──────────────• · · · 
+│🜲 *Usuario:* @${name} *(Prem: ${premium})*
+│々 *Versión:* ${vs} / ${(conn.user.jid == global.conn.user.jid ? 'Bot Principal.' : 'Servidor.')}
+╰──────────────• · · · 
+
+
+\`\`\`╭───[ ⛉ ROLL WAIFU ⛉ ]─•
+│#harem    │✎ index.
+│#rw       │
+│#c        │✎ reply.
+╰─────────────────•\`\`\`
+
+
+> ${textbot}`
+ return conn.sendMessage(m.chat, { text: menu10, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
 }
 } catch (e) {
 console.error(e)
