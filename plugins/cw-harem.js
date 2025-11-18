@@ -43,7 +43,7 @@ const userCharacters = characters.filter(character => character.user === userId)
 
 if (userCharacters.length === 0) {
 let sinNada = `📍Lo siento ${userId === m.sender ? `no tienes` : `@${who.split`@`[0]}, no tienes`} personajes reclamados.
-- Para reclamar un personaje use el comando *#cw*.`
+- Para reclamar un personaje use el comando *#rw*.`
 return conn.sendMessage(m.chat, { text: sinNada, mentions: conn.parseMention(sinNada) }, { quoted: m })
 }
 
