@@ -25,7 +25,7 @@ let cofreA = `·─┄ · ✦ *Cofre : Coffer* ✦ ·
 
 🪙 *${currency}:* +${reward.toLocaleString()}
 ⚡ *${currency2}:* +${expGain.toLocaleString()}
-⏰ *Time Again:* ${wait}
+⏰ *Hora:* ${hora}
 
 > 📍  Ya reclamaste tu cofre, vuelva pronto.`
 await conn.sendMessage(m.chat, { text: cofreA, mentions: [m.sender], contextInfo: { externalAdReply: { 
