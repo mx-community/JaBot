@@ -88,6 +88,6 @@ await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command erro
 
 handler.help = ['stickerly <texto>'];
 handler.tags = ['sticker', 'search'];
-handler.command = ['stickerpack', 'stickerlys'];
+handler.command = ['slys', 'stickerlys'];
 
 export default handler;
