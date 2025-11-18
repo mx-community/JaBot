@@ -1,7 +1,15 @@
+import moment from 'moment-timezone'
 let handler = async (m, { args, usedPrefix, command }) => {
 if (!db.data.chats[m.chat].economy && m.isGroup) {
 return conn.sendMessage(m.chat, { text: `⦗ ᗢ ⦘ El comando *${usedPrefix + command}* está desactivado en este grupo.\n- Activalo si eres admin de la siguiente manera.\n\n• Por ejemplo:\n*${usedPrefix}rpg on*` }, { quoted: m })
 }
+
+//Hora y fecha
+let d = new Date(new Date + 3600000)
+let locale = 'es'
+let hora = `${moment.tz('America/Buenos_Aires').format('HH:mm:ss')}`
+let fecha = d.toLocaleDateString('es', {day: 'numeric', month: 'numeric', year: 'numeric'})
+
 let user = global.db.data.users[m.sender]
 if (!args[0]) return conn.sendMessage(m.chat, { text: `Ingrese el comando y la cantidad de *${currency}* para retirar del banco.\n\n• Por ejemplo:\n*${usedPrefix + command}* 50` }, { quoted: m })
 if ((args[0]) < 1) return conn.sendMessage(m.chat, { text: `⎉  Cantidad faltante o insuficiente.\n- Debe de ingresar una cantidad valida para retirar.\n\n• Por ejemplo:\n*${usedPrefix + command}* 50` }, { quoted: m })
