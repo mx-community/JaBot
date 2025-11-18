@@ -14,11 +14,13 @@ const totalreg = Object.keys(global.db.data.users).length
 const groupUserCount = m.isGroup ? participants.length : '-'
 const groupsCount = Object.values(conn.chats).filter(v => v.id.endsWith('@g.us')).length
 const uptime = clockString(process.uptime() * 1000)
+const dFormato = new Date(new Date + 3600000)
 const fecha = new Date(Date.now())
 const locale = 'es-AR'
 const dia = fecha.toLocaleDateString(locale, { weekday: 'long' })
 const fechaTxt = fecha.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
-const hora = fecha.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
+const hora = d.toLocaleString('es-AR', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true})
+//fecha.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
 const totalCommands = Object.keys(global.plugins).length
 const userId = m.sender.split('@')[0]
 const phone = PhoneNumber('+' + userId)
