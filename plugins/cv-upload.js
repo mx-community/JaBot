@@ -9,7 +9,6 @@ let uploadXd = `·─┄ · ✦ *Upload : Files* ✦ ·
 
 \t\t⧡ *${usedPrefix}turl* (imagen y video)
 \t\t⧡ *${usedPrefix}catbox* (imagen y video)
-\t\t⧡ *${usedPrefix}ibb* (imagen)
 
 > ${textbot}`
 const thumb = Buffer.from(await (await fetch(`https://qu.ax/sHcff.jpg`)).arrayBuffer())
