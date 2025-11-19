@@ -51,7 +51,7 @@ mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
 } 
 
 if ( command === 'gay' || command === 'homo') {
-await conn.sendFile(m.chat, global.API('https://some-random-api.com', '/canvas/gay', {
+await conn.sendFile(m.chat, global.toruAPI('https://some-random-api.com', '/canvas/gay', {
 avatar: await conn.profilePictureUrl(who || who2, 'image').catch((_) => fotoGay ),
 }), 'mx-community.png', `🏳️‍🌈 Gay 🏳️‍🌈`, m);
 }
@@ -106,7 +106,7 @@ avatar: await conn.profilePictureUrl(who || who2, 'image').catch((_) => fotoLoli
 }
 
 if (command === 'basura' || args[0] === 'trash') {
-let trash = global.API('fgmods', '/api/maker/trash', { url: ftPp }, 'apikey')
+let trash = global.toruAPI('fgmods', '/api/maker/trash', { url: ftPp }, 'apikey')
 conn.sendFile(m.chat, trash, 'mx-community.png', `🚯  Basura`, m);
 }
 
