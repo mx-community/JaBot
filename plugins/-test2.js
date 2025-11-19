@@ -26,14 +26,14 @@ let park = `〆  C O U N T R Y  :  D A T A
 > ${textbot}`;
 let img = datas.image;
 const thumb = Buffer.from(await (await fetch(`https://qu.ax/YOhTt.jpg`)).arrayBuffer());
-conn.sendMessage(m.chat, { text: park, mentions: [m.sender], contextInfo: { externalAdReply: { 
+/*conn.sendMessage(m.chat, { text: park, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: "々  C O U N T R Y  :  D A T A  々', 
 body: botname, 
 thumbnail: thumb, 
 sourceUrl: null, 
-mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m });
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m });*/
 
-//conn.sendMessage(m.chat, { image: { url: img }, caption: park }, { quoted: fkontak });
+conn.sendMessage(m.chat, { image: { url: img }, caption: park }, { quoted: fkontak });
 } catch (e) {
 await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m });
 m.react('❌');
