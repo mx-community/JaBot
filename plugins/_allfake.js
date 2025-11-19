@@ -39,6 +39,10 @@ global.toruAPI = { // API Prefix
   nrtm: 'https://fg-nrtm.ddns.net',
   fgmods: 'https://api.fgmods.xyz'
 }
+global.toruKeys = { // APIKey Here
+  // 'https://website': 'apikey'
+  'https://api.fgmods.xyz': 'fg_9XdnzCdQ' //--- 100 de límite diario --- Regístrese en https://api.fgmods.xyz/
+}
 
 global.apis = 'https://delirius-apiofc.vercel.app'
 global.apimx_cafirexos = 'https://api.cafirexos.com'
