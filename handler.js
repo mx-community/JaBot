@@ -40,6 +40,8 @@ if (!("bankk" in user) || !isNumber(user.bankk)) user.bankk = 0
 if (!("boletos" in user) || !isNumber(user.boletos)) user.boletos = 0
 if (!("regalos" in user) || !isNumber(user.regalos)) user.regalos = 0
 if (!("descargas" in user) || !isNumber(user.descargas)) user.descargas = 0
+if (!("arcoins" in user) || !isNumber(user.arcoins)) user.arcoins = 0
+if (!("uscoins" in user) || !isNumber(user.uscoins)) user.uscoins = 0
 if (!("level" in user) || !isNumber(user.level)) user.level = 0
 if (!("health" in user) || !isNumber(user.health)) user.health = 100
 if (!("genre" in user)) user.genre = ""
@@ -71,6 +73,8 @@ bankk: 0,
 boletos: 0,
 regalos: 0,
 descargas: 0,
+arcoins: 0,
+uscoins: 0,
 level: 0,
 health: 100,
 genre: "",
