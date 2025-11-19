@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 
 const charactersFilePath = './src/database/personajes.json'
 const cooldowns = {}
-const COOLDOWN_TIME = 10 * 60 * 1000
+const COOLDOWN_TIME = 15 * 60 * 1000
 
 async function loadCharacters() {
   try {
@@ -69,8 +69,9 @@ let handler = async (m, { conn }) => {
 > ${statusMessage}
 
  🜲 *Nombre:* ${randomCharacter.name}
- ⛁ *Valor :* ${randomCharacter.value}
- ✦ *Tipo :* ${randomCharacter.source} / ${randomCharacter.gender}
+ 🝢 *Genero:* ${randomCharacter.gender}
+ ⛁ *Valor :* ${randomCharacter.value} ${currency2}
+ ✦ *Tipo :* ${randomCharacter.source}
  💾 ID: *${randomCharacter.id}*
 `
 
