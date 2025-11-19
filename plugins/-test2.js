@@ -15,8 +15,8 @@ let park = `〆  C O U N T R Y  :  D A T A
 \t\t⧆ *Organización* : ${datas.memberOf}
 \t\t⧆ *Capital* : ${datas.capitalCity}
 \t\t⧆ *Continente* : ${datas.continent}
-\t\t⧆ *Población* : ${population} aproximadamente.
-\t\t⧆ *Prefijo* : +${callingCode}
+\t\t⧆ *Población* : ${datas.population} aproximadamente.
+\t\t⧆ *Prefijo* : +${datas.callingCode}
 \t\t⧆ *Moneda* : ${datas.currency}
 
 \t\t📍 *Descripción:*
