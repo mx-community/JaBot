@@ -102,7 +102,7 @@ let handler = async (m, { conn }) => {
             });
 
             // Cooldown reducido de 30 minutos a 5 minutos
-            cooldowns[userId] = now + 10 * 60 * 1000;
+            cooldowns[userId] = now + 15 * 60 * 1000;
 
         } catch (error) {
             await conn.reply(m.chat, `📍  ${error.message}`, m);
@@ -122,7 +122,7 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['claim'];
 handler.tags = ['gacha'];
-handler.command = ['testc', 'testclaim'];
+handler.command = ['c', 'claim'];
 handler.group = true;
 
 export default handler;
