@@ -14,7 +14,8 @@ let hora = `${moment.tz('America/Buenos_Aires').format('HH:mm:ss')}`
 let userId = m.sender
 let packstickers = global.db.data.users[userId] || {}
 let texto1 = packstickers.text1 || global.packsticker
-let texto2 = packstickers.text2 || global.packsticker2let stiker = false
+let texto2 = packstickers.text2 || global.packsticker2
+  //let stiker = false
 let json
 
 let q = m.quoted ? m.quoted : m
