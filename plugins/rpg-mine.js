@@ -52,8 +52,8 @@ if (user.health < 0) user.health = 0
 const exitoso = `·─┄ · ✦ *Mining : Mina* ✦ ·
 \t𝇈 📍 ${evento.mensaje}
 
-\t\t⚶ *${currency} :* ${monedas.toLocaleString()}
-\t\t⚶ *${currency2} :* ${experiencia.toLocaleString()}
+\t\t⚶ *${currency} :* +${monedas.toLocaleString()}
+\t\t⚶ *${currency2} :* +${experiencia.toLocaleString()}
 \t\t⚶ *Fecha :* ${fecha}
 \t\t⚶ *Hora :* ${hora} (argentina)
 
@@ -61,7 +61,7 @@ const exitoso = `·─┄ · ✦ *Mining : Mina* ✦ ·
 > ${textbot}`
 await conn.sendMessage(m.chat, { text: exitoso, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: "⚶  M I N I N G  :  M I N A  ⚶", 
-body: null, 
+body: botname, 
 thumbnail: thumb, 
 sourceUrl: null, 
 mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
