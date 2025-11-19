@@ -1,74 +1,59 @@
-import { promises as fs } from 'fs';
+import fetch from 'node-fetch'
 
-const charactersFilePath = './src/database/personajes.json';
-const haremFilePath = './src/database/reclamados.json';
+const handler = async (m, { text, usedPrefix, command, conn }) => {
+const args = text.split(',').map(arg => arg.trim())
+const thumb = Buffer.from(await (await fetch(`https://qu.ax/pGJPW.jpg`)).arrayBuffer())
+if (args.length < 5) {
+let establece = `⎙  N E W  :  A N I M E
+\t𝇈 📍 \`\`\`Agrega personajes nuevos.\`\`\`
 
-async function loadCharacters() {
-try {
-const data = await fs.readFile(charactersFilePath, 'utf-8');
-return JSON.parse(data);
-} catch (error) {
-throw new Error('📍  No se pudo cargar el archivo characters.json.');
-}
-}
+\t⸭ \`\`\`Como enviar:\`\`\`
+\t\t＃ ${usedPrefix}iw : *(guia práctica)*
 
-async function loadHarem() {
-try {
-const data = await fs.readFile(haremFilePath, 'utf-8');
-return JSON.parse(data);
-} catch (error) {
-return [];
-}
-}
+々 *Requisitos:*
+\t⧡ _Nombre *(Personaje)*._
+\t⧡ _Genero._
+\t⧡ _Valor._
+\t⧡ _Rango._
+\t⧡ _Link._ *(catbox/qu_ax)*
 
-let handler = async (m, { conn, args, command, usedPrefix }) => {
-if (args.length === 0) {
-await conn.reply(m.chat, `📍  Debe de ingresar el nombre del personaje para ver su informacion.\n\n• Por ejemplo:\n*#${command}* Takeda Harumi`, m);
-return;
-}
-
-const characterName = args.join(' ').toLowerCase().trim();
-
-try {
-const characters = await loadCharacters();
-const character = characters.find(c => c.name.toLowerCase() === characterName);
-
-if (!character) {
-await conn.reply(m.chat, `📍  El personaje ( *${characterName}* ) no existe o está mal escrito.\n- Revise en el comando *#torw* para verificar su existencia.`, m);
-return;
+＃ Uso:
+${usedPrefix + command} Takeda Harumi, Hombre, 3000, Elite, https://qu.ax/uxLCn.jpg
+`
+return conn.sendMessage(m.chat, { text: establece, mentions: [m.sender], contextInfo: { externalAdReply: { 
+title: "々  N E W  :  A N I M E  々, 
+body: botname, 
+thumbnail: thumb, 
+sourceUrl: null, 
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
 }
 
-const harem = await loadHarem();
-const userEntry = harem.find(entry => entry.characterId === character.id);
-const statusMessage = userEntry 
-? `Reclamado por @${userEntry.userId.split('@')[0]} 📌` 
-: 'Libre para reclamar. ✅';
+const [name, gender, value, source, img1] = args
 
-const message = `〆  P E R S O N A J E
-\t𝇈 📍 \`\`\`Informacion del personaje.\`\`\`
-
-> ${statusMessage}
-
-\t\t⚶ *Nombre:* ${character.name}
-\t\t⚶ *Genero:* ${character.gender}
-\t\t⚶ *Valor:* ${character.value}
-\t\t⚶ *Rango:* ${character.source}
-
-💾 ID: *${character.id}*
-
-
-> ${textbot}`;
-
-await conn.reply(m.chat, message, m, { mentions: [userEntry ? userEntry.userId : null] });
-} catch (error) {
-await conn.reply(m.chat, `📍 ${error.message}`, m);
+if (!img1.startsWith('http') {
+return conn.reply(m.chat, `📍  Enlace faltante, debes proporcionar un enlace directo de tu anime.\n- Puedes usar *#iw* para ver la guia de enlaces en el apartado de subir imagenes.`, m )
 }
-};
 
-handler.help = ['charinfo <nombre del personaje>', 'winfo <nombre del personaje>', 'waifuinfo <nombre del personaje>'];
-handler.tags = ['anime'];
-handler.command = ['charinfo', 'winfo', 'waifuinfo'];
-handler.group = true;
+const characterData = {
+id: Date.now().toString(),
+name,
+gender,
+value,
+source,
+img: img1,
+vid: [],
+user: null,
+status: "Libre",
+votes: 0
+}
 
-export default handler;
-	
+const tagNumber = '5493873655135@s.whatsapp.net'
+
+const jsonMessage = `📌 \`N E W  :  A N I M E\`\n\n\`\`\`${JSON.stringify(characterData, null, 2)}\`\`\``
+await conn.sendMessage(tagNumber, { text: jsonMessage })
+conn.reply(m.chat, `✅  Se ha enviado tu anime ( *${name}* ) con exito a los desarrolladores del bot.\n- Verificaremos si el contenido sea bien vista, no aceptamos nfsw.`, m)
+}
+
+handler.command = ['wadd', 'animew']
+
+export default handler
