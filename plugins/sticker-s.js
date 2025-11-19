@@ -15,17 +15,7 @@ let stick = args.join(' ').split('|')
 let time = userId.lastmining + 10000 //tiempo de espera en min
 if (new Date() - userId.lastmiming < 10000) return conn.sendMessage(m.chat, { text: "📍  Debe de esperar unos segundos para volver a crear un sticker."}, { quoted: m })
 try {
-let disponible = `·─┄ · ✦ *Created : Stickers* ✦ ·
-\t𝇈 📍 \`\`\`Crea stickers sin limite.\`\`\`
 
-\t\t⧡ *${usedPrefix + command}* (imagen, video o link)
-\t\t⧡ *${usedPrefix}brat* (texto)
-\t\t⧡ *${usedPrefix}qc* (texto)
-\t\t⧡ *${usedPrefix}exif* (texto/texto2)
-\t\t⧡ *${usedPrefix}d-exif* (defauld)
-
-
-> ${textbot}`
 let q = m.quoted ? m.quoted : m
 let mime = (q.msg || q).mimetype || q.mediaType || ''
 if (/webp|image|video/g.test(mime)) {
@@ -33,7 +23,7 @@ if (/video/g.test(mime))
 if ((q.msg || q).seconds > 11)
 return conn.sendMessage(m.chat, { text: `📍  El video no debe durar mas de 15 segundos.\n\n\t\t＃ Recorta el vídeo y inténtalo de nuevo.` }, { quoted: m })
 let img = await q.download?.()
-if (!img) return conn.sendMessage(m.chat, { text: disponible }, { quoted: m })
+if (!img) return conn.sendMessage(m.chat, { text: `·─┄ · ✦ *Created : Stickers* ✦ ·\n\t𝇈 📍 \`\`\`Crea stickers sin limite.\`\`\`\n\n\t\t⧡ *${usedPrefix + command}* (imagen, video o link)\n\t\t⧡ *${usedPrefix}brat* (texto)\n\t\t⧡ *${usedPrefix}qc* (texto)\n\t\t⧡ *${usedPrefix}exif* (texto/texto2)\n\t\t⧡ *${usedPrefix}d-exif* (defauld)\n\n\n> ${textbot}` }, { quoted: m })
 let out
 try {
 stiker = await sticker(img, false, texto1, texto2)
@@ -59,18 +49,7 @@ if (!stiker) stiker = e
 } finally {
 if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '', m, true, { contextInfo: { forwardingScore: 200, isForwarded: false, externalAdReply: { showAdAttribution: false, title: "々  S T I C K E R S  々", body: textbot, mediaType: 2, sourceUrl: null, thumbnail: thumb } } }, {quoted: m} )
 else
-  let disponible = `·─┄ · ✦ *Created : Stickers* ✦ ·
-\t𝇈 📍 \`\`\`Crea stickers sin limite.\`\`\`
-
-\t\t⧡ *${usedPrefix + command}* (imagen, video o link)
-\t\t⧡ *${usedPrefix}brat* (texto)
-\t\t⧡ *${usedPrefix}qc* (texto)
-\t\t⧡ *${usedPrefix}exif* (texto/texto2)
-\t\t⧡ *${usedPrefix}d-exif* (defauld)
-
-
-> ${textbot}`
-return conn.sendMessage(m.chat, { text: disponible }, { quoted: m })
+return conn.sendMessage(m.chat, { text: `·─┄ · ✦ *Created : Stickers* ✦ ·\n\t𝇈 📍 \`\`\`Crea stickers sin limite.\`\`\`\n\n\t\t⧡ *${usedPrefix + command}* (imagen, video o link)\n\t\t⧡ *${usedPrefix}brat* (texto)\n\t\t⧡ *${usedPrefix}qc* (texto)\n\t\t⧡ *${usedPrefix}exif* (texto/texto2)\n\t\t⧡ *${usedPrefix}d-exif* (defauld)\n\n\n> ${textbot}` }, { quoted: m })
 }
 userId.lastmiming = new Date() * 1
 }
