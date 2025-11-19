@@ -92,7 +92,7 @@ avatar: await conn.profilePictureUrl(who || who2, 'image').catch((_) => fotoSimp
 
 if (command === 'ytc') {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese de nuevo el comando y escriba un texto.\n\n• *Por ejemplo:*\n${usedPrefix + command} Hola a todos.` }, { quoted: m });
-conn.sendFile(m.chat, global.API('https://some-random-api.com', '/canvas/youtube-comment', {
+conn.sendFile(m.chat, global.toruAPI('https://some-random-api.com', '/canvas/youtube-comment', {
 avatar: await conn.profilePictureUrl(m.sender || who2, 'image').catch((_) => fotoYtc ),
 comment: text,
 username: conn.getName(m.sender),
@@ -105,7 +105,7 @@ avatar: await conn.profilePictureUrl(who || who2, 'image').catch((_) => fotoLoli
 }), 'mx-community.png', '⛩️ Loli Fiscal.', m);
 }
 
-if (command === 'basura' || args[0] === 'trash') {
+if (command === 'basura' || command === 'trash') {
 let trash = global.toruAPI('fgmods', '/api/maker/trash', { url: ftPp }, 'apikey')
 conn.sendFile(m.chat, trash, 'mx-community.png', `🚯  Basura`, m);
 }
