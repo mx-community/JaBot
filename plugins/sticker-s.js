@@ -3,7 +3,7 @@ import uploadFile from '../lib/uploadFile.js'
 import uploadImage from '../lib/uploadImage.js'
 import { webp2png } from '../lib/webp2mp4.js'
 
-let handler = async (m, { conn, args }) => {
+let handler = async (m, { conn, args, usedPrefix, command }) => {
 let stiker = false
 let userId = m.sender
 let packstickers = global.db.data.users[userId] || {}
