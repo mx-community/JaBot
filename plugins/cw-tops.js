@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import fetch from 'node-fetch'
-const charactersFilePath = './src/database/characters[1].json'
+const charactersFilePath = './src/database/personajes.json'
 
 async function loadCharacters() {
 try {
@@ -32,6 +32,7 @@ const charactersToShow = sortedCharacters.slice(startIndex, endIndex)
 
 let message = `·─┄ · ✦ *Tops : Personajes* ✦ ·\n> Lista de personajes mas valiosos de la colección.\n\n`
 message += `⎘ *Pagina:* ${page}\n`
+message += `々 *Personajes:* 50 en total.\n`
 message += `⎅ *Total:* ${totalPages} pagina(s).\n\n`
 message += `· · · •──────────────• · · ·\n\n`
 
@@ -41,7 +42,7 @@ const medal = position === 1 ? 'Primer lugar. 🏆' : position === 2 ? 'Segundo 
 message += `⎋ *Lugar:* #${position} de ${medal}\n`
 message += `🜲 *Personaje:* ${character.name}\n`
 message += `々 *Precio:* ${character.value} *${currency2}*.\n`
-message += `🝯 *Origen:* ${character.source}\n\n`
+message += `🝯 *Rango:* ${character.source}\n\n`
 })
 
 message += `· · · •──────────────• · · · \n`
@@ -65,7 +66,7 @@ await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error.mess
 
 handler.help = ['cwtop']
 handler.tags = ['personajes']
-handler.command = ['topcw', 'cwtop']
+handler.command = ['toprw', 'rwtop']
 handler.group = true
 
 export default handler
