@@ -7,8 +7,9 @@ try {
 let uploadXd = `·─┄ · ✦ *Upload : Files* ✦ ·
 \t⧆ \`\`\`📍 Sube archivos soportados.\`\`\`
 
-\t\t⧡ *${usedPrefix}turl* (imagen y video)
-\t\t⧡ *${usedPrefix}catbox* (imagen y video)
+\t\t⧡ *${usedPrefix}turl* (todas las extensiones)
+\t\t⧡ *${usedPrefix}catbox* (todas las extensiones)
+
 
 > ${textbot}`
 const thumb = Buffer.from(await (await fetch(`https://qu.ax/sHcff.jpg`)).arrayBuffer())
