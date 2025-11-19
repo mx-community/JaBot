@@ -41,7 +41,7 @@ let handler = async (m, { conn, args, usedPrefix, text, command }) => {
  }
 handler.help = ['play2 <formato> <búsqueda>']
 handler.tags = ['downloader']
-handler.command = ['ytplay', 'play2']
+handler.command = ['ytplayt', 'tplay2']
 export default handler
 
 function eYear(txt) {
