@@ -21,7 +21,7 @@ return [];
 }
 }
 
-let handler = async (m, { conn, args }) => {
+let handler = async (m, { conn, args, command, usedPrefix }) => {
 if (args.length === 0) {
 await conn.reply(m.chat, `📍  Debe de ingresar el nombre del personaje para ver su informacion.\n\n• Por ejemplo:\n*#${command}* Takeda Harumi`, m);
 return;
