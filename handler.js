@@ -403,7 +403,7 @@ unreg: `📍  El comando *#${comando}* solo puede der utilizado por los usuarios
 
 restrict: `📍  Esta funcion se encuentra restringida por el momento...`
  }[type]
-if (msg) return conn.reply(m.chat, msg, m, rcanalx).then(_ => m.react('✖️'))
+if (msg) return conn.reply(m.chat, msg, m).then(_ => m.react('📍'))
 }
 let file = global.__filename(import.meta.url, true)
 watchFile(file, async () => {
