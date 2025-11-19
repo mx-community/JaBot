@@ -8,6 +8,7 @@ let experto = `
 
 \t\t⚶ *COMANDO*
 - _Para usar el comando \`#wadd\` necesitas 5 requisitos, poner nombre, genero, valor, rango y imagen subida a qu.ax o catbox._
+
 > 1. _Específica el nombre del anime que envias, sea nombre completo o únicamente el nombre individual._
 
 > 2. _Añade el genero del anime con correspondencia, y no existe otro genero, solo dos. *(Hombre o Mujer)*._
@@ -20,7 +21,7 @@ let experto = `
 
 
 \t\t⚶ *SUBIR IMÁGENES*
-- _Sube las imagenes usando el comando *#turl* o *#catbox*.
+- _Sube las imagenes usando el comando *#turl* o *#catbox*._
 
 > 📍 Recuerda responder a la imagen con el comando para convertirlo en un enlace directo.`
 
