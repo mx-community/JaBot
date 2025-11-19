@@ -34,6 +34,12 @@ global.botimg = "https://qu.ax/XDDtS.jpg"
 global.textbot = "Designed and created by @mx-community"
   
   //APIS MX 📍
+global.toruAPI = { // API Prefix
+  // name: 'https://website' 
+  nrtm: 'https://fg-nrtm.ddns.net',
+  fgmods: 'https://api.fgmods.xyz'
+}
+
 global.apis = 'https://delirius-apiofc.vercel.app'
 global.apimx_cafirexos = 'https://api.cafirexos.com'
 global.apimx_key = 'BrunoSobrino'
