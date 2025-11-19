@@ -102,7 +102,7 @@ let handler = async (m, { conn }) => {
             });
 
             // Cooldown reducido de 30 minutos a 5 minutos
-            cooldowns[userId] = now + 20 * 15 * 1000;
+            cooldowns[userId] = now + 10 * 60 * 1000;
 
         } catch (error) {
             await conn.reply(m.chat, `📍  ${error.message}`, m);
