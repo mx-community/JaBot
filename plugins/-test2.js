@@ -38,9 +38,9 @@ let park = `〆  C O U N T R Y  :  D A T A
 
 > ${textbot}`;
 let img = datas.image;
-const thumb = Buffer.from(await (await fetch(`${img}`)).arrayBuffer());
+const thumb = Buffer.from(await (await fetch(``)).arrayBuffer());
 conn.sendMessage(m.chat, { text: park, mentions: [m.sender], contextInfo: { externalAdReply: { 
-title: "々  C O U N T R Y  :  D A T A  々', 
+title: "々  C O U N T R Y  :  D A T A  々", 
 body: botname, 
 thumbnail: thumb, 
 sourceUrl: null, 
