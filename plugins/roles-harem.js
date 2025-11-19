@@ -40,7 +40,7 @@ const userCharacters = characters.filter(character => character.user === userId)
 
 if (userCharacters.length === 0) {
 await conn.reply(m.chat, 
-`📍  ${userId === m.sender ? 'No tienes personajes en tu harem para verlos.\n- Reclama tu primer personaje con *#rw*.' : 'El usuario @' + userId.split('@')[0] + ' no tiene personajes en su harem.\n- Debe de reclamar un personaje con *#rw*.'}\n`,
+`📍  ${userId === m.sender ? 'No tienes personajes en tu harem para verlos.\n- Reclama tu primer personaje con *#rw*.' : 'No puedes acceder al harem de otro usuario.\n- Usa tu #harem para ver tus personajes.'}\n`,
 m, 
 { mentions: [userId] }
 )
