@@ -30,7 +30,7 @@ mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
 
 const [name, gender, value, source, img1] = args
 
-if (!img1.startsWith('http') {
+if (!img1.startsWith('http')) {
 return conn.reply(m.chat, `📍  Enlace faltante, debes proporcionar un enlace directo de tu anime.\n- Puedes usar *#iw* para ver la guia de enlaces en el apartado de subir imagenes.`, m )
 }
 
