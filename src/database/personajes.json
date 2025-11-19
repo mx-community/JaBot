@@ -58,5 +58,251 @@
 "value": "942442", "source": "Elite.",
 "img": "https://qu.ax/KoTji.jpg",
 "user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "11", "name": "Ai Hoshino", "gender": "Mujer",
+"value": "912335", "source": "Elite.",
+"img": [ "https://qu.ax/rMMbN.jpg", "https://qu.ax/CPbiw.jpg", "https://qu.ax/dNiBU.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "12", "name": "Aqua Hoshino", "gender": "Hombre",
+"value": "892442", "source": "Elite.",
+"img": [ "https://qu.ax/soYOH.jpg", "https://qu.ax/PBRLz.jpg", "https://qu.ax/VFaqT.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "13", "name": "Ruby Hoshino", "gender": "Mujer",
+"value": "882425", "source": "Elite.",
+"img": [ "https://qu.ax/ldPwV.jpg", "https://qu.ax/sAypz.jpg", "https://qu.ax/VGWQG.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "14", "name": "Dabi", "gender": "Hombre",
+"value": "874252", "source": "Elite.",
+"img": [ "https://qu.ax/NlZRQ.jpg", "https://qu.ax/zZsSW.jpg", "https://qu.ax/Sqlpx.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "15", "name": "Shoto", "gender": "Hombre",
+"value": "862452", "source": "Elite.",
+"img": [ "https://qu.ax/AReCn.jpg", "https://qu.ax/jEakd.jpg", "https://qu.ax/vkSph.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "16", "name": "Deku", "gender": "Hombre",
+"value": "853452", "source": "Elite.",
+"img": [ "https://qu.ax/jUJKQ.jpg", "https://qu.ax/JjipE.jpg", "https://qu.ax/VCyDN.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "17", "name": "All Migth", "gender": "Hombre",
+"value": "842632", "source": "Elite.",
+"img": [ "https://qu.ax/rAEFK.jpg", "https://qu.ax/czVgu.jpg", "https://qu.ax/QXvhq.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "18", "name": "Goku Ultra Instinto (perfecto)", "gender": "Hombre",
+"value": "835465", "source": "Elite.",
+"img": [ "https://qu.ax/qJWwl.jpg", "https://qu.ax/VMYzg.jpg", "https://qu.ax/qJWwl.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "19", "name": "Vegeta SSJ blue (evolución)", "gender": "Hombre",
+"value": "824535", "source": "Elite.",
+"img": [ "https://qu.ax/aEOSU.jpg", "https://qu.ax/asEQt.jpg", "https://qu.ax/AVOmL.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "20", "name": "Naruto (Modo Barion)", "gender": "Hombre",
+"value": "812355", "source": "Elite.",
+"img": [ "https://qu.ax/lGDoB.jpg", "https://qu.ax/BcBwB.jpg", "https://qu.ax/fnLMk.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "21", "name": "Goku Ultra Instinto", "gender": "Hombre",
+"value": "804425", "source": "Elite.",
+"img": [ "https://qu.ax/PYScT.jpg", "https://qu.ax/znDNM.jpg", "https://qu.ax/LBAgm.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "22", "name": "Broly SSJ", "gender": "Hombre",
+"value": "798342", "source": "Elite.",
+"img": [ "https://qu.ax/dfSeH.jpg", "https://qu.ax/kLukG.jpg", "https://qu.ax/fkWAg.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "23", "name": "Naruto Sabio (6 Caminos)", "gender": "Hombre",
+"value": "788453", "source": "Elite.",
+"img": [ "https://qu.ax/ydOOL.jpg", "https://qu.ax/VLmDe.jpg", "https://qu.ax/owvMk.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "24", "name": "Goku SSJ (blue)", "gender": "Hombre",
+"value": "786344", "source": "Elite.",
+"img": [ "https://qu.ax/tMiyV.jpg", "https://qu.ax/yvTed.jpg", "https://qu.ax/cgmNv.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "25", "name": "Vegeta SSJ (blue)", "gender": "Hombre",
+"value": "784345", "source": ".",
+"img": [ "https://qu.ax/fWCZo.jpg", "https://qu.ax/UqCOL.jpg", "https://qu.ax/YAeBq.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "26", "name": "Goku SJJ (dios)", "gender": "Hombre",
+"value": "778352", "source": "Elite.",
+"img": [ "https://qu.ax/BUeGM.jpg", "https://qu.ax/ZXNMr.jpg", "https://qu.ax/phuiK.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "27", "name": "Vegeta SSJ (dios)", "gender": "Hombre",
+"value": "776353", "source": "Elite.",
+"img": [ "https://qu.ax/jjOxj.jpg", "https://qu.ax/gewjj.jpg", "https://qu.ax/exJrS.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "28", "name": "Goku SSJ 4", "gender": "Hombre",
+"value": "772473", "source": "Elite.",
+"img": [ "https://qu.ax/eSiml.jpg", "https://qu.ax/fVKuk.jpg", "https://qu.ax/VKUOU.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "29", "name": "Vegeta SSJ 4", "gender": "Hombre",
+"value": "769225", "source": "Elite.",
+"img": [ "https://qu.ax/ybBAF.jpg", "https://qu.ax/GqStX.jpg", "https://qu.ax/RHFCQ.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "30", "name": "Meliodas", "gender": "Hombre",
+"value": "765342", "source": "Elite.",
+"img": [ "https://qu.ax/HwUHg.jpg", "https://qu.ax/CqsFk.jpg", "https://qu.ax/gwlwR.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "31", "name": "Elizabeth Liones", "gender": "Mujer",
+"value": "761245", "source": "Elite.",
+"img": [ "https://qu.ax/RwAYo.jpg", "https://qu.ax/aKlCT.jpg", "https://qu.ax/aKlCT.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "32", "name": "Escanor", "gender": "Hombre",
+"value": "759232", "source": "Elite.",
+"img": [ "https://qu.ax/mNyyg.jpg", "https://qu.ax/kFmVL.jpg", "https://qu.ax/AUyDv.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "33", "name": "Ban", "gender": "Hombre",
+"value": "755232", "source": "Elite.",
+"img": [ "https://qu.ax/baEHy.jpg", "https://qu.ax/dYmFQ.jpg", "https://qu.ax/nGags.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "34", "name": "Merlin", "gender": "Mujer",
+"value": "752469", "source": "Elite.",
+"img": [ "https://qu.ax/WGMuc.jpg", "https://qu.ax/xaehr.jpg", "https://qu.ax/uOijW.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "35", "name": "Hatsune Miku", "gender": "Mujer",
+"value": "748345", "source": "Elite.",
+"img": [ "https://qu.ax/gkjhY.jpg", "https://qu.ax/mikWG.jpg", "https://qu.ax/sdOnU.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "36", "name": "Diana", "gender": "Mujer",
+"value": "745244", "source": "Elite.",
+"img": [ "https://qu.ax/WxZhG.jpg", "https://qu.ax/LYgTz.jpg", "https://qu.ax/ruxPY.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "37", "name": "Nino Nakano", "gender": "Mujer",
+"value": "742834", "source": "Elite.",
+"img": [ "https://qu.ax/OaQju.jpg", "https://qu.ax/jDLKz.jpg", "https://qu.ax/Edtjf.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "38", "name": "Miku Nakano", "gender": "Mujer",
+"value": "739424", "source": "Elite.",
+"img": [ "https://qu.ax/qHsOl.jpg", "https://qu.ax/XWoef.jpg", "https://qu.ax/nqHkA.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "39", "name": "Miyabi Hoshimi", "gender": "Mujer",
+"value": "735342", "source": "Elite.",
+"img": [ "https://qu.ax/ZgbDe.jpg", "https://qu.ax/RBZov.jpg", "https://qu.ax/iGsPi.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "40", "name": "Rias Gremory", "gender": "Mujer",
+"value": "731245", "source": "Elite.",
+"img": [ "https://qu.ax/jXdTc.jpg", "https://qu.ax/jXdTc.jpg", "https://qu.ax/jXdTc.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "41", "name": "Manjiro Sano", "gender": "Hombre",
+"value": "728534", "source": "Elite.",
+"img": [ "https://qu.ax/gtEgu.jpg", "https://qu.ax/gtEgu.jpg", "https://qu.ax/gtEgu.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "42", "name": "Yoriichi Tsugikuni", "gender": "Hombre",
+"value": "725355", "source": "Elite.",
+"img": [ "https://qu.ax/JvvPY.jpg", "https://qu.ax/RLYqo.jpg", "https://qu.ax/uhSkk.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "42", "name": "Tanjiro Kamado", "gender": "Hombre",
+"value": "723453", "source": "Elite.",
+"img": [ "https://qu.ax/gmQJj.jpg", "https://qu.ax/gmQJj.jpg", "https://qu.ax/gmQJj.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "43", "name": "Kokushibo", "gender": "Hombre",
+"value": "719234", "source": "Elite.",
+"img": [ "https://qu.ax/oRxKu.jpg", "https://qu.ax/oRxKu.jpg", "https://qu.ax/oRxKu.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "44", "name": "Muzan Kibutsuji", "gender": "Hombre",
+"value": "716353", "source": "Elite.",
+"img": [ "https://qu.ax/OEDUT.jpg", "https://qu.ax/OEDUT.jpg", "https://qu.ax/OEDUT.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "45", "name": "Giyuu Tomioka", "gender": "Hombre",
+"value": "712353", "source": "Elite.",
+"img": [ "https://qu.ax/ngRiL.jpg", "https://qu.ax/ngRiL.jpg", "https://qu.ax/ngRiL.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "46", "name": "Mitsuri Kanroji", "gender": "Mujer",
+"value": "709243", "source": "Elite.",
+"img": [ "https://qu.ax/cHyDL.jpg", "https://qu.ax/cHyDL.jpg", "https://qu.ax/cHyDL.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "47", "name": "Shinobu Kocho", "gender": "Mujer",
+"value": "704353", "source": "Elite.",
+"img": [ "https://qu.ax/MczZN.jpg", "https://qu.ax/MczZN.jpg", "https://qu.ax/MczZN.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "48", "name": "Iguro Obanai", "gender": "Hombre",
+"value": "701235", "source": "Elite.",
+"img": [ "https://qu.ax/fdYfZ.jpg", "https://qu.ax/fdYfZ.jpg", "https://qu.ax/fdYfZ.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "49", "name": "Kanao Tsuyuri", "gender": "Mujer",
+"value": "699424", "source": "Elite.",
+"img": [ "https://qu.ax/OQVAE.jpg", "https://qu.ax/OQVAE.jpg", "https://qu.ax/OQVAE.jpg" ],
+"user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "50", "name": "Gyomei Himejima", "gender": "Hombre",
+"value": "698332", "source": "Elite.",
+"img": [ "https://qu.ax/cNZvJ.jpg", "https://qu.ax/cNZvJ.jpg", "https://qu.ax/cNZvJ.jpg" ],
+"user": null, "status": "Libre", "votes": 0
 }
   ]
