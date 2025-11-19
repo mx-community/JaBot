@@ -64,15 +64,16 @@ return
 
 let message = `·─┄ · ✦ *Personajes : Harem* ✦ ·\n\n`
 message += `🜲 *Usuario:* @${userId.split('@')[0]}\n`
-message += `々 *Personajes:* ${totalCharacters}\n`
+message += `々 *Personajes:* ${totalCharacters} de 50\n`
 message += `⎘ *Página:* ${page} de ${totalPages} pagina(s).\n\n`
 message += `· · · •──────────────• · · ·\n\n`
 
 for (let i = startIndex; i < endIndex; i++) {
 const character = userCharacters[i]
 message += `々 *Personaje ${i + 1}:* ${character.name}\n`
-message += `✦ *Tipo:* ${character.source} / ${character.gender}\n`
-message += `⤷ ⛁ *Valor:* ${character.value}\n\n`
+message += `🝢 *Genero:* ${character.gender}\n`
+message += `✦ *Rango:* ${character.source}\n`
+message += `⤷ ⛁ *Valor:* ${character.value} ${currency2}\n\n`
 }
 
 message += `· · · •──────────────• · · ·\n`
@@ -92,7 +93,7 @@ m
 
 handler.help = ['harem']
 handler.tags = ['gacha']
-handler.command = ['haremt', 'tclaims']
+handler.command = ['harem', 'claims']
 handler.group = true
 
 export default handler
