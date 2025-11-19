@@ -11,13 +11,26 @@ let datas = json.data;
 let park = `〆  C O U N T R Y  :  D A T A
 \t𝇈 📍 \`\`\`Informacion del país.\`\`\`
 
-\t\t⧆ *Nombre* : ${datas.officialName} *(${text})*
-\t\t⧆ *Organización* : ${datas.memberOf}
-\t\t⧆ *Capital* : ${datas.capitalCity}
-\t\t⧆ *Continente* : ${datas.continent}
-\t\t⧆ *Población* : ${datas.population} aproximadamente.
-\t\t⧆ *Prefijo* : +${datas.callingCode}
-\t\t⧆ *Moneda* : ${datas.currency}
+\t⧆ *Nombre* ╮ 
+> ${datas.officialName} *(${text})*
+
+\t⧆ *Organización* ╮ 
+> ${datas.memberOf}
+
+\t⧆ *Capital* ╮ 
+> ${datas.capitalCity}
+
+\t⧆ *Continente* ╮ 
+> ${datas.continent}
+
+\t⧆ *Población* ╮ 
+> ${datas.population}
+
+\t⧆ *Prefijo* ╮ 
+> ${datas.callingCode}
+
+\t⧆ *Moneda* ╮ 
+> ${datas.currency}
 
 \t\t📍 *Descripción:*
 \t» ${datas.description}
