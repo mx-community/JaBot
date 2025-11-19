@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 
 const charactersFilePath = './src/database/personajes.json'
 const cooldowns = {}
-const COOLDOWN_TIME = 15 * 1000
+const COOLDOWN_TIME = 20 * 15 * 1000
 
 async function loadCharacters() {
   try {
