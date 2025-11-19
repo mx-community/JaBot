@@ -5,43 +5,69 @@ import uploadImage from '../lib/uploadImage.js'
 import { FormData, Blob } from "formdata-node"
 import { fileTypeFromBuffer } from "file-type"
 import crypto from "crypto"
-const handler = async (m, { conn, command, usedPrefix, text, args }) => {
+
+const handler = async (m, { conn, command, usedPrefix, text }) => {
 try {
 let q = m.quoted ? m.quoted : m
 let mime = (q.msg || q).mimetype || ''
+switch (command) {
+case 'turl': {
+if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen o video.` }, { quoted: m })
+await m.react('⏳')
+const media = await q.download()
+const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
+const link = await uploadImage(media)
+const txt = `·─┄ · ✦ *Uploader : Success* ✦ ·
 
+\t𝇈 📍 Imagen subida correctamente.
 
-if (args[0] === "--force" || args[0] === "force") {
-if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese de nuevo el comando y responda a una imagen o video para convertir en enlace.` }, { quoted: m })
-await m.react("⏳")
-  //conn.sendMessage(m.chat, { text: `Procesando, espere un momento...` }, { quoted: m })
+\t\t⩩ *Enlace:* ${link}
+
+\t\t⩩ *Tamaño:* ${formatBytes(media.length)}
+
+\t\t⩩ *Caducidad:* ${isTele ? 'No expira' : 'Desconocido'}
+
+> ${textbot}`
+const ppTelegra = Buffer.from(await (await fetch(`https://qu.ax/sHcff.jpg`)).arrayBuffer())
+await conn.sendMessage(m.chat, { text: txt, mentions: [m.sender], contextInfo: { externalAdReply: { 
+title: "々  U P L O A D  :  F I L E  々", 
+body: null, 
+thumbnail: ppTelegra, 
+sourceUrl: link, 
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
+await m.react('✅')
+break
+}
+case 'catbox': {
+if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen o video.` }, { quoted: m })
+await m.react('⏳')
 const media = await q.download()
 const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
 const link = await catbox(media)
-const txt = `·─┄ · ✦ *Uploader : Force* ✦ ·
+const txt = `·─┄ · ✦ *Uploader : Success* ✦ ·
 
-❒ *Enlace:* ${link}
-❒ *Tamaño:* ${formatBytes(media.length)}
-❒ *Expiración:* ${isTele ? 'No expira' : 'Desconocido'}`
-await conn.sendMessage(m.chat, { text: txt }, { quoted: m })
-  m.react("✅")
-} else if (args[0] === "mp3" || args[0] === "audio") {
-} else {
-if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen o video para convertirlo en un enlace.` }, { quoted: m })
-await conn.sendMessage(m.chat, { text: `Procesando, espere un momento...` }, { quoted: m })
-const media = await q.download()
-  await m.teact("⏳")
-const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
-const link = await uploadImage(media)
-const txt = `·─┄ · ✦ *Uploader : File* ✦ ·
+\t𝇈 📍 Imagen subida correctamente a catbox.
 
-*» Enlace* : ${link}
-*» Tamaño* : ${formatBytes(media.length)}
-*» Expiración* : ${isTele ? 'No expira' : 'Desconocido'}`
-await conn.sendMessage(m.chat, { text: txt }, { quoted: m })
-  await m.react("✅")
-}} catch (error) {
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
+\t\t⩩ *Enlace :* ${link}
+
+\t\t⩩ *Tamaño :* ${formatBytes(media.length)}
+
+\t\t⩩ *Caducidad :* ${isTele ? 'No expira' : 'Desconocido'}
+
+
+> ${textbot}`
+const ppCatbox = Buffer.from(await (await fetch(`https://qu.ax/sHcff.jpg`)).arrayBuffer())
+await conn.sendMessage(m.chat, { text: txt, mentions: [m.sender], contextInfo: { externalAdReply: { 
+title: "々  U P L O A D  :  F I L E  々", 
+body: null, 
+thumbnail: ppCatbox, 
+sourceUrl: link, 
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
+await m.react('✅')
+break
+}}} catch (error) {
+await m.react('❌')
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${error.message}` }, { quoted: m })
 }}
 
 handler.help = ['tourl', 'catbox']
@@ -69,4 +95,4 @@ formData.append("reqtype", "fileupload")
 formData.append("fileToUpload", blob, randomBytes + "." + ext)
 const response = await fetch("https://catbox.moe/user/api.php", { method: "POST", body: formData, headers: { "User-Agent": "Mozilla/5.0 (X11; Linux x86_64)" }})
 return await response.text()
-}
+                              }
