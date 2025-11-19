@@ -36,6 +36,9 @@ user.coin += reward
 user.exp += expRandom
 user.lastDaily = now + gap
 let nextReward = Math.min(20000 + user.streak * 5000, 1015000).toLocaleString()
+let msg = `\t\t⚶ *Dia :* ${user.streak + 1}\n\t\t⚶ *Valor próximo :* ${nextReward}`
+if (lost) msg += `\n> 📍  Has perdido tu intento, vuelva otra vez pronto.`
+  
 let exitoso = `〆  D A I L Y  :  R E W A R D
 
 \t𝇈 📍 \`\`\`Recompensa diaria reclamado.\`\`\`
@@ -46,8 +49,6 @@ let exitoso = `〆  D A I L Y  :  R E W A R D
 \t\t⏰ *Hora :* ${hora}
 
 ${msg}`
-let msg = `\t\t⚶ *Dia :* ${user.streak + 1}\n\t\t⚶ *Valor próximo :* ${nextReward}`
-if (lost) msg += `\n> 📍  Has perdido tu intento, vuelva otra vez pronto.`
 conn.reply(m.chat, exitoso, m)
 }
 
