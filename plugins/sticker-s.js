@@ -12,8 +12,8 @@ let texto1 = packstickers.text1 || global.packsticker
 let texto2 = packstickers.text2 || global.packsticker2
 const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 let stick = args.join(' ').split('|')
-let time = user.lastmining + 10000 //tiempo de espera en min
-if (new Date() - user.lastmiming < 10000) return conn.sendMessage(m.chat, { text: "📍  Debe de esperar unos segundos para volver a crear un sticker."}, { quoted: m })
+let time = userId.lastmining + 10000 //tiempo de espera en min
+if (new Date() - userId.lastmiming < 10000) return conn.sendMessage(m.chat, { text: "📍  Debe de esperar unos segundos para volver a crear un sticker."}, { quoted: m })
 try {
 let disponible = `·─┄ · ✦ *Created : Stickers* ✦ ·
 \t𝇈 📍 \`\`\`Crea stickers sin limite.\`\`\`
@@ -63,7 +63,7 @@ forwardingScore: 200, isForwarded: false, externalAdReply: { showAdAttribution: 
 else
 return conn.sendMessage(m.chat, { text: disponible }, { quoted: m })
 }
-user.lastmiming = new Date() * 1
+userId.lastmiming = new Date() * 1
 }
 handler.help = ['sticker']
 handler.tags = ['sticker']
