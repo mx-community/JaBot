@@ -21,7 +21,7 @@ let establece = `⎙  N E W  :  A N I M E
 ${usedPrefix + command} Takeda Harumi, Hombre, 3000, Elite, https://qu.ax/uxLCn.jpg
 `
 return conn.sendMessage(m.chat, { text: establece, mentions: [m.sender], contextInfo: { externalAdReply: { 
-title: "々  N E W  :  A N I M E  々, 
+title: "々  N E W  :  A N I M E  々", 
 body: botname, 
 thumbnail: thumb, 
 sourceUrl: null, 
