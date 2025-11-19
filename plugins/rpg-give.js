@@ -38,7 +38,7 @@ let exitoso = `·─┄ · ✦ *Regalar : ${currency}* ✦ ·
 const thumb = Buffer.from(await (await fetch(`${global.rpgPay}`)).arrayBuffer())
 await conn.sendMessage(m.chat, { text: exitoso, mentions: [who], contextInfo: { externalAdReply: { 
 title: "⚶  G I V E  :  P A Y  ⚶", 
-body: null, 
+body: botname, 
 thumbnail: thumb, 
 sourceUrl: null, 
 mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
