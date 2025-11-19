@@ -23,7 +23,7 @@ if (/image/g.test(mime) && !/webp/g.test(mime)) {
 let buffer = await q.download()
 let media = await uploadImage(buffer)
 json = await (await fetch(`https://btch.us.kg/removebg?url=${media}`)).json()
-stiker = await sticker(false, json.result.urls, texto1, texto2)
+//stiker = await sticker(false, json.result.urls, texto1, texto2)
 } else if (text) {
 json = await (await fetch(`https://btch.us.kg/removebg?url=${text.trim()}`)).json()
 } else return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen o un link para quitar el fondo.` }, { quoted: m })
