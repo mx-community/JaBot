@@ -12,8 +12,6 @@ let texto1 = packstickers.text1 || global.packsticker
 let texto2 = packstickers.text2 || global.packsticker2
 const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 let stick = args.join(' ').split('|')
-let time = userId.lastmining + 10000 //tiempo de espera en min
-if (new Date() - userId.lastmiming < 10000) return conn.sendMessage(m.chat, { text: "📍  Debe de esperar unos segundos para volver a crear un sticker."}, { quoted: m })
 try {
 
 let q = m.quoted ? m.quoted : m
@@ -21,7 +19,7 @@ let mime = (q.msg || q).mimetype || q.mediaType || ''
 if (/webp|image|video/g.test(mime)) {
 if (/video/g.test(mime))
 if ((q.msg || q).seconds > 11)
-return conn.sendMessage(m.chat, { text: `📍  El video no debe durar mas de 15 segundos.\n\n\t\t＃ Recorta el vídeo y inténtalo de nuevo.` }, { quoted: m })
+return conn.sendMessage(m.chat, { text: `📍  El video no debe durar mas de 10 segundos.\n\n\t\t＃ Recorta el vídeo y inténtalo de nuevo.` }, { quoted: m })
 let img = await q.download?.()
 if (!img) return conn.sendMessage(m.chat, { text: `·─┄ · ✦ *Created : Stickers* ✦ ·\n\t𝇈 📍 \`\`\`Crea stickers sin limite.\`\`\`\n\n\t\t⧡ *${usedPrefix + command}* (imagen, video o link)\n\t\t⧡ *${usedPrefix}brat* (texto)\n\t\t⧡ *${usedPrefix}qc* (texto)\n\t\t⧡ *${usedPrefix}exif* (texto/texto2)\n\t\t⧡ *${usedPrefix}d-exif* (defauld)\n\n\n> ${textbot}` }, { quoted: m })
 let out
@@ -51,7 +49,7 @@ if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '', m, true, { context
 else
 return conn.sendMessage(m.chat, { text: `·─┄ · ✦ *Created : Stickers* ✦ ·\n\t𝇈 📍 \`\`\`Crea stickers sin limite.\`\`\`\n\n\t\t⧡ *${usedPrefix + command}* (imagen, video o link)\n\t\t⧡ *${usedPrefix}brat* (texto)\n\t\t⧡ *${usedPrefix}qc* (texto)\n\t\t⧡ *${usedPrefix}exif* (texto/texto2)\n\t\t⧡ *${usedPrefix}d-exif* (defauld)\n\n\n> ${textbot}` }, { quoted: m })
 }
-userId.lastmiming = new Date() * 1
+
 }
 handler.help = ['sticker']
 handler.tags = ['sticker']
@@ -59,7 +57,7 @@ handler.command = ['s', 'sticker', 'stiker']
 
 export default handler
 
-function msToTime(duration) {
+/*function msToTime(duration) {
 var milliseconds = parseInt((duration % 1000) / 100),
 seconds = Math.floor((duration / 1000) % 60),
 minutes = Math.floor((duration / (1000 * 60)) % 60),
@@ -70,7 +68,7 @@ minutes = minutes < 10 ? '0' + minutes : minutes
 seconds = seconds < 10 ? '0' + seconds : seconds
 
 return minutes + ' m y ' + seconds + ' s '
-}
+}*/
 
 const isUrl = (text) => {
 return text.match(
