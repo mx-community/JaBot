@@ -28,7 +28,7 @@ if (!mensaje) return conn.sendMessage(m.chat, { text: `Debe de ingresar un texto
 await conn.sendMessage(numero+'@s.whatsapp.net', { text: `${respuestas}\n♨️ *Personal:*  \`\`\`@MX-ADMINISTRADOR\`\`\`\n📎 *Mensaje:*\n> ${mensaje}\n⊹┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⊹\n\n- *_Si tienes mas preguntas, puedes enviar otro reporte usando el mismo comando._*`, contextInfo: { externalAdReply: { title: '📍 Respuesta de sugerencia.', body: 'La comunidad te ha enviado la respuesta a tu sugerencia.', thumbnailUrl: xImg4, sourceUrl: null, mediaType: 1, showAdAttribution: false, renderLargerThumbnail: false }}}, m)
 await conn.sendMessage(m.chat, { text: `✓  Se ha enviado tu respuesta al reporte con el usuario, esperamos y pueda leer la respuesta.` }, { quoted: m })
 } catch (e) {
-await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m })
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
     }
   }
 }
