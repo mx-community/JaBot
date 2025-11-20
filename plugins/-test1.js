@@ -2,7 +2,7 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
 let respuestas = `*\`RESPUESTA DEL REPORTE\`*
 > 📍  La comunidad ha respondido tu reporte, esperamos y nuestro comentario te sea util.
 ⊹┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⊹`
-if (command === "reporte" || command === "report") {
+if (command === "support" || command === "soporte") {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el reporte o causa para enviarlo a los desarrolladores de la comunidad.\n\n• *Por ejemplo:*\n${usedPrefix + command} Hola, el comando #menu esta fallando continuamente, esperamos y sea arreglado lo antes posible.` }, { quoted: m });
 let teks = `📍  Nuevo reporte enviado de parte de un usuario.
 
@@ -14,7 +14,7 @@ conn.reply('5493873655135@s.whatsapp.net', m.quoted ? teks + m.quoted.text : tek
 await conn.sendMessage(m.chat, { text: `✓  Se ha enviado tu reporte a los de desarrolladores de esta comunidad.\n- Tendras respuesta cuanto antes, de ser una broma o otro intento, se te ignorara.` }, { quoted: m })
 } 
 
-if (command === "rep-res" || command === "res-port") {
+if (command === "supres" || command === "res-port") {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas el numero y el texto para enviarle un mensaje de respuesta al usuario.\n\n• *Por ejemplo:*\n${usedPrefix + command} 5493873579805 Hola, nos encargaremos de eso.` }, { quoted: m })
 await m.react("⏳")
 try {
@@ -32,6 +32,6 @@ await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command erro
     }
   }
 }
-handler.command = ["support", "soporte", "suggest", "sugerencia", "re-sug", "sug-res"]
+handler.command = ["support", "soporte", "supres", "res-port"]
 export default handler
                                             
