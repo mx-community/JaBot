@@ -5,7 +5,7 @@ if (!db.data.chats[m.chat].economy && m.isGroup) {
 return conn.sendMessage(m.chat, { text: `⦗ ᗢ ⦘ El comando *${usedPrefix + command}* está desactivado en este grupo.\n- Activalo si eres admin de la siguiente manera.\n\n• Por ejemplo:\n*${usedPrefix}rpg on*` }, { quoted: m })
 }
 let user = global.db.data.users[m.sender]
-const thumb = Buffer.from(await (await fetch(`https://qu.ax/fkKqr.jpg`)).arrayBuffer())
+const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 let hora = `${moment.tz('America/Buenos_Aires').format('HH:mm:ss')}`
 let now = Date.now()
 let gap = 86400000
@@ -21,16 +21,16 @@ let expGain = Math.floor(Math.random() * (60000 - 40000 + 1)) + 60000
 user.coin += reward
 user.exp += expGain
 user.lastcofre = now + gap
-let cofreA = `·─┄ · ✦ *Cofre : Coffer* ✦ ·
+let cofreA = `〆  C O F F E R  :  R P G
 
-🪙 *${currency}:* +${reward.toLocaleString()}
-⚡ *${currency2}:* +${expGain.toLocaleString()}
-⏰ *Hora:* ${hora}
+\t\t⚶ ${currency} : +${reward.toLocaleString()}
+\t\t⚶ ${currency2} : +${expGain.toLocaleString()}
+\t\t⚶ Hora : ${hora} (AR)
 
 > 📍  Ya reclamaste tu cofre, vuelva pronto.`
 await conn.sendMessage(m.chat, { text: cofreA, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: "々 C O F R E  :  R P G 々", 
-body: textbot, 
+body: botname, 
 thumbnail: thumb, 
 sourceUrl: null, 
 mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
