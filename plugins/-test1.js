@@ -25,8 +25,9 @@ let mensaje = text[1] ? text[1].trim() : ''
 if (!numero) return conn.sendMessage(m.chat, { text: `Debe de ingresar el numero completo todo junto sin el simbolo internacional (+).\n\n• *Por ejemplo:*\n${usedPrefix + command} 5493873579805 Hola` }, { quoted: m })
 if (text.includes('+')) return await conn.sendMessage(m.chat, { text: `Debe de ingresar el numero sin el simbolo internacion (+) para continuar.\n\n• *Por ejemplo:*\n${usedPrefix + command} 5493873555555 Hola` }, { quoted: m })
 if (!mensaje) return conn.sendMessage(m.chat, { text: `Debe de ingresar un texto para enviarle al usuario.\n\n• *Por ejemplo:*\n${usedPrefix + command} 5493873579805 Hola` }, { quoted: m })
-await conn.sendMessage(numero+'@s.whatsapp.net', { text: `${respuestas}\n♨️ *Personal:*  \`\`\`@MX-ADMINISTRADOR\`\`\`\n📎 *Mensaje:*\n> ${mensaje}\n⊹┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⊹\n\n- *_Si tienes mas preguntas, puedes enviar otro reporte usando el mismo comando._*`, contextInfo: { externalAdReply: { title: '📍 Respuesta de sugerencia.', body: 'La comunidad te ha enviado la respuesta a tu sugerencia.', thumbnailUrl: xImg4, sourceUrl: null, mediaType: 1, showAdAttribution: false, renderLargerThumbnail: false }}}, m)
-await conn.sendMessage(m.chat, { text: `✓  Se ha enviado tu respuesta al reporte con el usuario, esperamos y pueda leer la respuesta.` }, { quoted: m })
+await conn.sendMessage(numero+'@s.whatsapp.net', { text: `${respuestas}\n♨️ *Personal:*  \`\`\`@MX-ADMINISTRADOR\`\`\`\n📎 *Mensaje:*\n> ${mensaje}\n⊹┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⊹\n\n- *_Si tienes mas preguntas, puedes enviar otro reporte usando el mismo comando._*`, contextInfo: { externalAdReply: { title: '📍 Respuesta de sugerencia.', body: 'La comunidad te ha enviado la respuesta a tu sugerencia.', thumbnailUrl: '', sourceUrl: null, mediaType: 1, showAdAttribution: false, renderLargerThumbnail: false }}}, m)
+await conn.reply(m.chat, `Enviado con éxito`, m)
+    //conn.sendMessage(m.chat, { text: `✓  Se ha enviado tu respuesta al reporte con el usuario, esperamos y pueda leer la respuesta.` }, { quoted: m })
 } catch (e) {
 await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${e}` }, { quoted: m })
     }
