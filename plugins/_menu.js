@@ -470,6 +470,7 @@ let menuAll = `${hora}, ${dia} ${fechaTxt}
 │#c        │✎ reply.
 │#winfo    │✎ query.
 │#wadd     │✎ query.
+│#rvote    │✎ query.
 │#iw       │
 │#ginfo    │
 │#rw       │
@@ -489,6 +490,7 @@ let menu10 = `╭──────────────• · · ·
 │#c        │✎ reply.
 │#winfo    │✎ query.
 │#wadd     │✎ query.
+│#rvote    │✎ query.
 │#iw       │
 │#ginfo    │
 │#rw       │
