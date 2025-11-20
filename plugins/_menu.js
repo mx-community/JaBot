@@ -52,7 +52,7 @@ let menu = `> ${hora}, ${dia} ${fechaTxt}
 │#menu ≽ perfil   • (7)
 │#menu ≽ search   • (8)
 │#menu ≽ stickers • (9)
-│#menu ≽ stickers • (10)
+│#menu ≽ tools    • (10)
 │#menu ≽ rw       • (11)
 ╰─────────────────•\`\`\`
 
@@ -170,6 +170,7 @@ let menu5 = `╭──────────────• · · ·
 │#lid      │
 │#hd       │✎ reply.
 │#webcapt  │✎ link.
+│#pais     │✎ country.
 │#cid      │✎ link.
 │#trad     │✎ code+text.
 ╰─────────────────•
@@ -291,7 +292,7 @@ let menu9 = `╭──────────────• · · ·
 
 > ${textbot}`
 return conn.sendMessage(m.chat, { text: menu9, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: null, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
-} else if (args[0] === "tols" || args[0] === "10") {
+} else if (args[0] === "tools" || args[0] === "10") {
 let menu10 = `╭──────────────• · · · 
 │🜲 *Usuario:* @${name} *(Prem: ${premium})*
 │々 *Versión:* ${vs} / ${(conn.user.jid == global.conn.user.jid ? 'Bot Principal.' : 'Servidor.')}
@@ -367,6 +368,8 @@ let menuAll = `${hora}, ${dia} ${fechaTxt}
 │#fishing  │
 │#dep      │✎ query.
 │#dep2     │✎ query.
+│#give     │✎ query.
+│#give2    │✎ query.
 │#ret      │✎ query.
 │#ret2     │✎ query.
 ╰─────────────────•
@@ -378,6 +381,7 @@ let menuAll = `${hora}, ${dia} ${fechaTxt}
 │#lid      │
 │#hd       │✎ reply.
 │#webcapt  │✎ link.
+│#pais     │✎ country.
 │#cid      │✎ link.
 │#trad     │✎ code+text.
 ╰─────────────────•
@@ -462,9 +466,13 @@ let menuAll = `${hora}, ${dia} ${fechaTxt}
 
 
 ╭───[ ⛉ ROLL WAIFU ⛉ ]─•
-│#harem    │✎ index.
-│#rw       │
+│#herencia │✎ query.
 │#c        │✎ reply.
+│#winfo    │✎ query.
+│#wadd     │✎ query.
+│#iw       │
+│#ginfo    │
+│#rw       │
 ╰─────────────────•\`\`\`
 
 > ${textbot}`
@@ -477,9 +485,13 @@ let menu10 = `╭──────────────• · · ·
 
 
 \`\`\`╭───[ ⛉ ROLL WAIFU ⛉ ]─•
-│#harem    │✎ index.
-│#rw       │
+│#herencia │✎ query.
 │#c        │✎ reply.
+│#winfo    │✎ query.
+│#wadd     │✎ query.
+│#iw       │
+│#ginfo    │
+│#rw       │
 ╰─────────────────•\`\`\`
 
 
