@@ -20,7 +20,7 @@ thumbnail: thumb1,
 sourceUrl: null, 
 mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
 
-conn.reply('5493873655135@s.whatsapp.net', m.quoted ? teks + m.quoted.text : teks, null, { contextInfo: { mentionedJid: [m.sender] }})
+//conn.reply('5493873655135@s.whatsapp.net', m.quoted ? teks + m.quoted.text : teks, null, { contextInfo: { mentionedJid: [m.sender] }})
 await conn.sendMessage(m.chat, { text: `✓  Se ha enviado tu reporte a los de desarrolladores de esta comunidad.\n- Tendras respuesta cuanto antes, de ser una broma o otro intento, se te ignorara.` }, { quoted: m })
 } 
 
