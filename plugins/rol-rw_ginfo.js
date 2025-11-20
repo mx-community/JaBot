@@ -1,8 +1,8 @@
 import { promises as fs } from 'fs';
 
-import { cooldowns as rwCooldowns } from './roles-start.js';
-import { cooldowns as claimCooldowns } from './roles-claim.js';
-import { cooldowns as voteCooldowns, voteCooldownTime } from './rol-rw_votos.js';
+import { cooldowns as rwCooldowns } from '../plugins/roles-start.js';
+import { cooldowns as claimCooldowns } from '../plugins/roles-claim.js';
+import { cooldowns as voteCooldowns, voteCooldownTime } from '../plugins/rol-rw_votos.js';
 
 const charactersFilePath = './src/database/personajes.json';
 
