@@ -16,7 +16,8 @@ txt += `⊸⊹ *Titulo:* ${search.title}\n`;
 txt += `⊸⊹ *Descripcion:* ${search.description}\n`;
 txt += `⊸⊹ *Enlace:* ${search.link}`;
 }
-await conn.sendMessage(m.chat, { text: txt, contextInfo: { externalAdReply: { title: 'Yahoo', body: textoInfo, thumbnailUrl: mxLogo, sourceUrl: null, mediaType: 1, showAdAttribution: true, renderLargerThumbnail: true }}} , { quoted: m });
+await conn.reply(m.chat, txt, m)
+ //conn.sendMessage(m.chat, { text: txt, contextInfo: { externalAdReply: { title: 'Yahoo', body: textoInfo, thumbnailUrl: mxLogo, sourceUrl: null, mediaType: 1, showAdAttribution: true, renderLargerThumbnail: true }}} , { quoted: m });
 } catch (error) {
 console.error(error);
 await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = Command error, try again and if the error persists, report the command.` }, { quoted: m });
