@@ -1,12 +1,14 @@
+//código creado por Dioneibi-rip
 import fetch from 'node-fetch';
 
 var handler = async (m, { conn, args, usedPrefix, command }) => {
-  const emoji = '🎵';
+  const emoji = '🎥';
+
 
   if (!args[0]) {
     return conn.reply(
       m.chat,
-      `${emoji} *¡Oh no~!* pásame un enlace de YouTube para traer el audio.\n\nUso:\n\`${usedPrefix + command} https://youtu.be/KHgllosZ3kA\``,
+      `${emoji} *Oh senpai~* pásame un link de YouTube para traerte el videito.\n\nEjemplo de uso:\n*${usedPrefix + command} https://youtu.be/3vWtHIA2b7c*`,
       m,
       { quoted: m }
     );
@@ -15,61 +17,78 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
   try {
     await conn.reply(
       m.chat,
-      `🌸 *Procesando tu petición...*\nUn momento, senpai~ 🎧`,
+      `🌺 *E S P E R E*\n- 🍃 Se está descargando su video, dame un momentito >w<`,
       m,
       { quoted: m }
     );
 
     const url = args[0];
-    const apiUrl = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${encodeURIComponent(url)}`;
-    const res = await fetch(apiUrl);
+    const api = `https://api.vreden.my.id/api/ytmp4?url=${encodeURIComponent(url)}`;
+    const res = await fetch(api);
     const json = await res.json();
 
-    if (!json.status || !json.download) {
+    if (json.status !== 200 || !json.result?.download?.url) {
       return conn.reply(
         m.chat,
-        `❌ *No pude descargar el audio.*\nRazón: ${json.message || 'Respuesta inválida de la API.'}`,
+        `❌ *No pude descargar el video.*\nRazón: ${json.message || 'Respuesta inválida.'}`,
         m,
         { quoted: m }
       );
     }
 
-    const audioRes = await fetch(json.download);
-    const audioBuffer = await audioRes.buffer();
+    const {
+      title,
+      description,
+      timestamp,
+      views,
+      image,
+      author,
+      url: videoURL
+    } = json.result.metadata;
 
-    const caption = `
-╭───[ 𝚈𝚃𝙼𝙿𝟹 • 🎶 ]───⬣
-📌 *Título:* ${json.title}
-📁 *Formato:* ${json.format}
-📎 *Fuente:* ${url}
-╰────────────────⬣`;
+    const {
+      url: downloadURL,
+      quality,
+      filename
+    } = json.result.download;
+
+    const videoRes = await fetch(downloadURL);
+    const videoBuffer = await videoRes.buffer();
 
     await conn.sendMessage(
       m.chat,
       {
-        audio: audioBuffer,
-        mimetype: 'audio/mpeg',
-        fileName: `${json.title}.mp3`,
-        ptt: false,
-        caption
+        video: videoBuffer,
+        caption: 
+`╭━━━━[ 𝚈𝚃𝙼𝙿𝟺 𝙳𝚎𝚌𝚘𝚍𝚎𝚍 ]━━━━⬣
+📹 *Título:* ${title}
+🧑‍💻 *Autor:* ${author?.name || 'Desconocido'}
+🕒 *Duración:* ${timestamp}
+📅 *Publicado:* ${json.result.metadata.ago}
+👁️ *Vistas:* ${views.toLocaleString()}
+🎞️ *Calidad:* ${quality}
+📄 *Descripción:*
+${description}
+╰━━━━━━━━━━━━━━━━━━⬣`,
+        mimetype: 'video/mp4',
+        fileName: filename
       },
       { quoted: m }
     );
-
   } catch (e) {
     console.error(e);
     await conn.reply(
       m.chat,
-      `❌ *Ocurrió un error al procesar el audio.*\nDetalles: ${e.message}`,
+      `❌ *Ocurrió un error al procesar el video.*\nDetalles: ${e.message}`,
       m,
       { quoted: m }
     );
   }
 };
 
-handler.help = ['ytmp3'].map(v => v + ' <link>');
+handler.help = ['ytmp4'].map(v => v + ' <enlace>');
 handler.tags = ['descargas'];
-handler.command = ['ytpp', 'ytaudio', 'mp3'];
+handler.command = ['ytmpp', 'ytvideo', 'ytmp4dl'];
 
 export default handler;
-                                                   
+      
