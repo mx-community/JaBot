@@ -1,8 +1,12 @@
 import fetch from 'node-fetch'
 let handler = async (m, { conn, text, args, usedPrefix, command }) => {
-let respuestas = `*\`RESPUESTA DEL REPORTE\`*
-> 📍  La comunidad ha respondido tu reporte, esperamos y nuestro comentario te sea util.
-⊹┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⊹`
+let respuestas = `〆  PERSONAJE  :  ACEPTADO
+\t\t📍 \`\`\`Tu personaje fue aceptado con exito.\`\`\`
+
+👤 Usuario: *@toru-support*
+📩 Mensaje: _Hola usuario, te hacemos saber que tu personaje
+fue agregado a nuestra base de datos, tu personaje aparecera en el comando *#rw* en las ultimas novedades.
+Esperamos y seas paciente, la comunidad *@MX-COMMUNITY x @TORU* esta agradecido.`
 
 if (command === "support" || command === "soporte") {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el reporte o causa para enviarlo a los desarrolladores de la comunidad.\n\n• *Por ejemplo:*\n${usedPrefix + command} Hola, el comando #menu esta fallando continuamente, esperamos y sea arreglado lo antes posible.` }, { quoted: m });
@@ -45,7 +49,7 @@ thumbnail: thumb2,
 sourceUrl: null, 
 mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })*/
 
-conn.sendMessage(numero+'@s.whatsapp.net', { text: `${respuestas}\n♨️ *Personal:*  \`\`\`@MX-ADMINISTRADOR\`\`\`\n📎 *Mensaje:*\n> ${mensaje}\n⊹┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄⊹\n\n- *_Si tienes mas preguntas, puedes enviar otro reporte usando el mismo comando._*`, contextInfo: { externalAdReply: { title: '々 S U P P O R T 々', body: botname, thumbnailUrl: thumb2, sourceUrl: null, mediaType: 1, showAdAttribution: false, renderLargerThumbnail: false }}}, m)
+conn.sendMessage(numero+'@s.whatsapp.net', { text: `${respuestas}`, contextInfo: { externalAdReply: { title: '々GRACIAS 々', body: botname, thumbnailUrl: thumb2, sourceUrl: null, mediaType: 1, showAdAttribution: false, renderLargerThumbnail: false }}}, m)
 //await conn.reply(m.chat, `Enviado con éxito`, m)
 conn.sendMessage(m.chat, { text: `✓  Se ha enviado tu respuesta al reporte con el usuario, esperamos y pueda leer la respuesta.` }, { quoted: m })
 } catch (e) {
