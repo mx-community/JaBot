@@ -31,7 +31,7 @@ global.botcanal = "https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d"
 global.botweb = "https://wa.me/5493873655135"
 global.botmenu = "https://files.catbox.moe/nw4zrd.jpg"
 global.botimg = "https://files.catbox.moe/3hm7im.jpg"
-global.textbot = "Designed and created by @mx-community"
+global.textbot = "ʙᴏᴛ ɪɴᴛᴇɢʀᴀᴛᴇᴅ ᴡɪᴛʜ ᴡʜᴀᴛsᴀᴘᴘ."
   
   //APIS MX 📍
 global.apis = 'https://delirius-apiofc.vercel.app'
