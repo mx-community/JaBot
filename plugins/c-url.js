@@ -19,7 +19,7 @@ const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
 const link = await uploadImage(media)
 const txt = `·─┄ · ✦ *Uploader : Success* ✦ ·
 
-\t𝇈 📍 Imagen subida correctamente.
+\t𝇈 📍 Imagen subida correctamente a qu_ax.
 
 \t\t⩩ *Enlace:* ${link}
 
@@ -28,7 +28,7 @@ const txt = `·─┄ · ✦ *Uploader : Success* ✦ ·
 \t\t⩩ *Caducidad:* ${isTele ? 'No expira' : 'Desconocido'}
 
 > ${textbot}`
-const ppTelegra = Buffer.from(await (await fetch(`https://qu.ax/sHcff.jpg`)).arrayBuffer())
+const ppTelegra = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 await conn.sendMessage(m.chat, { text: txt, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: "々  U P L O A D  :  F I L E  々", 
 body: null, 
@@ -56,7 +56,7 @@ const txt = `·─┄ · ✦ *Uploader : Success* ✦ ·
 
 
 > ${textbot}`
-const ppCatbox = Buffer.from(await (await fetch(`https://qu.ax/sHcff.jpg`)).arrayBuffer())
+const ppCatbox = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 await conn.sendMessage(m.chat, { text: txt, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: "々  U P L O A D  :  F I L E  々", 
 body: null, 
