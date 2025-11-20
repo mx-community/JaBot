@@ -17,12 +17,15 @@ if (args[0] == 'all') {
 let count = parseInt(user.exp)
 user.exp -= count * 1
 user.bankk += count * 1
-let depositado = `·─┄ · ✦ *Depositado* ✦ ·
-> Se ha depositado todo tu recurso con éxito.
+let depositado = `〆  D E P O S I T  :  R P G
 
-⚡ *Cantidad:* ${count.toLocaleString()} *${currency2}*
-📅 *Fecha:* ${fecha}
-⏳ *Hora:* ${hora} (argentina)`.trim()
+\t-- ✅ \`\`\`Se ha depositado todo tu recurso con éxito.\`\`\`
+
+\t\t⚶ Cantidad : +${count.toLocaleString()} *${currency2}*
+\t\t⚶ Fecha : ${fecha}
+\t\t⚶ Hora : ${hora} (AR)
+
+> ${textbot}`.trim()
 await conn.sendMessage(m.chat, { text: depositado }, { quoted: m })
 return !0
 }
@@ -32,12 +35,15 @@ if (!user.exp) return conn.sendMessage(m.chat, { text: `📍  Lo siento, no tien
 if (user.exp < count) return conn.sendMessage(m.chat, { text: `📍  Solo dispones de ${user.exp.toLocaleString()} de *${currency2}*.\n- No son suficientes para depositar.` }, { quoted: m })
 user.exp -= count * 1
 user.bankk += count * 1
-let depositados = `·─┄ · ✦ *Depositado* ✦ ·
-> Se ha depositado tu recurso con éxito.
+let depositados = `〆  D E P O S I T  :  R P G
 
-⚡ *Cantidad:* ${count.toLocaleString()} *${currency2}*
-📅 *Fecha:* ${fecha}
-⏳ *Hora:* ${hora} (argentina)`
+\t-- ✅ \`\`\`Se ha depositado tu recurso con éxito.\`\`\`
+
+\t\t⚶ Cantidad : +${count.toLocaleString()} *${currency2}*
+\t\t⚶ Fecha : ${fecha}
+\t\t⚶ Hora : ${hora} (AR)
+
+> ${textbot}`
 await conn.sendMessage(m.chat, { text: depositados }, { quoted: m })
 }
 
