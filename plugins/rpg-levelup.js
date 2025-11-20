@@ -14,11 +14,12 @@ let { min, xp } = xpRange(user.level, global.multiplier)
 let before = user.level * 1
 while (canLevelUp(user.level, user.exp, global.multiplier)) user.level++
 if (before !== user.level) {
-let txt = `·─┄ · ✦ *New : Level* ✦ ·
-• Has subido de nivel exitosamente.
+let txt = `〆  N E W  :  L E V E L
 
-🜲 *Usuario:* @${name}
-ᗢ *LVL:* ${user.level} (new)
+\t-- 💡 \`\`\`Has subido de nivel exitosamente.\`\`\`
+
+\t\t🜲 Usuario : @${name}
+\t\tᗢ LVL : ${user.level} (new)
 
 > 📍  Sigue subiendo de nivel para lograr mas cosas.`
 await conn.sendMessage(m.chat, { text: txt }, { quoted: m })
@@ -28,11 +29,11 @@ return { ...value, jid: key }
 })
 let sortedLevel = users.sort((a, b) => (b.level || 0) - (a.level || 0))
 let rank = sortedLevel.findIndex(u => u.jid === who) + 1
-let txt = `·─┄ · ✦ *Info : Level* ✦ ·
+let txt = `〆  I N F O  :  L E V E L
 
-🜲 *Usuario:* @${name}
-ᗢ *LVL:* ${user.level} (actual)
-✦ *Próximo Nivel:* ${Math.floor(((user.exp - min) / xp) * 100)}% 
+\t\t🜲 Usuario:  @${name}
+\t\tᗢ LVL: ${user.level} (actual)
+\t\t✦ Próximo Nivel : ${Math.floor(((user.exp - min) / xp) * 100)}% 
 
 > 📍  Sigue subiendo ganando mas *${currency2}* para subir de nivel.`
 await conn.sendMessage(m.chat, { text: txt }, { quoted: m })
