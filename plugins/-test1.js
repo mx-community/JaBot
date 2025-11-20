@@ -1,130 +1,75 @@
-import fetch from "node-fetch"
-import yts from "yt-search"
+import fetch from 'node-fetch';
 
-const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
+var handler = async (m, { conn, args, usedPrefix, command }) => {
+  const emoji = '🎵';
 
-const API_BASE = "https://api-sky.ultraplus.click"
-const API_KEY = "Russellxz"
+  if (!args[0]) {
+    return conn.reply(
+      m.chat,
+      `${emoji} *¡Oh no~!* pásame un enlace de YouTube para traer el audio.\n\nUso:\n\`${usedPrefix + command} https://youtu.be/KHgllosZ3kA\``,
+      m,
+      { quoted: m }
+    );
+  }
 
-async function skyYT(url, format) {
-const response = await fetch(`${API_BASE}/api/download/yt.php?url=${encodeURIComponent(url)}&format=${format}`, {
-headers: { 
-Authorization: `Bearer ${API_KEY}`,
-'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-},
-timeout: 60000
-})
+  try {
+    await conn.reply(
+      m.chat,
+      `🌸 *Procesando tu petición...*\nUn momento, senpai~ 🎧`,
+      m,
+      { quoted: m }
+    );
 
-if (!response.ok) {
-throw new Error(`HTTP ${response.status}`)
-}
+    const url = args[0];
+    const apiUrl = `https://dark-core-api.vercel.app/api/download/YTMP3?key=api&url=${encodeURIComponent(url)}`;
+    const res = await fetch(apiUrl);
+    const json = await res.json();
 
-const data = await response.json()
+    if (!json.status || !json.download) {
+      return conn.reply(
+        m.chat,
+        `❌ *No pude descargar el audio.*\nRazón: ${json.message || 'Respuesta inválida de la API.'}`,
+        m,
+        { quoted: m }
+      );
+    }
 
-if (!data || data.status !== "true" || !data.data) {
-throw new Error(data?.error || "Error en la API Sky")
-}
+    const audioRes = await fetch(json.download);
+    const audioBuffer = await audioRes.buffer();
 
-return data.data
-}
+    const caption = `
+╭───[ 𝚈𝚃𝙼𝙿𝟹 • 🎶 ]───⬣
+📌 *Título:* ${json.title}
+📁 *Formato:* ${json.format}
+📎 *Fuente:* ${url}
+╰────────────────⬣`;
 
-const handler = async (m, { conn, text, command }) => {
-try {
-if (!text.trim()) {
-return conn.reply(m.chat, `Ingrese el comando y escriba el nombre o enlace de un video de YouTube para descargar.`, m)
-}
+    await conn.sendMessage(
+      m.chat,
+      {
+        audio: audioBuffer,
+        mimetype: 'audio/mpeg',
+        fileName: `${json.title}.mp3`,
+        ptt: false,
+        caption
+      },
+      { quoted: m }
+    );
 
-await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key }})
+  } catch (e) {
+    console.error(e);
+    await conn.reply(
+      m.chat,
+      `❌ *Ocurrió un error al procesar el audio.*\nDetalles: ${e.message}`,
+      m,
+      { quoted: m }
+    );
+  }
+};
 
-let videoIdToFind = text.match(youtubeRegexID) || null
-let ytplay2 = await yts(videoIdToFind ? "https://youtu.be/" + videoIdToFind[1] : text)
+handler.help = ['ytmp3'].map(v => v + ' <link>');
+handler.tags = ['descargas'];
+handler.command = ['ytpp', 'ytaudio', 'mp3'];
 
-if (videoIdToFind) {
-const videoId = videoIdToFind[1]
-ytplay2 = ytplay2.all.find(item => item.videoId === videoId) || ytplay2.videos.find(item => item.videoId === videoId)
-}
-
-ytplay2 = ytplay2.all?.[0] || ytplay2.videos?.[0] || ytplay2
-if (!ytplay2) {
-await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-return m.reply("📍  No se ha encontrado resultados del audio.")
-}
-
-let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
-const vistas = formatViews(views)
-const canal = author?.name || "Desconocido"
-
-const infoMessage = `
-ㅤ۫ ㅤ🦭 ୧ ˚ \`𝒅𝒆𝒔𝒄𝒂𝒓𝒈𝒂 𝒆𝒏 𝒄𝒂𝒎𝒊𝒏𝒐\` !୨ 𖹭ִֶָ
-
-᮫ؙܹ᳘︵᮫ּܹ࡛〫ࣥܳ⌒ؙ۫ ᮫ּ۪֯⏝ֺ࣯࠭۟ ᮫ּ〪࣭︶᮫ܹ᳟〫࠭߳፝֟᷼⏜᮫᮫ּ〪࣭࠭〬︵᮫ּ᳝̼࣪ 🍚⃘ᩚּ̟߲ ּ〪࣪︵᮫࣭࣪࠭ᰯּ〪࣪࠭⏜ְ࣮〫߳ ᮫ּׅ࣪۟︶᮫ܹׅ࠭〬 ᮫ּּ࣭᷼⏝ᩥ᮫〪ܹ۟࠭۟۟ ᮫ּؙ⌒᮫ܹ۫︵ᩝּּ۟࠭ ࣭۪۟
-> 🧊✿⃘࣪◌ ֪ \`𝗧𝗶́𝘁𝘂𝗹𝗼\` » *${title}*
-> 🧊✿⃘࣪◌ ֪ \`𝗖𝗮𝗻𝗮𝗹\` » *${canal}*
-> 🧊✿⃘࣪◌ ֪ \`𝗗𝘂𝗿𝗮𝗰𝗶𝗼́𝗻\` » *${timestamp}*
-> 🧊✿⃘࣪◌ ֪ \`𝗩𝗶𝘀𝘁𝗮𝘀\` » *${vistas}*
-> 🧊✿⃘࣪◌ ֪ \`𝗣𝘂𝗯𝗹𝗶𝗰𝗮𝗱𝗼\` » *${ago}*
-> 🧊✿⃘࣪◌ ֪ \`𝗟𝗶𝗻𝗸\` » ${url} 
-ᓭ݄︢݃ୄᰰ𐨎 𝐢︩۪𝆬͡ꗜ፝֟͜͡ꗜ︪۪𝆬͡ 𝐢 ᅟᨳᩘ🧁ଓ ᅟ 𝐢︩۪𝆬͡ꗜ፝֟͜͡ꗜ︪۪𝆬͡ 𝐢ୄᰰ𐨎ᓯ︢
-
-> 𐙚 🪵 ｡ Preparando tu descarga... ˙𐙚
-`.trim()
-
-const thumb = (await conn.getFile(thumbnail))?.data
-await conn.sendMessage(m.chat, { text: infoMessage, mentions: [m.sender], contextInfo: { externalAdReply: { 
-title: title, 
-body: botname, 
-thumbnail: thumb, 
-sourceUrl: null, 
-mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
-
-/*conn.reply(m.chat, infoMessage, m, {
-contextInfo: {
-externalAdReply: {
-title: botname,
-body: dev,
-mediaType: 1,
-thumbnail: thumb,
-renderLargerThumbnail: true,
-mediaUrl: url,
-sourceUrl: url
-}
-}
-})*/
-
-let audioData = null
-try {
-const d = await skyYT(url, "audio")
-const mediaUrl = d.audio || d.video
-if (mediaUrl) {
-audioData = { link: mediaUrl, title: d.title || title }
-}
-} catch {}
-
-if (!audioData) {
-await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-return conn.reply(m.chat, "📍  No se ha podido descargar el audio, intentelo de nuevo.", m)
-}
-
-await conn.sendMessage(m.chat, { audio: { url: audioData.link }, fileName: `${audioData.title || "music"}.mp3`, mimetype: "audio/mpeg", ptt: false }, { quoted: m })
-await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
-
-} catch (error) {
-await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-return m.reply(`📍 ${error}`)
-}
-}
-
-handler.help = ["play3xz"]
-handler.tags = ["descargas"]
-handler.command = ["play3xz"]
-
-export default handler
-
-function formatViews(views) {
-if (!views) return "No disponible"
-if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B`
-if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M`
-if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k`
-return views.toString()
-                           }
-  
+export default handler;
+                                                   
