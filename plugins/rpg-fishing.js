@@ -3,7 +3,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
 if (!db.data.chats[m.chat].economy && m.isGroup) {
 return conn.sendMessage(m.chat, { text: `⦗ ᗢ ⦘ El comando *${usedPrefix + command}* está desactivado en este grupo.\n- Activalo si eres admin de la siguiente manera.\n\n• Por ejemplo:\n*${usedPrefix}rpg on*` }, { quoted: m })
 }
-let thumb
+let thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 let hora = `${moment.tz('America/Buenos_Aires').format('HH:mm:ss')}`
 let user = global.db.data.users[m.sender]
 if (!user) global.db.data.users[m.sender] = user = { coin: 0, exp: 0, lastFish: 0 }
@@ -18,13 +18,11 @@ user.lastFish = ahora + cooldown
 const evento = pickRandom(eventos)
 let monedas, experiencia
 if (evento.tipo === 'victoria') {
-thumb = Buffer.from(await (await fetch(`https://qu.ax/dCiAO.jpg`)).arrayBuffer())
 monedas = Math.floor(Math.random() * 2001) + 11000
 experiencia = Math.floor(Math.random() * 4000) + 11000
 user.coin += monedas
 user.exp += experiencia
 } else {
-thumb = Buffer.from(await (await fetch(`https://qu.ax/QlHpQ.jpg`)).arrayBuffer())
 monedas = Math.floor(Math.random() * 600) + 60
 experiencia = Math.floor(Math.random() * 700) + 60
 user.coin -= monedas
@@ -32,12 +30,13 @@ user.exp -= experiencia
 if (user.exp < 0) user.exp = 0
 if (user.coin < 0) user.coin = 0
 }
-const resultado = `·─┄ · ✦ *Pesca : Fishing* ✦ ·
-🎣 ${evento.mensaje}
+const resultado = `〆  F I S H I N G  :  R P G
 
-🪙 *${currency}:* ${monedas.toLocaleString()}
-⚡ *${currency2}:* ${experiencia.toLocaleString()}
-⏰ *Hora:* ${hora}
+\t🎣 ${evento.mensaje}
+
+\t\t⸙ ${currency} : +${monedas.toLocaleString()}
+\t\t⸙ ${currency2} : +${experiencia.toLocaleString()}
+\t\t⸙ Hora : ${hora} (AR)
 
 > 📍  Ya has pescado, vuelva pronto.`
 await conn.sendMessage(m.chat, { text: resultado, mentions: [m.sender], contextInfo: { externalAdReply: { 
