@@ -2,13 +2,13 @@ import fetch from 'node-fetch'
 
 const handler = async (m, { text, usedPrefix, command, conn }) => {
 const args = text.split(',').map(arg => arg.trim())
-const thumb = Buffer.from(await (await fetch(`https://qu.ax/pGJPW.jpg`)).arrayBuffer())
+const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 if (args.length < 5) {
 let establece = `⎙  N E W  :  A N I M E
 \t𝇈 📍 \`\`\`Agrega personajes nuevos.\`\`\`
 
 \t⸭ \`\`\`Como enviar:\`\`\`
-\t\t＃ ${usedPrefix}iw : *(guia práctica)*
+\t\t•> ${usedPrefix}iw : *(guia práctica)*
 
 々 *Requisitos:*
 \t⧡ _Nombre *(Personaje)*._
