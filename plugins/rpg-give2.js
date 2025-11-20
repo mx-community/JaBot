@@ -25,17 +25,17 @@ if (typeof recipient.exp !== 'number') recipient.exp = 0
 recipient.exp += count   
 if (isNaN(user.exp)) user.exp = 0
 let name = await (async () => global.db.data.users[who].name || (async () => { try { const n = await conn.getName(who); return typeof n === 'string' && n.trim() ? n : who.split('@')[0] } catch { return who.split('@')[0] } })())()
-let exitoso = `·─┄ · ✦ *Regalar : ${currency2}* ✦ ·
+let exitoso = `〆  G I V E  :  R P G
+
 \t𝇈 📍 \`\`\`Transferencia exitosa.\`\`\`
 
-\t\t⚶ *Destinario :* @${name}
-\t\t⚶ *Cantidad :* ${count.toLocaleString()} ${currency2}
-\t\t⚶ *Fecha :* ${fecha}
-\t\t⚶ *Hora :* ${hora} (argentina)
-
+\t\t⚶ Destinario : @${name}
+\t\t⚶ Cantidad : ${count.toLocaleString()} ${currency2}
+\t\t⚶ Fecha : ${fecha}
+\t\t⚶ Hora : ${hora} (AR)
 
 > ${textbot}`
-const thumb = Buffer.from(await (await fetch(`https://qu.ax/hwSZW.jpg`)).arrayBuffer())
+const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 await conn.sendMessage(m.chat, { text: exitoso, mentions: [who], contextInfo: { externalAdReply: { 
 title: "⚶  G I V E  :  P A Y  ⚶", 
 body: botname, 
