@@ -30,7 +30,7 @@ const evento = pickRandom(eventos)
 let monedas, experiencia, salud
 let thumb
 if (evento.tipo === 'victoria') {
-thumb = Buffer.from(await (await fetch(`${global.ppVictoria}`)).arrayBuffer())
+thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 monedas = Math.floor(Math.random() * 2001) + 7000
 experiencia = Math.floor(Math.random() * 91) + 10
 salud = Math.floor(Math.random() * 3) + 1
@@ -38,7 +38,7 @@ user.coin += monedas
 user.exp += experiencia
 user.health -= salud
 } else {
-thumb = Buffer.from(await (await fetch(`${global.ppPerder}`)).arrayBuffer())
+thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 monedas = Math.floor(Math.random() * 2001) + 3000
 experiencia = Math.floor(Math.random() * 41) + 10
 salud = Math.floor(Math.random() * 5) + 1
@@ -49,14 +49,14 @@ if (user.coin < 0) user.coin = 0
 if (user.exp < 0) user.exp = 0
 }
 if (user.health < 0) user.health = 0
-const exitoso = `·─┄ · ✦ *Mining : Mina* ✦ ·
+const exitoso = `〆  M I N I N G  :  R P G
+
 \t𝇈 📍 ${evento.mensaje}
 
-\t\t⚶ *${currency} :* +${monedas.toLocaleString()}
-\t\t⚶ *${currency2} :* +${experiencia.toLocaleString()}
-\t\t⚶ *Fecha :* ${fecha}
-\t\t⚶ *Hora :* ${hora} (argentina)
-
+\t\t⚶ ${currency} : +${monedas.toLocaleString()}
+\t\t⚶ ${currency2} : +${experiencia.toLocaleString()}
+\t\t⚶ Fecha : ${fecha}
+\t\t⚶ *Hora : ${hora} (AR)
 
 > ${textbot}`
 await conn.sendMessage(m.chat, { text: exitoso, mentions: [m.sender], contextInfo: { externalAdReply: { 
@@ -106,6 +106,6 @@ const eventos = [
 { tipo: 'derrota', mensaje: 'Una trampa antigua se activó y dañó tu mochila, perdiendo varias gemas, perdiste.' }
 ]
 
-global.ppPerder = ["https://qu.ax/ddDiD.jpg", "https://qu.ax/qhVQq.jpg", "https://qu.ax/ZGoSJ.jpg"].getRandom()
-global.ppVictoria = ["https://qu.ax/wlVBf.jpg", "https://qu.ax/KQBdJ.jpg", "https://qu.ax/etWBt.jpg"].getRandom()
+//global.ppPerder = ["https://qu.ax/ddDiD.jpg", "https://qu.ax/qhVQq.jpg", "https://qu.ax/ZGoSJ.jpg"].getRandom()
+//global.ppVictoria = ["https://qu.ax/wlVBf.jpg", "https://qu.ax/KQBdJ.jpg", "https://qu.ax/etWBt.jpg"].getRandom()
     
