@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 let handler = async (m, {conn, command}) => {
 let user = db.data.users[m.sender]
-const thumb = Buffer.from(await (await fetch(`https://qu.ax/pGJPW.jpg`)).arrayBuffer())
+const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 let experto = `
 〆 I N F O  :  U P L O A D
 \t𝇈 📌 \`\`\`Informate bien.\`\`\`
