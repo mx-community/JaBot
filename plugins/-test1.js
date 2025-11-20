@@ -6,7 +6,7 @@ let respuestas = `*\`RESPUESTA DEL REPORTE\`*
 
 if (command === "support" || command === "soporte") {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando y escriba el reporte o causa para enviarlo a los desarrolladores de la comunidad.\n\n• *Por ejemplo:*\n${usedPrefix + command} Hola, el comando #menu esta fallando continuamente, esperamos y sea arreglado lo antes posible.` }, { quoted: m });
-const thumb = Buffer.from(await (await fetch(`https://qu.ax/FUOZP.jpg`)).arrayBuffer())
+const thumb1 = Buffer.from(await (await fetch(`https://qu.ax/FUOZP.jpg`)).arrayBuffer())
 let teks = `📍  Nuevo reporte enviado de parte de un usuario.
 
 • *Numero:* wa.me/${m.sender.split`@`[0]}
