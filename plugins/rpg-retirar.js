@@ -17,12 +17,15 @@ if (args[0] == 'all') {
 let count = parseInt(user.bank)
 user.bank -= count * 1
 user.coin += count * 1
-let retirado = `·─┄ · ✦ *Retiro del banco* ✦ ·
-> Se ha retirado todo tu recurso con éxito.
+let retirado = `〆  B A N K  :  R P G
 
-🏦 *Cantidad:* ${count.toLocaleString()} *${currency}*
-📅 *Fecha:* ${fecha}
-⏳ *Hora:* ${hora} (argentina)`.trim()
+\t-- ✅ \`\`\`Se ha retirado todo tu recurso con éxito.\`\`\`
+
+\t\t⚶ Cantidad : ${count.toLocaleString()} *${currency}*
+\t\t⚶ Fecha : ${fecha}
+\t\t⚶ Hora : ${hora} (AR)
+
+> ${textbot}`.trim()
 await conn.sendMessage(m.chat, { text: retirado }, { quoted: m })
 return !0
 }
@@ -32,12 +35,15 @@ if (!user.bank) return conn.sendMessage(m.chat, { text: `📍  Lo siento, no tie
 if (user.bank < count) return conn.sendMessage(m.chat, { text: `📍  Solo dispones de ${user.bank.toLocaleString()} de *${currency}* en el banco.\n- La cantidad solicitada a retirar es erronea.` }, { quoted: m })
 user.bank -= count * 1
 user.coin += count * 1
-let retirados = `·─┄ · ✦ *Retiro del banco* ✦ ·
-> Se ha retirado tu recurso con éxito.
+let retirados = `〆  B A N K  :  R P G
 
-🏦 *Cantidad:* ${count.toLocaleString()} *${currency}*
-📅 *Fecha:* ${fecha}
-⏳ *Hora:* ${hora} (argentina)`
+\t-- ✅ \`\`\`Se ha retirado tu recurso con éxito.\`\`\`
+
+\t\t⚶ Cantidad : ${count.toLocaleString()} *${currency}*
+\t\t⚶ Fecha : ${fecha}
+\t\t⚶ Hora : ${hora} (AR)
+
+> ${textbot}`
 await conn.sendMessage(m.chat, { text: retirados }, { quoted: m })
 }
 
