@@ -23,7 +23,7 @@ let retirado = `〆  B A N K  :  R P G
 
 \t\t⚶ Cantidad: ${count.toLocaleString()} *${currency2}*
 \t\t⚶ Fecha: ${fecha}
-\t\t⚶ Hora: ${hora} (argentina)
+\t\t⚶ Hora: ${hora} (AR)
 
 
 > ${textbot}`.trim()
@@ -42,7 +42,7 @@ let retirados = `〆  B A N K  :  R P G
 
 \t\t⚶ Cantidad: ${count.toLocaleString()} *${currency2}*
 \t\t⚶ Fecha: ${fecha}
-\t\t⚶ Hora: ${hora} (argentina)
+\t\t⚶ Hora: ${hora} (AR)
 
 
 > ${textbot}`
