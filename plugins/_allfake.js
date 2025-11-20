@@ -29,21 +29,11 @@ global.botname = "ＴＯＲＵ : WhatsApp IA"
 global.botgroup = "https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt"
 global.botcanal = "https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d"
 global.botweb = "https://wa.me/5493873655135"
-global.botmenu = "https://qu.ax/yuRHN.jpg"
-global.botimg = "https://qu.ax/XDDtS.jpg"
+global.botmenu = "https://files.catbox.moe/nw4zrd.jpg"
+global.botimg = "https://files.catbox.moe/3hm7im.jpg"
 global.textbot = "Designed and created by @mx-community"
   
   //APIS MX 📍
-global.toruAPI = { // API Prefix
-  // name: 'https://website' 
-  nrtm: 'https://fg-nrtm.ddns.net',
-  fgmods: 'https://api.fgmods.xyz'
-}
-global.toruKeys = { // APIKey Here
-  // 'https://website': 'apikey'
-  'https://api.fgmods.xyz': 'fg_9XdnzCdQ' //--- 100 de límite diario --- Regístrese en https://api.fgmods.xyz/
-}
-
 global.apis = 'https://delirius-apiofc.vercel.app'
 global.apimx_cafirexos = 'https://api.cafirexos.com'
 global.apimx_key = 'BrunoSobrino'
@@ -57,50 +47,22 @@ global.apirest_url2 = 'https://api-brunosobrino-dcaf9040.koyeb.app'
 global.apirest_url3 = 'https://api-brunosobrino.onrender.com'
   
   
-var fMage = "https://qu.ax/pZHAP.jpg"
-var fMage2 = "https://qu.ax/CjXUm.jpg"
-var fMage3 = "https://qu.ax/OdZjV.jpg"
-var fMage4 = "https://qu.ax/BZCXW.jpg"
-var fMage5 = "https://qu.ax/NUtMi.jpg"
-var fMage6 = "https://qu.ax/nCkOS.jpg"
-var fMage7 = "https://qu.ax/niBpw.jpg"
-var fMage8 = "https://qu.ax/WkCBo.jpg"
-var fMage9 = "https://qu.ax/qoYZp.jpg"
-var fMage10 = "https://qu.ax/cngJw.jpg"
-var fMage11 = "https://qu.ax/dwCHt.jpg"
-var fMage12 = "https://qu.ax/yDSeo.jpg"
-var fMage13 = "https://qu.ax/shFmH.jpg"
-var fMage14 = "https://qu.ax/fEaFZ.jpg"
-var fMage15 = "https://qu.ax/MDYPK.jpg"
-var fMage16 = "https://qu.ax/XkGjU.jpg"
-var fMage17 = "https://qu.ax/uxLCn.jpg"
-var fMage18 = "https://qu.ax/fpAtH.jpg"
+global.fMage = "https://files.catbox.moe/elksya.jpg"
+global.fMage2 = "https://files.catbox.moe/3hm7im.jpg"
 
-var fImagen = "https://qu.ax/mGWJo.jpg"
-var fImagen2 = "https://qu.ax/yjwKQ.jpg"
-var fImagen3 = "https://qu.ax/xKQmY.jpg"
-var fImagen4 = "https://qu.ax/FGOYw.jpg"
-var fImagen5 = "https://qu.ax/WeZPb.jpg"
-var fImagen6 = "https://qu.ax/WmGNt.jpg"
-var fImagen7 = "https://qu.ax/BfvEb.jpg"
-var fImagen8 = "https://qu.ax/eaYtC.jpg"
-var fImagen9 = "https://qu.ax/MVmRD.jpg"
-var fImagen10 = "https://qu.ax/GbfQk.jpg"
-var fImagen11 = "https://qu.ax/XPDQK.jpg"
-var fImagen12 = "https://qu.ax/hNADg.jpg"
-var fImagen13 = "https://qu.ax/Vijkj.jpg"
-var fImagen14 = "https://qu.ax/ptwXa.jpg"
+global.fImagen = "https://files.catbox.moe/nw4zrd.jpg"
+global.fImagen2 = "https://files.catbox.moe/esnv6d.jpg"
   
 global.redes = [canal, comunidad, webmx, paypal].getRandom()
-global.mMages = `${global.botimg}`
+global.mMages = ["https://files.catbox.moe/elksya.jpg", "https://files.catbox.moe/3hm7im.jpg"].getRandom()
   //[fMage, fMage2, fMage3, fMage4, fMage5, fMage6, fMage7, fMage8, fMage9, fMage10, fMage11, fMage12, fMage13, fMage14, fMage15, fMage16, fMage17, fMage18].getRandom()
-global.mImagen = `${global.botmenu}`
+global.mImagen = ["https://files.catbox.moe/nw4zrd.jpg", "https://files.catbox.moe/esnv6d.jpg"].getRandom()
   //[fImagen, fImagen2, fImagen3, fImagen4, fImagen5, fImagen6, fImagen7, fImagen8, fImagen9, fImagen10, fImagen11, fImagen12, fImagen13, fImagen14].getRandom()
 //global.mVideos = ["","",""].getRandom()
 
 global.nombre = m.pushName || 'Anónimo'
-global.packsticker = `•─• ⟢ ＴＯＲＵ ⟣ •─•\nUsuario: ${nombre}\nBot: ${botname}\nCreado: ${fecha}\nHora: ${moment.tz('America/Buenos_Aires').format('HH:mm:ss')}`
-global.packsticker2 = `\n•─•  ⛉  •─•`
+global.packsticker = `· · · ─ ┄ ＴＯＲＵ ┄ ─ · · ·`
+global.packsticker2 = `\n々 ${nombre}\n々 WhatsApp\n· · · ─ ┄ ⚶ ┄ ─ · · ·`
 
 global.fake = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, newsletterName: channelRD.name, serverMessageId: -1 }
 }}, { quoted: m }
@@ -131,45 +93,14 @@ break
 global.saludo = hour
 global.nombre = m.pushName || 'Anónimo'
 
-
 global.fkontak = { key: { participants:"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
 
 global.icono = [
-"https://qu.ax/pZHAP.jpg", 
-"https://qu.ax/CjXUm.jpg", 
-"https://qu.ax/OdZjV.jpg", 
-"https://qu.ax/BZCXW.jpg", 
-"https://qu.ax/NUtMi.jpg", 
-"https://qu.ax/nCkOS.jpg", 
-"https://qu.ax/niBpw.jpg", 
-"https://qu.ax/WkCBo.jpg", 
-"https://qu.ax/qoYZp.jpg", 
-"https://qu.ax/cngJw.jpg", 
-"https://qu.ax/dwCHt.jpg", 
-"https://qu.ax/yDSeo.jpg", 
-"https://qu.ax/shFmH.jpg", 
-"https://qu.ax/fEaFZ.jpg", 
-"https://qu.ax/MDYPK.jpg", 
-"https://qu.ax/XkGjU.jpg", 
-"https://qu.ax/uxLCn.jpg", 
-"https://qu.ax/fpAtH.jpg"
+"https://files.catbox.moe/elksya.jpg", 
+"https://files.catbox.moe/3hm7im.jpg"
 ].getRandom()
-
-
-/*
-global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: '', newsletterName: channelRD.name }, externalAdReply: { title: botname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnail: await (await fetch(icono)).buffer(), sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, mentionedJid: null }}
-}
-*/
-
-/*
-global.alanFake { contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: mMages, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true },},}
-global.alanFake2 { contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: mMages, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true },},}
-global.alanAdv { contextInfo: { externalAdReply: { title: "📍  FUNCIÓN NO EJECUTADO.", body: textbot, thumbnail: , sourceUrl: null, mediaType: 1, renderLargerThumbnail: true },},}
-*/
   
-global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { title: `${botname}`, body: `${textbot}`, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, mediaType: 1, renderLargerThumbnail: false },},}
-global.rcanalx = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 101, newsletterName: channelRD.name, }, externalAdReply: { title: 'CHANNEL : MX', body: `${textbot}`, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, mediaType: 1, renderLargerThumbnail: false },},}
-global.rcanalw = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 102, newsletterName: channelRD.name, }, externalAdReply: { title: botname, body: textbot, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, mediaType: 1, renderLargerThumbnail: false },},}
+global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { title: `· · · ─ ┄ ＴＯＲＵ ┄ ─ · · ·`, body: `${textbot}`, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, mediaType: 1, renderLargerThumbnail: false },},}
 
 }
 export default handler
