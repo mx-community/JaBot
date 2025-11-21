@@ -42,7 +42,7 @@ title: "々  P L A Y  :  Y T  々",
 body: botname, 
 thumbnail: thumbXd, 
 sourceUrl: null, 
-mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
+mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
 //await conn.sendFile( m.chat, yt_play[0].thumbnail, 'error.jpg', texto1 + '\n> Para descargas en audio reacciona con "🎶"\n> Para descargar en video reacciona con "📽"', m, null )
 
 }
