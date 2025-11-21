@@ -9,10 +9,10 @@ let userId = texto?.length > 0 ? texto[0] : (m.quoted ? m.quoted.sender : m.send
 if (!global.db.data.users[userId]) global.db.data.users[userId] = {}
 const user = global.db.data.users[userId]
 let name = user.name || (await conn.getName(userId).catch(() => userId.split('@')[0]))
-let description = user.description || 'Sin descripción.'
-let cumpleanos = user.birth || 'no birth.'
-let genero = user.genre || 'Sin genero..'
-let misocial = user.misocial || 'No link.'
+let description = user.description || '✘ (#p-desc)'
+let cumpleanos = user.birth || '✘'
+let genero = user.genre || '✘'
+let misocial = user.misocial || '✘'
 
 let exp = user.exp || 0
 let nivel = user.level || 0
@@ -34,31 +34,25 @@ let tiempoPremium = premium ? (user.premiumTime ? await formatTime(user.premiumT
 let pp = await conn.profilePictureUrl(userId, 'image').catch(_ => 'https://raw.githubusercontent.com/The-King-Destroy/Adiciones/main/Contenido/1745522645448.jpeg')
 const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
   
-let text = `
-╭──────────────• · · ·
-│🜲 *Nombre:* @${name} 
-│ᗢ *Premium:* ${premium ? `${tiempoPremium} ✓` : '(#prem) ✘'}
-│⏍ *Cumple:* ${cumpleanos}
-│✎ *Descripción:*
+let text = `\t\t々  *P E R F I L*  々
+\t𝇈 📍 Perfil de @${name}
+
 > ${description}
-│⎋ *Red:* ${misocial}
-╰──────────────• · · ·
 
-> ➢ *Estadísticas:*
-┌⊐ *LVL:* ${nivel}
-└⊐ *Rango:* #${rank}
+ᗢ Premium : ${premium ? `${tiempoPremium} ✓` : '✘'}
+⏍ Cumple : ${cumpleanos}
+⎋ Red : ${misocial}
 
-> ➢ *Economía / Perfil:*
-⊐ *${global.currency}:* ${coin.toLocaleString()} • wallet
-⊐ *${global.currency2}:* ${exp.toLocaleString()}
+⊐ Nivel : *lvl_${nivel}*
+⊐ Rango : *#${rank}*
+⊐ ${global.currency} : *${coin.toLocaleString()}* • wallet
+⊐ ${global.currency2} : *${exp.toLocaleString()}* • wallet
 
-> ➢ *Economía / Guardado:*
-⊐ *${global.currency}:* ${bank.toLocaleString()}
-⊐ *${global.currency2}:* ${bankk.toLocaleString()}
+⛁ ${global.currency} : *${bank.toLocaleString()}* • bank
+⛁ ${global.currency2} : *${bankk.toLocaleString()}* • bank
 
 
-> 📍  Puedes usar *#pf* para ver lo que puedes editar.`
-
+> 📍  Edita tu perfil con el comando *#myp* facil y rapido.`
 await conn.sendMessage(m.chat, { text: text, contextInfo: { externalAdReply: { 
 title: botname, 
 body: textbot, 
@@ -83,4 +77,5 @@ let h = Math.floor(m / 60)
 let d = Math.floor(h / 24)
 s %= 60; m %= 60; h %= 24
 return `${d}d ${h}h ${m}m ${s}s`
-}
+  }
+  
