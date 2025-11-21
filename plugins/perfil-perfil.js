@@ -12,6 +12,7 @@ let name = user.name || (await conn.getName(userId).catch(() => userId.split('@'
 let description = user.description || '✘ (#p-desc)'
 let cumpleanos = user.birth || '✘'
 let genero = user.genre || '✘'
+let edad = user.age + ' años' || '✘'
 let misocial = user.misocial || '✘'
 
 let exp = user.exp || 0
@@ -41,8 +42,10 @@ let text = `\t\t々  *P E R F I L*  々
 
 ᗢ Premium : ${premium ? `${tiempoPremium} ✓` : '✘'}
 ⏍ Cumple : ${cumpleanos}
-⎋ Red : ${misocial}
+🜷 Edad : ${edad}
 々 Genero : *${genero}*
+⎋ Red : ${misocial}
+
 
 ⊐ Nivel : *lvl_${nivel}*
 ⊐ Rango : *#${rank}*
