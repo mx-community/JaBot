@@ -17,7 +17,7 @@ txt += `⚶ *Titulo:* ${search.title}\n`;
 txt += `⚶ *Enlace:* ${search.link}\n`;
 txt += `⚶ *Descripción:* ${search.description}`;
 }
-await await conn.sendMessage(m.chat, { text: `${}`, mentions: [m.sender], contextInfo: { externalAdReply: { 
+await await conn.sendMessage(m.chat, { text: txt, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: "々  Y A H O O  々", 
 body: botname, 
 thumbnail: thumb, 
