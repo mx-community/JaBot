@@ -2,13 +2,13 @@ import fetch from 'node-fetch'
 import yts from 'yt-search'
 
 let handler = async (m, { conn, usedPrefix, command, text }) => {
-let optionsXd = `〆  T I K T O K  :  D L
+let optionsXd = `\t〨  *T I K T O K  :  D L*
 
 \t⸭ 📌 \`\`\`Descargas de tiktok.\`\`\`
 
-\t\t⧡ ${usedPrefix}tiktok *<link>*
-\t\t⧡ ${usedPrefix}p-tiktok *<link>*
-\t\t⧡ ${usedPrefix}a-tiktok *<link>*`
+\t\t⧡ ${usedPrefix}tiktok : *<link>*
+\t\t⧡ ${usedPrefix}p-tiktok : *<link>*
+\t\t⧡ ${usedPrefix}a-tiktok : *<link>*`
 
 if (command === "tiktok" || command === "tt") {
 if (!text) return conn.sendMessage(m.chat, { text: `${optionsXd}\n\n⚶ Por ejemplo:\n${usedPrefix + command} https://vm.tiktok.com/ZNdKt838j/\n\n> ${textbot}` }, { quoted: m })
@@ -23,7 +23,7 @@ let json = await res.json()
 if (!json || json.code !== 0 || !json.data) return conn.sendMessage(m.chat, { text: `📍  No se han encontrado resultados en el enlace.` }, { quoted: m })
 const data = json.data
 const { id, region, title, cover, origin_cover, duration, play, wmplay, music, music_info, play_count, digg_count, comment_count, share_count, download_count, author, images, create_time } = data
-let titulott = `〆  T I K T O K  :  D L
+let titulott = `\t〨  *T I K T O K  :  D L*
 
 \t⸭ ✅ ${title}
 
