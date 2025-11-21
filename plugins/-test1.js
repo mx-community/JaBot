@@ -160,14 +160,14 @@ handler.before = async (m, { conn }) => {
         },
         { quoted: m }
       )
-    } else {
+    } else if (type === 'video') {
       await conn.sendMessage(
         m.chat,
         {
           video: { url: apiData.link },
           fileName: `${video.title}.mp4`,
           mimetype: 'video/mp4',
-          caption
+          caption: null
         },
         { quoted: m }
       )
