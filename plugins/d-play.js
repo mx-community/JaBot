@@ -8,7 +8,7 @@ const LimitVid = 425 * 1024 * 1024 // 425MB
 let tempStorage = {}
 
 const handler = async (m, {conn, command, args, text, usedPrefix}) => {
-let usoCorrecto = `〆  P L A Y  :  Y O U T U B E
+let usoCorrecto = `\t\t【  Y O U T U B E  】
 
 \t⸭ 📌 Ingrese el comando y escriba o pegue un enlace de un video de \`YouTube\` para descargar.
 
