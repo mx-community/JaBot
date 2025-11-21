@@ -151,7 +151,7 @@ await conn.reply(m.chat, "Descargando v", fkontak, m || null)
 const {mediaData, isDirect} = await download(videoApis)
 if (mediaData) {
 const fileSize = await getFileSize(mediaData)
-const messageOptions = {fileName: `${userVideoData.title}.mp4`, caption: `⟡ *${userVideoData.title}*\n> ${wm}`, mimetype: 'video/mp4'}
+const messageOptions = {fileName: `${userVideoData.title}.mp4`, caption: `⟡ *${userVideoData.title}*\n> ${botname}`, mimetype: 'video/mp4'}
 if (fileSize > LimitVid) {
 await conn.sendMessage(m.chat, {document: isDirect ? mediaData : {url: mediaData}, ...messageOptions}, {quoted: m || null})
 } else {
