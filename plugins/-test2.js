@@ -29,7 +29,7 @@ autor o autora
 ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴
 enlace
 ★ ${yt_play[0].url.replace(/^https?:\/\//, '')}
-⌘━━─≪ ${gt} ≫─━━⌘
+⌘━━─≪ x ≫─━━⌘
 `.trim()
 
 tempStorage[m.sender] = {url: yt_play[0].url, title: yt_play[0].title}
