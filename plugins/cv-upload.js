@@ -4,18 +4,17 @@ import moment from 'moment-timezone'
 
 const handler = async (m, { conn, command, usedPrefix, text }) => {
 try {
-let uploadXd = `\t\t【  U P L O A D  】
+let uploadXd = `\t\t【  UPLOAD  :  FILES  】
 
 \t⧆ \`\`\`📍 Sube archivos multimedia.\`\`\`
 
 \t\t⧡ *${usedPrefix}turl* (todas las extensiones)
 \t\t⧡ *${usedPrefix}catbox* (todas las extensiones)
 
-
 > ${textbot}`
 const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 await conn.sendMessage(m.chat, { text: uploadXd, mentions: [m.sender], contextInfo: { externalAdReply: { 
-title: "々  U P L O A D  :  F I L E  々", 
+title: "々  UPLOAD  :  FILES  々", 
 body: botname, 
 thumbnail: thumb, 
 sourceUrl: null, 
