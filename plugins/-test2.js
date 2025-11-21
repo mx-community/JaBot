@@ -1,70 +1,102 @@
-import fetch from "node-fetch"
+import { spawn } from 'child_process'
+import fs from 'fs'
 
-function formatSize(bytes) {
-  if (bytes === 0 || isNaN(bytes)) return '0 B'
-  const k = 1024
-  const sizes = ['B', 'KB', 'MB', 'GB']
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-}
-
-const handler = async (m, { conn, text, usedPrefix, command }) => {
-  try {
-    if (!text?.trim()) {
-      return conn.reply(
-        m.chat,
-        `🎋 *Ingresa el enlace del video de YouTube que deseas descargar.*\n\nEjemplo:\n${usedPrefix + command} https://youtu.be/HWjCStB6k4o`,
-        m
-      )
+const yt = {
+  static: Object.freeze({
+    baseUrl: 'https://cnv.cx',
+    headers: {
+      'accept-encoding': 'gzip, deflate, br, zstd',
+      'origin': 'https://frame.y2meta-uk.com',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0'
     }
-
-    await m.react('🕒')
-    await conn.reply(m.chat, '*_🍃 Descargando tu video onichan_*', m, rcanal)
-
-    const apiUrl = `https://api.vreden.my.id/api/v1/download/youtube/video?url=${encodeURIComponent(text)}&quality=480`
-    const response = await fetch(apiUrl)
-    if (!response.ok) throw `No se pudo obtener información del video.`
-
-    const data = await response.json()
-    const meta = data?.result?.metadata
-    const down = data?.result?.download
-    if (!down?.url) throw `No se pudo obtener el enlace de descarga.`
-
-    const head = await fetch(down.url, { method: "HEAD" })
-    const size = Number(head.headers.get("content-length") || 0)
-    const sizeMB = size / 1024 / 1024
-
-    let caption = `🍃 *Título:* ${meta.title}
-🍟 *Canal:* ${meta.author?.name}
-🕒 *Duración:* ${meta.duration?.timestamp || "Desconocida"}
-👁 *Vistas:* ${meta.views?.toLocaleString() || "?"}
-📅 *Publicado:* ${meta.ago}
-🌾 *Calidad:* ${down.quality}
-💾 *Tamaño:* ${formatSize(size)}
-────────────────────
-✨ *Descarga Completa...*`
-
-    let sendType = sizeMB > 100 ? "document" : "video"
-
-    await conn.sendMessage(m.chat, {
-      [sendType]: { url: down.url },
-      mimetype: "video/mp4",
-      fileName: `${meta.title}.mp4`,
-      caption,
-      thumbnail: meta?.thumbnail ? await (await fetch(meta.thumbnail)).buffer() : null
-    }, { quoted: m })
-
-    await m.react('✔️')
-
-  } catch (e) {
-    console.error(e)
-    conn.reply(m.chat, `*Ocurrió un error:*\n${e}`, m)
+  }),
+  log(m) { console.log(`[yt-skrep] ${m}`) },
+  resolveConverterPayload(link, f = '128k') {
+    const formatos = ['128k', '320k', '144p', '240p', '360p', '720p', '1080p']
+    if (!formatos.includes(f)) throw Error(`Formato inválido. Formatos disponibles: ${formatos.join(', ')}`)
+    const tipo = f.endsWith('k') ? 'mp3' : 'mp4'
+    const audioBitrate = tipo === 'mp3' ? parseInt(f) + '' : '128'
+    const videoQuality = tipo === 'mp4' ? parseInt(f) + '' : '720'
+    return { link, format: tipo, audioBitrate, videoQuality, filenameStyle: 'pretty', vCodec: 'h264' }
+  },
+  sanitizeFileName(n) {
+    const ext = n.match(/\.[^.]+$/)[0]
+    const name = n.replace(new RegExp(`\\${ext}$`), '').replaceAll(/[^A-Za-z0-9]/g, '_').replace(/_+/g, '_').toLowerCase()
+    return name + ext
+  },
+  async getBuffer(u) {
+    const h = structuredClone(this.static.headers)
+    h.referer = 'https://v6.www-y2mate.com/'
+    h.range = 'bytes=0-'
+    delete h.origin
+    const r = await fetch(u, { headers: h })
+    if (!r.ok) throw Error(`${r.status} ${r.statusText}`)
+    const ab = await r.arrayBuffer()
+    return Buffer.from(ab)
+  },
+  async getKey() {
+    const r = await fetch(this.static.baseUrl + '/v2/sanity/key', { headers: this.static.headers })
+    if (!r.ok) throw Error(`${r.status} ${r.statusText}`)
+    return await r.json()
+  },
+  async convert(u, f) {
+    const { key } = await this.getKey()
+    const p = this.resolveConverterPayload(u, f)
+    const h = { key, ...this.static.headers }
+    const r = await fetch(this.static.baseUrl + '/v2/converter', { headers: h, method: 'post', body: new URLSearchParams(p) })
+    if (!r.ok) throw Error(`${r.status} ${r.statusText}`)
+    return await r.json()
+  },
+  async download(u, f) {
+    const { url, filename } = await this.convert(u, f)
+    const buffer = await this.getBuffer(url)
+    return { fileName: this.sanitizeFileName(filename), buffer }
   }
 }
 
-handler.help = ["ytmp4 <url>"]
-handler.tags = ["download"]
-handler.command = ["ytmp4", "playmp4"]
-handler.group = true
+async function convertToFast(buffer) {
+  const tempIn = './temp_in.mp4'
+  const tempOut = './temp_out.mp4'
+  fs.writeFileSync(tempIn, buffer)
+  await new Promise((res, rej) => {
+    const ff = spawn('ffmpeg', ['-i', tempIn, '-c', 'copy', '-movflags', 'faststart', tempOut])
+    ff.on('close', code => code === 0 ? res() : rej(new Error('Error al convertir con ffmpeg')))
+  })
+  const newBuffer = fs.readFileSync(tempOut)
+  fs.unlinkSync(tempIn)
+  fs.unlinkSync(tempOut)
+  return newBuffer
+}
+
+let handler = async (m, { conn, args, command }) => {
+  try {
+    if (!args[0]) return m.reply(`*Ejemplo:* .${command} https://youtu.be/JiEW1agPqNY`)
+    
+    // Mensaje de espera
+    const waitMessage = command.startsWith('yta') 
+      ? '🌳 Descargando audio, por favor espera...' 
+      : '🦌 Descargando video, por favor espera...'
+    const sentMsg = await conn.sendMessage(m.chat, { text: waitMessage }, { quoted: m })
+
+    let formato = args[1] || (command.startsWith('ytax') ? '128k' : '1080p')
+    let { buffer, fileName } = await yt.download(args[0], formato)
+
+    if (command.startsWith('ytvx')) {
+      buffer = await convertToFast(buffer)
+      await conn.sendMessage(m.chat, { video: buffer, mimetype: 'video/mp4', fileName }, { quoted: m })
+    } else {
+      await conn.sendMessage(m.chat, { audio: buffer, mimetype: 'audio/mpeg', fileName }, { quoted: m })
+    }
+
+    await conn.sendMessage(m.chat, { delete: sentMsg.key })
+    
+  } catch (e) {
+    m.reply(`❌ Ocurrió un error: ${e.message}`)
+  }
+}
+
+handler.help = ['ytv2', 'yta2']
+handler.tags = ['descargador']
+handler.command = ['ytv2', 'yta2']
 
 export default handler
