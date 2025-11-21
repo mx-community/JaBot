@@ -2,17 +2,20 @@ import fetch from 'node-fetch'
 import axios from 'axios'
 import cheerio from 'cheerio'
 let handler = async (m, { conn, args, text }) => {
-if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video o imagen de *Twitter* para descargarlo.` }, { quoted: m })
+if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video o imagen de *Twitter* para descargarlo.\n\n• Por ejemplo:\n*#${command}* https://x.com/itsD3lay/status/1991129340067868894?t=LfY9O5INtjKTH8IKr562Kw&s=19` }, { quoted: m })
 try {
-await conn.sendMessage(m.chat, { text: `Descargando contenido, espere un momento...` }, { quoted: m })
+await m.react("⏰")
 const result = await twitterScraper(text);
 if (!result.status) return conn.reply(m.chat, `📍  No se ha podido obtener el contenido de Twitter.`, m)
 if (result.data.type === 'video') {
-let videoText = `·─┄ · ✦ *Twitter : Download* ✦ ·
+let videoText = `〆  T W I T T E R  :  D L
 
-⊹ ✎ *Título:* ${result.data.title}
-⊹ ✎ *Duracion:* ${result.data.duration}
-⊹ ✎ *Enlace:* ${text}`
+\t⸭ ✅ ${result.data.title}
+
+\t\t⧡ Duracion : ${result.data.duration}
+\t\t⧡ Enlace : ${text}
+
+> ${textbot}`
 conn.sendFile(m.chat, result.data.dl[0].url, "video.mp4", videoText, m)
 
 } else {
@@ -86,4 +89,5 @@ dl: downloadUrl
 reject(error)
 }})
 }
+
   
