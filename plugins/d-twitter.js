@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import axios from 'axios'
 import cheerio from 'cheerio'
-let handler = async (m, { conn, args, text }) => {
+let handler = async (m, { conn, args, text, command }) => {
 if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video o imagen de *Twitter* para descargarlo.\n\n• Por ejemplo:\n*#${command}* https://x.com/itsD3lay/status/1991129340067868894?t=LfY9O5INtjKTH8IKr562Kw&s=19` }, { quoted: m })
 try {
 await m.react("⏰")
