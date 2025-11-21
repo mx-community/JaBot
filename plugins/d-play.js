@@ -37,7 +37,7 @@ const texto1 = `〆  P L A Y  :  Y O U T U B E
 tempStorage[m.sender] = {url: yt_play[0].url, title: yt_play[0].title}
 
 const thumbXd = (await conn.getFile(yt_play[0].thumbnail))?.data
-await conn.sendMessage(m.chat, { text: videoText, mentions: [m.sender], contextInfo: { externalAdReply: { 
+await conn.sendMessage(m.chat, { text: texto1, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: "々  P L A Y  :  Y T  々", 
 body: botname, 
 thumbnail: thumbXd, 
