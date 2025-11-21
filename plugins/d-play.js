@@ -8,7 +8,7 @@ const LimitVid = 425 * 1024 * 1024 // 425MB
 let tempStorage = {}
 
 const handler = async (m, {conn, command, args, text, usedPrefix}) => {
-let usoCorrecto = `\t\t【  Y O U T U B E  】
+let usoCorrecto = `\t\t【  Y O U T U B E  :  P L A Y 】
 
 \t⸭ 📌 Ingrese el comando y escriba o pegue un enlace de un video de \`YouTube\` para descargar.
 
@@ -20,7 +20,7 @@ if (!text) return conn.reply(m.chat, usoCorrecto, m)
   await m.react("⏰")
 const yt_play = await search(args.join(' '))
 const ytplay2 = await yts(text)
-const texto1 = `\t\t【  Y O U T U B E  】
+const texto1 = `\t\t【  Y O U T U B E  :  P L A Y  】
 
 \t⸭ ✅ ${yt_play[0].title}
 
