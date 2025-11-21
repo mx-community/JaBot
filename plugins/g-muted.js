@@ -22,7 +22,7 @@ if (!global.db.data.users[target]) global.db.data.users[target] = { mute: false 
 const userData = global.db.data.users[target];
 
 if (command === 'mute') {
-if (userData.mute === true) return conn.sendMessage(m.chat, { text: `📌  Este usuario ya ha sido muteado.\n\n- Usa *#unmute* para desactivar esta función.` }, { quoted: m });
+if (userData.mute === true) return conn.sendMessage(m.chat, { text: `📌  Responda al usuario para ejecutar el comando.\n\n- Usa *#unmute* para desactivar esta función.` }, { quoted: m });
 
 const thumbnail = await (await fetch(`${global.mMages}`)).buffer();
 const quotedMsg = {
@@ -54,7 +54,7 @@ return;
 }
 
 if (command === 'unmute') {
-if (userData.mute === false) return conn.sendMessage(m.chat, { text: `📌  Este usuario no ha sido muteado.\n\n- Usa *#mute* para activar la función.` }, { quoted: m });
+if (userData.mute === false) return conn.sendMessage(m.chat, { text: `📌  Responda al usuario para ejecutar el comando.\n\n- Usa *#mute* para activar la función.` }, { quoted: m });
 
 const thumbnail = await (await fetch(`${global.mMages}`)).buffer();
 const quotedMsg = {
