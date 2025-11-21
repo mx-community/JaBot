@@ -1,210 +1,293 @@
 import fetch from 'node-fetch'
-import Jimp from 'jimp'
+import yts from 'yt-search'
+import ytdl from 'ytdl-core'
 import axios from 'axios'
-import crypto from 'crypto'
+import { ogmp3 } from '../lib/youtubedl.js'
+const LimitAud = 725 * 1024 * 1024 // 725MB
+const LimitVid = 425 * 1024 * 1024 // 425MB
+let tempStorage = {}
 
-const getFileSize = async (url) => {
-  try {
-    const head = await fetch(url, { method: "HEAD" });
-    const size = head.headers.get("content-length");
-    if (!size) return "Desconocido";
+const handler = async (m, {conn, command, args, text, usedPrefix}) => {
+if (!text) return conn.reply(m.chat, `Url o link`, m)
+const yt_play = await search(args.join(' '))
+const ytplay2 = await yts(text)
+const texto1 = `⌘━─━─≪ *YOUTUBE* ≫─━─━⌘
+titulo 
+★ ${yt_play[0].title}
+╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴
+publicado
+★ ${yt_play[0].ago}
+╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴
+segundos
+★ ${secondString(yt_play[0].duration.seconds)}
+╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴
+vistas 
+★ ${MilesNumber(yt_play[0].views)}
+╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴
+autor o autora
+★ ${yt_play[0].author.name}
+╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴
+enlace
+★ ${yt_play[0].url.replace(/^https?:\/\//, '')}
+⌘━━─≪ ${gt} ≫─━━⌘
+`.trim()
 
-    let mb = (Number(size) / 1024 / 1024).toFixed(2);
-    return `${mb} MB`;
-  } catch {
-    return "Desconocido";
-  }
-};
+tempStorage[m.sender] = {url: yt_play[0].url, title: yt_play[0].title}
 
-const savetube = {
-  api: {
-    base: "https://media.savetube.me/api",
-    cdn: "/random-cdn",
-    info: "/v2/info",
-    download: "/download"
-  },
-  headers: {
-    'accept': '*/*',
-    'content-type': 'application/json',
-    'origin': 'https://yt.savetube.me',
-    'referer': 'https://yt.savetube.me/',
-    'user-agent': 'Postify/1.0.0'
-  },
-  crypto: {
-    hexToBuffer: (hexString) => {
-      const matches = hexString.match(/.{1,2}/g);
-      return Buffer.from(matches.join(''), 'hex');
-    },
-    decrypt: async (enc) => {
-      const secretKey = 'C5D58EF67A7584E4A29F6C35BBC4EB12';
-      const data = Buffer.from(enc, 'base64');
-      const iv = data.slice(0, 16);
-      const content = data.slice(16);
-      const key = savetube.crypto.hexToBuffer(secretKey);
+await conn.sendFile(
+m.chat,
+yt_play[0].thumbnail,
+'error.jpg',
+texto1 + '\n> Para descargas en audio reacciona con "🎶"\n> Para descargar en video reacciona con "📽"',
+m,
+null,
+fake
+)
 
-      const decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
-      let decrypted = decipher.update(content);
-      decrypted = Buffer.concat([decrypted, decipher.final()]);
-
-      return JSON.parse(decrypted.toString());
-    }
-  },
-
-  isUrl: str => { try { new URL(str); return true } catch { return false } },
-
-  youtube: url => {
-    const patterns = [
-      /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
-      /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
-      /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/,
-      /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
-      /youtu\.be\/([a-zA-Z0-9_-]{11})/
-    ];
-    for (let regex of patterns) if (regex.test(url)) return url.match(regex)[1];
-    return null;
-  },
-
-  request: async (endpoint, data = {}, method = 'post') => {
-    try {
-      const { data: response } = await axios({
-        method,
-        url: `${endpoint.startsWith('http') ? '' : savetube.api.base}${endpoint}`,
-        data: method === 'post' ? data : undefined,
-        params: method === 'get' ? data : undefined,
-        headers: savetube.headers
-      });
-      return { status: true, code: 200, data: response };
-    } catch (error) {
-      return { status: false, code: error.response?.status || 500, error: error.message };
-    }
-  },
-
-  getCDN: async () => {
-    const response = await savetube.request(savetube.api.cdn, {}, 'get');
-    if (!response.status) return response;
-    return { status: true, code: 200, data: response.data.cdn };
-  },
-
-  download: async (link, quality = '480') => {
-
-    if (!link) return { status: false, code: 400, error: "Falta el enlace de YouTube." };
-    if (!savetube.isUrl(link)) return { status: false, code: 400, error: "URL inválida de YouTube." };
-
-    const id = savetube.youtube(link);
-    if (!id) return { status: false, code: 400, error: "No se pudo extraer el ID del video." };
-
-    try {
-      const cdnRes = await savetube.getCDN();
-      if (!cdnRes.status) return cdnRes;
-
-      const cdn = cdnRes.data;
-
-      const infoRes = await savetube.request(`https://${cdn}${savetube.api.info}`, {
-        url: `https://www.youtube.com/watch?v=${id}`
-      });
-
-      if (!infoRes.status) return infoRes;
-
-      const decrypted = await savetube.crypto.decrypt(infoRes.data.data);
-
-      const dl = await savetube.request(`https://${cdn}${savetube.api.download}`, {
-        id,
-        downloadType: 'video',
-        quality,
-        key: decrypted.key
-      });
-
-      return {
-        status: true,
-        code: 200,
-        result: {
-          title: decrypted.title || "Desconocido",
-          thumbnail: decrypted.thumbnail || `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
-          download: dl.data.data.downloadUrl,
-          duration: decrypted.duration,
-          quality,
-          id
-        }
-      };
-
-    } catch (error) {
-      return { status: false, code: 500, error: error.message };
-    }
-  }
-};
-
-let handler = async (m, { conn, args }) => {
-
-  const Shadow_url = await (await fetch("https://raw.githubusercontent.com/AkiraDevX/uploads/main/uploads/1763384842220_234152.jpeg")).buffer()
-
-
-  let q = args.join(" ").trim()
-  if (!q)
-    return conn.sendMessage(m.chat, { text: `*☃️ Ingresa el nombre del video a descargar.*` }, { quoted: m })
-
-  await conn.sendMessage(m.chat, { text: `> ☕ \`𝗜𝗡𝗜𝗖𝗜𝗔𝗡𝗗𝗢 𝗣𝗥𝗢𝗖𝗘𝗦𝗢 𝗗𝗘 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 :𝗗\`` }, { quoted: m })
-
-  try {
-    let res = await fetch(`https://api.delirius.store/search/ytsearch?q=${encodeURIComponent(q)}`)
-    let json = await res.json()
-    if (!json.status || !json.data.length)
-      return conn.sendMessage(m.chat, { text: `No encontré resultados para *${q}*.` }, { quoted: m })
-
-    let vid = json.data[0]
-
-    let info = await savetube.download(vid.url, '480')
-    if (!info.status)
-      return conn.sendMessage(m.chat, { text: `⚠️ No se pudo obtener el video de *${vid.title}*.` }, { quoted: m })
-
-    let { result } = info
-    let size = await getFileSize(result.download)
-
-    const vistas = formatViews(vid.views)
-
-    let caption = `
-┌── 「 🌲 YOUTUBE MP4 DOC 」──┐
-│ 🌿 *Título:* ${result.title}
-│ 🍂 *Duración:* ${vid.duration}
-│ 🦦 *ID:* ${vid.videoId}
-│ ❄️ *Vistas:* ${vistas}
-│ 🎍 *Publicado:* ${vid.publishedAt}
-│ 🍃 *Tamaño:* ${size}
-│ 🪶 *Canal:* ${vid.author?.name || "Desconocido"}
-│ 🌤️ *Calidad:* ${result.quality}P
-│ 🌱 *Link:* ${vid.url}
-└─────────────────────────┘
-
-🪺💚 *Proceso completado.*
-> 🪵 𝐊𝐚𝐧𝐞𝐤𝐢 𝐁𝐨𝐭 - 𝐕3 • 𝐝𝐯.𝐬𝐡𝐚𝐝𝐨𝐰.𝐱𝐲𝐳`.trim()
-
-    let thumb = null
-    try {
-      const img = await Jimp.read(result.thumbnail)
-      img.resize(500, Jimp.AUTO)
-      thumb = await img.getBufferAsync(Jimp.MIME_JPEG)
-    } catch { }
-
-    await conn.sendMessage(m.chat, {
-      document: { url: result.download },
-      mimetype: "video/mp4",
-      fileName: `${result.title}.mp4`,
-      caption: null,
-    }, { quoted: m })
-
-  } catch (err) {
-    conn.sendMessage(m.chat, { text: `💔 Error: ${err.message}` }, { quoted: m })
-  }
 }
 
-handler.command = ['ytmp4doc', 'ytvdoc', 'ytdoc']
-handler.help = ['ytmp4doc']
-handler.tags = ['download']
+handler.before = async (m, {conn}) => {
+const text = m.text.trim().toLowerCase()
+if (!['🎶', 'audio', '📽', 'video'].includes(text)) return
+const userVideoData = tempStorage[m.sender]
+if (!userVideoData || !userVideoData.url) return
+const [input, qualityInput = text === '🎶' || text === 'audio' ? '320' : '720'] = userVideoData.title.split(' ')
+const audioQualities = ['64', '96', '128', '192', '256', '320']
+const videoQualities = ['240', '360', '480', '720', '1080']
+const isAudio = text === '🎶' || text === 'audio'
+const selectedQuality = (isAudio ? audioQualities : videoQualities).includes(qualityInput) ? qualityInput : isAudio ? '320' : '720'
+
+const audioApis = [
+{url: () => ogmp3.download(userVideoData.url, selectedQuality, 'audio'), extract: (data) => ({data: data.result.download, isDirect: false})},
+{url: () => ytmp3(userVideoData.url), extract: (data) => ({data, isDirect: true})},
+{
+url: () =>
+fetch(`https://api.neoxr.eu/api/youtube?url=${userVideoData.url}&type=audio&quality=128kbps&apikey=GataDios`).then((res) => res.json()),
+extract: (data) => ({data: data.data.url, isDirect: false})
+},
+{
+url: () => fetch(`${global.APIs.stellar.url}/dow/ytmp3?url=${userVideoData.url}&key=GataDios`).then((res) => res.json()),
+extract: (data) => ({data: data?.data?.dl, isDirect: false})
+},
+{
+url: () => fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${userVideoData.url}`).then((res) => res.json()),
+extract: (data) => ({data: data.dl, isDirect: false})
+},
+{
+url: () => fetch(`${apis}/download/ytmp3?url=${userVideoData.url}`).then((res) => res.json()),
+extract: (data) => ({data: data.status ? data.data.download.url : null, isDirect: false})
+},
+{
+url: () => fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${userVideoData.url}`).then((res) => res.json()),
+extract: (data) => ({data: data.result.download.url, isDirect: false})
+}
+]
+
+const videoApis = [
+{url: () => ogmp3.download(userVideoData.url, selectedQuality, 'video'), extract: (data) => ({data: data.result.download, isDirect: false})},
+{url: () => ytmp4(userVideoData.url), extract: (data) => ({data, isDirect: false})},
+{
+url: () => fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${userVideoData.url}`).then((res) => res.json()),
+extract: (data) => ({data: data.dl, isDirect: false})
+},
+{
+url: () => fetch(`https://api.neoxr.eu/api/youtube?url=${userVideoData.url}&type=video&quality=720p&apikey=GataDios`).then((res) => res.json()),
+extract: (data) => ({data: data.data.url, isDirect: false})
+},
+{
+url: () => fetch(`${global.APIs.stellar.url}/dow/ytmp4?url=${userVideoData.url}&key=GataDios`).then((res) => res.json()),
+extract: (data) => ({data: data?.data?.dl, isDirect: false})
+},
+{
+url: () => fetch(`${apis}/download/ytmp4?url=${userVideoData.url}`).then((res) => res.json()),
+extract: (data) => ({data: data.status ? data.data.download.url : null, isDirect: false})
+},
+{
+url: () => fetch(`https://exonity.tech/api/ytdlp2-faster?apikey=adminsepuh&url=${userVideoData.url}`).then((res) => res.json()),
+extract: (data) => ({data: data.result.media.mp4, isDirect: false})
+}
+]
+
+const download = async (apis) => {
+let mediaData = null
+let isDirect = false
+for (const api of apis) {
+try {
+const data = await api.url()
+const {data: extractedData, isDirect: direct} = api.extract(data)
+if (extractedData) {
+const size = await getFileSize(extractedData)
+if (size >= 1024) {
+mediaData = extractedData
+isDirect = direct
+break
+}
+}
+} catch (e) {
+console.log(`Error con API: ${e}`)
+continue
+}
+}
+return {mediaData, isDirect}
+}
+try {
+if (text === '🎶' || text === 'audio') {
+await conn.reply(m.chat, "descargando", fkontak, m || null)
+const {mediaData, isDirect} = await download(audioApis)
+if (mediaData) {
+const fileSize = await getFileSize(mediaData)
+if (fileSize > LimitAud) {
+await conn.sendMessage(
+m.chat,
+{document: isDirect ? mediaData : {url: mediaData}, mimetype: 'audio/mpeg', fileName: `${userVideoData.title}.mp3`},
+{quoted: m || null}
+)
+} else {
+await conn.sendMessage(m.chat, {audio: isDirect ? mediaData : {url: mediaData}, mimetype: 'audio/mpeg'}, {quoted: m || null})
+}
+} else {
+await conn.reply(m.chat, '❌ No se pudo descargar el audio', m || null)
+}
+} else if (text === '📽' || text === 'video') {
+await conn.reply(m.chat, "Descargando v", fkontak, m || null)
+const {mediaData, isDirect} = await download(videoApis)
+if (mediaData) {
+const fileSize = await getFileSize(mediaData)
+const messageOptions = {fileName: `${userVideoData.title}.mp4`, caption: `⟡ *${userVideoData.title}*\n> ${wm}`, mimetype: 'video/mp4'}
+if (fileSize > LimitVid) {
+await conn.sendMessage(m.chat, {document: isDirect ? mediaData : {url: mediaData}, ...messageOptions}, {quoted: m || null})
+} else {
+await conn.sendMessage(m.chat, {video: isDirect ? mediaData : {url: mediaData}, ...messageOptions}, {quoted: m || null})
+}
+} else {
+await conn.reply(m.chat, '❌ No se pudo descargar el video', m || null)
+}
+}
+} catch (error) {
+console.error(error)
+} finally {
+delete tempStorage[m.sender]
+}
+}
+handler.command = ["playxd"]
+
 export default handler
 
-function formatViews(views) {
-  if (!views) return "No disponible"
-  if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
-  if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M (${views.toLocaleString()})`
-  if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k (${views.toLocaleString()})`
-  return views.toString()
-    }
+async function search(query, options = {}) {
+const search = await yts.search({query, hl: 'es', gl: 'ES', ...options})
+return search.videos
+}
+
+function MilesNumber(number) {
+const exp = /(\d)(?=(\d{3})+(?!\d))/g
+const rep = '$1.'
+const arr = number.toString().split('.')
+arr[0] = arr[0].replace(exp, rep)
+return arr[1] ? arr.join('.') : arr[0]
+}
+
+function secondString(seconds) {
+seconds = Number(seconds)
+const d = Math.floor(seconds / (3600 * 24))
+const h = Math.floor((seconds % (3600 * 24)) / 3600)
+const m = Math.floor((seconds % 3600) / 60)
+const s = Math.floor(seconds % 60)
+const dDisplay = d > 0 ? d + (d == 1 ? ' día, ' : ' días, ') : ''
+const hDisplay = h > 0 ? h + (h == 1 ? ' hora, ' : ' horas, ') : ''
+const mDisplay = m > 0 ? m + (m == 1 ? ' minuto, ' : ' minutos, ') : ''
+const sDisplay = s > 0 ? s + (s == 1 ? ' segundo' : ' segundos') : ''
+return dDisplay + hDisplay + mDisplay + sDisplay
+}
+
+const getBuffer = async (url) => {
+try {
+const response = await fetch(url)
+const buffer = await response.arrayBuffer()
+return Buffer.from(buffer)
+} catch (error) {
+console.error('Error al obtener el buffer', error)
+throw new Error('Error al obtener el buffer')
+}
+}
+
+async function getFileSize(url) {
+try {
+const response = await fetch(url, {method: 'HEAD'})
+return parseInt(response.headers.get('content-length') || 0)
+} catch {
+return 0
+}
+}
+
+async function fetchInvidious(url) {
+const apiUrl = 'https://invidious.io/api/v1/get_video_info'
+const response = await fetch(`${apiUrl}?url=${encodeURIComponent(url)}`)
+const data = await response.json()
+if (data && data.video) {
+const videoInfo = data.video
+return videoInfo
+} else {
+throw new Error('No se pudo obtener información del video desde Invidious')
+}
+}
+
+function getBestVideoQuality(videoData) {
+const preferredQualities = ['720p', '360p', 'auto']
+const availableQualities = Object.keys(videoData.video)
+for (let quality of preferredQualities) {
+if (availableQualities.includes(quality)) {
+return videoData.video[quality].quality
+}
+}
+return '360p'
+}
+
+async function ytMp3(url) {
+return new Promise((resolve, reject) => {
+ytdl
+.getInfo(url)
+.then(async (getUrl) => {
+let result = []
+for (let i = 0; i < getUrl.formats.length; i++) {
+let item = getUrl.formats[i]
+if (item.mimeType == 'audio/webm; codecs=\"opus\"') {
+let {contentLength} = item
+let bytes = await bytesToSize(contentLength)
+result[i] = {audio: item.url, size: bytes}
+}
+}
+let resultFix = result.filter((x) => x.audio != undefined && x.size != undefined)
+let tiny = await axios.get(`https://tinyurl.com/api-create.php?url=${resultFix[0].audio}`)
+let tinyUrl = tiny.data
+let title = getUrl.videoDetails.title
+let thumb = getUrl.player_response.microformat.playerMicroformatRenderer.thumbnail.thumbnails[0].url
+resolve({title, result: tinyUrl, result2: resultFix, thumb})
+})
+.catch(reject)
+})
+}
+
+async function ytMp4(url) {
+return new Promise(async (resolve, reject) => {
+ytdl
+.getInfo(url)
+.then(async (getUrl) => {
+let result = []
+for (let i = 0; i < getUrl.formats.length; i++) {
+let item = getUrl.formats[i]
+if (item.container == 'mp4' && item.hasVideo == true && item.hasAudio == true) {
+let {qualityLabel, contentLength} = item
+let bytes = await bytesToSize(contentLength)
+result[i] = {video: item.url, quality: qualityLabel, size: bytes}
+}
+}
+let resultFix = result.filter((x) => x.video != undefined && x.size != undefined && x.quality != undefined)
+let tiny = await axios.get(`https://tinyurl.com/api-create.php?url=${resultFix[0].video}`)
+let tinyUrl = tiny.data
+let title = getUrl.videoDetails.title
+let thumb = getUrl.player_response.microformat.playerMicroformatRenderer.thumbnail.thumbnails[0].url
+resolve({title, result: tinyUrl, rersult2: resultFix[0].video, thumb})
+})
+.catch(reject)
+})
+}
