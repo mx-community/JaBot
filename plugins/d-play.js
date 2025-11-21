@@ -20,7 +20,7 @@ if (!text) return conn.reply(m.chat, usoCorrecto, m)
   await m.react("⏰")
 const yt_play = await search(args.join(' '))
 const ytplay2 = await yts(text)
-const texto1 = `〆  P L A Y  :  Y O U T U B E
+const texto1 = `\t\t【  Y O U T U B E  】
 
 \t⸭ ✅ ${yt_play[0].title}
 
@@ -158,7 +158,7 @@ await m.react("⏰")
 const {mediaData, isDirect} = await download(videoApis)
 if (mediaData) {
 const fileSize = await getFileSize(mediaData)
-const messageOptions = {fileName: `${userVideoData.title}.mp4`, caption: `〆  V I D E O  :  Y T\n\n\t⸭ ✅ ${userVideoData.title}\n\n> ${textbot}`, mimetype: 'video/mp4'}
+const messageOptions = {fileName: `${userVideoData.title}.mp4`, caption: `\t\t【  V I D E O  :  Y T  】\n\n\t⸭ ✅ ${userVideoData.title}\n\n> ${textbot}`, mimetype: 'video/mp4'}
 if (fileSize > LimitVid) {
 await conn.sendMessage(m.chat, {document: isDirect ? mediaData : {url: mediaData}, ...messageOptions}, {quoted: m || null})
 await m.react("✅")
