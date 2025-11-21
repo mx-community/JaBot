@@ -54,7 +54,7 @@ global.fImagen = "https://files.catbox.moe/nw4zrd.jpg"
 global.fImagen2 = "https://files.catbox.moe/esnv6d.jpg"
   
 global.redes = [canal, comunidad, webmx, paypal].getRandom()
-global.mMages = ["https://files.catbox.moe/elksya.jpg", "https://files.catbox.moe/3hm7im.jpg"].getRandom()
+global.mMages = [fMage, fMage2].getRandom()
   //[fMage, fMage2, fMage3, fMage4, fMage5, fMage6, fMage7, fMage8, fMage9, fMage10, fMage11, fMage12, fMage13, fMage14, fMage15, fMage16, fMage17, fMage18].getRandom()
 global.mImagen = ["https://files.catbox.moe/nw4zrd.jpg", "https://files.catbox.moe/esnv6d.jpg"].getRandom()
   //[fImagen, fImagen2, fImagen3, fImagen4, fImagen5, fImagen6, fImagen7, fImagen8, fImagen9, fImagen10, fImagen11, fImagen12, fImagen13, fImagen14].getRandom()
