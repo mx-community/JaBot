@@ -28,7 +28,7 @@ let titulott = `〆  T I K T O K  :  D L
 \t⸭ ✅ ${title}
 
 \t\t⧡ ID : *${id}*
-\t\t⧡ Duracion : *${duration}*
+\t\t⧡ Duracion : *${duration}* s/m
 \t\t⧡ Comentarios : *${comment_count}*
 \t\t⧡ Compartidos : *${share_count}*
 \t\t⧡ Descargas : *${download_count}*
