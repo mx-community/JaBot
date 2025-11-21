@@ -12,7 +12,7 @@ let q = m.quoted ? m.quoted : m
 let mime = (q.msg || q).mimetype || ''
 switch (command) {
 case 'turl': {
-if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen o video.` }, { quoted: m })
+if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a un archivo.` }, { quoted: m })
 await m.react('⏳')
 const media = await q.download()
 const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
@@ -22,16 +22,14 @@ const txt = `\t\t【  UPLOAD  :  QU_AX 】
 \t𝇈 📍 Imagen subida correctamente a qu_ax.
 
 \t\t⩩ *Enlace:* ${link}
-
 \t\t⩩ *Tamaño:* ${formatBytes(media.length)}
-
 \t\t⩩ *Caducidad:* ${isTele ? 'No expira' : 'Desconocido'}
 
 > ${textbot}`
 const ppTelegra = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 await conn.sendMessage(m.chat, { text: txt, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: "々  UPLOAD  :  FILE  々", 
-body: null, 
+body: botname, 
 thumbnail: ppTelegra, 
 sourceUrl: link, 
 mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
@@ -49,17 +47,14 @@ const txt = `\t\t【  UPLOAD  :  CATBOX  】
 \t𝇈 📍 Imagen subida correctamente a catbox.
 
 \t\t⩩ *Enlace :* ${link}
-
 \t\t⩩ *Tamaño :* ${formatBytes(media.length)}
-
 \t\t⩩ *Caducidad :* ${isTele ? 'No expira' : 'Desconocido'}
-
 
 > ${textbot}`
 const ppCatbox = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 await conn.sendMessage(m.chat, { text: txt, mentions: [m.sender], contextInfo: { externalAdReply: { 
-title: "々  U P L O A D  :  F I L E  々", 
-body: null, 
+title: "々  UPLOAD  :  FILE  々", 
+body: botname, 
 thumbnail: ppCatbox, 
 sourceUrl: link, 
 mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
