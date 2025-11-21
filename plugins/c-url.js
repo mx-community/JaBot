@@ -17,7 +17,7 @@ await m.react('⏳')
 const media = await q.download()
 const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
 const link = await uploadImage(media)
-const txt = `·─┄ · ✦ *Uploader : Success* ✦ ·
+const txt = `\t\t【  UPLOAD  :  QU_AX 】
 
 \t𝇈 📍 Imagen subida correctamente a qu_ax.
 
@@ -30,7 +30,7 @@ const txt = `·─┄ · ✦ *Uploader : Success* ✦ ·
 > ${textbot}`
 const ppTelegra = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
 await conn.sendMessage(m.chat, { text: txt, mentions: [m.sender], contextInfo: { externalAdReply: { 
-title: "々  U P L O A D  :  F I L E  々", 
+title: "々  UPLOAD  :  FILE  々", 
 body: null, 
 thumbnail: ppTelegra, 
 sourceUrl: link, 
@@ -44,7 +44,7 @@ await m.react('⏳')
 const media = await q.download()
 const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
 const link = await catbox(media)
-const txt = `·─┄ · ✦ *Uploader : Success* ✦ ·
+const txt = `\t\t【  UPLOAD  :  CATBOX  】
 
 \t𝇈 📍 Imagen subida correctamente a catbox.
 
