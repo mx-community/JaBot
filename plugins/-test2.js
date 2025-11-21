@@ -64,8 +64,8 @@ fetch(`https://api.neoxr.eu/api/youtube?url=${userVideoData.url}&type=audio&qual
 extract: (data) => ({data: data.data.url, isDirect: false})
 },
 {
-url: () => fetch(`${global.APIs.stellar.url}/dow/ytmp3?url=${userVideoData.url}&key=GataDios`).then((res) => res.json()),
-extract: (data) => ({data: data?.data?.dl, isDirect: false})
+url: () => fetch(`https://api-shadowxyz.vercel.app/download/ytmp3V2?url=${userVideoData.url}`).then((res) => res.json()),
+extract: (data) => ({data: data?.data?.download_url, isDirect: false})
 },
 {
 url: () => fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${userVideoData.url}`).then((res) => res.json()),
