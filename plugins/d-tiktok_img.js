@@ -38,7 +38,7 @@ let infoXd = `〆  T I K T O K  :  D L
 await m.react("⏰")
 await conn.sendMessage(m.chat, { text: infoXd }, { quoted: m })
 for (let i = 0; i < images.length; i++) {
-await conn.sendMessage(m.chat, { image: { url: images[i] }, caption: `xd` }, m)
+await conn.sendMessage(m.chat, { image: { url: images[i] }, caption: null }, m)
  }
 await m.react("✅")
 }} catch (err) {
