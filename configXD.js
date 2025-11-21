@@ -48,16 +48,19 @@ ch1: "120363318353263389@newsletter"
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.APIs = {
-xyro: { url: "https://xyro.site", key: null },
-stellar: {url: 'https://api.stellarwa.xyz', key: 'Stellar'},
-yupra: { url: "https://api.yupra.my.id", key: null },
-vreden: { url: "https://api.vreden.web.id", key: null },
+lolhuman: {url: 'https://api.lolhuman.xyz/api', key: 'GataDiosV3'},
+stellar: {url: 'https://api.stellarwa.xyz', key: 'GataDios'},
+skizo: {url: 'https://skizo.tech/api', key: 'GataDios'},
+alyachan: {url: 'https://api.alyachan.dev/api', key: null},
 exonity: {url: 'https://exonity.tech/api', key: 'GataDios'},
-delirius: { url: "https://api.delirius.store", key: null },
-zenzxz: { url: "https://api.zenzxz.my.id", key: null },
+ryzendesu: {url: 'https://api.ryzendesu.vip/api', key: null},
+neoxr: {url: 'https://api.neoxr.eu/api', key: 'GataDios'},
+davidcyriltech: {url: 'https://api.davidcyriltech.my.id', key: null},
 dorratz: {url: 'https://api.dorratz.com', key: null},
+siputzx: {url: 'https://api.siputzx.my.id/api', key: null},
+vreden: {url: 'https://api.vreden.web.id/api', key: null},
 fgmods: {url: 'https://api.fgmods.xyz/api', key: 'elrebelde21'},
-siputzx: { url: "https://api.siputzx.my.id", key: null }
+popcat: {url: 'https://api.popcat.xyz', key: null}
 }
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
