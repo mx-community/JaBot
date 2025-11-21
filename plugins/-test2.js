@@ -14,10 +14,10 @@ const ytplay2 = await yts(text)
 const texto1 = `⌘━─━─≪ *YOUTUBE* ≫─━─━⌘
 titulo 
 ★ ${yt_play[0].title}
-╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴
+╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ 
 publicado
 ★ ${yt_play[0].ago}
-╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴
+╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ 
 segundos
 ★ ${secondString(yt_play[0].duration.seconds)}
 ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴ ╴
