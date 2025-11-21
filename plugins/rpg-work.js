@@ -18,14 +18,11 @@ let conseguido = `〆  W O R K  :  R P G
 
 \t\t⚶ ${currency} : +${rsl.toLocaleString()}
 \t\t⚶ ${currency2} : +${rsl2.toLocaleString()}
-\t\t⚶ Boletos : +${bol.toLocaleString()}
-
 
 > ${textbot}`
-await conn.sendMessage(m.chat, { text: `` }, { quoted: m })
+await conn.sendMessage(m.chat, { text: conseguido }, { quoted: m })
 user.coin += rsl
 user.exp += rsl2
-user.boletos += 1
 }
 
 handler.help = ['trabajar']
