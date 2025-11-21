@@ -4,11 +4,11 @@ import moment from 'moment-timezone'
 
 const handler = async (m, { conn, command, usedPrefix, text }) => {
 try {
-let uploadXd = `·─┄ · ✦ *Upload : Files* ✦ ·
+let uploadXd = `\t\t【  U P L O A D  】
 
-\t⧆ \`\`\`📍 Sube archivos soportados.\`\`\`
+\t⧆ \`\`\`📍 Sube archivos multimedia.\`\`\`
 
-\t\t⧡ *${usedPrefix}turl* (error ppr el momento)
+\t\t⧡ *${usedPrefix}turl* (todas las extensiones)
 \t\t⧡ *${usedPrefix}catbox* (todas las extensiones)
 
 
