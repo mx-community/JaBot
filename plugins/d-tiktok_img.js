@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 
 let handler = async (m, { conn, usedPrefix, command, text }) => {
-let optionsXd = `〆  T I K T O K  :  D L
+let optionsXd = `\t〨  *T I K T O K  :  D L*
 
 \t⸭ 📌 \`\`\`Descargas de tiktok.\`\`\`
 
@@ -26,7 +26,7 @@ if (!json || json.code !== 0 || !json.data) return conn.sendMessage(m.chat, { te
 const data = json.data
 const { id, region, title, cover, origin_cover, duration, play, wmplay, music, music_info, play_count, digg_count, comment_count, share_count, download_count, author, images, create_time } = data
 if (images && images.length > 0) {
-let infoXd = `〆  T I K T O K  :  D L
+let infoXd = `\t〨  *T I K T O K  :  D L*
 
 \t⸭ ✅ ${title}
 
