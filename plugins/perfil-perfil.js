@@ -42,6 +42,7 @@ let text = `\t\t々  *P E R F I L*  々
 ᗢ Premium : ${premium ? `${tiempoPremium} ✓` : '✘'}
 ⏍ Cumple : ${cumpleanos}
 ⎋ Red : ${misocial}
+々 Genero : *${genero}*
 
 ⊐ Nivel : *lvl_${nivel}*
 ⊐ Rango : *#${rank}*
