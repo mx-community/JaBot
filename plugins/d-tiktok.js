@@ -1,19 +1,17 @@
 import fetch from 'node-fetch'
+import yts from 'yt-search'
 
 let handler = async (m, { conn, usedPrefix, command, text }) => {
 let optionsXd = `〆  T I K T O K  :  D L
 
 \t⸭ 📌 \`\`\`Descargas de tiktok.\`\`\`
 
-\t\t⧡ ${usedPrefix + command} *<link>*
+\t\t⧡ ${usedPrefix}tiktok *<link>*
 \t\t⧡ ${usedPrefix}p-tiktok *<link>*
-\t\t⧡ ${usedPrefix}a-tiktok *<link>*
+\t\t⧡ ${usedPrefix}a-tiktok *<link>*`
 
-⚶ Por ejemplo:
-${usedPrefix + command} https://vm.tiktok.com/ZNdKt838j/
-
-> ${textbot}`
-if (!text) return conn.sendMessage(m.chat, { text: optionsXd.trim() }, { quoted: m })
+if (command === "tiktok" || command === "tt") {
+if (!text) return conn.sendMessage(m.chat, { text: `${optionsXd}\n\n⚶ Por ejemplo:\n${usedPrefix + command} https://vm.tiktok.com/ZNdKt838j/\n\n> ${textbot}` }, { quoted: m })
 try {
 let regex = /https?:\/\/(?:www\.|vm\.|vt\.)?tiktok\.com\/[^\s]+/i
 let match = m.text.match(regex)
@@ -30,25 +28,46 @@ let titulott = `〆  T I K T O K  :  D L
 \t⸭ ✅ ${title}
 
 \t\t⧡ ID : *${id}*
-\t\t⧡ Duracion : *${duration}* s/m
-\t\t⧡ Author : *${author}*
+\t\t⧡ Duracion : *${duration}*
 \t\t⧡ Comentarios : *${comment_count}*
 \t\t⧡ Compartidos : *${share_count}*
 \t\t⧡ Descargas : *${download_count}*
-\t\t⧡ Audio : *${music_info}*
 
-> ${textbot}
-`
+> ${textbot}`
 await m.react("⏰")
 await conn.sendMessage(m.chat, { video: { url: play }, caption: titulott, gifPlayback: false, jpegThumbnail: Buffer.from(await (await fetch(cover)).arrayBuffer()) }, { quoted: m })
+await m.react("✅")
 } catch (err) {
 console.error(err)
 await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${err}` }, { quoted: m })
 }
 }
 
-handler.command = ["tiktok", "tt"]
+if (command === "a-tt" || command === "a-tiktok") {
+if (!text) return conn.reply(m.chat, `${optionsXd}\n\n⚶ Por ejemplo:\n${usedPrefix + command} https://vm.tiktok.com/ZNdKt838j/\n\n> ${textbot}`, m);
+try {
+conn.sendMessage(m.chat, { react: { text: "⏰", key: m.key } });
+let d2 = await fetch(`https://eliasar-yt-api.vercel.app/api/search/tiktok?query=${text}`)
+let dp = await d2.json()
+const doc = {
+audio: { url: dp.results.audio },
+mimetype: 'audio/mp4',
+fileName: `ttbykeni.mp3`,
+};
+await conn.sendMessage(m.chat, doc, { quoted: m });
+await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key }});
+} catch (err) {
+await conn.sendMessage(m.chat, { text: `*[ 📍 ]*  ERROR_COMMAND = ${err}` }, { quoted: m });
+ 
+}
+}
+
+}
+
+handler.command = ["tiktok", "tt", "a-tt", "a-tiktok"]
 export default handler
+
+
 
  
 
