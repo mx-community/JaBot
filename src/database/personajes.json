@@ -370,5 +370,11 @@
 "value": "434635", "source": "Superior.",
 "img": [ "https://qu.ax/uNWwH.jpg", "https://qu.ax/nqVeg.jpg", "https://qu.ax/MBNMN.jpg" ],
 "user": null, "status": "Libre", "votes": 0
+},
+{
+"id": "62", "name": "Dear Santa", "gender": "Hombre",
+"value": "967897", "source": "Legendario.",
+"img": [ "https://files.catbox.moe/bmxjm3.jpg", "https://files.catbox.moe/bmxjm3.jpg", "https://files.catbox.moe/bmxjm3.jpg" ],
+"user": null, "status": "Libre", "votes": 0
 }
   ]
