@@ -8,7 +8,7 @@ if (!/^https?:\/\/(www\.)?mediafire\.com/i.test(url)) {
 return conn.sendMessage(m.chat, { text: `📍  No se ha podido acceder al enlace.\n- Verifique si el enlace es de *Mediafire* y vuelva a intentarlo.` }, { quoted: m })
 }
 
-await m.react('⏳')
+await m.react('⏰')
 
 try {
 const api = `https://delirius-apiofc.vercel.app/download/mediafire?url=${encodeURIComponent(url)}`
@@ -29,13 +29,15 @@ const thumbBot = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer
 
 if (!fileUrl) throw new Error('No se pudo obtener el enlace de descarga.')
 
-const caption = `·─┄ · ✦ *Mediafire : Download* ✦ ·
+const caption = `\t〨  *M E D I A F I R E*
 
-⊹ ✎ *Nombre:* ${fileTitle}
-⊹ ✎ *Peso:* ${fileSize}
-⊹ ✎ *Paquete:* ${fileMime}
+\t⸭ ⏰ \`\`\`Descargando archivo...\`\`\`
 
-📍  Descargando el archivo, espere un momento...`.trim()
+\t\t⧡ Nombre : *${fileTitle}*
+\t\t⧡ Peso : *${fileSize}*
+\t\t⧡ Paquete : *${fileMime}*
+
+> ${textbot}`.trim()
 
 await await conn.sendMessage(m.chat, { text: caption, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: fileTitle, 
