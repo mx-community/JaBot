@@ -1,102 +1,210 @@
-import { spawn } from 'child_process'
-import fs from 'fs'
+import fetch from 'node-fetch'
+import Jimp from 'jimp'
+import axios from 'axios'
+import crypto from 'crypto'
 
-const yt = {
-  static: Object.freeze({
-    baseUrl: 'https://cnv.cx',
-    headers: {
-      'accept-encoding': 'gzip, deflate, br, zstd',
-      'origin': 'https://frame.y2meta-uk.com',
-      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0'
-    }
-  }),
-  log(m) { console.log(`[yt-skrep] ${m}`) },
-  resolveConverterPayload(link, f = '128k') {
-    const formatos = ['128k', '320k', '144p', '240p', '360p', '720p', '1080p']
-    if (!formatos.includes(f)) throw Error(`Formato inválido. Formatos disponibles: ${formatos.join(', ')}`)
-    const tipo = f.endsWith('k') ? 'mp3' : 'mp4'
-    const audioBitrate = tipo === 'mp3' ? parseInt(f) + '' : '128'
-    const videoQuality = tipo === 'mp4' ? parseInt(f) + '' : '720'
-    return { link, format: tipo, audioBitrate, videoQuality, filenameStyle: 'pretty', vCodec: 'h264' }
-  },
-  sanitizeFileName(n) {
-    const ext = n.match(/\.[^.]+$/)[0]
-    const name = n.replace(new RegExp(`\\${ext}$`), '').replaceAll(/[^A-Za-z0-9]/g, '_').replace(/_+/g, '_').toLowerCase()
-    return name + ext
-  },
-  async getBuffer(u) {
-    const h = structuredClone(this.static.headers)
-    h.referer = 'https://v6.www-y2mate.com/'
-    h.range = 'bytes=0-'
-    delete h.origin
-    const r = await fetch(u, { headers: h })
-    if (!r.ok) throw Error(`${r.status} ${r.statusText}`)
-    const ab = await r.arrayBuffer()
-    return Buffer.from(ab)
-  },
-  async getKey() {
-    const r = await fetch(this.static.baseUrl + '/v2/sanity/key', { headers: this.static.headers })
-    if (!r.ok) throw Error(`${r.status} ${r.statusText}`)
-    return await r.json()
-  },
-  async convert(u, f) {
-    const { key } = await this.getKey()
-    const p = this.resolveConverterPayload(u, f)
-    const h = { key, ...this.static.headers }
-    const r = await fetch(this.static.baseUrl + '/v2/converter', { headers: h, method: 'post', body: new URLSearchParams(p) })
-    if (!r.ok) throw Error(`${r.status} ${r.statusText}`)
-    return await r.json()
-  },
-  async download(u, f) {
-    const { url, filename } = await this.convert(u, f)
-    const buffer = await this.getBuffer(url)
-    return { fileName: this.sanitizeFileName(filename), buffer }
-  }
-}
-
-async function convertToFast(buffer) {
-  const tempIn = './temp_in.mp4'
-  const tempOut = './temp_out.mp4'
-  fs.writeFileSync(tempIn, buffer)
-  await new Promise((res, rej) => {
-    const ff = spawn('ffmpeg', ['-i', tempIn, '-c', 'copy', '-movflags', 'faststart', tempOut])
-    ff.on('close', code => code === 0 ? res() : rej(new Error('Error al convertir con ffmpeg')))
-  })
-  const newBuffer = fs.readFileSync(tempOut)
-  fs.unlinkSync(tempIn)
-  fs.unlinkSync(tempOut)
-  return newBuffer
-}
-
-let handler = async (m, { conn, args, command }) => {
+const getFileSize = async (url) => {
   try {
-    if (!args[0]) return m.reply(`*Ejemplo:* .${command} https://youtu.be/JiEW1agPqNY`)
-    
-    // Mensaje de espera
-    const waitMessage = command.startsWith('yta') 
-      ? '🌳 Descargando audio, por favor espera...' 
-      : '🦌 Descargando video, por favor espera...'
-    const sentMsg = await conn.sendMessage(m.chat, { text: waitMessage }, { quoted: m })
+    const head = await fetch(url, { method: "HEAD" });
+    const size = head.headers.get("content-length");
+    if (!size) return "Desconocido";
 
-    let formato = args[1] || (command.startsWith('ytax') ? '128k' : '1080p')
-    let { buffer, fileName } = await yt.download(args[0], formato)
+    let mb = (Number(size) / 1024 / 1024).toFixed(2);
+    return `${mb} MB`;
+  } catch {
+    return "Desconocido";
+  }
+};
 
-    if (command.startsWith('ytvx')) {
-      buffer = await convertToFast(buffer)
-      await conn.sendMessage(m.chat, { video: buffer, mimetype: 'video/mp4', fileName }, { quoted: m })
-    } else {
-      await conn.sendMessage(m.chat, { audio: buffer, mimetype: 'audio/mpeg', fileName }, { quoted: m })
+const savetube = {
+  api: {
+    base: "https://media.savetube.me/api",
+    cdn: "/random-cdn",
+    info: "/v2/info",
+    download: "/download"
+  },
+  headers: {
+    'accept': '*/*',
+    'content-type': 'application/json',
+    'origin': 'https://yt.savetube.me',
+    'referer': 'https://yt.savetube.me/',
+    'user-agent': 'Postify/1.0.0'
+  },
+  crypto: {
+    hexToBuffer: (hexString) => {
+      const matches = hexString.match(/.{1,2}/g);
+      return Buffer.from(matches.join(''), 'hex');
+    },
+    decrypt: async (enc) => {
+      const secretKey = 'C5D58EF67A7584E4A29F6C35BBC4EB12';
+      const data = Buffer.from(enc, 'base64');
+      const iv = data.slice(0, 16);
+      const content = data.slice(16);
+      const key = savetube.crypto.hexToBuffer(secretKey);
+
+      const decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
+      let decrypted = decipher.update(content);
+      decrypted = Buffer.concat([decrypted, decipher.final()]);
+
+      return JSON.parse(decrypted.toString());
     }
+  },
 
-    await conn.sendMessage(m.chat, { delete: sentMsg.key })
-    
-  } catch (e) {
-    m.reply(`❌ Ocurrió un error: ${e.message}`)
+  isUrl: str => { try { new URL(str); return true } catch { return false } },
+
+  youtube: url => {
+    const patterns = [
+      /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
+      /youtu\.be\/([a-zA-Z0-9_-]{11})/
+    ];
+    for (let regex of patterns) if (regex.test(url)) return url.match(regex)[1];
+    return null;
+  },
+
+  request: async (endpoint, data = {}, method = 'post') => {
+    try {
+      const { data: response } = await axios({
+        method,
+        url: `${endpoint.startsWith('http') ? '' : savetube.api.base}${endpoint}`,
+        data: method === 'post' ? data : undefined,
+        params: method === 'get' ? data : undefined,
+        headers: savetube.headers
+      });
+      return { status: true, code: 200, data: response };
+    } catch (error) {
+      return { status: false, code: error.response?.status || 500, error: error.message };
+    }
+  },
+
+  getCDN: async () => {
+    const response = await savetube.request(savetube.api.cdn, {}, 'get');
+    if (!response.status) return response;
+    return { status: true, code: 200, data: response.data.cdn };
+  },
+
+  download: async (link, quality = '480') => {
+
+    if (!link) return { status: false, code: 400, error: "Falta el enlace de YouTube." };
+    if (!savetube.isUrl(link)) return { status: false, code: 400, error: "URL inválida de YouTube." };
+
+    const id = savetube.youtube(link);
+    if (!id) return { status: false, code: 400, error: "No se pudo extraer el ID del video." };
+
+    try {
+      const cdnRes = await savetube.getCDN();
+      if (!cdnRes.status) return cdnRes;
+
+      const cdn = cdnRes.data;
+
+      const infoRes = await savetube.request(`https://${cdn}${savetube.api.info}`, {
+        url: `https://www.youtube.com/watch?v=${id}`
+      });
+
+      if (!infoRes.status) return infoRes;
+
+      const decrypted = await savetube.crypto.decrypt(infoRes.data.data);
+
+      const dl = await savetube.request(`https://${cdn}${savetube.api.download}`, {
+        id,
+        downloadType: 'video',
+        quality,
+        key: decrypted.key
+      });
+
+      return {
+        status: true,
+        code: 200,
+        result: {
+          title: decrypted.title || "Desconocido",
+          thumbnail: decrypted.thumbnail || `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
+          download: dl.data.data.downloadUrl,
+          duration: decrypted.duration,
+          quality,
+          id
+        }
+      };
+
+    } catch (error) {
+      return { status: false, code: 500, error: error.message };
+    }
+  }
+};
+
+let handler = async (m, { conn, args }) => {
+
+  const Shadow_url = await (await fetch("https://raw.githubusercontent.com/AkiraDevX/uploads/main/uploads/1763384842220_234152.jpeg")).buffer()
+
+
+  let q = args.join(" ").trim()
+  if (!q)
+    return conn.sendMessage(m.chat, { text: `*☃️ Ingresa el nombre del video a descargar.*` }, { quoted: m })
+
+  await conn.sendMessage(m.chat, { text: `> ☕ \`𝗜𝗡𝗜𝗖𝗜𝗔𝗡𝗗𝗢 𝗣𝗥𝗢𝗖𝗘𝗦𝗢 𝗗𝗘 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔 :𝗗\`` }, { quoted: m })
+
+  try {
+    let res = await fetch(`https://api.delirius.store/search/ytsearch?q=${encodeURIComponent(q)}`)
+    let json = await res.json()
+    if (!json.status || !json.data.length)
+      return conn.sendMessage(m.chat, { text: `No encontré resultados para *${q}*.` }, { quoted: m })
+
+    let vid = json.data[0]
+
+    let info = await savetube.download(vid.url, '480')
+    if (!info.status)
+      return conn.sendMessage(m.chat, { text: `⚠️ No se pudo obtener el video de *${vid.title}*.` }, { quoted: m })
+
+    let { result } = info
+    let size = await getFileSize(result.download)
+
+    const vistas = formatViews(vid.views)
+
+    let caption = `
+┌── 「 🌲 YOUTUBE MP4 DOC 」──┐
+│ 🌿 *Título:* ${result.title}
+│ 🍂 *Duración:* ${vid.duration}
+│ 🦦 *ID:* ${vid.videoId}
+│ ❄️ *Vistas:* ${vistas}
+│ 🎍 *Publicado:* ${vid.publishedAt}
+│ 🍃 *Tamaño:* ${size}
+│ 🪶 *Canal:* ${vid.author?.name || "Desconocido"}
+│ 🌤️ *Calidad:* ${result.quality}P
+│ 🌱 *Link:* ${vid.url}
+└─────────────────────────┘
+
+🪺💚 *Proceso completado.*
+> 🪵 𝐊𝐚𝐧𝐞𝐤𝐢 𝐁𝐨𝐭 - 𝐕3 • 𝐝𝐯.𝐬𝐡𝐚𝐝𝐨𝐰.𝐱𝐲𝐳`.trim()
+
+    let thumb = null
+    try {
+      const img = await Jimp.read(result.thumbnail)
+      img.resize(500, Jimp.AUTO)
+      thumb = await img.getBufferAsync(Jimp.MIME_JPEG)
+    } catch { }
+
+    await conn.sendMessage(m.chat, {
+      document: { url: result.download },
+      mimetype: "video/mp4",
+      fileName: `${result.title}.mp4`,
+      caption: null,
+    }, { quoted: m })
+
+  } catch (err) {
+    conn.sendMessage(m.chat, { text: `💔 Error: ${err.message}` }, { quoted: m })
   }
 }
 
-handler.help = ['ytv2', 'yta2']
-handler.tags = ['descargador']
-handler.command = ['ytv2', 'yta2']
-
+handler.command = ['ytmp4doc', 'ytvdoc', 'ytdoc']
+handler.help = ['ytmp4doc']
+handler.tags = ['download']
 export default handler
+
+function formatViews(views) {
+  if (!views) return "No disponible"
+  if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
+  if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M (${views.toLocaleString()})`
+  if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k (${views.toLocaleString()})`
+  return views.toString()
+    }
