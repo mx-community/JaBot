@@ -33,31 +33,26 @@ await m.react('👋🏻')
 if (!args[0]) {
 let menu = `> ${hora}, ${dia} ${fechaTxt}
 
-╭──────────────• · · · 
-│🜲 *Usuario:* @${name} (Prem. ${premium})
-│ⴵ *Actividad:* ${uptime} (Vs. ${vs})
-│⚇ *Bot:* ${(conn.user.jid == global.conn.user.jid ? 'Principal' : 'PreBot')}
-╰──────────────• · · · 
+🜲 Usuario : @${name}
+ᗢ Premium : ${premium}
+✦ Version : ${vs} (/mx_toru)
+⚉ Bot : ${(conn.user.jid == global.conn.user.jid ? 'Principal' : 'PreBot')}
 
-📍 Debe de ingresar la categoría del menu para verlo.
+\t\t⚶ 📍 \`\`\`Categorías:
+⧡ #menu ⧿ all
+⧡ #menu ⧿ info
+⧡ #menu ⧿ descargas
+⧡ #menu ⧿ grupos
+⧡ #menu ⧿ rpg
+⧡ #menu ⧿ settings
+⧡ #menu ⧿ logos
+⧡ #menu ⧿ search
+⧡ #menu ⧿ stickers
+⧡ #menu ⧿ tools
+⧡ #menu ⧿ rw\`\`\`
 
-\`\`\`╭─────────────────•
-│#menu ≽ completo • (0)
-│#menu ≽ info     • (1)
-│#menu ≽ descargas• (2)
-│#menu ≽ grupos   • (3)
-│#menu ≽ rpg      • (4)
-│#menu ≽ settings • (5)
-│#menu ≽ logos    • (6)
-│#menu ≽ perfil   • (7)
-│#menu ≽ search   • (8)
-│#menu ≽ stickers • (9)
-│#menu ≽ tools    • (10)
-│#menu ≽ rw       • (11)
-╰─────────────────•\`\`\`
-
-• Por ejemplo:
-*#menu completo*`
+\t⚶ Por ejemplo:
+*#menu all*`
 return conn.sendMessage(m.chat, { text: menu, mentions: [m.sender], contextInfo: { externalAdReply: { title: botname, body: textbot, thumbnail: thumbBot, sourceUrl: null, mediaType: 1, renderLargerThumbnail: true }}}, { quoted: m })
 } else if (args[0] === '1' || args[0] === 'info') {
 let menu1 = `╭──────────────• · · · 
