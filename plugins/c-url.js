@@ -37,7 +37,7 @@ await m.react('✅')
 break
 }
 case 'catbox': {
-if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a una imagen o video.` }, { quoted: m })
+if (!mime) return conn.sendMessage(m.chat, { text: `Ingrese el comando y responda a un archivo.` }, { quoted: m })
 await m.react('⏳')
 const media = await q.download()
 const isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
