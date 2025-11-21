@@ -17,12 +17,12 @@ let usoCorrecto = `〆  P L A Y  :  Y O U T U B E
 
 > ${textbot}`
 if (!text) return conn.reply(m.chat, usoCorrecto, m)
+  await m.react("⏰")
 const yt_play = await search(args.join(' '))
 const ytplay2 = await yts(text)
 const texto1 = `〆  P L A Y  :  Y O U T U B E
 
 \t⸭ ✅ ${yt_play[0].title}
-
 
 \t\t⧡ Publicado : ${yt_play[0].ago}
 \t\t⧡ Duración : ${secondString(yt_play[0].duration.seconds)}
