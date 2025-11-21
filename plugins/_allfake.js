@@ -30,11 +30,11 @@ global.botgroup = "https://chat.whatsapp.com/H1SzR4nk4qLHeI9cxwMBsW?mode=wwt"
 global.botcanal = "https://whatsapp.com/channel/0029VbBPMLXHrDZnt0R2iF1d"
 global.botweb = "https://wa.me/5493873655135"
 global.botmenu = "https://files.catbox.moe/nw4zrd.jpg"
-global.botimg = "https://files.catbox.moe/3hm7im.jpg"
+global.botimg = "https://qu.ax/xWbRQ.jpg" //"https://files.catbox.moe/3hm7im.jpg"
 global.textbot = "ʙᴏᴛ ɪɴᴛᴇɢʀᴀᴛᴇᴅ ᴡɪᴛʜ ᴡʜᴀᴛsᴀᴘᴘ."
   
   //APIS MX 📍
-global.apisf = 'https://delirius-apiofc.vercel.app'
+global.apis = 'https://delirius-apiofc.vercel.app'
 global.apimx_cafirexos = 'https://api.cafirexos.com'
 global.apimx_key = 'BrunoSobrino'
 global.apimx_brunosobrino = 'https://api-brunosobrino-dcaf9040.koyeb.app'
@@ -47,8 +47,8 @@ global.apirest_url2 = 'https://api-brunosobrino-dcaf9040.koyeb.app'
 global.apirest_url3 = 'https://api-brunosobrino.onrender.com'
   
   
-global.fMage = "https://files.catbox.moe/elksya.jpg"
-global.fMage2 = "https://files.catbox.moe/3hm7im.jpg"
+global.fMage = "https://qu.ax/xWbRQ.jpg" //"https://files.catbox.moe/elksya.jpg"
+global.fMage2 = "https://qu.ax/xWbRQ.jpg" //"https://files.catbox.moe/3hm7im.jpg"
 
 global.fImagen = "https://files.catbox.moe/nw4zrd.jpg"
 global.fImagen2 = "https://files.catbox.moe/esnv6d.jpg"
