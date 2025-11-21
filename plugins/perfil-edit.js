@@ -14,14 +14,13 @@ let comandos = `〆  P R O F I L E  :  R P G
 \t⧡ #d-birth  >  *(delete)*
 
 \t\t⧡ #p-age  >  *(add)*
-\t⧡ #d-age  >  *(delete)*
 
 \t\t⧡ #p-red  >  *(add)*
 \t⧡ #d-red  >  *(delete)*
 
 > ${textbot}`
 const thumb = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
-await conn.sendMessage(m.chat, { text: `${}`, mentions: [m.sender], contextInfo: { externalAdReply: { 
+await conn.sendMessage(m.chat, { text: comandos, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: "々  P R O F I L E  :  R P G  々", 
 body: botname, 
 thumbnail: thumb, 
