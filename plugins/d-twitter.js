@@ -8,7 +8,7 @@ await m.react("⏰")
 const result = await twitterScraper(text);
 if (!result.status) return conn.reply(m.chat, `📍  No se ha podido obtener el contenido de Twitter.`, m)
 if (result.data.type === 'video') {
-let videoText = `〆  T W I T T E R  :  D L
+let videoText = `\t〨  *T W I T T E R*
 
 \t⸭ ✅ ${result.data.title}
 
