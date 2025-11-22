@@ -7,8 +7,17 @@ const API_STICKERLY = "https://delirius-apiofc.vercel.app/download/stickerly"
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
 if (!args[0])
+let hacelo = `\t〨  *S T I C K E R  _  L Y*
+
+\t⸭ 📌 \`\`\`Descarga stickers facil.\`\`\`
+
+\t\t⧡ ${usedPrefix + command}  *<link>*
+\t\t⧡ ${usedPrefix}slys  *<text>*
+
+\t\t⚶ Por ejemplo:
+*${usedPrefix + command}* https://sticker.ly/s/MJ41LV`
 return conn.sendMessage(m.chat, { 
-text: `Ingrese el comando mas un enlace de un pack de *Sticker.Ly* para descargarlos.\n\n• Por ejemplo:\n*#${command}* https://sticker.ly/s/MJ41LV` 
+text: hacelo.trim() 
 }, 
 { quoted: m }
 )
@@ -25,21 +34,27 @@ throw new Error("No se pudo obtener el pack. Verifica el enlace.")
 
 const data = json.data
 
-const info = `·─┄ · ✦ *Sticker.Ly* ✦ ·
+const info = `\t〨  *S T I C K E R  _  L Y*
 
-⊹ ✎ *Pack:* ${data.name}
-⊹ ✎ *Creador:* ${data.author} (@${data.username})
-⊹ ✎ *Stickers:* ${data.total} stickers y ${data.viewCount} vistas.
-⊹ ✎ *Descargas:* ${data.exportCount} y ${data.isAnimated ? "con animación." : "sin animación."}`.trim()
+\t⸭ ✅ *${data.name}*
+
+\t\t⧡ Usuario : *@${data.username}*
+\t\t⧡ Creador : *${data.author}*
+\t\t⧡ Pack : *${data.total}* stickers.
+\t\t⧡ Vistas : *${data.viewCount}* vistas.
+\t\t⧡ Descargas : *${data.exportCount}* descargas.
+\t\t⧡ Animación ; *${data.isAnimated ? "Si" : "No"}
+
+> ${textbot}`.trim()
 
 await conn.sendMessage(m.chat, {
 text: info, contextInfo: { externalAdReply: {
-title: `${data.name}`,
-body: `📍  Enviando stickers, espere un momento...`,
+title: `々  S T I C K E R S  々`,
+body: botname,
 thumbnailUrl: data.preview,
 sourceUrl: data.url,
 mediaType: 1,
-renderLargerThumbnail: true,
+renderLargerThumbnail: false,
 },
 },
 },
