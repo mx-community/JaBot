@@ -81,8 +81,8 @@ return Buffer.from(res.data);
 };
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
-if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video o imagen de *Pinterest* para descargarlo.\n\n• Por ejemplo:\n*${usedPrefix + command}* https://pin.it/5i56KcS7m` }, { quoted: m });
-await m.react("⏳");
+if (!text) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un video, gif o imagen de *Pinterest* para descargarlo.\n\n• Por ejemplo:\n*${usedPrefix + command}* https://pin.it/5i56KcS7m` }, { quoted: m });
+await m.react("⏰");
 
 try {
 const result = await pindl.download(text);
@@ -92,26 +92,22 @@ let caption = "";
 const maxSize = 10 * 1024 * 1024;
 
 if (result.type === "video" || result.type === "gif") {
-caption = `·─┄ · ✦ *Pinterest : Download* ✦ ·\n\n⊹ ✎ *Titulo:* ${result.name || result.headline || "N/A"}\n`;
+caption = `\t〨  *P I N T E R E S T*
 
+\t⸭ ✅ ${result.name || result.headline || "Undefined"}\n`;
 const buffer = await downloadBuffer(result.contentUrl || result.gif);
 if (buffer.length > maxSize) {
-caption += `📍  El archivo es muy pesado para ser enviado.\n- Intente con otro enlace.`;
+caption += `📍  No se pudo descargar el video.\n- El limite maximo es de *10 MB*, intente con otro video.`;
 await conn.sendMessage(m.chat, { text: caption }, { quoted: m });
 } else {
-await conn.sendMessage(m.chat, {
-video: buffer,
-caption,
-mimetype: "video/mp4"
-}, { quoted: m });
+await conn.sendMessage(m.chat, { video: buffer, caption, mimetype: "video/mp4" }, { quoted: m });
 }
 
 } else if (result.type === "image") {
-caption = `·─┄ · ✦ *Pinterest : Download* ✦ ·\n\n⊹ ✎ *Titulo:* ${result.headline || "N/A"}\n`;
-await conn.sendMessage(m.chat, {
-image: { url: result.image },
-caption
-}, { quoted: m });
+caption = `\t〨  *P I N T E R E S T*
+
+\t⸭ ✅ ${result.headline || "Undefined."}\n`;
+await conn.sendMessage(m.chat, { image: { url: result.image }, caption }, { quoted: m });
 }
 
 await m.react("✅");
@@ -126,5 +122,6 @@ handler.tags = ["descargas"];
 handler.command = ['pin', 'pinterest'];
 
 export default handler;
+
 
  
