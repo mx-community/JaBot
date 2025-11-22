@@ -72,7 +72,7 @@ if (!imgRes.ok) throw new Error("No se pudo descargar el sticker")
 const imgBuffer = Buffer.from(await imgRes.arrayBuffer())
 const stickerBuf = await sticker(imgBuffer, false, data.name, data.author)
 
-await conn.sendMessage(m.chat, { sticker: stickerBuf }, { quoted: m })
+await conn.sendMessage(m.chat, { sticker: stickerBuf }, m )
 success++
 await new Promise((resolve) => setTimeout(resolve, 600)) // previene flood
 } catch (err) {
