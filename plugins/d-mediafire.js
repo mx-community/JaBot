@@ -1,52 +1,47 @@
 import fetch from 'node-fetch'
 
 let handler = async (m, {conn, args, usedPrefix, command}) => {
-if (!args[0]) return conn.sendMessage(m.chat, { text: `Ingrese el comando mas un enlace de un archivo de *Mediafire* para descargarlo.` }, { quoted: m })
+let infoXd = `\t〨  *M E D I A F I R E*
 
+\t⸭ 📌 \`\`\`Proporciona un enlace de Mediafire para descargar el archivo.\`\`\`
+
+\t\t⚶ Por ejemplo:
+*${usedPrefix + command}* https://www.mediafire.com/file/4s1raaxbq55sr1e/true%20skate%20mod%20v1.5.100%20-%20espacioapk.com.apk/file`
+if (!args[0]) return conn.sendMessage(m.chat, { text: infoXd }, { quoted: m })
 const url = args[0]
-if (!/^https?:\/\/(www\.)?mediafire\.com/i.test(url)) {
-return conn.sendMessage(m.chat, { text: `📍  No se ha podido acceder al enlace.\n- Verifique si el enlace es de *Mediafire* y vuelva a intentarlo.` }, { quoted: m })
-}
-
+if (!/^https?:\/\/(www\.)?mediafire\.com/i.test(url)) return conn.sendMessage(m.chat, { text: `📍  No se ha podido acceder al enlace.\n- Verifique si el enlace es de *Mediafire* y vuelva a intentarlo.` }, { quoted: m })
 await m.react('⏰')
-
 try {
 const api = `https://delirius-apiofc.vercel.app/download/mediafire?url=${encodeURIComponent(url)}`
 const res = await fetch(api)
 if (!res.ok) throw new Error(`Error de la API: ${res.status} ${res.statusText}`)
-
 const json = await res.json()
-
-// Normalizar posibles formatos de respuesta
 const data = json?.data || json?.result || json
-
-// Campos típicos que puede devolver la API
 const fileUrl = data?.url || data?.link || data?.download || data?.dl || data?.download_url
 const fileTitle = data?.title || data?.filename || data?.name || 'archivo'
 const fileSize = data?.size || data?.filesize || 'Desconocido'
 const fileMime = data?.mime || data?.mimetype || 'application/octet-stream'
 const thumbBot = Buffer.from(await (await fetch(`${global.mMages}`)).arrayBuffer())
-
 if (!fileUrl) throw new Error('No se pudo obtener el enlace de descarga.')
-
 const caption = `\t〨  *M E D I A F I R E*
 
-\t⸭ ⏰ \`\`\`Descargando archivo...\`\`\`
+\t⸭ ✅ *${fileTitle}*
 
-\t\t⧡ Nombre : *${fileTitle}*
-\t\t⧡ Peso : *${fileSize}*
-\t\t⧡ Paquete : *${fileMime}*
+\t\t⧡ Tamaño : ${fileSize}
+\t\t⧡ Paquete : ${fileMime}
 
 > ${textbot}`.trim()
 
+/*
 await await conn.sendMessage(m.chat, { text: caption, mentions: [m.sender], contextInfo: { externalAdReply: { 
 title: fileTitle, 
 body: textbot, 
 thumbnail: thumbBot, 
 sourceUrl: null, 
 mediaType: 1, renderLargerThumbnail: false }}}, { quoted: m })
+*/
 
-conn.sendFile(m.chat, fileUrl, fileTitle, null, m, null, {mimetype: fileMime, asDocument: true})
+conn.sendFile(m.chat, fileUrl, fileTitle, caption, m, null, {mimetype: fileMime, asDocument: true})
 
 await m.react('✅')
 } catch (e) {
